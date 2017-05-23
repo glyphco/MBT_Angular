@@ -17,6 +17,24 @@ export class AuthService {
   accessToken:string;
   authUrl = environment.authServer;
 
+  //helpers
+  isLoggedIn(){
+    if (localStorage.getItem('token')) {
+        // logged in so return true
+        return true;
+    }
+    return false;
+  }
+  
+  login(token: string){
+    localStorage.setItem('token', token);
+  }
+
+  logout(){
+    localStorage.removeItem('token');
+  }
+
+
   //initialize facebook and google apis
   initProviders(googleBtnId:string) {
     //initialize facebook api

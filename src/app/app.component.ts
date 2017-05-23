@@ -1,5 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { AuthService } from './services/auth.service';
+import { AuthService } from './_services/auth.service';
 /*
 declare var gapi: any;
 declare var fbAsyncInit:any;
