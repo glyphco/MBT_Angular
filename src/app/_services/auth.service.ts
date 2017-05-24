@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
+import { Router } from '@angular/router';
+import { Subject }    from 'rxjs/Subject';
 
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise';
@@ -12,8 +14,11 @@ declare var FB:any;
 @Injectable()
 
 export class AuthService {
-  constructor(private http: Http) {}
+  constructor(private http: Http,private router:Router) {}
 
+  private loggedInSource = new Subject<boolean>();
+
+  loggedIn$ = this.loggedInSource.asObservable();
   accessToken:string;
   authUrl = environment.authServer;
 
@@ -21,17 +26,25 @@ export class AuthService {
   isLoggedIn(){
     if (localStorage.getItem('token')) {
         // logged in so return true
+        console.log('you are logged in');
         return true;
     }
+    console.log('you are not logged in');
     return false;
   }
   
   login(token: string){
     localStorage.setItem('token', token);
+    this.loggedInSource.next(true);
+    //redirect
+    this.router.navigate(['/dashboard']);
   }
 
   logout(){
     localStorage.removeItem('token');
+    this.loggedInSource.next(false);
+    //redirect
+    this.router.navigate(['/login']);
   }
 
 
@@ -60,14 +73,13 @@ export class AuthService {
   }
 
   //handle facebook response
-  facebookLogin(){
+  facebookLogin2(){
     let self = this;
     FB.getLoginStatus(function(response) {
-
       if (response.status === 'connected') {
         let accessToken = response.authResponse.accessToken;
         self.getJWT('facebook', accessToken).then(
-          token => console.log(token)
+          token => self.login(token)
         ).catch(
           error => console.log(error)
         )
@@ -77,6 +89,14 @@ export class AuthService {
       }
     });
   }
+  //handle facebook response
+  facebookLogin(){
+    let self = this;
+    setTimeout(function() {
+      self.login('1334');
+    }, 2000);
+  }
+
   //Google login stuff
   auth2: any;
   googleInit(googleBtnId:string) {
@@ -98,7 +118,7 @@ export class AuthService {
         //let profile = googleUser.getBasicProfile(); //profile info
         let authResponse = googleUser.getAuthResponse();
         that.getJWT('google', authResponse.access_token).then(
-          token => console.log(token)
+          token => that.login(token)
         ).catch(
           () => console.log('something went wrong') 
         );
