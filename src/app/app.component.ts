@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, NgZone } from '@angular/core';
 import { AuthService } from './_services/auth.service';
 import { Subscription }   from 'rxjs/Subscription';
 
@@ -12,20 +12,19 @@ export class AppComponent implements OnDestroy, OnInit {
   subscription: Subscription;
   loggedIn: boolean;
 
-  constructor( private authService: AuthService){
-    
-  }
+  constructor( private authService: AuthService, private _ngZone:NgZone){}
 
   ngOnInit(){
+    //set the logged in property
     this.loggedIn = this.authService.isLoggedIn();
-    this.subscription = this.authService.loggedIn$.subscribe(
-      loggedInValue => {
-        this.loggedIn = loggedInValue;
-        console.log('we just got that you might have changed');
-        console.log(loggedInValue);
-      });
+    //listen to when the loggen in property changes
+    this.subscription = this.authService.loggedIn$.subscribe(loggedInValue => {
+        this._ngZone.run(() =>
+          this.loggedIn = loggedInValue
+        );
+    });
   }
-
+  
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }

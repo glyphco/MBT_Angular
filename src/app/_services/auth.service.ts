@@ -19,25 +19,22 @@ export class AuthService {
   private loggedInSource = new Subject<boolean>();
 
   loggedIn$ = this.loggedInSource.asObservable();
-  accessToken:string;
   authUrl = environment.authServer;
 
   //helpers
   isLoggedIn(){
     if (localStorage.getItem('token')) {
         // logged in so return true
-        console.log('you are logged in');
         return true;
     }
-    console.log('you are not logged in');
     return false;
   }
-  
+
   login(token: string){
     localStorage.setItem('token', token);
-    this.loggedInSource.next(true);
     //redirect
     this.router.navigate(['/dashboard']);
+    this.loggedInSource.next(true);
   }
 
   logout(){
@@ -73,13 +70,15 @@ export class AuthService {
   }
 
   //handle facebook response
-  facebookLogin2(){
-    let self = this;
+  facebookLogin(){
+    let that = this;
     FB.getLoginStatus(function(response) {
       if (response.status === 'connected') {
         let accessToken = response.authResponse.accessToken;
-        self.getJWT('facebook', accessToken).then(
-          token => self.login(token)
+        that.getJWT('facebook', accessToken).then(
+          token => {
+            that.login(token);
+          }
         ).catch(
           error => console.log(error)
         )
@@ -88,13 +87,6 @@ export class AuthService {
         console.log('there was an error');
       }
     });
-  }
-  //handle facebook response
-  facebookLogin(){
-    let self = this;
-    setTimeout(function() {
-      self.login('1334');
-    }, 2000);
   }
 
   //Google login stuff
