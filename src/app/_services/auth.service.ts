@@ -101,6 +101,12 @@ export class AuthService {
       });
       that.attachSignin(document.getElementById(googleBtnId));
     });
+    gapi.signin2.render(googleBtnId, {
+      'width': 300,
+      'height': 50,
+      'longtitle': true,
+      'theme': 'dark'
+    });
   }
   public attachSignin(element) {
     let that = this;
