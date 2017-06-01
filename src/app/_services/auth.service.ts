@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Headers, Http, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { Subject }    from 'rxjs/Subject';
 
 import { environment } from '../../environments/environment';
+import { JwtHelperService } from './jwt-helper.service';
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/map';
 
 declare var gapi: any;
 declare var fbAsyncInit:any;
@@ -14,7 +16,7 @@ declare var FB:any;
 @Injectable()
 
 export class AuthService {
-  constructor(private http: Http,private router:Router) {}
+  constructor(private http: Http,private router:Router, private jwtHelperService:JwtHelperService) {}
 
   private loggedInSource = new Subject<boolean>();
 
@@ -31,7 +33,9 @@ export class AuthService {
   }
 
   login(token: string){
+    let parsedToken = this.jwtHelperService.decodeToken(token);
     localStorage.setItem('token', token);
+    localStorage.setItem('tokenExpires', parsedToken.exp);
     //redirect
     this.router.navigate(['/dashboard']);
     this.loggedInSource.next(true);
@@ -136,5 +140,49 @@ export class AuthService {
   private handleError(error: any): Promise<any> {
     //console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
+  }
+
+  public refreshToken2():Promise<any>{
+    let token = localStorage.getItem('token');
+    //const path = `${this.authUrl}/refreshJWT?token=${token}`;
+    //fake path for testing right now
+    const path = 'http://aro.admin.dev/tests/refreshtoken';
+
+    //let headers = new Headers();
+    //headers.append('Authorization', `Bearer ${token}`);
+    //let options = new RequestOptions({ headers: headers });
+    return this.http.get(path)
+      .toPromise()
+      /*
+      .then(response => { return Promise.resolve(true) })
+      .catch(error => { return Promise.reject('Can not refresh token') });
+
+      .subscribe(res => {
+         let  headers = res.headers;
+         let newToken = headers.get('Authorization').substr(7);
+         localStorage.setItem('newToken', newToken)
+       });
+       */
+
+  }
+
+  public refreshToken():Promise<any>{
+    console.log('we are doing it');
+    let token = localStorage.getItem('token');
+    const path = `${this.authUrl}/refreshJWT?token=${token}`;
+    let headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(path)
+      .toPromise()
+      .then(response => { 
+        let  headers = response.headers;
+        let newToken = headers.get('Authorization').substr(7);
+        let parsedToken = this.jwtHelperService.decodeToken(newToken);
+        localStorage.setItem('token', newToken);
+        localStorage.setItem('tokenExpires', parsedToken.exp);
+        console.log('changed it');
+      })
+      .catch(error => { return Promise.reject('Can not refresh token') });
   }
 }

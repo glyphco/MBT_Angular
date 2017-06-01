@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../_services/auth.service';
-/*
-declare var gapi: any;
-declare var fbAsyncInit:any;
-declare var window:any;
-declare var FB:any;
-*/
+import { VenueService } from '../_services/venue.service';
+import { Venue } from '../_models/venue';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -13,7 +9,10 @@ declare var FB:any;
 })
 export class DashboardComponent {
 
-  constructor(
-    private authService: AuthService
-  ){}
+  constructor(private venueService: VenueService){
+    venueService.getVenues().then(venues => {
+      //console.log(venues.json().data as [Venue]);
+      console.log(venues);
+    }).catch(error => console.log(error));
+  }
 }

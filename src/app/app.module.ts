@@ -12,6 +12,9 @@ import { LoginComponent } from './_components/login.component';
 import { DashboardComponent } from './_components/dashboard.component';
 
 import { AuthService } from './_services/auth.service';
+import { VenueService } from './_services/venue.service';
+import { HttpHandlerService } from './_services/http-handler.service';
+import { JwtHelperService } from './_services/jwt-helper.service';
 
 @NgModule({
   declarations: [
@@ -26,9 +29,12 @@ import { AuthService } from './_services/auth.service';
     AppRoutingModule
   ],
   providers: [
-    AuthService,
     AuthGuard,
-    PublicGuard
+    PublicGuard,
+    AuthService,
+    VenueService,
+    HttpHandlerService,
+    JwtHelperService
   ],
   bootstrap: [AppComponent]
 })
