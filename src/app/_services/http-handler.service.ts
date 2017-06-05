@@ -62,28 +62,29 @@ export class HttpHandlerService {
     return new Promise((resolve, reject) => {
       let tokenExpires = parseInt(localStorage.getItem('tokenExpires'));
       let timestamp = new Date().getTime() / 1000 | 0;
-      if((tokenExpires - timestamp)/60 >= environment.refreshWindow && checkToken){
+      //if the token has expired, refresh the token before sending the request
+      if((tokenExpires - timestamp)/60 <= environment.refreshWindow && checkToken){
         this.authService.refreshToken()
-          .then(()=> { resolve(this.get(url, false)) })
+          .then(()=> { 
+            resolve(this.get(url, false)
+              .then(response => resolve(response))
+              .catch(error => reject('Could not get venues')))
+          })
           .catch(error => { reject('Could not refresh token') });
       }else{
-        console.log('doing the get');
-        let path = 'http://aro.admin.dev/tests/get';
-        this.http.get(path)
+        //Send the request
+        let token = localStorage.getItem('token');
+        let headers = new Headers();
+        headers.append('Authorization', `Bearer ${token}`);
+        headers.append('X-Requested-With', 'XMLHttpRequest');
+        let options = new RequestOptions({ headers: headers });
+        let path = `${this.apiurl}/${url}`;
+        this.http.get(path, options)
           .toPromise()
           .then(response => resolve(response))
-          //.catch(error => Promise.reject('Could not get venues'));
+          .catch(error => reject('Could not get venues'));
       }
     });
-  }
-
-  handleError2(error: any){
-    //if token expired
-    if(error.json().errors[0].code == 'exception232'){
-      console.log(this);
-      this.authService.refreshToken();
-    }
-    return Promise.reject('no');
   }
 
   //fake error handler for testing

@@ -167,7 +167,6 @@ export class AuthService {
   }
 
   public refreshToken():Promise<any>{
-    console.log('we are doing it');
     let token = localStorage.getItem('token');
     const path = `${this.authUrl}/refreshJWT?token=${token}`;
     let headers = new Headers();
@@ -181,7 +180,6 @@ export class AuthService {
         let parsedToken = this.jwtHelperService.decodeToken(newToken);
         localStorage.setItem('token', newToken);
         localStorage.setItem('tokenExpires', parsedToken.exp);
-        console.log('changed it');
       })
       .catch(error => { return Promise.reject('Can not refresh token') });
   }
