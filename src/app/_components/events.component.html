@@ -24,7 +24,9 @@
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-    <li class="page-button">{{page}}</li>
+    <li class="page-button" *ngFor="let number of pageList" [class.active]="number === currentPage" (click)="setPage(number)">
+      {{number}}
+    </li>
     <li>
       <a href="#" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>

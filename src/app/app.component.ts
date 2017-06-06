@@ -32,4 +32,8 @@ export class AppComponent implements OnDestroy, OnInit {
   logout(){
     this.authService.logout();
   }
+  
+  redirect(){ //TODO: remove this later
+
+  }
 }

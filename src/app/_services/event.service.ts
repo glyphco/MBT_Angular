@@ -14,8 +14,8 @@ export class EventService {
     private httpHandlerService: HttpHandlerService
   ){}
 
-  getEvents():Promise<any>{
-    return this.httpHandlerService.get('event')
+  getEvents(page=1, perpage=10):Promise<any>{
+    return this.httpHandlerService.get(`event?page=${page}&pp=${perpage}`)
       .catch(error => Promise.reject('Could not get events'));
   }
 }
