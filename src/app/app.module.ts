@@ -10,9 +10,11 @@ import { PublicGuard } from './_guards/public.guard';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './_components/login.component';
 import { DashboardComponent } from './_components/dashboard.component';
+import { EventsComponent } from './_components/events.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
+import { EventService } from './_services/event.service';
 import { HttpHandlerService } from './_services/http-handler.service';
 import { JwtHelperService } from './_services/jwt-helper.service';
 
@@ -20,7 +22,8 @@ import { JwtHelperService } from './_services/jwt-helper.service';
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    EventsComponent
   ],
   imports: [
     BrowserModule,
@@ -33,6 +36,7 @@ import { JwtHelperService } from './_services/jwt-helper.service';
     PublicGuard,
     AuthService,
     VenueService,
+    EventService,
     HttpHandlerService,
     JwtHelperService
   ],

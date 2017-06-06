@@ -22,34 +22,39 @@ export class Venue {
   tagline:string;
   updatedAt:string;
 
-  public static map(json):Venue[]{
+  public static arrayMap(json):Venue[]{
     let venues:Venue[] = [];
     for (let venue of json){
-      let currentVenue = new Venue();
-      currentVenue.id = venue.id;
-      currentVenue.name = venue.name;
-      currentVenue.backgroundUrl = venue.backgroundurl;
-      currentVenue.category = venue.category;
-      currentVenue.city = venue.city;
-      currentVenue.createdAt = venue.created_at;
-      currentVenue.currentEventsCount = venue.currentevents_count;
-      currentVenue.description = venue.description;
-      currentVenue.email = venue.email;
-      currentVenue.eventsCount = venue.events_count;
-      currentVenue.imageUrl = venue.imageurl;
-      currentVenue.lat = venue.lat;
-      currentVenue.lng = venue.lng;
-      currentVenue.location = venue.location;
-      currentVenue.phone = venue.phone;
-      currentVenue.postalcode = venue.postalcode;
-      currentVenue.public = venue.public;
-      currentVenue.slug = venue.slug;
-      currentVenue.state = venue.state;
-      currentVenue.streetAddress = venue.streetAddress;
-      currentVenue.tagline = venue.tagline;
-      currentVenue.updatedAt = venue.updated_at;
-      venues.push(currentVenue);
+      let venueList = this.map(venue);
+      venues.push(venueList);
     }
     return venues;
+  }
+
+  public static map(json):Venue{
+      let currentVenue = new Venue();
+      currentVenue.id = json.id;
+      currentVenue.name = json.name;
+      currentVenue.backgroundUrl = json.backgroundurl;
+      currentVenue.category = json.category;
+      currentVenue.city = json.city;
+      currentVenue.createdAt = json.created_at;
+      currentVenue.currentEventsCount = json.currentevents_count;
+      currentVenue.description = json.description;
+      currentVenue.email = json.email;
+      currentVenue.eventsCount = json.events_count;
+      currentVenue.imageUrl = json.imageurl;
+      currentVenue.lat = json.lat;
+      currentVenue.lng = json.lng;
+      currentVenue.location = json.location;
+      currentVenue.phone = json.phone;
+      currentVenue.postalcode = json.postalcode;
+      currentVenue.public = json.public;
+      currentVenue.slug = json.slug;
+      currentVenue.state = json.state;
+      currentVenue.streetAddress = json.streetAddress;
+      currentVenue.tagline = json.tagline;
+      currentVenue.updatedAt = json.updated_at;
+      return currentVenue;
   }
 }
