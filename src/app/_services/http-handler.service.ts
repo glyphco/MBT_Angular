@@ -58,7 +58,7 @@ export class HttpHandlerService {
     }
   }
 
-  get(url, checkToken=true):Promise<any>{
+  getWorking(url, checkToken=true):Promise<any>{
     return new Promise((resolve, reject) => {
       let tokenExpires = parseInt(localStorage.getItem('tokenExpires'));
       let timestamp = new Date().getTime() / 1000 | 0;
@@ -85,6 +85,33 @@ export class HttpHandlerService {
           .catch(error => reject('Could not get venues'));
       }
     });
+  }
+
+  get(url, checkToken=true):Observable<any>{
+    let tokenExpires = parseInt(localStorage.getItem('tokenExpires'));
+    let timestamp = new Date().getTime() / 1000 | 0;
+    //if the token has expired, refresh the token before sending the request
+    if((tokenExpires - timestamp)/60 <= environment.refreshWindow && checkToken){
+      this.authService.refreshToken()
+        .then(()=> { 
+          resolve(this.get(url, false)
+            .then(response => resolve(response))
+            .catch(error => reject('Could not get venues')))
+        })
+        .catch(error => { reject('Could not refresh token') });
+    }else{
+      //Send the request
+      let token = localStorage.getItem('token');
+      let headers = new Headers();
+      headers.append('Authorization', `Bearer ${token}`);
+      headers.append('X-Requested-With', 'XMLHttpRequest');
+      let options = new RequestOptions({ headers: headers });
+      let path = `${this.apiurl}/${url}`;
+      this.http.get(path, options)
+        .toPromise()
+        .then(response => resolve(response))
+        .catch(error => reject('Could not get venues'));
+    }
   }
 
   //fake error handler for testing

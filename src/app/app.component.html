@@ -2,5 +2,6 @@
   {{title}}
 </h1>
 <button (click)="logout()" *ngIf="loggedIn"> Logout</button>
-<button (click)="redirect()"> Some other page</button>
+<button (click)="redirectToDashboard()">Dashboard</button>
+<button (click)="redirectToSearch()">Search</button>
 <router-outlet></router-outlet>

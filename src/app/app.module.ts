@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './_components/login.component';
 import { DashboardComponent } from './_components/dashboard.component';
 import { EventsComponent } from './_components/events.component';
+import { SearchComponent } from './_components/search.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
@@ -23,7 +24,8 @@ import { JwtHelperService } from './_services/jwt-helper.service';
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    EventsComponent
+    EventsComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

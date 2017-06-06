@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, NgZone } from '@angular/core';
+import { Router }   from '@angular/router';
 import { AuthService } from './_services/auth.service';
 import { Subscription }   from 'rxjs/Subscription';
 
@@ -12,7 +13,7 @@ export class AppComponent implements OnDestroy, OnInit {
   subscription: Subscription;
   loggedIn: boolean;
 
-  constructor( private authService: AuthService, private _ngZone:NgZone){}
+  constructor( private authService: AuthService, private _ngZone:NgZone, private router:Router){}
 
   ngOnInit(){
     //set the logged in property
@@ -33,7 +34,11 @@ export class AppComponent implements OnDestroy, OnInit {
     this.authService.logout();
   }
   
-  redirect(){ //TODO: remove this later
+  redirectToDashboard(){
+    this.router.navigate(['dashboard']);
+  }
 
+  redirectToSearch(){
+    this.router.navigate(['search']);
   }
 }
