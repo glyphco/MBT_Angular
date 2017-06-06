@@ -14,7 +14,7 @@ export class Event {
   lng:string;
   location:string;
   name:string;
-  //particapants:
+  //particapants: TODO: make a model for this
   postalCode:string;
   public:number;
   start:string;
@@ -29,9 +29,21 @@ export class Event {
 
   public static arrayMap(json):Event[]{
     let events:Event[] = [];
-    for (let event of json){
-      let eventList = this.map(event);
-      events.push(eventList);
+    if(typeof json === 'object'){
+      //An object was passed in
+      for(let index in json){
+        let position = parseInt(index); //convert the index:String to a number
+        if(position){
+          let event = json[position]
+          let eventObj = this.map(event);
+          events.push(eventObj);
+        }
+      }
+    }else{ //An array was passed in
+      for (let event of json as any[]){
+        let eventList = this.map(event);
+        events.push(eventList);
+      }
     }
     return events;
   }
@@ -51,7 +63,7 @@ export class Event {
     currentEvent.lng = json.lng;
     currentEvent.location = json.location;
     currentEvent.name = json.name;
-    //currentEvent.particapants 
+    //currentEvent.particapants TODO: fix this
     currentEvent.postalCode = json.postalcode;
     currentEvent.public = json.public;
     currentEvent.start = json.start;

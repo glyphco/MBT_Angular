@@ -1,11 +1,35 @@
+<div class="container">
 <h2>Events</h2>
-<ul>
-  <li *ngFor="let event of events">
-      Name: {{event.name}} <br />
-      Place: {{event.city}} <br />
-      Created at: {{event.createdAt}} <br />
-      Venue name: 
-      <span *ngIf="event.venue; else elseBlock">{{event.venue.name}}</span>
-      <ng-template #elseBlock>{{ event.venueName }}</ng-template><br />
-  </li>
-</ul>
+<table class="table">
+  <thead>
+    <th>Name</th>
+    <th>City</th>
+    <th>Venue name</th>
+    <th>Created at</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let event of events">
+      <td>{{event.name}}</td>
+      <td>{{event.city}}</td>
+      <td *ngIf="event.venue; else elseBlock">{{event.venue.name}}</td>
+      <ng-template #elseBlock><td>{{ event.venueName }}</td></ng-template>
+      <td>{{ event.createdAt }}</td>
+    </tr>
+  </tbody>
+</table>
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li>
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-button">{{page}}</li>
+    <li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+</div>
