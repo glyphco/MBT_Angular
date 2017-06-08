@@ -51,13 +51,4 @@ export class EventsComponent {
     }
     return list;
   }
-
-  //TODO: delete these
-  turnOff(){
-    this.eventService.turnOff();
-  }
-
-  turnOn(){
-    this.eventService.turnOn();
-  }
 }

@@ -17,86 +17,8 @@ export class HttpHandlerService {
   private accessSource = new Subject<boolean>();
   private accessable = true; //if requests are able to go out
   private accessStream$ = this.accessSource.asObservable();
-  private maxAttempts = 6; //how many times to retry when accessable is false
-  
-  /*
-  get2(url):Promise<any>{
-    let token = localStorage.getItem('token');
-    let headers = new Headers();
-    headers.append('Authorization', `Bearer ${token}`);
-    headers.append('X-Requested-With', 'XMLHttpRequest');
-    let options = new RequestOptions({ headers: headers });
-    let path = `${this.apiurl}/${url}`;
-    let response = this.http.get(path, options)
-      .toPromise()
-      .catch(error => this.handleError(error));
-    return response;
-  }
 
-  //fake get call for right now
-  get3(url) {
-    let path = 'http://aro.admin.dev/tests/get';
-    let response = this.http.get(path)
-      .map(response => {
-        console.log('this is the response');
-        console.log(response);
-    });
-      
-      .subscribe(error => this.handleError(error))
-      .unsubscribe();
-    return response;
-  }
-
-  get4(url, checkToken=true):Promise<any>{
-    console.log('got called');
-    let tokenExpires = parseInt(localStorage.getItem('tokenExpires'));
-    let timestamp = new Date().getTime() / 1000 | 0;
-    if((tokenExpires - timestamp)/60 >= environment.refreshWindow && checkToken){
-      return this.authService.refreshToken()
-        .then(()=> { Promise.resolve({'hi': 'there'}) })
-        .catch(error => { return this.handleError(error) });
-    }else{
-      return Promise.resolve({'this':'skipped'});
-      
-      console.log('doing the get');
-      let path = 'http://aro.admin.dev/tests/get';
-      return this.http.get(path)
-        .toPromise()
-        .catch(error => this.handleError(error));
-    }
-  }
-  
-  getWorking(url, checkToken=true):Promise<any>{
-    return new Promise((resolve, reject) => {
-      let tokenExpires = parseInt(localStorage.getItem('tokenExpires'));
-      let timestamp = new Date().getTime() / 1000 | 0;
-      //if the token has expired, refresh the token before sending the request
-      if((tokenExpires - timestamp)/60 <= environment.refreshWindow && checkToken){
-        this.authService.refreshToken()
-          .then(()=> { 
-            resolve(this.get(url, false)
-              .then(response => resolve(response))
-              .catch(error => reject('Could not get venues')))
-          })
-          .catch(error => { reject('Could not refresh token') });
-      }else{
-        //Send the request
-        let token = localStorage.getItem('token');
-        let headers = new Headers();
-        headers.append('Authorization', `Bearer ${token}`);
-        headers.append('X-Requested-With', 'XMLHttpRequest');
-        let options = new RequestOptions({ headers: headers });
-        let path = `${this.apiurl}/${url}`;
-        this.http.get(path, options)
-          .toPromise()
-          .then(response => resolve(response))
-          .catch(error => reject('Could not get venues'));
-      }
-    });
-  }*/
-
-  //TODO: make this private
-  public setAccessable(value:boolean):void{
+  private setAccessable(value:boolean):void{
     this.accessable = value;
     this.accessSource.next(value);
   }
@@ -124,7 +46,7 @@ export class HttpHandlerService {
       //get a new token and then complete request
       return this.authService.refreshToken()
         .mergeMap((response) => {
-          this.accessable = true;
+          this.setAccessable(true);
           let options = this.getOptions();
           return this.http.get(path, options);
         })
@@ -145,7 +67,7 @@ export class HttpHandlerService {
     }
   }
 
-  //fake error handler for testing
+  //TODO: fake error handler for testing
   handleError(error: any){
     return Promise.reject('There was an error.');
   }

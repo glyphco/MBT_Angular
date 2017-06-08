@@ -1,4 +1,9 @@
 <div class="container">
   <h2>Search</h2>
   <input #searchBox type="text" placeholder="Search" (keyup)="search(searchBox.value)" />
+
+  <h4>Results</h4>
+  <div *ngFor="let result of results | async" >
+    {{result.name}}
+  </div>
 </div>

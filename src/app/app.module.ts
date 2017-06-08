@@ -16,6 +16,7 @@ import { SearchComponent } from './_components/search.component';
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
 import { EventService } from './_services/event.service';
+import { SearchService } from './_services/search.service';
 import { HttpHandlerService } from './_services/http-handler.service';
 import { JwtHelperService } from './_services/jwt-helper.service';
 
@@ -40,7 +41,8 @@ import { JwtHelperService } from './_services/jwt-helper.service';
     VenueService,
     EventService,
     HttpHandlerService,
-    JwtHelperService
+    JwtHelperService,
+    SearchService
   ],
   bootstrap: [AppComponent]
 })

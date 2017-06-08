@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SearchService } from '../_services/search.service';
 import { Observable }        from 'rxjs/Observable';
 import { Subject }           from 'rxjs/Subject';
@@ -8,19 +8,23 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   //styleUrls: ['./search.component.css']
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
   private searchTerms = new Subject<string>();
   results: Observable<any[]>;
   constructor(private searchService: SearchService){}
-  /*
-  search(term:string):void{
+
+  search(term: string): void {
     this.searchTerms.next(term);
+  }
+
+  ngOnInit():void{
     this.results = this.searchTerms
       .debounceTime(300)        // wait 300ms after each keystroke before considering the term
       .distinctUntilChanged()   // ignore if next search term is same as previous
@@ -31,8 +35,9 @@ export class SearchComponent {
         : Observable.of<any[]>([]))
       .catch(error => {
         // TODO: add real error handling
-        console.log(error);
         return Observable.of<any[]>([]);
       });
-  }*/
+  }
+
+
 }

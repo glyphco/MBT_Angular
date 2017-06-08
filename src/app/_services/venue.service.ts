@@ -18,11 +18,11 @@ export class VenueService {
     return this.httpHandlerService.get('venue')
       .catch(error => Promise.reject('Could not get venues'));
   }
-
+  */
   
   getVenues():Promise<any>{
     return this.httpHandlerService.get('venue')
       .toPromise();
-  }*/
+  }
   
 }
