@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { VenueService } from '../_services/venue.service';
 import { Venue } from '../_models/venue';
 import { EventsComponent } from './events.component';
@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit {
   pagination = new Pagination();
   venues: Venue[];
 
-  constructor(private venueService: VenueService, private _ngZone:NgZone){}
+  constructor(private venueService: VenueService){}
 
   ngOnInit():void{
     this.getVenues(1);
