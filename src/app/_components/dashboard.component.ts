@@ -13,10 +13,11 @@ export class DashboardComponent {
   venues: Venue[];
 
   constructor(private venueService: VenueService, private _ngZone:NgZone){
+    /*
     venueService.getVenues().then(venues => {
       //this.venues = venues.json().data as [Venue];
-      this.venues = Venue.arrayMap(venues.json().data);
-      console.log(this.venues);
-    }).catch(error => console.log(error));
+      //this.venues = Venue.arrayMap(venues.json().data.data);
+      console.log(venues);
+    }).catch(error => console.log(error));*/
   }
 }

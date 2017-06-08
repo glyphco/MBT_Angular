@@ -13,9 +13,21 @@ export class EventService {
     private router:Router,
     private httpHandlerService: HttpHandlerService
   ){}
-
+  /*
   getEvents(page=1, perpage=10):Promise<any>{
     return this.httpHandlerService.get(`event?page=${page}&pp=${perpage}`)
       .catch(error => Promise.reject('Could not get events'));
+  }*/
+
+  getEvents(page=1, perpage=10):Promise<any>{
+    return this.httpHandlerService.get(`event?page=${page}&pp=${perpage}`)
+      .toPromise()
+  }
+
+  turnOff(){
+    this.httpHandlerService.setAccessable(false);
+  }
+  turnOn(){
+    this.httpHandlerService.setAccessable(true);
   }
 }

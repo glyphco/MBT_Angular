@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { Subject }    from 'rxjs/Subject';
+import { Observable }    from 'rxjs/Observable';
 
 import { environment } from '../../environments/environment';
 import { JwtHelperService } from './jwt-helper.service';
@@ -166,7 +167,7 @@ export class AuthService {
 
   }
 
-  public refreshToken():Promise<any>{
+  public refreshToken3():Promise<any>{
     let token = localStorage.getItem('token');
     const path = `${this.authUrl}/refreshJWT?token=${token}`;
     let headers = new Headers();
@@ -182,5 +183,21 @@ export class AuthService {
         localStorage.setItem('tokenExpires', parsedToken.exp);
       })
       .catch(error => { return Promise.reject('Can not refresh token') });
+  }
+
+  public refreshToken():Observable<any>{
+    let token = localStorage.getItem('token');
+    const path = `${this.authUrl}/refreshJWT?token=${token}`;
+    let headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(path)
+            .map(response => {
+              let  headers = response.headers;
+              let newToken = headers.get('Authorization').substr(7);
+              let parsedToken = this.jwtHelperService.decodeToken(newToken);
+              localStorage.setItem('token', newToken);
+              localStorage.setItem('tokenExpires', parsedToken.exp);
+            });
   }
 }

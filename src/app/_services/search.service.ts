@@ -13,10 +13,10 @@ export class SearchService {
     private router:Router,
     private httpHandlerService: HttpHandlerService
   ){}
-
+  /*
   search(term: string): Observable<Hero[]> {
     return httpHandlerService
       .get(`events/?q=${term}`)
       .map(response => response.json().data.data);
-  }
+  }*/
 }

@@ -18,7 +18,7 @@ export class SearchComponent {
   private searchTerms = new Subject<string>();
   results: Observable<any[]>;
   constructor(private searchService: SearchService){}
-  
+  /*
   search(term:string):void{
     this.searchTerms.next(term);
     this.results = this.searchTerms
@@ -34,5 +34,5 @@ export class SearchComponent {
         console.log(error);
         return Observable.of<any[]>([]);
       });
-  }
+  }*/
 }
