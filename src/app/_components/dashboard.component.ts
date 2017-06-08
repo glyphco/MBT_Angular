@@ -1,21 +1,31 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { VenueService } from '../_services/venue.service';
 import { Venue } from '../_models/venue';
 import { EventsComponent } from './events.component';
+import { Pagination } from '../_helpers/pagination';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  //styleUrls: ['./login.component.css']
+  styleUrls: ['./events.component.css']
 })
-export class DashboardComponent {
-
+export class DashboardComponent implements OnInit {
+  
+  pagination = new Pagination();
   venues: Venue[];
 
-  constructor(private venueService: VenueService, private _ngZone:NgZone){
-    venueService.getVenues().then(venues => {
-      //this.venues = venues.json().data as [Venue];
+  constructor(private venueService: VenueService, private _ngZone:NgZone){}
+
+  ngOnInit():void{
+    this.getVenues(1);
+  }
+
+  getVenues(page:number):void {
+    this.venueService.getVenues(page).then(venues => {
       this.venues = Venue.arrayMap(venues.json().data.data);
+      let perPage = venues.json().data.per_page;
+      let totalObjects = venues.json().data.total;
+      this.pagination.setPage(page, perPage, totalObjects);
     }).catch(error => console.log(error));
   }
 }

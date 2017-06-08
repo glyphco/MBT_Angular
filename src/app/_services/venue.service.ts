@@ -19,9 +19,9 @@ export class VenueService {
       .catch(error => Promise.reject('Could not get venues'));
   }
   */
-  
-  getVenues():Promise<any>{
-    return this.httpHandlerService.get('venue')
+
+  getVenues(page=1, perpage=10):Promise<any>{
+    return this.httpHandlerService.get(`venue?page=${page}&pp=${perpage}`)
       .toPromise();
   }
   

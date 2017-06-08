@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Event } from '../_models/event';
 import { EventService } from '../_services/event.service';
 
@@ -7,7 +7,7 @@ import { EventService } from '../_services/event.service';
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.css']
 })
-export class EventsComponent {
+export class EventsComponent implements OnInit {
   events: Event[];
   totalEvents = 0;
   currentPage = 1;
@@ -15,8 +15,10 @@ export class EventsComponent {
   totalPages = 0;
   pageList: number[];
 
-  constructor(private eventService:EventService){
-    this.setPage(1);
+  constructor(private eventService:EventService){}
+
+  ngOnInit():void{
+    this.setPage(1)
   }
 
   public setPage(page:number){

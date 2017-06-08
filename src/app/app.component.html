@@ -1,7 +1,9 @@
-<h1>
-  {{title}}
-</h1>
-<button (click)="logout()" *ngIf="loggedIn"> Logout</button>
-<button (click)="redirectToDashboard()">Dashboard</button>
-<button (click)="redirectToSearch()">Search</button>
+<div class="container">
+  <h1>
+    {{title}}
+  </h1>
+  <button (click)="logout()" *ngIf="loggedIn"> Logout</button>
+  <button (click)="redirectToDashboard()">Dashboard</button>
+  <button (click)="redirectToSearch()">Search</button>
+</div>
 <router-outlet></router-outlet>
