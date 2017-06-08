@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { Subject }    from 'rxjs/Subject';
@@ -17,7 +17,7 @@ declare var FB:any;
 @Injectable()
 
 export class AuthService {
-  constructor(private http: Http,private router:Router, private jwtHelperService:JwtHelperService) {}
+  constructor(private http: Http,private router:Router, private jwtHelperService:JwtHelperService, private _zone:NgZone) {}
 
   private loggedInSource = new Subject<boolean>();
 
@@ -38,7 +38,9 @@ export class AuthService {
     localStorage.setItem('token', token);
     localStorage.setItem('tokenExpires', parsedToken.exp);
     //redirect
-    this.router.navigate(['/dashboard']);
+    this._zone.run(() => 
+      this.router.navigate(['/dashboard'])
+    );
     this.loggedInSource.next(true);
   }
 
