@@ -1,0 +1,9 @@
+<div class="container">
+  <div *ngIf="page">
+    <h3>{{page.name}}</h3>
+    <p>City: {{page.city}}</p>
+    <p>Page: {{page.email}}</p>
+  </div>
+  <br/>
+  <button class="btn btn-primary" (click)="goBack()">Back</button>
+</div>

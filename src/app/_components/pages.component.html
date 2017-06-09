@@ -8,7 +8,11 @@
   </thead>
   <tbody>
     <tr *ngFor="let page of pages">
-      <td>{{page.name}}</td>
+      <td>
+        <a [routerLink]="['/page', page.id]">
+          {{page.name}}
+        </a>
+      </td>
       <td>{{page.email}}</td>
       <td>{{ page.createdAt }}</td>
     </tr>

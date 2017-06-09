@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router }   from '@angular/router';
 import { Page } from '../_models/page';
 import { PageService } from '../_services/page.service';
 import { Pagination } from '../_helpers/pagination';
@@ -12,12 +13,12 @@ export class PagesComponent implements OnInit {
   pagination = new Pagination();
   pages: Page[];
 
-  constructor(private pageService:PageService){}
+  constructor(private pageService:PageService, private router:Router){}
 
   ngOnInit():void{
     this.getPages(1)
   }
-  
+
   public getPages(page:number){
     this.pageService.getPages(page).then(pages => {
       this.pages = Page.arrayMap(pages.json().data.data)

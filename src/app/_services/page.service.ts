@@ -18,5 +18,10 @@ export class PageService {
     return this.httpHandlerService.get(`page?page=${page}&pp=${perpage}`)
       .toPromise();
   }
+
+  getPage(id:number):Promise<any>{
+    return this.httpHandlerService.get(`page/${id}`)
+      .toPromise();
+  }
   
 }
