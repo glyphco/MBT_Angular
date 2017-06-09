@@ -12,6 +12,7 @@ import { LoginComponent } from './_components/login.component';
 import { DashboardComponent } from './_components/dashboard.component';
 import { EventsComponent } from './_components/events.component';
 import { SearchComponent } from './_components/search.component';
+import { PagesComponent } from './_components/pages.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
@@ -19,6 +20,7 @@ import { EventService } from './_services/event.service';
 import { SearchService } from './_services/search.service';
 import { HttpHandlerService } from './_services/http-handler.service';
 import { JwtHelperService } from './_services/jwt-helper.service';
+import { PageService } from './_services/page.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { JwtHelperService } from './_services/jwt-helper.service';
     LoginComponent,
     DashboardComponent,
     EventsComponent,
-    SearchComponent
+    SearchComponent,
+    PagesComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { JwtHelperService } from './_services/jwt-helper.service';
     EventService,
     HttpHandlerService,
     JwtHelperService,
-    SearchService
+    SearchService,
+    PageService
   ],
   bootstrap: [AppComponent]
 })

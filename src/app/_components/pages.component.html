@@ -1,21 +1,16 @@
 <div class="container">
-  <h2>Your dashbaord</h2>
-</div>
-<app-events></app-events>
-<app-pages></app-pages>
-<div class="container">
-<h2>Venues</h2>
+<h2>Pages</h2>
 <table class="table">
   <thead>
     <th>Name</th>
-    <th>City</th>
+    <th>Email</th>
     <th>Created at</th>
   </thead>
   <tbody>
-    <tr *ngFor="let venue of venues">
-      <td>{{venue.name}}</td>
-      <td>{{venue.city}}</td>
-      <td>{{ venue.createdAt }}</td>
+    <tr *ngFor="let page of pages">
+      <td>{{page.name}}</td>
+      <td>{{page.email}}</td>
+      <td>{{ page.createdAt }}</td>
     </tr>
   </tbody>
 </table>
@@ -26,7 +21,7 @@
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-    <li class="page-button" *ngFor="let number of pagination.pageList" [class.active]="number === pagination.currentPage" (click)="getVenues(number)">
+    <li class="page-button" *ngFor="let number of pagination.pageList" [class.active]="number === pagination.currentPage" (click)="getPages(number)">
       {{number}}
     </li>
     <li>

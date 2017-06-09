@@ -52,7 +52,7 @@ export class Venue {
       currentVenue.public = json.public;
       currentVenue.slug = json.slug;
       currentVenue.state = json.state;
-      currentVenue.streetAddress = json.streetAddress;
+      currentVenue.streetAddress = json.street_address;
       currentVenue.tagline = json.tagline;
       currentVenue.updatedAt = json.updated_at;
       return currentVenue;
