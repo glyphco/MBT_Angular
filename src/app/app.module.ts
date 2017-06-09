@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './_components/login.component';
 import { DashboardComponent } from './_components/dashboard.component';
 import { EventsComponent } from './_components/events.component';
+import { VenuesComponent } from './_components/venues.component';
 import { SearchComponent } from './_components/search.component';
 import { PagesComponent } from './_components/pages.component';
 import { PageDetailComponent } from './_components/page-detail.component';
@@ -30,6 +31,7 @@ import { PageService } from './_services/page.service';
     LoginComponent,
     DashboardComponent,
     EventsComponent,
+    VenuesComponent,
     SearchComponent,
     PagesComponent,
     PageDetailComponent,
