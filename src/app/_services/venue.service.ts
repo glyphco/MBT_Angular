@@ -13,16 +13,14 @@ export class VenueService {
     private router:Router,
     private httpHandlerService: HttpHandlerService
   ){}
-  /*
-  getVenues():Promise<any>{
-    return this.httpHandlerService.get('venue')
-      .catch(error => Promise.reject('Could not get venues'));
-  }
-  */
 
   getVenues(page=1, perpage=10):Promise<any>{
     return this.httpHandlerService.get(`venue?page=${page}&pp=${perpage}`)
       .toPromise();
   }
   
+  getVenue(id:number){
+    return this.httpHandlerService.get(`venue/${id}`)
+      .toPromise();
+  }
 }

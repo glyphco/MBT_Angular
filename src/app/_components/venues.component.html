@@ -8,7 +8,11 @@
   </thead>
   <tbody>
     <tr *ngFor="let venue of venues">
-      <td>{{venue.name}}</td>
+      <td>
+        <a [routerLink]="['/venue',venue.id]">
+          {{venue.name}}
+        </a>
+      </td>
       <td>{{venue.city}}</td>
       <td>{{ venue.createdAt }}</td>
     </tr>

@@ -1,0 +1,8 @@
+<div class="container">
+  <div *ngIf="venue">
+    <h3>{{venue.name}}</h3>
+    <p>City: {{venue.city}}</p>
+  </div>
+  <br/>
+  <button class="btn btn-primary" (click)="goBack()">Back</button>
+</div>

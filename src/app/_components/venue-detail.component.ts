@@ -1,20 +1,20 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
-import { Event } from '../_models/event';
-import { EventService } from '../_services/event.service';
+import { Venue } from '../_models/venue';
+import { VenueService } from '../_services/venue.service';
 
 @Component({
-  selector: 'app-event-detail',
-  templateUrl: './event-detail.component.html',
+  selector: 'app-venue-detail',
+  templateUrl: './venue-detail.component.html',
   //styleUrls: ['./events.component.css']
 })
-export class EventDetailComponent implements OnInit, OnDestroy {
-  event: Event;
+export class VenueDetailComponent implements OnInit, OnDestroy {
+  venue: Venue;
   private sub: any;
 
   constructor(
-    private eventService:EventService,
+    private venueService:VenueService,
     private route: ActivatedRoute,
     private location: Location
   ){}
@@ -22,7 +22,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   ngOnInit():void {
     this.sub = this.route.params.subscribe(params => {
        let id = +params['id']; // (+) converts string 'id' to a number
-       this.getEvent(id);
+       this.getVenue(id);
     });
   }
 
@@ -34,9 +34,9 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
-  private getEvent(id:number){
-    this.eventService.getEvent(id).then(event => {
-      this.event = Event.map(event.json().data);
+  private getVenue(id:number){
+    this.venueService.getVenue(id).then(venue => {
+      this.venue = Venue.map(venue.json().data);
     }).catch(error => console.log(error));
   }
 }

@@ -3,7 +3,6 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import { Page } from '../_models/page';
 import { PageService } from '../_services/page.service';
-import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-page-detail',
