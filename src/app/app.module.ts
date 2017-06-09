@@ -14,6 +14,7 @@ import { EventsComponent } from './_components/events.component';
 import { SearchComponent } from './_components/search.component';
 import { PagesComponent } from './_components/pages.component';
 import { PageDetailComponent } from './_components/page-detail.component';
+import { EventDetailComponent } from './_components/event-detail.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
@@ -31,7 +32,8 @@ import { PageService } from './_services/page.service';
     EventsComponent,
     SearchComponent,
     PagesComponent,
-    PageDetailComponent
+    PageDetailComponent,
+    EventDetailComponent
   ],
   imports: [
     BrowserModule,

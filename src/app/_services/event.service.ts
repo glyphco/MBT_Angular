@@ -18,4 +18,9 @@ export class EventService {
     return this.httpHandlerService.get(`event?page=${page}&pp=${perpage}`)
       .toPromise()
   }
+
+  getEvent(id:number){
+    return this.httpHandlerService.get(`event/${id}`)
+      .toPromise()
+  }
 }

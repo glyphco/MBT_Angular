@@ -1,0 +1,8 @@
+<div class="container">
+  <div *ngIf="event">
+    <h3>{{event.name}}</h3>
+    <p>City: {{event.city}}</p>
+  </div>
+  <br/>
+  <button class="btn btn-primary" (click)="goBack()">Back</button>
+</div>

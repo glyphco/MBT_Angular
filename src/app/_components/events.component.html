@@ -9,7 +9,11 @@
   </thead>
   <tbody>
     <tr *ngFor="let event of events">
-      <td>{{event.name}}</td>
+      <td>
+        <a [routerLink]="['/event', event.id]">
+          {{event.name}}
+        </a>
+      </td>
       <td>{{event.city}}</td>
       <td *ngIf="event.venue; else elseBlock">{{event.venue.name}}</td>
       <ng-template #elseBlock><td>{{ event.venueName }}</td></ng-template>
