@@ -11,6 +11,7 @@ import { SearchComponent } from './_components/search.component';
 import { PageDetailComponent } from './_components/page-detail.component';
 import { EventDetailComponent } from './_components/event-detail.component';
 import { VenueDetailComponent } from './_components/venue-detail.component';
+import { ShowDetailComponent } from './_components/show-detail.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [PublicGuard] },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'page/:id', component: PageDetailComponent, canActivate: [AuthGuard], pathMatch: 'full' },
   { path: 'venue/:id', component: VenueDetailComponent, canActivate: [AuthGuard], pathMatch: 'full' },
   { path: 'event/:id', component: EventDetailComponent, canActivate: [AuthGuard] },
+  { path: 'show/:id', component: ShowDetailComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 
   // otherwise redirect to home

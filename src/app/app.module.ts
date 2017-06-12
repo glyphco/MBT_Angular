@@ -12,11 +12,13 @@ import { LoginComponent } from './_components/login.component';
 import { DashboardComponent } from './_components/dashboard.component';
 import { EventsComponent } from './_components/events.component';
 import { VenuesComponent } from './_components/venues.component';
+import { ShowsComponent } from './_components/shows.component';
 import { SearchComponent } from './_components/search.component';
 import { PagesComponent } from './_components/pages.component';
 import { PageDetailComponent } from './_components/page-detail.component';
 import { EventDetailComponent } from './_components/event-detail.component';
 import { VenueDetailComponent } from './_components/venue-detail.component';
+import { ShowDetailComponent } from './_components/show-detail.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
@@ -25,6 +27,7 @@ import { SearchService } from './_services/search.service';
 import { HttpHandlerService } from './_services/http-handler.service';
 import { JwtHelperService } from './_services/jwt-helper.service';
 import { PageService } from './_services/page.service';
+import { ShowService } from './_services/show.service';
 
 @NgModule({
   declarations: [
@@ -33,11 +36,13 @@ import { PageService } from './_services/page.service';
     DashboardComponent,
     EventsComponent,
     VenuesComponent,
+    ShowsComponent,
     SearchComponent,
     PagesComponent,
     PageDetailComponent,
     EventDetailComponent,
-    VenueDetailComponent
+    VenueDetailComponent,
+    ShowDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +59,8 @@ import { PageService } from './_services/page.service';
     HttpHandlerService,
     JwtHelperService,
     SearchService,
-    PageService
+    PageService,
+    ShowService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,8 @@
+<div class="container">
+  <div *ngIf="show">
+    <h3>{{show.name}}</h3>
+    <p>Description: {{show.description}}</p>
+  </div>
+  <br/>
+  <button class="btn btn-primary" (click)="goBack()">Back</button>
+</div>

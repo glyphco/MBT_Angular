@@ -58,7 +58,6 @@ export class HttpHandlerService {
       let options = this.getOptions(); //this HAS to be inside the else
       return this.accessStream$
               .mergeMap(access => {
-                console.log(access);
                 if(access == true){
                   let options = this.getOptions();
                   return this.http.get(path, options);
