@@ -30,10 +30,10 @@ export class PageService {
     let options = {
       //TODO: could put all the trimming into the http service as a function
       //can't trim numbers though (i think)
-      name: page.name.trim(),
-      state: page.state.trim(),
-      city: page.city.trim(),
-      postalcode: page.postalcode.trim()
+      name: page.name,
+      state: page.state,
+      city: page.city,
+      postalcode: page.postalcode
     }
     return this.httpHandlerService.put(`page/${id}`, options)
       .toPromise();

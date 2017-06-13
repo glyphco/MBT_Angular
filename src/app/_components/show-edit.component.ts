@@ -1,23 +1,21 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
-import { Page } from '../_models/page';
-import { PageService } from '../_services/page.service';
-import { StatesHelper } from '../_helpers/states-helper';
+import { Show } from '../_models/show';
+import { ShowService } from '../_services/show.service';
 
 @Component({
-  selector: 'app-page-edit',
-  templateUrl: './page-edit.component.html',
+  selector: 'app-show-edit',
+  templateUrl: './show-edit.component.html',
   //styles: ['./page-edit.component.css']
 })
-export class PageEditComponent implements OnInit, OnDestroy {
-  page = new Page;
+export class ShowEditComponent implements OnInit, OnDestroy {
+  show = new Show;
   private sub: any;
-  states = StatesHelper.states;
   categories = {};
 
   constructor(
-    private pageService:PageService,
+    private showService:ShowService,
     private route: ActivatedRoute,
     private location: Location
   ){}
@@ -25,7 +23,7 @@ export class PageEditComponent implements OnInit, OnDestroy {
   ngOnInit():void{
     this.sub = this.route.params.subscribe(params => {
        let id = +params['id']; // (+) converts string 'id' to a number
-       this.getPage(id);
+       this.getShow(id);
     });
     this.getCategories();
   }
@@ -34,20 +32,20 @@ export class PageEditComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  public getPage(id:number){
-    this.pageService.getPage(id).then(page => {
-      this.page = Page.map(page.json().data)
+  public getShow(id:number){
+    this.showService.getShow(id).then(show => {
+      this.show = Show.map(show.json().data)
     }).catch(error => console.log(error));
   }
 
   private getCategories(){
     //TODO: move getCategories into it's own service or helper
-    this.pageService.getCategories().then(categories => this.categories = categories.json().data)
+    this.showService.getCategories().then(categories => this.categories = categories.json().data)
       .catch(error => console.log(error));
   }
 
   public onSubmit(){
-    this.pageService.updatePage(this.page).then(response => {
+    this.showService.updateShow(this.show).then(response => {
 
     }).catch(error => console.log(error));
     console.log('the form was submitted');

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHandlerService } from './http-handler.service';
+import { Show } from '../_models/show';
 import 'rxjs/add/operator/toPromise';
 
 
@@ -17,6 +18,22 @@ export class ShowService {
 
   getShow(id:number){
     return this.httpHandlerService.get(`showpage/${id}`)
+      .toPromise();
+  }
+
+  updateShow(show:Show):Promise<any>{
+    let id = show.id;
+    let options = {
+      //TODO: could put all the trimming into the http service as a function
+      //can't trim numbers though (i think)
+      name: show.name
+    }
+    return this.httpHandlerService.put(`showpage/${id}`, options)
+      .toPromise();
+  }
+
+  getCategories(){
+    return this.httpHandlerService.get('pagecategory')
       .toPromise();
   }
 }
