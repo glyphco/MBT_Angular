@@ -14,6 +14,7 @@ import { VenueDetailComponent } from './_components/venue-detail.component';
 import { ShowDetailComponent } from './_components/show-detail.component';
 import { PageEditComponent } from './_components/page-edit.component';
 import { EventEditComponent } from './_components/event-edit.component';
+import { EventCreateComponent } from './_components/event-create.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [PublicGuard] },
@@ -22,9 +23,11 @@ const routes: Routes = [
   { path: 'page/:id', component: PageDetailComponent, canActivate: [AuthGuard] },
   { path: 'page/edit/:id', component: PageEditComponent, canActivate: [AuthGuard] },
   { path: 'venue/:id', component: VenueDetailComponent, canActivate: [AuthGuard] },
+  { path: 'event/create', component: EventCreateComponent, canActivate: [AuthGuard] },
   { path: 'event/:id', component: EventDetailComponent, canActivate: [AuthGuard] },
-  { path: 'show/:id', component: ShowDetailComponent, canActivate: [AuthGuard] },
   { path: 'event/edit/:id', component: EventEditComponent, canActivate: [AuthGuard] },
+  { path: 'show/:id', component: ShowDetailComponent, canActivate: [AuthGuard] },
+  
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 
   // otherwise redirect to home

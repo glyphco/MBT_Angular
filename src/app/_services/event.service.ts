@@ -36,4 +36,15 @@ export class EventService {
     return this.httpHandlerService.put(`event/${id}`, options)
       .toPromise();
   }
+
+  createEvent(event:Event):Promise<any>{
+    let options = {
+      name: event.name,
+      description: event.description,
+      public: event.public
+    }
+    return this.httpHandlerService.post('event', options)
+      .toPromise();
+  }
+
 }

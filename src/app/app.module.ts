@@ -21,6 +21,7 @@ import { VenueDetailComponent } from './_components/venue-detail.component';
 import { ShowDetailComponent } from './_components/show-detail.component';
 import { PageEditComponent } from './_components/page-edit.component';
 import { EventEditComponent } from './_components/event-edit.component';
+import { EventCreateComponent } from './_components/event-create.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
@@ -46,7 +47,8 @@ import { ShowService } from './_services/show.service';
     VenueDetailComponent,
     ShowDetailComponent,
     PageEditComponent,
-    EventEditComponent
+    EventEditComponent,
+    EventCreateComponent
   ],
   imports: [
     BrowserModule,

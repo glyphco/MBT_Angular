@@ -16,7 +16,7 @@ export class Event {
   name:string;
   //particapants: TODO: make a model for this
   postalCode:string;
-  public:number;
+  public:number = 1;
   start:string;
   state:string;
   streetAddress:string;

@@ -10,7 +10,7 @@ import { StatesHelper } from '../_helpers/states-helper';
   templateUrl: './page-edit.component.html',
   //styles: ['./page-edit.component.css']
 })
-export class PageEditComponent implements OnInit {
+export class PageEditComponent implements OnInit, OnDestroy {
   page = new Page;
   private sub: any;
   states = StatesHelper.states;
