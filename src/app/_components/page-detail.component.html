@@ -3,6 +3,7 @@
     <h3>{{page.name}}</h3>
     <p>City: {{page.city}}</p>
     <p>Page: {{page.email}}</p>
+    <button class="btn btn-default"><a [routerLink]="['/page/edit', page.id]">Edit</a></button>
   </div>
   <br/>
   <button class="btn btn-primary" (click)="goBack()">Back</button>

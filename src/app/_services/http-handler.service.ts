@@ -23,7 +23,7 @@ export class HttpHandlerService {
     this.accessSource.next(value);
   }
 
-  private getOptions():RequestOptions{
+  private  getHeaders():RequestOptions{
     let token = localStorage.getItem('token');
     let headers = new Headers();
     headers.append('Authorization', `Bearer ${token}`);
@@ -37,7 +37,7 @@ export class HttpHandlerService {
     return (tokenExpires - timestamp)/60 <= environment.refreshWindow;
   }
 
-  get(url, checkToken=true):Observable<any>{
+  get(url):Observable<any>{
     let path = `${this.apiurl}/${url}`;
     if(this.tokenExpired() && this.accessable == true){
       //token bad & no wait
@@ -47,20 +47,49 @@ export class HttpHandlerService {
       return this.authService.refreshToken()
         .mergeMap((response) => {
           this.setAccessable(true);
-          let options = this.getOptions();
-          return this.http.get(path, options);
+          let headers = this. getHeaders();
+          return this.http.get(path, headers);
         })
     } else if(this.accessable == true) {
       //token good & no wait
-      let options = this.getOptions();
-      return this.http.get(path, options);
+      let headers = this. getHeaders();
+      return this.http.get(path, headers);
     } else {
-      let options = this.getOptions(); //this HAS to be inside the else
+      let headers = this. getHeaders(); //this HAS to be inside the else
       return this.accessStream$
               .mergeMap(access => {
                 if(access == true){
-                  let options = this.getOptions();
-                  return this.http.get(path, options);
+                  let headers = this. getHeaders();
+                  return this.http.get(path, headers);
+                }
+              }).first();
+    }
+  }
+
+  put(url, options){
+    let path = `${this.apiurl}/${url}`;
+    if(this.tokenExpired() && this.accessable == true){
+      //token bad & no wait
+      //pause all other requests
+      this.accessable = false;
+      //get a new token and then complete request
+      return this.authService.refreshToken()
+        .mergeMap((response) => {
+          this.setAccessable(true);
+          let headers = this. getHeaders();
+          return this.http.put(path, options, headers);
+        })
+    } else if(this.accessable == true) {
+      //token good & no wait
+      let headers = this. getHeaders();
+      return this.http.put(path, options, headers);
+    } else {
+      let headers = this. getHeaders(); //this HAS to be inside the else
+      return this.accessStream$
+              .mergeMap(access => {
+                if(access == true){
+                  let headers = this. getHeaders();
+                  return this.http.put(path, options, headers);
                 }
               }).first();
     }

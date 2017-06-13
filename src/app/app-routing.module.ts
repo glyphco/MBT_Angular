@@ -12,13 +12,15 @@ import { PageDetailComponent } from './_components/page-detail.component';
 import { EventDetailComponent } from './_components/event-detail.component';
 import { VenueDetailComponent } from './_components/venue-detail.component';
 import { ShowDetailComponent } from './_components/show-detail.component';
+import { PageEditComponent } from './_components/page-edit.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [PublicGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
-  { path: 'page/:id', component: PageDetailComponent, canActivate: [AuthGuard], pathMatch: 'full' },
-  { path: 'venue/:id', component: VenueDetailComponent, canActivate: [AuthGuard], pathMatch: 'full' },
+  { path: 'page/:id', component: PageDetailComponent, canActivate: [AuthGuard] },
+  { path: 'page/edit/:id', component: PageEditComponent, canActivate: [AuthGuard] },
+  { path: 'venue/:id', component: VenueDetailComponent, canActivate: [AuthGuard] },
   { path: 'event/:id', component: EventDetailComponent, canActivate: [AuthGuard] },
   { path: 'show/:id', component: ShowDetailComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'login', pathMatch: 'full' },

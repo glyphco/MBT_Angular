@@ -7,7 +7,7 @@ import { PageService } from '../_services/page.service';
 @Component({
   selector: 'app-page-detail',
   templateUrl: './page-detail.component.html',
-  //styleUrls: ['./events.component.css']
+  //styleUrls: ['./page-detail.component.css']
 })
 export class PageDetailComponent implements OnInit, OnDestroy {
   page: Page;

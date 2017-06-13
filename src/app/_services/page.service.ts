@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from './http-handler.service';
+import { Page } from '../_models/page';
 import 'rxjs/add/operator/toPromise';
 
 
@@ -24,4 +25,22 @@ export class PageService {
       .toPromise();
   }
   
+  updatePage(page:Page):Promise<any>{
+    let id = page.id;
+    let options = {
+      //TODO: could put all the trimming into the http service as a function
+      //can't trim numbers though (i think)
+      name: page.name.trim(),
+      state: page.state.trim(),
+      city: page.city.trim(),
+      postalcode: page.postalcode.trim()
+    }
+    return this.httpHandlerService.put(`page/${id}`, options)
+      .toPromise();
+  }
+
+  getCategories(){
+    return this.httpHandlerService.get('pagecategory')
+      .toPromise();
+  }
 }
