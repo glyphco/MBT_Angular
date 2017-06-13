@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from './http-handler.service';
+import { Event } from '../_models/event';
 import 'rxjs/add/operator/toPromise';
 
 
@@ -22,5 +23,17 @@ export class EventService {
   getEvent(id:number){
     return this.httpHandlerService.get(`event/${id}`)
       .toPromise()
+  }
+
+  updateEvent(event:Event):Promise<any>{
+    let id = event.id;
+    let options = {
+      //TODO: could put all the trimming into the http service as a function
+      //can't trim numbers though (i think)
+      name: event.name,
+      description: event.description
+    }
+    return this.httpHandlerService.put(`event/${id}`, options)
+      .toPromise();
   }
 }

@@ -1,7 +1,8 @@
 <div class="container">
   <div *ngIf="event">
     <h3>{{event.name}}</h3>
-    <p>City: {{event.city}}</p>
+    <p>Description: {{event.description}}</p>
+    <button class="btn btn-default"><a [routerLink]="['/event/edit', event.id]">Edit</a></button>
   </div>
   <br/>
   <button class="btn btn-primary" (click)="goBack()">Back</button>

@@ -3,15 +3,15 @@ import { Venue } from './venue';
 export class Event {
   id: number;
   backgroundUrl:string;
-  city:string;
+  //city:string;
   confirmed:number;
   createdAt:string;
   createdBy:number;
   description:string;
   end:string;
   imageUrl:string;
-  lat:string;
-  lng:string;
+  //lat:string;
+  //lng:string;
   location:string;
   name:string;
   //particapants: TODO: make a model for this
@@ -25,7 +25,7 @@ export class Event {
   venue: Venue;
   venueId:number;
   venueName:string;
-  venueTagline:string;
+  tagline:string;
 
   public static arrayMap(json):Event[]{
     let events:Event[] = [];
@@ -52,15 +52,15 @@ export class Event {
     let currentEvent = new Event();
     currentEvent.id = json.id;
     currentEvent.backgroundUrl = json.backgroundurl;
-    currentEvent.city = json.city;
+    //currentEvent.city = json.city;
     currentEvent.confirmed = json.confirmed;
     currentEvent.createdAt = json.created_at;
     currentEvent.createdBy = json.created_by;
     currentEvent.description = json.description;
     currentEvent.end = json.end;
     currentEvent.imageUrl = json.imageurl;
-    currentEvent.lat = json.lat;
-    currentEvent.lng = json.lng;
+    //currentEvent.lat = json.lat;
+    //currentEvent.lng = json.lng;
     currentEvent.location = json.location;
     currentEvent.name = json.name;
     //currentEvent.particapants TODO: fix this
@@ -74,7 +74,7 @@ export class Event {
     currentEvent.venue = json.venue && Venue.map(json.venue);
     currentEvent.venueId = json.venue_id;
     currentEvent.venueName = json.venue_name;
-    currentEvent.venueTagline = json.tagline;
+    currentEvent.tagline = json.tagline;
     return currentEvent;
   }
 }
