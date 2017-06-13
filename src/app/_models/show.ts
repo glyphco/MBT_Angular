@@ -7,7 +7,7 @@ export class Show {
   slug: string;
   imageUrl: string;
   backgroundUrl: string;
-  public: number;
+  public: number = 1;
   confirmed: number;
   createdAt: string;
   updatedAt: string;

@@ -20,6 +20,7 @@ import { EventDetailComponent } from './_components/event-detail.component';
 import { VenueDetailComponent } from './_components/venue-detail.component';
 import { ShowDetailComponent } from './_components/show-detail.component';
 import { ShowEditComponent } from './_components/show-edit.component';
+import { ShowCreateComponent } from './_components/show-create.component';
 import { PageEditComponent } from './_components/page-edit.component';
 import { EventEditComponent } from './_components/event-edit.component';
 import { EventCreateComponent } from './_components/event-create.component';
@@ -48,6 +49,7 @@ import { ShowService } from './_services/show.service';
     VenueDetailComponent,
     ShowDetailComponent,
     ShowEditComponent,
+    ShowCreateComponent,
     PageEditComponent,
     EventEditComponent,
     EventCreateComponent

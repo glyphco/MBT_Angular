@@ -32,6 +32,16 @@ export class ShowService {
       .toPromise();
   }
 
+  createShow(show:Show):Promise<any>{
+    let options = {
+      name: show.name,
+      description: show.description,
+      public: show.public
+    }
+    return this.httpHandlerService.post('showpage', options)
+      .toPromise();
+  }
+
   getCategories(){
     return this.httpHandlerService.get('pagecategory')
       .toPromise();

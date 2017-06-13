@@ -1,0 +1,64 @@
+<div class="container">
+  <h3>Create show</h3>
+  <form (ngSubmit)="onSubmit()" #showForm="ngForm">
+    <div class="form-group" [class.has-error]="name.invalid && name.touched">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" placeholder="Name" 
+        [(ngModel)]="show.name" name="name" required #name="ngModel" maxlength="60">
+      <div *ngIf="name.errors  && name.touched">
+        <span [class.hidden]="!name.errors.required"  class="help-block">Name is required</span>
+        <span [class.hidden]="!name.errors.maxlength"  class="help-block">
+          Name cannot be more than 60 characters long.
+        </span>
+      </div>
+    </div>
+    <div class="form-group" [class.has-error]="slug.invalid">
+      <label for="slug">Slug</label>
+      <input type="text" class="form-control" id="slug" placeholder="Slug" [(ngModel)]="show.slug" name="slug"
+        maxlength="60" #slug="ngModel">
+        <span class="help-block">Slug cannot be more than 60 characters long.</span>
+    </div>
+    <div class="form-group">
+      <label for="category">Category</label>
+      <select class="form-control" id="category" [(ngModel)]="show.state" name="state">
+        <option *ngFor="let state of states" [value]="state.abbreviation">{{state.name}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="phone">Phone number</label>
+      <input type="text" class="form-control" id="phone" placeholder="Phone number" [(ngModel)]="show.phone" name="phone">
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" class="form-control" id="email" placeholder="Email" [(ngModel)]="show.email" name="email">
+    </div>
+    <div class="form-group" [class.has-error]="tagline.invalid">
+      <label for="tagline">Tagline</label>
+      <input type="text" class="form-control" id="tagline" placeholder="Tagline" [(ngModel)]="show.tagline" name="tagline"
+        maxlength="50" #tagline="ngModel">
+      <span class="help-block">Tagline cannot be more than 50 characters long.</span>
+    </div>
+    <div class="form-group" [class.has-error]="summary.invalid">
+      <label for="summary">Summary</label>
+      <input type="text" class="form-control" id="summary" placeholder="Summary" [(ngModel)]="show.summary" 
+        name="summary" maxlength="140" #summary="ngModel">
+      <span class="help-block">Summary cannot be more than 140 characters long.</span>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input type="text" class="form-control" id="description" placeholder="Description" [(ngModel)]="show.description" name="description">
+    </div>
+    <div class="form-group">
+      <label for="visibility">Visibility</label>
+      <select class="form-control" id="visibility" [(ngModel)]="show.public" name="visibility">
+        <option [value]="1">Public</option>
+        <option [value]="0">Private</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-success" [disabled]="!showForm.form.valid">Submit</button>
+  </form>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+</div>
