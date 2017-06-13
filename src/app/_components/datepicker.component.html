@@ -1,0 +1,28 @@
+<div class="calander noselect">
+  <div class="cal_head paper-shadow-top-z-2">
+    <button class ="button_left" (click)="subtractMonth()">&lt;</button>
+    <span id="month_label">{{date.format('MMMM YYYY')}}</span>
+    <button class="button_right" (click)="addMonth()">&gt;</button>
+  </div>  
+  <div class="cal_body paper-shadow-bottom-z-1">
+    <table>
+      <tbody id ="cal">
+        <tr>
+          <td>Su</td>
+          <td>Mo</td>
+          <td>Tu</td>
+          <td>We</td>
+          <td>Th</td>
+          <td>Fr</td>
+          <td>Sa</td>
+        </tr>
+        <tr *ngFor="let day of days">
+          <td>day</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class = "cal_output paper-shadow-top-z-1">
+    <span id="outputText"></span>
+  </div>
+</div>  

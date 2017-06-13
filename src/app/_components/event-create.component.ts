@@ -7,7 +7,7 @@ import { EventService } from '../_services/event.service';
 @Component({
   selector: 'app-event-create',
   templateUrl: './event-create.component.html',
-  //styles: ['./page-edit.component.css']
+  //styleUrls: ['./page-edit.component.css']
 })
 export class EventCreateComponent {
   event = new Event;

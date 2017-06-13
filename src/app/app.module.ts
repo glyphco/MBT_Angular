@@ -24,6 +24,7 @@ import { ShowCreateComponent } from './_components/show-create.component';
 import { PageEditComponent } from './_components/page-edit.component';
 import { EventEditComponent } from './_components/event-edit.component';
 import { EventCreateComponent } from './_components/event-create.component';
+import { DatepickerComponent } from './_components/datepicker.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
@@ -52,7 +53,8 @@ import { ShowService } from './_services/show.service';
     ShowCreateComponent,
     PageEditComponent,
     EventEditComponent,
-    EventCreateComponent
+    EventCreateComponent,
+    DatepickerComponent
   ],
   imports: [
     BrowserModule,
