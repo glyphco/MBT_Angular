@@ -1,3 +1,48 @@
+<div class="mz-picker">
+  <ul>
+    <li class="mz-picker--prev mz-picker--arrow" (click)="subtractMonth()"><i class="fa fa-angle-left" aria-hidden="true"></i></li>
+    <li class="mz-picker--active">{{date.format('MMMM YYYY')}}</li>
+    <li class="mz-picker--next mz-picker--arrow" (click)="addMonth()"><i class="fa fa-angle-right" aria-hidden="true"></i></li>
+  </ul>
+  <table class="mz-picker-calendar">
+     <thead>
+          <tr>
+            <td>Mon</td>
+            <td>Tue</td>
+            <td>Wed</td>
+            <td>Thu</td>
+            <td>Fri</td>
+            <td>Sat</td>
+            <td>Sun</td>
+          </tr>
+     </thead>
+     <tbody>
+        <tr *ngFor="let week of monthDays">
+          <td [class.mz-picker-calendar--before]="day.inactive" [class.mz-picker-calendar--current]="day.day==date.format('D')" *ngFor="let day of week">
+            {{day.day}}
+          </td>
+        </tr>
+        <!--
+            <td class="mz-picker-calendar--after">1</td>
+        -->
+     </tbody>
+  </table>
+  <div class="mz-picker-time">
+    <select>
+      <option>09</option>
+    </select>
+    :
+    <select>
+      <option>10</option>
+    </select>
+    <a href="#" class="mz-picker-time--am">AM</a>
+    <a href="#" class="mz-picker-time--pm">PM</a>
+  </div>
+  <p class="mz-picker-summary">
+    Today, <span>October 5th 2015</span>, at <span>09:00 AM</span>
+  </p>
+</div>
+<!--
 <div class="calander noselect">
   <div class="cal_head paper-shadow-top-z-2">
     <button class ="button_left" (click)="subtractMonth()">&lt;</button>
@@ -25,4 +70,4 @@
   <div class = "cal_output paper-shadow-top-z-1">
     <span id="outputText"></span>
   </div>
-</div>  
+</div>-->
