@@ -12,6 +12,7 @@ import { PageDetailComponent } from './_components/page-detail.component';
 import { PageCreateComponent } from './_components/page-create.component';
 import { EventDetailComponent } from './_components/event-detail.component';
 import { VenueDetailComponent } from './_components/venue-detail.component';
+import { VenueCreateComponent } from './_components/venue-create.component';
 import { ShowDetailComponent } from './_components/show-detail.component';
 import { ShowEditComponent } from './_components/show-edit.component';
 import { ShowCreateComponent } from './_components/show-create.component';
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'page/:id', component: PageDetailComponent, canActivate: [AuthGuard] },
   { path: 'page/edit/:id', component: PageEditComponent, canActivate: [AuthGuard] },
   //Venue routes
+  { path: 'venue/create', component: VenueCreateComponent, canActivate: [AuthGuard] },
   { path: 'venue/:id', component: VenueDetailComponent, canActivate: [AuthGuard] },
   //Event routes
   { path: 'event/create', component: EventCreateComponent, canActivate: [AuthGuard] },

@@ -12,6 +12,7 @@ import { LoginComponent } from './_components/login.component';
 import { DashboardComponent } from './_components/dashboard.component';
 import { EventsComponent } from './_components/events.component';
 import { VenuesComponent } from './_components/venues.component';
+import { VenueCreateComponent } from './_components/venue-create.component';
 import { ShowsComponent } from './_components/shows.component';
 import { SearchComponent } from './_components/search.component';
 import { PagesComponent } from './_components/pages.component';
@@ -43,6 +44,7 @@ import { ShowService } from './_services/show.service';
     DashboardComponent,
     EventsComponent,
     VenuesComponent,
+    VenueCreateComponent,
     ShowsComponent,
     SearchComponent,
     PagesComponent,

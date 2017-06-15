@@ -14,7 +14,7 @@ export class Page {
   production: boolean;
   canhavemembers: boolean;
   canbeamember: boolean;
-  public: boolean;
+  public: number = 1;
   confirmed: boolean;
   tagline: string;
   summary: string;
