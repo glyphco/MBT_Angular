@@ -7,18 +7,19 @@
   <table class="mz-picker-calendar">
      <thead>
           <tr>
+            <td>Sun</td>
             <td>Mon</td>
             <td>Tue</td>
             <td>Wed</td>
             <td>Thu</td>
             <td>Fri</td>
             <td>Sat</td>
-            <td>Sun</td>
           </tr>
      </thead>
      <tbody>
         <tr *ngFor="let week of monthDays">
-          <td [class.mz-picker-calendar--before]="day.inactive" [class.mz-picker-calendar--current]="day.day==date.format('D')" *ngFor="let day of week">
+          <td [class.mz-picker-calendar--before]="day.inactive" (click)="!day.inactive ? selectDate(day.day) : ''" 
+            [class.mz-picker-calendar--current]="day.day==date.format('D') && !day.inactive" *ngFor="let day of week">
             {{day.day}}
           </td>
         </tr>
@@ -28,18 +29,31 @@
      </tbody>
   </table>
   <div class="mz-picker-time">
-    <select>
-      <option>09</option>
+    <select #fieldHours (change)="selectHour(fieldHours.value)">
+      <option *ngFor="let hour of hours"
+        [selected]="hour == date.format('H') % 12">
+          {{hour}}
+      </option>
     </select>
     :
-    <select>
-      <option>10</option>
+    <select #fieldMinutes (change)="selectMinute(fieldMinutes.value)">
+      <option *ngFor="let minute of minutes"
+        [selected]="minute >= date.format('mm') - 5 && minute <= date.format('mm')">
+          {{minute}}
+      </option>
     </select>
-    <a href="#" class="mz-picker-time--am">AM</a>
-    <a href="#" class="mz-picker-time--pm">PM</a>
+    <div [class.active]="date.format('A') == 'AM'" (click)="selectAM()" class="mz-picker-time--am">AM</div>
+    <div [class.active]="date.format('A') == 'PM'" (click)="selectPM()" class="mz-picker-time--pm">PM</div>
   </div>
   <p class="mz-picker-summary">
-    Today, <span>October 5th 2015</span>, at <span>09:00 AM</span>
+    {{ date.format("dddd") }},
+    <span>
+      {{ date.format("MMMM Do YYYY") }}
+    </span>
+     at 
+    <span>
+      {{ date.format("h:mm A") }}
+    </span>
   </p>
 </div>
 <!--

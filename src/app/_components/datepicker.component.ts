@@ -9,6 +9,8 @@ import * as moment from 'moment'; // add this 1 of 4
 export class DatepickerComponent implements OnInit {
   date = moment();
   monthDays = [];
+  hours = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+  minutes = ['00','05','10','15','20','25','30','35','40','45','50','55'];
 
   ngOnInit():void{
     //get current month and year
@@ -23,6 +25,36 @@ export class DatepickerComponent implements OnInit {
   public subtractMonth(){
     this.date.subtract(1,"month");
     this.updateMonthDays();
+  }
+
+  public selectDate(date:number){
+    this.date.date(date);
+  }
+
+  public selectMinute(minute:number){
+    this.date.minutes(minute);
+  }
+
+  public selectHour(hour:string){
+    if(this.date.format('A') == 'AM' && +hour == 12){
+      this.date.hours(0);
+    }else if(this.date.format('A') == 'PM' && +hour != 12){
+      this.date.hours(+hour+12);
+    }else{
+      this.date.hours(+hour);
+    }
+  }
+
+  public selectAM(){
+    if(this.date.format('A') == 'PM'){
+      this.date.subtract(12,'hours');
+    }
+  }
+
+  public selectPM(){
+    if(this.date.format('A') == 'AM'){
+      this.date.add(12,'hours');
+    }
   }
 
   private updateMonthDays(){
@@ -71,7 +103,7 @@ export class DatepickerComponent implements OnInit {
   private formattedMonth(daysArray){
     let returnArray = [];
     //create new array grouping each day into weeks
-    for(let n=0;n < 5;n++){
+    for(let n=0;n < 6;n++){
       let tempArray = [];
       let x = 0;
       for(let x=0;x < 7;x++){

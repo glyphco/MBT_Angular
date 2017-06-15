@@ -222,14 +222,15 @@ td {
   color: #428BCA;
   width: 40px;
   height: 40px;
-  padding-top: 12px;
+  padding-top: 8px;
   box-sizing: border-box;
   text-align: center;
   vertical-align: middle;
   transition: all 0.3s ease-in;
   border-radius: 50%;
+  cursor:pointer;
 }
-.mz-picker-time--am:hover, .mz-picker-time--am:focus, .mz-picker-time--pm:hover, .mz-picker-time--pm:focus {
+.mz-picker-time--am:hover, .mz-picker-time--am:focus, .mz-picker-time--pm:hover, .mz-picker-time--pm:focus, .active {
   color: #fff;
   background: #428BCA;
 }
