@@ -43,4 +43,14 @@ export class PageService {
     return this.httpHandlerService.get('pagecategory')
       .toPromise();
   }
+
+  createPage(page:Page):Promise<any>{
+    let options = {
+      name: page.name,
+      description: page.description,
+      public: page.public
+    }
+    return this.httpHandlerService.post('page', options)
+      .toPromise();
+  }
 }

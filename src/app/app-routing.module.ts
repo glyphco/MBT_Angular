@@ -9,6 +9,7 @@ import { DashboardComponent } from './_components/dashboard.component';
 import { LoginComponent } from './_components/login.component';
 import { SearchComponent } from './_components/search.component';
 import { PageDetailComponent } from './_components/page-detail.component';
+import { PageCreateComponent } from './_components/page-create.component';
 import { EventDetailComponent } from './_components/event-detail.component';
 import { VenueDetailComponent } from './_components/venue-detail.component';
 import { ShowDetailComponent } from './_components/show-detail.component';
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
   //Page routes
+  { path: 'page/create', component: PageCreateComponent, canActivate: [AuthGuard] },
   { path: 'page/:id', component: PageDetailComponent, canActivate: [AuthGuard] },
   { path: 'page/edit/:id', component: PageEditComponent, canActivate: [AuthGuard] },
   //Venue routes
