@@ -1,6 +1,14 @@
 <div class="container">
   <h3>Create venue</h3>
 
+  <div class="pac-card" id="pac-card">
+    <div>
+      <div id="title">Search</div>
+    </div>
+    <div id="pac-container">
+      <input id="pac-input" type="text" [value]="pacInput" placeholder="Enter a Venue">
+    </div>
+  </div>
   <div id="map"></div>
   <form (ngSubmit)="onSubmit()" #venueForm="ngForm">
     <div class="form-group" [class.has-error]="name.invalid && name.touched">
