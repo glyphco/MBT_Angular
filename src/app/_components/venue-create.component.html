@@ -1,5 +1,7 @@
 <div class="container">
   <h3>Create venue</h3>
+
+  <div id="map"></div>
   <form (ngSubmit)="onSubmit()" #venueForm="ngForm">
     <div class="form-group" [class.has-error]="name.invalid && name.touched">
       <label for="name">Name</label>
