@@ -3,6 +3,8 @@ import { Router }   from '@angular/router';
 import { AuthService } from './_services/auth.service';
 import { Subscription }   from 'rxjs/Subscription';
 
+declare var google:any;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,6 +14,7 @@ export class AppComponent implements OnDestroy, OnInit {
   title = 'MBT';
   subscription: Subscription;
   loggedIn: boolean;
+  geocoder:any;
 
   constructor( private authService: AuthService, private _ngZone:NgZone, private router:Router){}
 
@@ -33,11 +36,15 @@ export class AppComponent implements OnDestroy, OnInit {
     if(window.navigator.geolocation){
         window.navigator.geolocation.getCurrentPosition(this.success, this.error, options);
     };
+
+    //Google map stuff
+    this.geocoder = new google.maps.Geocoder;
   }
 
   success(pos) {
     console.log(pos);
-    var crd = pos.coords;
+    let crd = pos.coords;
+    this.geocodeLatLng(crd.latitude, crd.longitude);
     console.log('Your current position is:');
     console.log(`Latitude : ${crd.latitude}`);
     console.log(`Longitude: ${crd.longitude}`);
@@ -47,6 +54,22 @@ export class AppComponent implements OnDestroy, OnInit {
   error(err) {
     console.warn(`ERROR(${err.code}): ${err.message}`);
   };
+
+  geocodeLatLng(lat, lng):void {
+    let self = this;
+    var latlng = {lat: parseFloat(lat), lng: parseFloat(lng)};
+    this.geocoder.geocode({'location': latlng}, function(results, status) {
+      if (status === 'OK') {
+        if (results[1]) {
+          console.log(results[1].formatted_address);
+        } else {
+          window.alert('No results found');
+        }
+      } else {
+        window.alert('Geocoder failed due to: ' + status);
+      }
+    });
+  }
   
   ngOnDestroy(){
     this.subscription.unsubscribe();
