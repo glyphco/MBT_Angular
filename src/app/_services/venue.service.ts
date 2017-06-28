@@ -22,12 +22,26 @@ export class VenueService {
   }
 
   createVenue(venue:Venue):Promise<any>{
-    let options = {
+    let params = {
       name: venue.name,
       description: venue.description,
-      public: venue.public
+      public: venue.public,
+      street_address: venue.streetAddress,
+      city: venue.city,
+      state: venue.state,
+      lat: venue.lat,
+      lng: venue.lng,
+      google_place_id: venue.googlePlaceId,
+      postalcode: venue.postalCode,
+      neighborhood: venue.neighborhood,
+      website: venue.website,
+      phone: venue.phone,
+      email: venue.email,
+      category: venue.category,
+      slug: venue.slug,
+      tagline: venue.tagline
     }
-    return this.httpHandlerService.post('venue', options)
+    return this.httpHandlerService.post('venue', params)
       .toPromise();
   }
 }

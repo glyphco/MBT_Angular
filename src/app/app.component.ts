@@ -24,7 +24,29 @@ export class AppComponent implements OnDestroy, OnInit {
           this.loggedIn = loggedInValue
         );
     });
+    let options = {
+      enableHighAccuracy: true, //will be more accurate but might take longer and uses more power
+      timeout: 5000,
+      maximumAge:0
+    }
+
+    if(window.navigator.geolocation){
+        window.navigator.geolocation.getCurrentPosition(this.success, this.error, options);
+    };
   }
+
+  success(pos) {
+    console.log(pos);
+    var crd = pos.coords;
+    console.log('Your current position is:');
+    console.log(`Latitude : ${crd.latitude}`);
+    console.log(`Longitude: ${crd.longitude}`);
+    console.log(`More or less ${crd.accuracy} meters.`);
+  };
+
+  error(err) {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+  };
   
   ngOnDestroy(){
     this.subscription.unsubscribe();

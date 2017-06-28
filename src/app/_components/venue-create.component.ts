@@ -1,25 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import { Venue } from '../_models/venue';
 import { VenueService } from '../_services/venue.service';
+import { CategoryService } from '../_services/category.service';
+import { StatesHelper } from '../_helpers/states-helper';
 
 declare var google:any;
-
-class googleAddress {
-  name:string;
-  street_address:string;
-  city:string;
-  state:string;
-  postalcode:string;
-  lat;
-  lng;
-  neighborhood:string;
-  website:string;
-  google_place_id:string;
-  phone;
-  email:string;
-}
 
 @Component({
   selector: 'app-venue-create',
@@ -28,21 +15,32 @@ class googleAddress {
 })
 export class VenueCreateComponent implements OnInit {
   venue = new Venue;
-  googleAddress = new googleAddress;
   pacInput = '';
   map:any;
   marker:any;
   infowindow:any;
   infowindowContent:any;
+  states = StatesHelper.states;
+  categories = [];
 
   constructor(
     private venueService:VenueService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private _zone: NgZone,
+    private categoryService: CategoryService
   ){}
+
+  //TODO: remove this later
+  debugVenue(){
+    console.log(this.venue);
+  }
 
   ngOnInit():void{
     let self = this;
+    //Get categories
+    this.getCategories();
+    //Google map stuff
     var origin = {lat: 41.94, lng: -87.68};
     var REQUIRED_ZOOM = 15;
 
@@ -129,13 +127,18 @@ export class VenueCreateComponent implements OnInit {
 
         if (event.placeId) {
           console.log('place:'+event.placeId);
-          self.getPlaceFromID(event.placeId, self);
+          self.getPlaceFromID(event.placeId, self)
         } else {
           console.log('geo:'+event.latLng);
           self.geocodeLatLng(geocoder, self.map, event.latLng, self);
         }
 
     });
+  }
+
+  private getCategories(){
+    this.categoryService.getCategories().then(categories => this.categories = categories.json().data)
+      .catch(() => console.log('There was an error getting categories'));
   }
   
   public getPlaceFromID(place_id, self) {
@@ -225,13 +228,13 @@ export class VenueCreateComponent implements OnInit {
   public fillInAddressFromPlace(result) {
     var lockElements = [
       'name',
-      'street_address',
+      'streetAddress',
       'city',
       'state',
-      'postalcode',
+      'postalCode',
       'lat',
       'lng',
-      'google_place_id',
+      'googlePlaceId',
     ];
     var unlockElements = [
       'neighborhood',
@@ -244,12 +247,12 @@ export class VenueCreateComponent implements OnInit {
     ];
     for (var element in lockElements) {
       //document.getElementById(element).value = '';
-      this.googleAddress[element] = '';
+      this.venue[element] = '';
     }
 
     for (var element in unlockElements) {
       //document.getElementById(element).value = '';
-      this.googleAddress[element] = '';
+      this.venue[element] = '';
     }
     //document.getElementById('submit').value = 'Submit';
     //console.log(result.address_components);
@@ -261,19 +264,21 @@ export class VenueCreateComponent implements OnInit {
         shortcomponents[result.address_components[i]['types'][0]] = result.address_components[i]['short_name'];
     }
 
-    this.googleAddress.name = this.coalesce(result.name,'');
-    this.googleAddress.street_address = this.coalesce(longcomponents.street_number + ' ' + shortcomponents.route),'';
-    this.googleAddress.city = this.coalesce(longcomponents.locality,'');
-    this.googleAddress.state = this.coalesce(shortcomponents.administrative_area_level_1,'');
-    this.googleAddress.postalcode = this.coalesce(shortcomponents.postal_code,'');
-    this.googleAddress.lat = this.coalesce(result.geometry.location.lat(),'');
-    this.googleAddress.lng = this.coalesce(result.geometry.location.lng(),'');
+    this._zone.run(() => {
+      this.venue.name = this.coalesce(result.name,'');
+      this.venue.streetAddress = this.coalesce(longcomponents.street_number + ' ' + shortcomponents.route),'';
+      this.venue.city = this.coalesce(longcomponents.locality,'');
+      this.venue.state = this.coalesce(shortcomponents.administrative_area_level_1,'');
+      this.venue.postalCode = this.coalesce(shortcomponents.postal_code,'');
+      this.venue.lat = this.coalesce(result.geometry.location.lat(),'');
+      this.venue.lng = this.coalesce(result.geometry.location.lng(),'');
 
-    this.googleAddress.neighborhood = this.coalesce(longcomponents.neighborhood,'');
-    this.googleAddress.website = this.coalesce(result.website,'');
-    this.googleAddress.google_place_id = this.coalesce(result.id,'');
-    this.googleAddress.phone = this.coalesce(result.phone,'');
-    this.googleAddress.email = this.coalesce(result.email,'');
+      this.venue.neighborhood = this.coalesce(longcomponents.neighborhood,'');
+      this.venue.website = this.coalesce(result.website,'');
+      this.venue.googlePlaceId = this.coalesce(result.id,'');
+      this.venue.phone = this.coalesce(result.phone,'');
+      this.venue.email = this.coalesce(result.email,'');
+    })
     /*
     for (var element in lockElements) {
       (<HTMLInputElement>document.getElementById(element)).readOnly = true;
@@ -289,13 +294,13 @@ export class VenueCreateComponent implements OnInit {
       // Get the place details from the autocomplete object.
       //var place = autocomplete.getPlace();
     var lockElements = [
-      'street_address',
+      'streetAddress',
       'city',
       'state',
-      'postalcode',
+      'postalCode',
       'lat',
       'lng',
-      'google_place_id',
+      'googlePlaceId',
     ];
     var unlockElements = [
       'name',
@@ -330,19 +335,19 @@ export class VenueCreateComponent implements OnInit {
       shortcomponents[result.address_components[i]['types'][0]] = result.address_components[i]['short_name'];
     }
 
-    this.googleAddress.street_address = '';
-    this.googleAddress.street_address = (longcomponents.street_number + ' ' + shortcomponents.route) || '';
-    this.googleAddress.city = this.coalesce(longcomponents.locality,'');
-    this.googleAddress.state = this.coalesce(shortcomponents.administrative_area_level_1,'');
-    this.googleAddress.postalcode = this.coalesce(shortcomponents.postal_code,'');
-    this.googleAddress.lat = this.coalesce(result.geometry.location.lat(),'');
-    this.googleAddress.lng = this.coalesce(result.geometry.location.lng(),'');
+    this.venue.streetAddress = '';
+    this.venue.streetAddress = (longcomponents.street_number + ' ' + shortcomponents.route) || '';
+    this.venue.city = this.coalesce(longcomponents.locality,'');
+    this.venue.state = this.coalesce(shortcomponents.administrative_area_level_1,'');
+    this.venue.postalCode = this.coalesce(shortcomponents.postal_code,'');
+    this.venue.lat = this.coalesce(result.geometry.location.lat(),'');
+    this.venue.lng = this.coalesce(result.geometry.location.lng(),'');
 
-    this.googleAddress.neighborhood = this.coalesce(longcomponents.neighborhood,'');
-    this.googleAddress.website = '';
-    this.googleAddress.google_place_id = '';
-    this.googleAddress.phone = '';
-    this.googleAddress.email = '';
+    this.venue.neighborhood = this.coalesce(longcomponents.neighborhood,'');
+    this.venue.website = '';
+    this.venue.googlePlaceId = '';
+    this.venue.phone = '';
+    this.venue.email = '';
   }
 
   public coalesce(...args) {

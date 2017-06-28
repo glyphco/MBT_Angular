@@ -14,13 +14,18 @@ export class Venue {
   lng:string;
   location:string;
   phone:string;
-  postalcode:string;
+  postalCode:string;
   public:number = 1;
   slug:string;
   state:string;
   streetAddress:string;
   tagline:string;
   updatedAt:string;
+  street_address:string;
+  neighborhood:string;
+  website:string;
+  googlePlaceId:string;
+
 
   public static arrayMap(json):Venue[]{
     let venues:Venue[] = [];
@@ -48,12 +53,13 @@ export class Venue {
       currentVenue.lng = json.lng;
       currentVenue.location = json.location;
       currentVenue.phone = json.phone;
-      currentVenue.postalcode = json.postalcode;
+      currentVenue.postalCode = json.postalcode;
       currentVenue.public = json.public;
       currentVenue.slug = json.slug;
       currentVenue.state = json.state;
       currentVenue.streetAddress = json.street_address;
       currentVenue.tagline = json.tagline;
+      currentVenue.googlePlaceId = json.googlePlaceId;
       currentVenue.updatedAt = json.updated_at;
       return currentVenue;
   }

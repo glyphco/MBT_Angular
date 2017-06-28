@@ -36,6 +36,7 @@ import { HttpHandlerService } from './_services/http-handler.service';
 import { JwtHelperService } from './_services/jwt-helper.service';
 import { PageService } from './_services/page.service';
 import { ShowService } from './_services/show.service';
+import { CategoryService } from './_services/category.service';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { ShowService } from './_services/show.service';
     JwtHelperService,
     SearchService,
     PageService,
-    ShowService
+    ShowService,
+    CategoryService
   ],
   bootstrap: [AppComponent]
 })
