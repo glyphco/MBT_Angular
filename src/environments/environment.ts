@@ -5,8 +5,8 @@
 
 export const environment = {
   production: false,
-  authServer: 'http://mbtauth.dev',
-  apiServer: 'http://mbtapi.dev/api',
+  authServer: 'https://mbtauth.dev',
+  apiServer: 'https://mbtapi.dev/api',
   //within how many minutes should the token be refreshed
   refreshWindow: 30
 };
