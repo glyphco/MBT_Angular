@@ -1,12 +1,16 @@
 <div class="cd-popup" [class.is-visible]="showPopup == true" role="alert">
 	<div class="cd-popup-container">
 		<p>We need your location to get the events closest to you.</p>
-    <form>
-      
-    </form>
+    <div *ngFor="let error of errors" style="color:#CC0000;padding-bottom:1em;">{{errors}}</div>
+    <div id="map"></div>
+    <div id="infowindow-content">
+      <img src="" width="16" height="16" id="place-icon">
+      <span id="place-name"  class="title"></span><br>
+      <span id="place-address"></span>
+    </div>
 		<ul class="cd-buttons">
-			<li><a href="#0">Yes</a></li>
-			<li><a href="#0">No</a></li>
+			<li><div (click)="selectLocation()">Save</div></li>
+			<li><div>Cancel</div></li>
 		</ul>
 		<div class="cd-popup-close img-replace" (click)="showPopup = false">Close</div>
 	</div> <!-- cd-popup-container -->

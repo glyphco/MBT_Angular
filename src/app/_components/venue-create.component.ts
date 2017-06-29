@@ -132,7 +132,6 @@ export class VenueCreateComponent implements OnInit {
           console.log('geo:'+event.latLng);
           self.geocodeLatLng(geocoder, self.map, event.latLng, self);
         }
-
     });
   }
 
