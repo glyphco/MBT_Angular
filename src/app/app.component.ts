@@ -15,6 +15,7 @@ export class AppComponent implements OnDestroy, OnInit {
   subscription: Subscription;
   loggedIn: boolean;
   geocoder:any;
+  selectLocation = false;
 
   constructor( private authService: AuthService, private _ngZone:NgZone, private router:Router){}
 
@@ -34,7 +35,7 @@ export class AppComponent implements OnDestroy, OnInit {
     }
 
     if(window.navigator.geolocation){
-        window.navigator.geolocation.getCurrentPosition(this.success, this.error, options);
+        window.navigator.geolocation.getCurrentPosition(this.success.bind(this), this.error.bind(this), options);
     };
 
     //Google map stuff
@@ -42,17 +43,19 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
   success(pos) {
-    console.log(pos);
     let crd = pos.coords;
+    //store lat,lng in localStorage
+    localStorage.setItem('lat', crd.latitude);
+    localStorage.setItem('lng', crd.longitude);
     this.geocodeLatLng(crd.latitude, crd.longitude);
-    console.log('Your current position is:');
-    console.log(`Latitude : ${crd.latitude}`);
-    console.log(`Longitude: ${crd.longitude}`);
-    console.log(`More or less ${crd.accuracy} meters.`);
   };
 
   error(err) {
-    console.warn(`ERROR(${err.code}): ${err.message}`);
+    //console.warn(`ERROR(${err.code}): ${err.message}`);
+    //user denied geolocation
+    if(err.code == 1){
+      this.selectLocation = true;
+    }
   };
 
   geocodeLatLng(lat, lng):void {
@@ -61,7 +64,15 @@ export class AppComponent implements OnDestroy, OnInit {
     this.geocoder.geocode({'location': latlng}, function(results, status) {
       if (status === 'OK') {
         if (results[1]) {
-          console.log(results[1].formatted_address);
+          let locationDetails = <any>{};
+          for (let component of results[1].address_components){
+            locationDetails[component.types[0]] = component.long_name;
+          }
+          localStorage.setItem('city', locationDetails.locality);
+          localStorage.setItem('neighborhood', locationDetails.neighborhood);
+          localStorage.setItem('state', locationDetails.administrative_area_level_1);
+          localStorage.setItem('postal_code', locationDetails.postal_code);
+          localStorage.setItem('country', locationDetails.country);
         } else {
           window.alert('No results found');
         }

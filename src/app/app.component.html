@@ -51,6 +51,8 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+<!-- TODO: might pass selectLocation into component as input so the component isn't always initialized' -->
+<set-location *ngIf="selectLocation"></set-location>
 <div class="container">
   <button (click)="logout()" *ngIf="loggedIn"> Logout</button>
   <button (click)="redirectToDashboard()">Dashboard</button>
