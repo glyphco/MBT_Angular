@@ -85,6 +85,12 @@ export class AppComponent implements OnDestroy, OnInit {
 
   useCurrentLocation(){
     this.userLocation = localStorage.getItem('neighborhood') || localStorage.getItem('city') || 'Unknown';
+    localStorage.setItem('selectedLocationType','current');
+  }
+
+  useSelectedLocation(){
+    this.selectLocation = !this.selectLocation;
+    localStorage.setItem('selectedLocationType','custom');
   }
   
   ngOnDestroy(){
@@ -93,10 +99,6 @@ export class AppComponent implements OnDestroy, OnInit {
 
   logout(){
     this.authService.logout();
-  }
-  
-  redirectToDashboard(){
-    this.router.navigate(['dashboard']);
   }
 
   redirectToSearch(){

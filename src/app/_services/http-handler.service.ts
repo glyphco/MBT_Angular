@@ -31,9 +31,9 @@ export class HttpHandlerService {
     return new RequestOptions({ headers: headers });
   }
 
-  private tokenExpired():boolean {
+  private tokenExpired():boolean { //MARK: This is where I left off
     let tokenExpires = parseInt(localStorage.getItem('tokenExpires')); //TODO: figure out what to do if key isn't in storage
-    let timestamp = new Date().getTime() / 1000 | 0;
+    let timestamp = new Date().getTime() / 1000 | 0; 
     return (tokenExpires - timestamp)/60 <= environment.refreshWindow;
   }
 

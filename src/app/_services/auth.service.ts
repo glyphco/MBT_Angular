@@ -145,48 +145,6 @@ export class AuthService {
     return Promise.reject(error.message || error);
   }
 
-  public refreshToken2():Promise<any>{
-    let token = localStorage.getItem('token');
-    //const path = `${this.authUrl}/refreshJWT?token=${token}`;
-    //fake path for testing right now
-    const path = 'http://aro.admin.dev/tests/refreshtoken';
-
-    //let headers = new Headers();
-    //headers.append('Authorization', `Bearer ${token}`);
-    //let options = new RequestOptions({ headers: headers });
-    return this.http.get(path)
-      .toPromise()
-      /*
-      .then(response => { return Promise.resolve(true) })
-      .catch(error => { return Promise.reject('Can not refresh token') });
-
-      .subscribe(res => {
-         let  headers = res.headers;
-         let newToken = headers.get('Authorization').substr(7);
-         localStorage.setItem('newToken', newToken)
-       });
-       */
-
-  }
-
-  public refreshToken3():Promise<any>{
-    let token = localStorage.getItem('token');
-    const path = `${this.authUrl}/refreshJWT?token=${token}`;
-    let headers = new Headers();
-    headers.append('Authorization', `Bearer ${token}`);
-    let options = new RequestOptions({ headers: headers });
-    return this.http.get(path)
-      .toPromise()
-      .then(response => { 
-        let  headers = response.headers;
-        let newToken = headers.get('Authorization').substr(7);
-        let parsedToken = this.jwtHelperService.decodeToken(newToken);
-        localStorage.setItem('token', newToken);
-        localStorage.setItem('tokenExpires', parsedToken.exp);
-      })
-      .catch(error => { return Promise.reject('Can not refresh token') });
-  }
-
   public refreshToken():Observable<any>{
     let token = localStorage.getItem('token');
     const path = `${this.authUrl}/refreshJWT?token=${token}`;

@@ -28,6 +28,7 @@ import { EventEditComponent } from './_components/event-edit.component';
 import { EventCreateComponent } from './_components/event-create.component';
 import { DatepickerComponent } from './_components/datepicker.component';
 import { SetLocationComponent } from './_components/set-location.component';
+import { EventVenuesComponent } from './_components/event-venues.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
@@ -38,6 +39,7 @@ import { JwtHelperService } from './_services/jwt-helper.service';
 import { PageService } from './_services/page.service';
 import { ShowService } from './_services/show.service';
 import { CategoryService } from './_services/category.service';
+import { EventVenueService } from './_services/event-venue.service';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,8 @@ import { CategoryService } from './_services/category.service';
     EventEditComponent,
     EventCreateComponent,
     DatepickerComponent,
-    SetLocationComponent
+    SetLocationComponent,
+    EventVenuesComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +83,8 @@ import { CategoryService } from './_services/category.service';
     SearchService,
     PageService,
     ShowService,
-    CategoryService
+    CategoryService,
+    EventVenueService
   ],
   bootstrap: [AppComponent]
 })

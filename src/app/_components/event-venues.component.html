@@ -1,0 +1,39 @@
+<div class="container">
+<h2>Events</h2>
+<br />
+<table class="table">
+  <thead>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Created at</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let event of events">
+      <td>
+        <a [routerLink]="['/event', event.id]">
+          {{event.name}}
+        </a>
+      </td>
+      <td>{{event.description}}</td>
+      <td>{{ event.createdAt }}</td>
+    </tr>
+  </tbody>
+</table>
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li>
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-button" *ngFor="let number of pagination.pageList" [class.active]="number === pagination.currentPage" (click)="getEvents(number)">
+      {{number}}
+    </li>
+    <li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+</div>
