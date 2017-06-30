@@ -8,13 +8,14 @@ declare var google:any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  //styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnDestroy, OnInit {
   title = 'MBT';
   subscription: Subscription;
   loggedIn: boolean;
   geocoder:any;
+  userLocation = 'Choose location';
   selectLocation = false;
 
   constructor( private authService: AuthService, private _ngZone:NgZone, private router:Router){}
@@ -80,6 +81,10 @@ export class AppComponent implements OnDestroy, OnInit {
         window.alert('Geocoder failed due to: ' + status);
       }
     });
+  }
+
+  useCurrentLocation(){
+    this.userLocation = localStorage.getItem('neighborhood') || localStorage.getItem('city') || 'Unknown';
   }
   
   ngOnDestroy(){
