@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, Input } from '@angular/core';
+import { Component, OnInit, NgZone, Input, Output, EventEmitter } from '@angular/core';
 
 declare var google:any;
 
@@ -8,7 +8,9 @@ declare var google:any;
   styleUrls: ['./set-location.component.css']
 })
 export class SetLocationComponent implements OnInit {
-  showPopup = true;
+  @Input() showPopup:boolean;
+  @Output() closePopup = new EventEmitter<boolean>();
+  @Output() selectedLocation = new EventEmitter<string>();
   map:any;
   marker:any;
   lat:number;
@@ -70,13 +72,16 @@ export class SetLocationComponent implements OnInit {
           for (let component of results[1].address_components){
             locationDetails[component.types[0]] = component.long_name;
           }
-          console.log(locationDetails);
+          //console.log(locationDetails);
           localStorage.setItem('sel_city', locationDetails.locality);
           localStorage.setItem('sel_neighborhood', locationDetails.neighborhood);
           localStorage.setItem('sel_state', locationDetails.administrative_area_level_1);
           localStorage.setItem('sel_postal_code', locationDetails.postal_code);
           localStorage.setItem('sel_country', locationDetails.country);
-          self._ngZone.run(() => self.showPopup = false);
+          self._ngZone.run(() => {
+            self.selectedLocation.emit(locationDetails.neighborhood || locationDetails.city || locationDetails.administrative_area_level_1);
+            self.exitPopup();
+          });
         } else {
           this.errors.push('No results found');
         }
@@ -84,5 +89,10 @@ export class SetLocationComponent implements OnInit {
         this.errors.push('Geocoder failed due to: ' + status)
       }
     });
+  }
+
+  exitPopup(){
+    this.showPopup = false;
+    this.closePopup.emit(false);
   }
 }

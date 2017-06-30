@@ -10,8 +10,8 @@
     </div>
 		<ul class="cd-buttons">
 			<li><div (click)="selectLocation()">Save</div></li>
-			<li><div>Cancel</div></li>
+			<li><div (click)="exitPopup()">Cancel</div></li>
 		</ul>
-		<div class="cd-popup-close img-replace" (click)="showPopup = false">Close</div>
+		<div class="cd-popup-close img-replace" (click)="exitPopup()">Close</div>
 	</div> <!-- cd-popup-container -->
 </div> <!-- cd-popup -->
