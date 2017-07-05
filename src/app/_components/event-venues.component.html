@@ -3,19 +3,19 @@
 <br />
 <table class="table">
   <thead>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Created at</th>
+    <th>Event</th>
+    <th>Venue</th>
+    <th>Address</th>
   </thead>
   <tbody>
     <tr *ngFor="let event of events">
       <td>
         <a [routerLink]="['/event', event.id]">
-          {{event.name}}
+          {{event.event.name}}
         </a>
       </td>
-      <td>{{event.description}}</td>
-      <td>{{ event.createdAt }}</td>
+      <td>{{event.venue_name}}</td>
+      <td>{{ event.street_address }}</td>
     </tr>
   </tbody>
 </table>

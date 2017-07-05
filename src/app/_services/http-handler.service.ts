@@ -33,6 +33,9 @@ export class HttpHandlerService {
 
   private tokenExpired():boolean { //MARK: This is where I left off
     let tokenExpires = parseInt(localStorage.getItem('tokenExpires')); //TODO: figure out what to do if key isn't in storage
+    if(!localStorage.getItem('token')){
+      return false;
+    }
     let timestamp = new Date().getTime() / 1000 | 0; 
     return (tokenExpires - timestamp)/60 <= environment.refreshWindow;
   }
@@ -65,7 +68,7 @@ export class HttpHandlerService {
           return this.http.get(path, headers);
         })
     } else if(this.accessable == true) {
-      //token good & no wait
+      //token good/no token & no wait
       let headers = this.getHeaders();
       return this.http.get(path, headers);
     } else {
@@ -95,7 +98,7 @@ export class HttpHandlerService {
           return this.http.put(path, options, headers);
         })
     } else if(this.accessable == true) {
-      //token good & no wait
+      //token good/no token & no wait
       let headers = this.getHeaders();
       return this.http.put(path, options, headers);
     } else {
@@ -125,7 +128,7 @@ export class HttpHandlerService {
           return this.http.post(path, options, headers);
         })
     } else if(this.accessable == true) {
-      //token good & no wait
+      //token good/no token & no wait
       let headers = this.getHeaders();
       return this.http.post(path, options, headers);
     } else {
