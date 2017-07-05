@@ -23,7 +23,7 @@ export class EventVenueService {
     }else if(locationType == 'custom'){
       let lat = localStorage.getItem('sel_lat');
       let lng = localStorage.getItem('sel_lng');
-      let radius = '10';
+      let radius = '50';
       options = `lat=${lat}&lng=${lng}&dist=${radius}`;
     }
     return this.httpHandlerService.get(`public/eventvenues?${options}&page=${page}&pp=${perpage}`)
