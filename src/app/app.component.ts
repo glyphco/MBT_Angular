@@ -21,6 +21,15 @@ export class AppComponent implements OnDestroy, OnInit {
   constructor( private authService: AuthService, private _ngZone:NgZone, private router:Router){}
 
   ngOnInit(){
+    //set user location text
+    let locationType = localStorage.getItem('selectedLocationType');
+    if(locationType == 'custom'){
+      this.userLocation = this.coalesce(localStorage.getItem('sel_neighborhood'),localStorage.getItem('sel_city'),localStorage.getItem('sel_state'),'No name');
+    }else if(locationType == 'current'){
+      this.userLocation = this.coalesce(localStorage.getItem('neighborhood'),localStorage.getItem('city'),localStorage.getItem('state'),'No name');
+    }else{
+      this.userLocation = 'Anywhere';
+    }
     //set the logged in property
     this.loggedIn = this.authService.isLoggedIn();
     //listen to when the loggen in property changes
@@ -86,11 +95,18 @@ export class AppComponent implements OnDestroy, OnInit {
   useCurrentLocation(){
     this.userLocation = localStorage.getItem('neighborhood') || localStorage.getItem('city') || 'Unknown';
     localStorage.setItem('selectedLocationType','current');
+    this.authService.locationSource.next(true);
   }
 
   useSelectedLocation(){
     this.selectLocation = !this.selectLocation;
     localStorage.setItem('selectedLocationType','custom');
+    this.authService.locationSource.next(true);
+  }
+
+  useAnyLocation(){
+    localStorage.setItem('selectedLocationType','any');
+    this.authService.locationSource.next(true);
   }
   
   ngOnDestroy(){
@@ -103,5 +119,13 @@ export class AppComponent implements OnDestroy, OnInit {
 
   redirectToSearch(){
     this.router.navigate(['search']);
+  }
+
+  private coalesce(...args){
+    for(let key in arguments){
+      if(arguments[key] && arguments[key] != 'undefined'){
+        return arguments[key];
+      }
+    }
   }
 }

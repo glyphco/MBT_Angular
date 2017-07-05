@@ -73,6 +73,8 @@ export class SetLocationComponent implements OnInit {
             locationDetails[component.types[0]] = component.long_name;
           }
           //console.log(locationDetails);
+          localStorage.setItem('sel_lat', lat);
+          localStorage.setItem('sel_lng', lng);
           localStorage.setItem('sel_city', locationDetails.locality);
           localStorage.setItem('sel_neighborhood', locationDetails.neighborhood);
           localStorage.setItem('sel_state', locationDetails.administrative_area_level_1);

@@ -44,7 +44,7 @@
           <ul class="dropdown-menu" [class.visible]="location.active == true">
             <li><a href="#" (click)="useCurrentLocation();location.active = false;false">Current location</a></li>
             <li><a href="#" (click)="useSelectedLocation();location.active = false;false">Select location</a></li>
-            <li><a href="#" (click)="false">Anywhere</a></li>
+            <li><a href="#" (click)="useAnyLocation();location.active = false;false">Anywhere</a></li>
           </ul>
         </li>
         <li><a href="#" (click)="logout();false" *ngIf="loggedIn">Logout</a></li>
