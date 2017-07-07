@@ -16,3 +16,13 @@ body {
 .hidden {
   display:none !important;
 }
+
+.alpha {
+  margin-left:0px;
+  padding-left:0px;
+}
+
+.omega {
+  margin-right:0px;
+  padding-right:0px;
+}

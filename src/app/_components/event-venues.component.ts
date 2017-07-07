@@ -7,13 +7,13 @@ import { Subscription }   from 'rxjs/Subscription';
 @Component({
   selector: 'app-event-venues',
   templateUrl: './event-venues.component.html',
-  styleUrls: ['./events.component.css']
+  styleUrls: ['./event-venues.component.css']
 })
 export class EventVenuesComponent implements OnInit, OnDestroy {
   pagination = new Pagination();
   subscription: Subscription;
   events = [];
-  location:string;
+  location = this.locationService.getLocationName();
 
   constructor(private eventVenueService:EventVenueService, private locationService: LocationService){}
 
