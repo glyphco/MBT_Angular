@@ -20,9 +20,7 @@ export class AuthService {
   constructor(private http: Http,private router:Router, private jwtHelperService:JwtHelperService, private _zone:NgZone) {}
 
   private loggedInSource = new Subject<boolean>();
-  public locationSource = new Subject<boolean>(); //will fire when location is changed
-
-  locationChange$ = this.locationSource.asObservable();
+  
   loggedIn$ = this.loggedInSource.asObservable();
   authUrl = environment.authServer;
 

@@ -40,6 +40,7 @@ import { PageService } from './_services/page.service';
 import { ShowService } from './_services/show.service';
 import { CategoryService } from './_services/category.service';
 import { EventVenueService } from './_services/event-venue.service';
+import { LocationService } from './_services/location.service';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { EventVenueService } from './_services/event-venue.service';
     PageService,
     ShowService,
     CategoryService,
-    EventVenueService
+    EventVenueService,
+    LocationService
   ],
   bootstrap: [AppComponent]
 })

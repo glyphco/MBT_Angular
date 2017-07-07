@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EventVenueService } from '../_services/event-venue.service';
-import { AuthService } from '../_services/auth.service';
+import { LocationService } from '../_services/location.service';
 import { Pagination } from '../_helpers/pagination';
 import { Subscription }   from 'rxjs/Subscription';
 
@@ -13,12 +13,13 @@ export class EventVenuesComponent implements OnInit, OnDestroy {
   pagination = new Pagination();
   subscription: Subscription;
   events = [];
+  location:string;
 
-  constructor(private eventVenueService:EventVenueService, private authService: AuthService){}
+  constructor(private eventVenueService:EventVenueService, private locationService: LocationService){}
 
   ngOnInit():void{
     this.getEventVenues(1);
-    this.subscription = this.authService.locationChange$.subscribe(change => {
+    this.subscription = this.locationService.locationChange$.subscribe(change => {
         //refresh list when location changes
         this.getEventVenues(1);
     });

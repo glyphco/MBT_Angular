@@ -1,4 +1,5 @@
 import { Component, OnInit, NgZone, Input, Output, EventEmitter } from '@angular/core';
+import { LocationService } from '../_services/location.service';
 
 declare var google:any;
 
@@ -18,7 +19,7 @@ export class SetLocationComponent implements OnInit {
   geocoder:any;
   errors = [];
 
-  constructor(private _ngZone:NgZone){}
+  constructor(private _ngZone:NgZone, private locationService:LocationService){}
 
   ngOnInit():void{
     let self = this;
@@ -72,16 +73,19 @@ export class SetLocationComponent implements OnInit {
           for (let component of results[1].address_components){
             locationDetails[component.types[0]] = component.long_name;
           }
-          //console.log(locationDetails);
-          localStorage.setItem('sel_lat', lat);
-          localStorage.setItem('sel_lng', lng);
-          localStorage.setItem('sel_city', locationDetails.locality);
-          localStorage.setItem('sel_neighborhood', locationDetails.neighborhood);
-          localStorage.setItem('sel_state', locationDetails.administrative_area_level_1);
-          localStorage.setItem('sel_postal_code', locationDetails.postal_code);
-          localStorage.setItem('sel_country', locationDetails.country);
+          let locationProps = {
+            lat: lat,
+            lng: lng,
+            city: locationDetails.locality,
+            neighborhood: locationDetails.neighborhood,
+            state: locationDetails.administrative_area_level_1,
+            postal_code: locationDetails.postal_code,
+            country: locationDetails.country
+          };
+          self.locationService.setSelectedLocation(locationProps);
+          //Output location name
           self._ngZone.run(() => {
-            self.selectedLocation.emit(locationDetails.neighborhood || locationDetails.city || locationDetails.administrative_area_level_1);
+            self.selectedLocation.emit(self.locationService.getLocationName());
             self.exitPopup();
           });
         } else {
