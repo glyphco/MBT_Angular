@@ -29,12 +29,27 @@ export class EventVenuesComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  public trackEvent(index, event){
+    return event.id;
+  }
+
   public getEventVenues(page:number){
     this.eventVenueService.getEventVenues(page).then(eventVenues => {
       this.events = eventVenues.json().data.data;
       let perPage = eventVenues.json().data.per_page;
       let totalObjects = eventVenues.json().data.total;
       this.pagination.setPage(page, perPage, totalObjects);
+    }).catch(error => console.log(error));
+  }
+
+  public loadNextPage(){
+    let page = this.pagination.currentPage + 1;
+    this.eventVenueService.getEventVenues(page).then(eventVenues => {
+      this.events = this.events.concat(eventVenues.json().data.data);
+      let perPage = eventVenues.json().data.per_page;
+      let totalObjects = eventVenues.json().data.total;
+      this.pagination.setPage(page, perPage, totalObjects);
+      console.log(this.events);
     }).catch(error => console.log(error));
   }
 }

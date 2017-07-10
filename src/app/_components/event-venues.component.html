@@ -1,89 +1,6 @@
 <h4>Events near {{location}}</h4>
 <br />
-<div class="row event-venue-container">
-  <div class="col-md-2 event-details-container">
-    <img class="img-responsive" src="http://lorempixel.com/200/200/nightlife/?25657">
-  </div>
-  <div class="col-md-7">
-    <div class="row event-details-container">
-      <div class="col-md-2 alpha omega date-container">
-        <span class="month">June</span>
-        <span class="date">21</span>
-        <span class="day">Saturday</span>
-      </div>
-      <div class="col-md-10 info-container">
-        <p class="event-title"><strong>DJ PJ Club Night</strong></p>
-        <p class="venue-name">Downtown Pavilion</p>
-        <span>Comedy $20 - $40</span>
-      </div>
-    </div>
-    <div class="row event-details-container">
-      <div class="col-md-12">
-        <p class="event-description">Aliquam sunt debitis ab nulla eligendi. Sit officia voluptas molestiae sit dolorem minus est. 
-          Dolorem facilis magni consequatur unde corrupti vel magni optio. 
-          Et veritatis id est aliquam.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3 alpha omega">
-    <div class="participants-header"><strong>Participants</strong></div>
-    <div class="scroll-container scrollbar">
-      <div class="participant-container clearfix">
-        <img class="pull-left" src="http://lorempixel.com/200/200/people/?18434">
-        <div class="participant">
-          <p class="participant-name">Carleton Maybell</p>
-          <p class="participant-category">Comedian</p>
-        </div>
-      </div>
-      <div class="participant-container clearfix">
-        <img class="pull-left" src="http://lorempixel.com/200/200/people/?18433">
-        <div class="participant">
-          <p class="participant-name">Carleton Maybell</p>
-          <p class="participant-category">Comedian</p>
-        </div>
-      </div>
-      <div class="participant-container clearfix">
-        <img class="pull-left" src="http://lorempixel.com/200/200/people/?18435">
-        <div class="participant">
-          <p class="participant-name">Carleton Maybell</p>
-          <p class="participant-category">Comedian</p>
-        </div>
-      </div>
-      <div class="participant-container clearfix">
-        <img class="pull-left" src="http://lorempixel.com/200/200/people/?18436">
-        <div class="participant">
-          <p class="participant-name">Carleton Maybell</p>
-          <p class="participant-category">Comedian</p>
-        </div>
-      </div>
-      <div class="participant-container clearfix">
-        <img class="pull-left" src="http://lorempixel.com/200/200/people/?18437">
-        <div class="participant">
-          <p class="participant-name">Carleton Maybell</p>
-          <p class="participant-category">Comedian</p>
-        </div>
-      </div>
-      <div class="participant-container clearfix">
-        <img class="pull-left" src="http://lorempixel.com/200/200/people/?18438">
-        <div class="participant">
-          <p class="participant-name">Carleton Maybell</p>
-          <p class="participant-category">Comedian</p>
-        </div>
-      </div>
-      <div class="participant-container clearfix">
-        <img class="pull-left" src="http://lorempixel.com/200/200/people/?18439">
-        <div class="participant">
-          <p class="participant-name">Carleton Maybell</p>
-          <p class="participant-category">Comedian</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div *ngFor="let event of events" class="row event-venue-container">
+<div *ngFor="let event of events; trackBy: trackEvent" class="row event-venue-container">
   <div class="col-md-2 event-details-container">
     <img class="img-responsive" src="{{ event.imageurl }}">
   </div>
@@ -111,7 +28,7 @@
     <div class="participants-header"><strong>Participants</strong></div>
     <div class="scroll-container scrollbar">
       <div *ngFor="let participant of event.eventvenueparticipants" class="participant-container clearfix">
-        <img class="pull-left" src="{{ participant.imageurl }}">
+        <img *ngIf="participant.imageurl" class="pull-left" src="{{ participant.imageurl }}">
         <div class="participant">
           <p class="participant-name">{{ participant.name }}</p>
         </div>
@@ -119,40 +36,8 @@
     </div>
   </div>
 </div>
-
-
-<table class="table">
-  <thead>
-    <th>Event</th>
-    <th>Venue</th>
-    <th>Address</th>
-  </thead>
-  <tbody>
-    <tr *ngFor="let event of events">
-      <td>
-        <a [routerLink]="['/event', event.id]">
-          {{event.event.name}}
-        </a>
-      </td>
-      <td>{{event.venue_name}}</td>
-      <td>{{ event.street_address }}</td>
-    </tr>
-  </tbody>
-</table>
-<nav aria-label="Page navigation">
-  <ul class="pagination">
-    <li>
-      <a href="#" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-    <li class="page-button" *ngFor="let number of pagination.pageList" [class.active]="number === pagination.currentPage" (click)="getEventVenues(number)">
-      {{number}}
-    </li>
-    <li>
-      <a href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
-</nav>
+<p>&nbsp;</p>
+<button class="btn btn-default center-block" (click)="loadNextPage()">Load more</button>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

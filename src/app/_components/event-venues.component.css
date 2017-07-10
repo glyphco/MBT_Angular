@@ -50,19 +50,20 @@
 }
 
 .participant-container {
-  height:45px;
+  height:32px;
   border-bottom:1px solid #f3f3f3;
 }
 
 .participant-container img {
   height:25px;
-  margin:10px;
+  margin:2px;
 }
 .participant {
-  padding:10px 0px;
+  padding:5px 0px;
 }
 .participant-name {
   margin-bottom:0px;
+  margin-left:35px;
 }
 .participant-category {
   font-size:.9em;
