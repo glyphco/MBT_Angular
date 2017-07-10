@@ -91,3 +91,9 @@
 {
 	background-color: #292c3f;
 }
+
+@media (max-width: 767px) { 
+  .event-image {
+    max-height:85px;
+  }
+}
