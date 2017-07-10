@@ -28,15 +28,99 @@
   </div>
   <div class="col-md-3 alpha omega">
     <div class="participants-header"><strong>Participants</strong></div>
-    <div class="participant-container clearfix">
-      <img class="pull-left" src="http://lorempixel.com/200/200/people/?18433">
-      <div class="participant">
-        <p class="participant-name">Carleton Maybell</p>
-        <p class="participant-category">Comedian</p>
+    <div class="scroll-container scrollbar">
+      <div class="participant-container clearfix">
+        <img class="pull-left" src="http://lorempixel.com/200/200/people/?18434">
+        <div class="participant">
+          <p class="participant-name">Carleton Maybell</p>
+          <p class="participant-category">Comedian</p>
+        </div>
+      </div>
+      <div class="participant-container clearfix">
+        <img class="pull-left" src="http://lorempixel.com/200/200/people/?18433">
+        <div class="participant">
+          <p class="participant-name">Carleton Maybell</p>
+          <p class="participant-category">Comedian</p>
+        </div>
+      </div>
+      <div class="participant-container clearfix">
+        <img class="pull-left" src="http://lorempixel.com/200/200/people/?18435">
+        <div class="participant">
+          <p class="participant-name">Carleton Maybell</p>
+          <p class="participant-category">Comedian</p>
+        </div>
+      </div>
+      <div class="participant-container clearfix">
+        <img class="pull-left" src="http://lorempixel.com/200/200/people/?18436">
+        <div class="participant">
+          <p class="participant-name">Carleton Maybell</p>
+          <p class="participant-category">Comedian</p>
+        </div>
+      </div>
+      <div class="participant-container clearfix">
+        <img class="pull-left" src="http://lorempixel.com/200/200/people/?18437">
+        <div class="participant">
+          <p class="participant-name">Carleton Maybell</p>
+          <p class="participant-category">Comedian</p>
+        </div>
+      </div>
+      <div class="participant-container clearfix">
+        <img class="pull-left" src="http://lorempixel.com/200/200/people/?18438">
+        <div class="participant">
+          <p class="participant-name">Carleton Maybell</p>
+          <p class="participant-category">Comedian</p>
+        </div>
+      </div>
+      <div class="participant-container clearfix">
+        <img class="pull-left" src="http://lorempixel.com/200/200/people/?18439">
+        <div class="participant">
+          <p class="participant-name">Carleton Maybell</p>
+          <p class="participant-category">Comedian</p>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+
+<div *ngFor="let event of events" class="row event-venue-container">
+  <div class="col-md-2 event-details-container">
+    <img class="img-responsive" src="{{ event.imageurl }}">
+  </div>
+  <div class="col-md-7">
+    <div class="row event-details-container">
+      <div class="col-md-2 alpha omega date-container">
+        <span class="month">{{ event.start | date:'MMMM' }}</span>
+        <span class="date">{{ event.start | date:'d' }}</span>
+        <span class="day">{{ event.start | date:'EEEE' }}</span>
+      </div>
+      <div class="col-md-10 info-container">
+        <p class="event-title"><strong>{{ event.event_name }}</strong></p>
+        <p class="venue-name">{{ event.venue_name }}</p>
+        <span><strong>{{ event.categories[0].subcategory.name }}</strong> $20 - $40</span>
+      </div>
+    </div>
+    <div class="row event-details-container">
+      <div class="col-md-12">
+        <p class="event-description">{{ event.event_description }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 alpha omega">
+    <div class="participants-header"><strong>Participants</strong></div>
+    <div class="scroll-container scrollbar">
+      <div *ngFor="let participant of event.eventvenueparticipants" class="participant-container clearfix">
+        <img class="pull-left" src="{{ participant.imageurl }}">
+        <div class="participant">
+          <p class="participant-name">{{ participant.name }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <table class="table">
   <thead>
     <th>Event</th>

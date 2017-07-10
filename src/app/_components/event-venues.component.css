@@ -1,6 +1,5 @@
 .event-venue-container {
   border-top:1px solid #f3f3f3;
-  padding-bottom:10px;
   border-bottom:1px solid #f3f3f3;
 }
 
@@ -26,6 +25,7 @@
   background-color:#243a4f;
   padding:5px;
   color:#fff;
+  width:100%;
 }
 
 .event-title {
@@ -50,22 +50,43 @@
 }
 
 .participant-container {
-  height:60px;
+  height:45px;
   border-bottom:1px solid #f3f3f3;
 }
 
 .participant-container img {
-  height:40px;
+  height:25px;
   margin:10px;
 }
 .participant {
   padding:10px 0px;
 }
 .participant-name {
-  font-weight: 600;
   margin-bottom:0px;
 }
 .participant-category {
   font-size:.9em;
   margin-top:-5px;
+}
+
+.scroll-container {
+  overflow-y:scroll;
+  height: 180px;
+}
+
+.scrollbar::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+.scrollbar::-webkit-scrollbar
+{
+	width: 5px;
+	background-color: #F5F5F5;
+}
+
+.scrollbar::-webkit-scrollbar-thumb
+{
+	background-color: #292c3f;
 }
