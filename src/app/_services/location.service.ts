@@ -11,8 +11,8 @@ export class LocationService {
   locationChange$ = this.locationSource.asObservable();
 
   public getLocationName(){
-    let locationType = localStorage.getItem('locationType');
-    if(locationType == 'custom'){
+    let locationType = this.getLocationType();
+    if(locationType == 'selected'){
       let location = this.getSelectedLocation();
       delete location.lat;
       delete location.lng;
@@ -41,6 +41,10 @@ export class LocationService {
     return JSON.parse(localStorage.getItem('selectedLocation'));
   }
 
+  public getLocationType(){
+    return localStorage.getItem('locationType') ? localStorage.getItem('locationType') : false;
+  }
+
   public useCurrentLocation(){
     localStorage.setItem('locationType','current');
   }
@@ -54,10 +58,10 @@ export class LocationService {
   }
 
   public getLat(){
-    let locationType = localStorage.getItem('locationType');
+    let locationType = this.getLocationType();
     let location;
     switch (locationType){
-      case 'custom':
+      case 'selected':
         location = this.getSelectedLocation();
         return location.lat;
       case 'current':
@@ -69,10 +73,10 @@ export class LocationService {
   }
 
   public getLng(){
-    let locationType = localStorage.getItem('locationType');
+    let locationType = this.getLocationType();
     let location;
     switch (locationType){
-      case 'custom':
+      case 'selected':
         location = this.getSelectedLocation();
         return location.lng;
       case 'current':

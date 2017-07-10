@@ -22,6 +22,8 @@ export class AppComponent implements OnDestroy, OnInit {
   constructor( private authService: AuthService, private _ngZone:NgZone, private router:Router, private locationService:LocationService){}
 
   ngOnInit(){
+    //set location name
+    this.userLocation = this.locationService.getLocationName();
     //set the logged in property
     this.loggedIn = this.authService.isLoggedIn();
     //listen to when the loggen in property changes
@@ -36,7 +38,7 @@ export class AppComponent implements OnDestroy, OnInit {
       maximumAge:0
     }
 
-    if(window.navigator.geolocation){
+    if(window.navigator.geolocation && this.locationService.getLocationType() == 'current'){
         window.navigator.geolocation.getCurrentPosition(this.success.bind(this), this.error.bind(this), options);
     };
 
@@ -110,6 +112,8 @@ export class AppComponent implements OnDestroy, OnInit {
 
   useAnyLocation(){
     this.locationService.useAnyLocation();
+    //get location name
+    this.userLocation = this.locationService.getLocationName();
     this.locationService.locationSource.next(true);
   }
   
