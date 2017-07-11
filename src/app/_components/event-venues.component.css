@@ -94,7 +94,33 @@
 
 @media (max-width: 767px) { 
   .event-image {
-    max-height:85px;
+    max-height:95px;
+    float:left;
+  }
+
+  .event-details-container.image-time {
+    background-color:#f8f8f8;
+    width:100%;
+    padding-bottom:12px;
+  }
+
+  .date-container {
+    margin-left:10px;
+  }
+
+  .participants-container {
+    margin-left:15px;
+    margin-right:15px;
+    margin-bottom:10px;
+  }
+
+  .scroll-container {
+    overflow-y:auto;
+    height: auto;
+  }
+
+  .event-venue-container {
+    box-shadow: 0 4px 2px -2px #d6d6d6;
   }
 
   .xs-not-responsive {

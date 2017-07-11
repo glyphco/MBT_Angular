@@ -1,22 +1,20 @@
 <h4>Events near {{location}}</h4>
 <br />
 <div *ngFor="let event of events; trackBy: trackEvent" class="row event-venue-container">
-  <div class="col-md-2 col-sm-2 col-xs-3 xs-not-responsive event-details-container">
+  <div class="col-md-2 col-sm-2 event-details-container image-time clearfix">
     <img class="event-image img-responsive center-block" src="{{ event.imageurl }}">
-  </div>
-  <div class="col-md-2 col-sm-2 col-xs-9 xs-not-responsive visible-xs-block" style="margin-bottom:20px;">
-    <div class="col-xs-3 date-container alpha omega">
-      <span class="month">{{ event.start | date:'MMMM' }}</span>
-      <span class="date">{{ event.start | date:'d' }}</span>
-      <span class="day">{{ event.start | date:'EEEE' }}</span>
+    <div class="date-container visible-xs-inline-block">
+      <span class="month">{{ event.UTC_start | date:'MMMM' }}</span>
+      <span class="date">{{ event.UTC_start | date:'d' }}</span>
+      <span class="day">{{ event.UTC_start | date:'EEEE' }}</span>
     </div>
   </div>
   <div class="col-md-7 col-sm-7 xs-row">
     <div class="row event-details-container">
       <div class="col-md-2 col-sm-2 hidden-xs alpha omega date-container">
-        <span class="month">{{ event.start | date:'MMMM' }}</span>
-        <span class="date">{{ event.start | date:'d' }}</span>
-        <span class="day">{{ event.start | date:'EEEE' }}</span>
+        <span class="month">{{ event.UTC_start | date:'MMMM' }}</span>
+        <span class="date">{{ event.UTC_start | date:'d' }}</span>
+        <span class="day">{{ event.UTC_start | date:'EEEE' }}</span>
       </div>
       <div class="col-md-10 col-sm-10 info-container">
         <p class="event-title"><strong>{{ event.event_name }}</strong></p>
@@ -31,7 +29,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3 col-sm-3 alpha omega">
+  <div class="col-md-3 col-sm-3 alpha omega participants-container">
     <div class="participants-header"><strong>Participants</strong></div>
     <div class="scroll-container scrollbar">
       <div *ngFor="let participant of event.eventvenueparticipants" class="participant-container clearfix">
