@@ -6,7 +6,7 @@ declare var google:any;
 @Component({
   selector: 'set-location',
   templateUrl: './set-location.component.html',
-  styleUrls: ['./set-location.component.css']
+  styleUrls: ['./set-location.component.css', './modal.component.css']
 })
 export class SetLocationComponent implements OnInit {
   @Input() showPopup:boolean;

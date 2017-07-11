@@ -16,6 +16,14 @@
       <label for="description">Description</label>
       <input type="text" class="form-control" id="description" placeholder="Description" [(ngModel)]="event.description" name="description">
     </div>
+    <label for="venue">Venue</label>
+    <div class="input-group">
+      <input type="text" class="form-control" id="venue" placeholder="Venue" [(ngModel)]="event.venue" name="venue">
+      <span class="input-group-btn">
+        <button (click)="showVenueModal()" class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+      </span>
+    </div>
+    <br />
     <div class="form-group">
       <label for="visibility">Visibility</label>
       <select class="form-control" id="visibility" [(ngModel)]="event.public" name="visibility">
@@ -30,3 +38,21 @@
   <p>&nbsp;</p>
   <p>&nbsp;</p>
 </div>
+
+<div class="cd-popup" [class.is-visible]="venueModalVisible == true" role="alert">
+	<div class="cd-popup-container">
+		<p>We need your location to get the events closest to you.</p>
+    <div *ngFor="let error of errors" style="color:#CC0000;padding-bottom:1em;">{{errors}}</div>
+    <div id="map"></div>
+    <div id="infowindow-content">
+      <img src="" width="16" height="16" id="place-icon">
+      <span id="place-name"  class="title"></span><br>
+      <span id="place-address"></span>
+    </div>
+		<ul class="cd-buttons">
+			<li><div (click)="selectLocation()">Save</div></li>
+			<li><div (click)="exitPopup()">Cancel</div></li>
+		</ul>
+		<div class="cd-popup-close img-replace" (click)="exitPopup()">Close</div>
+	</div> <!-- cd-popup-container -->
+</div> <!-- cd-popup -->
