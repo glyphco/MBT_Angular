@@ -4,21 +4,27 @@
   <div class="col-md-2 col-sm-2 event-details-container image-time clearfix">
     <img class="event-image img-responsive center-block" src="{{ event.imageurl }}">
     <div class="date-container visible-xs-inline-block">
-      <span class="month">{{ event.UTC_start | date:'MMMM' }}</span>
-      <span class="date">{{ event.UTC_start | date:'d' }}</span>
-      <span class="day">{{ event.UTC_start | date:'EEEE' }}</span>
+      <span class="month">{{ event.local_start | date:'MMMM' }}</span>
+      <span class="date">{{ event.local_start | date:'d' }}</span>
+      <span class="day">{{ event.local_start | date:'EEEE' }}</span>
     </div>
   </div>
   <div class="col-md-7 col-sm-7 xs-row">
     <div class="row event-details-container">
       <div class="col-md-2 col-sm-2 hidden-xs alpha omega date-container">
-        <span class="month">{{ event.UTC_start | date:'MMMM' }}</span>
-        <span class="date">{{ event.UTC_start | date:'d' }}</span>
-        <span class="day">{{ event.UTC_start | date:'EEEE' }}</span>
+        <span class="month">{{ event.local_start | date:'MMMM' }}</span>
+        <span class="date">{{ event.local_start | date:'d' }}</span>
+        <span class="day">{{ event.local_start | date:'EEEE' }}</span>
       </div>
       <div class="col-md-10 col-sm-10 info-container">
         <p class="event-title"><strong>{{ event.event_name }}</strong></p>
-        <p class="venue-name">{{ event.venue_name }}</p>
+        <p class="venue-name">
+          <a *ngIf="event.venue_id; else elseBlock" [routerLink]="['/venue',event.venue_id]">{{ event.venue_name }}</a>
+          <ng-template #elseBlock>{{ event.venue_name }}</ng-template>
+        </p>
+        <p class="event-times">
+          <strong>{{ event.local_start | date:'shortTime' }}</strong> to <strong>{{ event.local_end | date:'shortTime' }}</strong>
+        </p>
         <span><strong>{{ event.categories[0].subcategory.name }}</strong> $20 - $40</span>
       </div>
     </div>
@@ -42,7 +48,7 @@
   </div>
 </div>
 <p>&nbsp;</p>
-<button class="btn btn-default center-block" (click)="loadNextPage()">Load more</button>
+<button *ngIf="pagination.totalPages > pagination.currentPage" class="btn btn-default center-block" (click)="loadNextPage()">Load more</button>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>

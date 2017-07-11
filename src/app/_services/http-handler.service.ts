@@ -26,7 +26,9 @@ export class HttpHandlerService {
   private getHeaders():RequestOptions{
     let token = localStorage.getItem('token');
     let headers = new Headers();
-    headers.append('Authorization', `Bearer ${token}`);
+    if(token){
+      headers.append('Authorization', `Bearer ${token}`);
+    }
     headers.append('X-Requested-With', 'XMLHttpRequest');
     return new RequestOptions({ headers: headers });
   }

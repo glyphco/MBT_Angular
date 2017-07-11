@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: 'page/edit/:id', component: PageEditComponent, canActivate: [AuthGuard] },
   //Venue routes
   { path: 'venue/create', component: VenueCreateComponent, canActivate: [AuthGuard] },
-  { path: 'venue/:id', component: VenueDetailComponent, canActivate: [AuthGuard] },
+  { path: 'venue/:id', component: VenueDetailComponent },
   //Event routes
   { path: 'event/create', component: EventCreateComponent, canActivate: [AuthGuard] },
   { path: 'event/:id', component: EventDetailComponent, canActivate: [AuthGuard] },
