@@ -96,4 +96,12 @@
   .event-image {
     max-height:85px;
   }
+
+  .xs-not-responsive {
+    width:auto !important;
+  }
+
+  .xs-row {
+    display:inline-block;
+  }
 }
