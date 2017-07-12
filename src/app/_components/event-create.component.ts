@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
+import {FormControl, Validators} from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import { Event } from '../_models/event';
 import { EventService } from '../_services/event.service';
 
+const DATE_REGEX = /(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/;
+
 @Component({
   selector: 'app-event-create',
   templateUrl: './event-create.component.html',
-  styleUrls: ['./modal.component.css']
+  styleUrls: ['./event-create.component.css','./modal.component.css']
 })
 export class EventCreateComponent {
   event = new Event;
@@ -17,7 +20,9 @@ export class EventCreateComponent {
     private eventService:EventService,
     private route: ActivatedRoute,
     private location: Location
-  ){}
+  ){
+    this.event.startTime = '20:00';
+  }
 
   public goBack(): void {
     this.location.back();
@@ -37,4 +42,8 @@ export class EventCreateComponent {
   public showVenueModal(){
     this.venueModalVisible = true;
   }
+
+  startDateControl = new FormControl('', [
+    Validators.pattern(DATE_REGEX)
+  ]);
 }

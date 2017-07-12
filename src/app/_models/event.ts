@@ -18,6 +18,8 @@ export class Event {
   postalCode:string;
   public:number = 1;
   start:string;
+  startTime:any;
+  startDate:any;
   state:string;
   streetAddress:string;
   updatedAt:string;
