@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from '@angular/material';
+import { MdNativeDateModule, MdDatepickerModule, MdInputModule } from '@angular/material';
 
 import { AuthGuard } from './_guards/auth.guard';
 import { PublicGuard } from './_guards/public.guard';
@@ -71,7 +74,12 @@ import { LocationService } from './_services/location.service';
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    MdNativeDateModule,
+    MdDatepickerModule,
+    MdInputModule
   ],
   providers: [
     AuthGuard,
