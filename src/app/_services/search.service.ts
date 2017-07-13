@@ -21,4 +21,11 @@ export class SearchService {
       .get(`venue?q=${term}`)
       .map(response => response.json().data.data);
   }
+
+  searchVenues(term: string): Observable<any> {
+    return this.httpHandlerService
+    //TODO: this will be a global search one day
+      .get(`venue?q=${term}`)
+      .map(response => response.json().data.data);
+  }
 }

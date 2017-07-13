@@ -67,8 +67,13 @@
 	<div class="cd-popup-container">
 		<p>Search locations.</p>
     <div class="input-group venue-search">
-      <input type="text" class="form-control" placeholder="Search venues">
-      <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+      <input #venueSearch type="text" class="form-control sharp-border" (keyup)="searchVenues(venueSearch.value)" placeholder="Search venues">
+      <span class="input-group-addon sharp-border"><i class="fa fa-search" aria-hidden="true"></i></span>
+    </div>
+    <div class="list-group venue-result-container">
+      <button *ngFor="let result of venueResults | async"  type="button" class="list-group-item list-group-item-action venue-result sharp-border">
+        <img src="{{ result.imageurl }}"> {{ result.name }}
+      </button>
     </div>
     <br />
     <br />

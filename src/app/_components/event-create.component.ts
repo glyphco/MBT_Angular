@@ -1,27 +1,57 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
+import { SearchService } from '../_services/search.service';
 import { Event } from '../_models/event';
 import { EventService } from '../_services/event.service';
-
-const DATE_REGEX = /(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/;
+import { Observable }        from 'rxjs/Observable';
+import { Subject }           from 'rxjs/Subject';
+// Observable class extensions
+import 'rxjs/add/observable/of';
+// Observable operators
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-event-create',
   templateUrl: './event-create.component.html',
   styleUrls: ['./event-create.component.css','./modal.component.css']
 })
-export class EventCreateComponent {
+export class EventCreateComponent implements OnInit {
   event = new Event;
   venueModalVisible = false;
+  private searchTerms = new Subject<string>();
+  venueResults: Observable<any[]>;
 
   constructor(
     private eventService:EventService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private searchService: SearchService
   ){
     this.event.startTime = '20:00';
+  }
+
+  ngOnInit():void {
+    this.venueResults = this.searchTerms
+      .debounceTime(300)        // wait 300ms after each keystroke before considering the term
+      .distinctUntilChanged()   // ignore if next search term is same as previous
+      .switchMap(term => term   // switch to new observable each time the term changes
+        // return the http search observable
+        ? this.searchService.searchVenues(term)
+        // or the observable of empty results if there was no search term
+        : Observable.of<any[]>([]))
+      .catch(error => {
+        // TODO: add real error handling
+        return Observable.of<any[]>([]);
+      });
+  }
+
+  searchVenues(term: string): void {
+    this.searchTerms.next(term);
   }
 
   public goBack(): void {
@@ -42,8 +72,4 @@ export class EventCreateComponent {
   public showVenueModal(){
     this.venueModalVisible = true;
   }
-
-  startDateControl = new FormControl('', [
-    Validators.pattern(DATE_REGEX)
-  ]);
 }

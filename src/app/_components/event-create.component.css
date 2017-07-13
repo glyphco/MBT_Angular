@@ -13,3 +13,16 @@
 .venue-search {
   padding:0px 15px;
 }
+
+.sharp-border {
+  border-radius:0px;
+}
+
+.venue-result-container {
+  margin:0px 15px;
+}
+
+.venue-result img {
+  height:25px;
+  margin-right:5px;
+}
