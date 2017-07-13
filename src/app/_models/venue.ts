@@ -1,5 +1,5 @@
 export class Venue {
-  id: number;
+  id = -1;
   name: string;
   city: string;
   backgroundUrl: string;
@@ -25,7 +25,6 @@ export class Venue {
   neighborhood:string;
   website:string;
   googlePlaceId:string;
-
 
   public static arrayMap(json):Venue[]{
     let venues:Venue[] = [];

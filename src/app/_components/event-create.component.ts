@@ -4,6 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import { SearchService } from '../_services/search.service';
 import { Event } from '../_models/event';
+import { Venue } from '../_models/venue';
 import { EventService } from '../_services/event.service';
 import { Observable }        from 'rxjs/Observable';
 import { Subject }           from 'rxjs/Subject';
@@ -22,6 +23,7 @@ import 'rxjs/add/operator/switchMap';
 })
 export class EventCreateComponent implements OnInit {
   event = new Event;
+  venue:Venue;
   venueModalVisible = false;
   private searchTerms = new Subject<string>();
   venueResults: Observable<any[]>;
@@ -52,6 +54,11 @@ export class EventCreateComponent implements OnInit {
 
   searchVenues(term: string): void {
     this.searchTerms.next(term);
+  }
+
+  public chooseVenue(venue: any){
+    this.venue = Venue.map(venue);
+    this.venueModalVisible = false;
   }
 
   public goBack(): void {

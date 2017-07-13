@@ -30,7 +30,8 @@
       </md-input-container>
     </div>
     <label for="venue">Venue</label><br />
-    <span class="help-block inline">No venue chosen. </span>
+    <span *ngIf="!venue" class="help-block inline">No venue chosen. </span>
+    <span *ngIf="venue.id" class="help-block inline">{{ venue.name }}</span>
     <a href="javascript:void(0)" (click)="showVenueModal()">
       <i class="fa fa-map-marker" aria-hidden="true"></i> Choose a venue
     </a>
@@ -71,7 +72,7 @@
       <span class="input-group-addon sharp-border"><i class="fa fa-search" aria-hidden="true"></i></span>
     </div>
     <div class="list-group venue-result-container">
-      <button *ngFor="let result of venueResults | async"  type="button" class="list-group-item list-group-item-action venue-result sharp-border">
+      <button *ngFor="let result of venueResults | async" (click)="chooseVenue(result)" type="button" class="list-group-item list-group-item-action venue-result sharp-border">
         <img src="{{ result.imageurl }}"> {{ result.name }}
       </button>
     </div>
