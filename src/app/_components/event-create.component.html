@@ -131,9 +131,9 @@
     <br />
 		<ul *ngIf="tempVenue && venueGeocodeResults.length == 0" class="cd-buttons">
 			<li><div (click)="manualVenueSubmit()">Save</div></li>
-			<li><div (click)="venueModalVisible=false">Cancel</div></li>
+			<li><div (click)="closeVenueModal()">Cancel</div></li>
 		</ul>
-		<div class="cd-popup-close img-replace" (click)="venueModalVisible=false">Close</div>
+		<div class="cd-popup-close img-replace" (click)="closeVenueModal()">Close</div>
 	</div> <!-- cd-popup-container -->
 </div> <!-- cd-popup -->
 
@@ -156,16 +156,21 @@
       </div>
       <p class="venue-help-text">Can't find the participant? <a href="javascript:void(0)" (click)="addManualParticipant()">Add manually</a></p>
     </ng-container>
-    <!--
-    <ng-container *ngIf="tempVenue && venueGeocodeResults.length == 0">
-      <p>Create a custom venue</p>
+    <ng-container *ngIf="tempParticipant">
+      <p *ngIf="tempParticipant.id < 0;else elseBlock">Create a custom venue</p>
+      <ng-template #elseBlock><p>Choose start time</p>
+        <span class="help-block participant-container in-modal">
+          <img src="{{ tempParticipant.imageUrl }}" />
+          {{ tempParticipant.name }}
+        </span>
+      </ng-template>
       <div class="venue-form-container">
         <div *ngIf="venueResultError" class="alert alert-danger" role="alert">No results found for that address</div>
         <form (ngSubmit)="manualVenueSubmit()" #venueForm="ngForm">
-          <div class="form-group" [class.has-error]="venuename.invalid && venuename.touched">
+          <div *ngIf="tempParticipant.id < 0" class="form-group no-margin-bottom" [class.has-error]="venuename.invalid && venuename.touched">
             <label for="venue-name">Name</label>
             <input type="text" class="form-control" id="venue-name" placeholder="Name" 
-              [(ngModel)]="tempVenue.name" name="venueName" required #venuename="ngModel" maxlength="60">
+              [(ngModel)]="tempParticipant.name" name="venueName" required #venuename="ngModel" maxlength="60">
             <div *ngIf="venuename.errors  && venuename.touched">
               <span [class.hidden]="!venuename.errors.required"  class="help-block">Name is required</span>
               <span [class.hidden]="!venuename.errors.maxlength"  class="help-block">
@@ -173,16 +178,28 @@
               </span>
             </div>
           </div>
+          <div class="form-group custom-group">
+            <label for="participant-start-time" class="inline-label">Start time</label>
+            <md-input-container>
+              <input mdInput id="participant-start-time" type="time" name="participant_start_time" [(ngModel)]="tempParticipant.startTime">
+            </md-input-container>
+          </div>
+          <div *ngIf="tempParticipant.id < 0" class="form-group">
+            <label for="participant-description">Description</label>
+            <textarea [(ngModel)]="tempParticipant.description" class="form-control" id="participant-description" name="participantDescription"></textarea>
+          </div>
         </form>
       </div>
-      <p class="venue-help-text">Don't want to enter manually? <a href="javascript:void(0)" (click)="tempVenue=null">Use our search</a></p>
+      <p *ngIf="tempParticipant.id < 0;else participantBack" class="venue-help-text">Don't want to enter manually? <a href="javascript:void(0)" (click)="tempParticipant=null">Use our search</a></p>
+      <ng-template #participantBack>
+        <p class="venue-help-text">Make a mistake? <a href="javascript:void(0)" (click)="tempParticipant=null">Go back</a></p>
+      </ng-template>
     </ng-container>
-    -->
     <br />
 		<ul *ngIf="tempParticipant" class="cd-buttons">
-			<li><div (click)="manualVenueSubmit()">Save</div></li>
-			<li><div (click)="venueModalVisible=false">Cancel</div></li>
+			<li><div (click)="manualParticipantSubmit()">Save</div></li>
+			<li><div (click)="closeParticipantModal()">Cancel</div></li>
 		</ul>
-		<div class="cd-popup-close img-replace" (click)="venueModalVisible=false">Close</div>
+		<div class="cd-popup-close img-replace" (click)="closeParticipantModal()">Close</div>
 	</div> <!-- cd-popup-container -->
 </div> <!-- cd-popup -->

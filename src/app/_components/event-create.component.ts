@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
@@ -30,6 +30,7 @@ export class EventCreateComponent implements OnInit {
   venue:Venue;
   tempVenue:Venue; //used for creating a custom venue
   participants = [];
+  tempParticipant:Page;
   states = StatesHelper.states;
   venueModalVisible = false;
   participantModalVisible = false;
@@ -41,6 +42,8 @@ export class EventCreateComponent implements OnInit {
   venueGeocodeResults = [];
   resultMapping:{[k: string]: string} = {'=0': '0 results.', '=1': '1 result.', 'other': '# results.'};
   venueResultError = false;
+  @ViewChild('participantSearch') participantSearch: ElementRef;
+  @ViewChild('venueSearch') venueSearch: ElementRef;
 
   constructor(
     private eventService:EventService,
@@ -105,15 +108,22 @@ export class EventCreateComponent implements OnInit {
   }
 
   public chooseParticipant(participant: any){
+    /*
     this.participants.push(Page.map(participant));
-    console.log(this.participants);
     this.participantModalVisible = false;
     this.initParticipantSearch(); //clear out results
+    */
+    participant = Page.map(participant);
+    participant.startTime = '20:00';
+    this.tempParticipant = participant;
   }
 
   public addManualVenue(){
-    //this.venueModalVisible = false;
     this.tempVenue = new Venue();
+  }
+  public addManualParticipant(){
+    this.tempParticipant = new Page();
+    this.tempParticipant.startTime = '20:00';
   }
 
   public manualVenueSubmit(){
@@ -123,8 +133,29 @@ export class EventCreateComponent implements OnInit {
     this.geocodeAddress(address);
   }
 
+  public manualParticipantSubmit(){
+    //TODO: Do validations here
+    this.participants.push(this.tempParticipant);
+    this.tempParticipant = null;
+    this.participantModalVisible = false;
+  }
+
   public clearVenue(){
     this.venue = null;
+  }
+
+  public closeVenueModal(){
+    this.tempVenue = null;
+    this.initVenueSearch();
+    this.venueSearch.nativeElement.value = '';
+    this.venueModalVisible = false;
+  }
+
+  public closeParticipantModal(){
+    this.tempParticipant = null;
+    this.initParticipantSearch();//clear out search results
+    this.participantSearch.nativeElement.value = '';
+    this.participantModalVisible = false;
   }
 
   public goBack(): void {

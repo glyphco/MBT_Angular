@@ -32,7 +32,7 @@ export class SearchService {
   searchParticipants(term: string): Observable<any> {
     return this.httpHandlerService
     //TODO: this will be a global search one day
-      .get(`page?q=${term}&pp=10`)
+      .get(`page?q=${term}&pp=10&participant`)
       .map(response => response.json().data.data);
   }
 }

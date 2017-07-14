@@ -28,6 +28,7 @@ export class Page {
   location: string;
   eventsCount: number;
   likesCount: number;
+  startTime:string; //used for event create
 
   public static arrayMap(json):Page[]{
     let pages:Page[] = [];

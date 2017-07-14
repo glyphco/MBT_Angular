@@ -61,3 +61,12 @@
 .participant-container i:hover {
   color:#000;
 }
+
+.participant-container.in-modal {
+  text-align: left;
+  margin-left:15px;
+}
+
+.no-margin-bottom {
+  margin-bottom:0px;
+}
