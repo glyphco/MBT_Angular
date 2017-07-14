@@ -70,3 +70,7 @@
 .no-margin-bottom {
   margin-bottom:0px;
 }
+
+.timezone-container {
+  margin-left:10px;
+}

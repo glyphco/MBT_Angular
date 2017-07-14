@@ -33,6 +33,7 @@ export class EventCreateComponent implements OnInit {
   tempParticipant:Page;
   states = StatesHelper.states;
   venueModalVisible = false;
+  timezoneModalVisible = false;
   participantModalVisible = false;
   private searchVenueTerms = new Subject<string>();
   private searchParticipantTerms = new Subject<string>();
@@ -44,6 +45,8 @@ export class EventCreateComponent implements OnInit {
   venueResultError = false;
   @ViewChild('participantSearch') participantSearch: ElementRef;
   @ViewChild('venueSearch') venueSearch: ElementRef;
+  timezone = 'CST';
+  tempTimezone:string;
 
   constructor(
     private eventService:EventService,
@@ -211,5 +214,16 @@ export class EventCreateComponent implements OnInit {
 
   public showParticipantModal(){
     this.participantModalVisible = true;
+  }
+
+  public saveTimezone(){
+    this.timezone = this.tempTimezone;
+    this.timezoneModalVisible = false;
+    this.tempTimezone = null;
+  }
+  
+  public closeTimezoneModal(){
+    this.timezoneModalVisible = false;
+    this.tempTimezone = null;
   }
 }

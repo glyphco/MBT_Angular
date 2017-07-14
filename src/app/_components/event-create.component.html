@@ -1,5 +1,5 @@
 <div class="container white">
-  <h3>Edit event</h3>
+  <h3>Create event</h3>
   <form (ngSubmit)="onSubmit()" #eventForm="ngForm">
     <div class="form-group" [class.has-error]="name.invalid && name.touched">
       <label for="name">Name</label>
@@ -12,6 +12,18 @@
         </span>
       </div>
     </div>
+    <label for="venue">Venue</label><br />
+    <ng-container *ngIf="!venue">
+      <span class="help-block inline">No venue chosen. </span>
+      <a href="javascript:void(0)" (click)="showVenueModal()">
+        <i class="fa fa-map-marker" aria-hidden="true"></i> Choose a venue
+      </a>
+    </ng-container>
+    <span *ngIf="venue" class="help-block inline chosen-venue">
+      <img *ngIf="venue.id > 0" src="{{ venue.imageUrl }}" />{{ venue.name }} <i class="fa fa-times"
+       (click)="clearVenue()" aria-hidden="true"></i>
+    </span>
+    <br />
     <div class="form-group custom-group">
       <label for="start-time" class="inline-label">Start date</label>
       <md-input-container>
@@ -26,22 +38,12 @@
     <div class="form-group custom-group">
       <label for="start-time" class="inline-label">Start time</label>
       <md-input-container>
-        <input mdInput type="time" name="start_time" [(ngModel)]="event.startTime">
+        <input mdInput type="time" name="start_time" [(ngModel)]="event.startTime"> 
       </md-input-container>
+      <span class="timezone-container">
+        <a href="javascript:void(0)" (click)="timezoneModalVisible=true">{{timezone}}</a>
+      </span>
     </div>
-    <label for="venue">Venue</label><br />
-    <ng-container *ngIf="!venue">
-      <span class="help-block inline">No venue chosen. </span>
-      <a href="javascript:void(0)" (click)="showVenueModal()">
-        <i class="fa fa-map-marker" aria-hidden="true"></i> Choose a venue
-      </a>
-    </ng-container>
-    <span *ngIf="venue" class="help-block inline chosen-venue">
-      <img *ngIf="venue.id > 0" src="{{ venue.imageUrl }}" />{{ venue.name }} <i class="fa fa-times"
-       (click)="clearVenue()" aria-hidden="true"></i>
-    </span>
-    <br />
-
     <label for="venue">Participants</label><br />
     <span *ngIf="participants.length == 0" class="help-block inline">No participants chosen. </span>
 
@@ -201,5 +203,27 @@
 			<li><div (click)="closeParticipantModal()">Cancel</div></li>
 		</ul>
 		<div class="cd-popup-close img-replace" (click)="closeParticipantModal()">Close</div>
+	</div> <!-- cd-popup-container -->
+</div> <!-- cd-popup -->
+
+<!--
+    TIMEZONE MODAL
+-->
+<div class="cd-popup" [class.is-visible]="timezoneModalVisible == true" role="alert">
+	<div class="cd-popup-container">
+    <p>Choose timezone</p>
+    <form>
+      <div class="form-group venue-search">
+        <select [(ngModel)]="tempTimezone" class="form-control sharp-border" name="timezone">
+          <option val="chatown">chicago</option>
+        </select>
+      </div>
+    </form>
+    <br />
+		<ul class="cd-buttons">
+			<li><div (click)="saveTimezone()">Save</div></li>
+			<li><div (click)="closeTimezoneModal()">Cancel</div></li>
+		</ul>
+		<div class="cd-popup-close img-replace" (click)="closeTimezoneModal()">Close</div>
 	</div> <!-- cd-popup-container -->
 </div> <!-- cd-popup -->
