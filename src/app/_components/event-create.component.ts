@@ -174,6 +174,11 @@ export class EventCreateComponent implements OnInit {
     let lng = geocodeObj.geometry.location.lng();
     this.tempVenue.lat = lat;
     this.tempVenue.lng = lng;
+    this.eventService.getVenueTimezone(lat, lng).then(result => {
+      console.log(result);
+    }).catch(() => {
+
+    });
     //save temp venue to real venue
     this.venue = this.tempVenue;
     //clear temp venue

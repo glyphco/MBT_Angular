@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from './http-handler.service';
+import { environment } from '../../environments/environment';
 import { Event } from '../_models/event';
 import 'rxjs/add/operator/toPromise';
 
@@ -47,4 +48,8 @@ export class EventService {
       .toPromise();
   }
 
+  getVenueTimezone(lat,lng){
+    let path = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&key=${environment.googleTimezoneKey}`;
+    return this.http.get(path).toPromise();
+  }
 }
