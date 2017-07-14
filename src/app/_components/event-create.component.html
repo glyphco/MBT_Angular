@@ -49,6 +49,11 @@
     </div>
     </ng-container>
     <br />
+    <label for="venue">Participants</label><br />
+    <span class="help-block inline">No participants chosen. </span>
+    <a href="javascript:void(0)" (click)="showParticipantModal()">
+      <i class="fa fa-user" aria-hidden="true"></i> Add participant
+    </a>
     <div class="form-group">
       <label for="description">Description</label>
       <input type="text" class="form-control" id="description" placeholder="Description" [(ngModel)]="event.description" name="description">
@@ -106,28 +111,6 @@
               [(ngModel)]="tempVenue.streetAddress" name="venueStreetAddress" required #venueStreetAddress="ngModel">
             <div *ngIf="venueStreetAddress.errors  && venueStreetAddress.touched">
               <span [class.hidden]="!venueStreetAddress.errors.required"  class="help-block">Street address is required</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="venue-city">City</label>
-            <input type="text" class="form-control" id="venue-city" placeholder="City" 
-              [(ngModel)]="tempVenue.city" name="venueCity" required #venueCity="ngModel">
-            <div *ngIf="venueCity.errors  && venueCity.touched">
-              <span [class.hidden]="!venueCity.errors.required"  class="help-block">City is required</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="venue-state">State</label>
-            <select class="form-control" id="venue-state" [(ngModel)]="tempVenue.state" name="venueState">
-              <option *ngFor="let state of states" [value]="state.abbreviation">{{state.name}}</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="venue-postal-code">Postal code</label>
-            <input type="text" class="form-control" id="venue-postal-code" placeholder="Postal code" 
-              [(ngModel)]="tempVenue.postalCode" name="venuePostalCode" required #venuePostalCode="ngModel">
-            <div *ngIf="venuePostalCode.errors  && venuePostalCode.touched">
-              <span [class.hidden]="!venuePostalCode.errors.required"  class="help-block">Postal code is required</span>
             </div>
           </div>
         </form>

@@ -83,10 +83,7 @@ export class EventCreateComponent implements OnInit {
   public manualVenueSubmit(){
     //remove errors
     this.venueResultError = false;
-    let address = `${this.tempVenue.streetAddress || ''}, ${this.tempVenue.city || ''}, ${this.tempVenue.state || ''} ${this.tempVenue.postalCode || ''}`;
-    console.log(address);
-    //TODO: take out this debug code
-    //let address = "19000 keeler ave, country club hills, IL 60478";
+    let address = `${this.tempVenue.streetAddress || ''}`;
     this.geocodeAddress(address);
   }
 
