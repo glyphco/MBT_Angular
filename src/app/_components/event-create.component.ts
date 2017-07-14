@@ -6,6 +6,7 @@ import { StatesHelper } from '../_helpers/states-helper';
 import { SearchService } from '../_services/search.service';
 import { Event } from '../_models/event';
 import { Venue } from '../_models/venue';
+import { Page } from '../_models/page';
 import { EventService } from '../_services/event.service';
 import { Observable }        from 'rxjs/Observable';
 import { Subject }           from 'rxjs/Subject';
@@ -28,10 +29,14 @@ export class EventCreateComponent implements OnInit {
   event = new Event();
   venue:Venue;
   tempVenue:Venue; //used for creating a custom venue
+  participants = [];
   states = StatesHelper.states;
   venueModalVisible = false;
-  private searchTerms = new Subject<string>();
+  participantModalVisible = false;
+  private searchVenueTerms = new Subject<string>();
+  private searchParticipantTerms = new Subject<string>();
   venueResults: Observable<any[]>;
+  participantResults: Observable<any[]>;
   geocoder:any;
   venueGeocodeResults = [];
   resultMapping:{[k: string]: string} = {'=0': '0 results.', '=1': '1 result.', 'other': '# results.'};
@@ -51,7 +56,13 @@ export class EventCreateComponent implements OnInit {
     //Google map stuff
     this.geocoder = new google.maps.Geocoder;
     //live search for venues
-    this.venueResults = this.searchTerms
+    this.initVenueSearch();
+    //live search for participants
+    this.initParticipantSearch();
+  }
+
+  private initVenueSearch(){
+    this.venueResults = this.searchVenueTerms
       .debounceTime(300)        // wait 300ms after each keystroke before considering the term
       .distinctUntilChanged()   // ignore if next search term is same as previous
       .switchMap(term => term   // switch to new observable each time the term changes
@@ -65,14 +76,39 @@ export class EventCreateComponent implements OnInit {
       });
   }
 
+  private initParticipantSearch(){
+    this.participantResults = this.searchParticipantTerms
+      .debounceTime(300)        // wait 300ms after each keystroke before considering the term
+      .distinctUntilChanged()   // ignore if next search term is same as previous
+      .switchMap(term => term   // switch to new observable each time the term changes
+        // return the http search observable
+        ? this.searchService.searchParticipants(term)
+        // or the observable of empty results if there was no search term
+        : Observable.of<any[]>([]))
+      .catch(error => {
+        // TODO: add real error handling
+        return Observable.of<any[]>([]);
+      });
+  }
+
   searchVenues(term: string): void {
-    this.searchTerms.next(term);
+    this.searchVenueTerms.next(term);
+  }
+  searchParticipants(term: string): void {
+    this.searchParticipantTerms.next(term);
   }
 
   public chooseVenue(venue: any){
     this.venue = Venue.map(venue);
     this.venueModalVisible = false;
-    this.venueResults = Observable.of<any[]>([]);
+    this.initVenueSearch(); //clear out results
+  }
+
+  public chooseParticipant(participant: any){
+    this.participants.push(Page.map(participant));
+    console.log(this.participants);
+    this.participantModalVisible = false;
+    this.initParticipantSearch(); //clear out results
   }
 
   public addManualVenue(){
@@ -113,6 +149,14 @@ export class EventCreateComponent implements OnInit {
     this.venueModalVisible = false;
   }
 
+  public removeParticipant(participant){
+    let index = this.participants.indexOf(participant);
+    if(index !== -1){
+      //element exists in our array
+      this.participants.splice(index);
+    }
+  }
+
   private geocodeAddress(address) {
     this.geocoder.geocode({'address': address}, function(results, status) {
       if (status === 'OK') {
@@ -132,5 +176,9 @@ export class EventCreateComponent implements OnInit {
 
   public showVenueModal(){
     this.venueModalVisible = true;
+  }
+
+  public showParticipantModal(){
+    this.participantModalVisible = true;
   }
 }

@@ -40,20 +40,18 @@
       <img *ngIf="venue.id > 0" src="{{ venue.imageUrl }}" />{{ venue.name }} <i class="fa fa-times"
        (click)="clearVenue()" aria-hidden="true"></i>
     </span>
-    <ng-container *ngIf="customVenue">
-    <div class="input-group">
-      <input type="text" class="form-control" id="venue" placeholder="Venue" [(ngModel)]="event.venue" name="venue">
-      <span class="input-group-btn">
-        <button (click)="showVenueModal()" class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
-      </span>
-    </div>
-    </ng-container>
     <br />
+
     <label for="venue">Participants</label><br />
-    <span class="help-block inline">No participants chosen. </span>
+    <span *ngIf="participants.length == 0" class="help-block inline">No participants chosen. </span>
+
+    <span *ngFor="let participant of participants" class="help-block participant-container">
+      <img *ngIf="participant.id > 0" src="{{ participant.imageUrl }}" />
+      {{ participant.name }} <i class="fa fa-times" (click)="removeParticipant(participant)" aria-hidden="true"></i></span>
     <a href="javascript:void(0)" (click)="showParticipantModal()">
-      <i class="fa fa-user" aria-hidden="true"></i> Add participant
+      <i class="fa fa-user-plus" aria-hidden="true"></i> Add participant
     </a>
+
     <div class="form-group">
       <label for="description">Description</label>
       <input type="text" class="form-control" id="description" placeholder="Description" [(ngModel)]="event.description" name="description">
@@ -74,6 +72,9 @@
   <p>&nbsp;</p>
 </div>
 
+<!--
+    VENUES MODAL
+-->
 <div class="cd-popup" [class.is-visible]="venueModalVisible == true" role="alert">
 	<div class="cd-popup-container">
     <ng-container *ngIf="!tempVenue">
@@ -108,7 +109,8 @@
           <div class="form-group">
             <label for="venue-street-adress">Street address</label>
             <input type="text" class="form-control" id="venue-street-address" placeholder="Street address" 
-              [(ngModel)]="tempVenue.streetAddress" name="venueStreetAddress" required #venueStreetAddress="ngModel">
+              [(ngModel)]="tempVenue.streetAddress" name="venueStreetAddress" required #venueStreetAddress="ngModel" />
+              <span class="help-block">e.g. 5322 Otter Ln, Chicago, IL 60478 or The Willis Tower</span>
             <div *ngIf="venueStreetAddress.errors  && venueStreetAddress.touched">
               <span [class.hidden]="!venueStreetAddress.errors.required"  class="help-block">Street address is required</span>
             </div>
@@ -128,6 +130,56 @@
     </ng-container>
     <br />
 		<ul *ngIf="tempVenue && venueGeocodeResults.length == 0" class="cd-buttons">
+			<li><div (click)="manualVenueSubmit()">Save</div></li>
+			<li><div (click)="venueModalVisible=false">Cancel</div></li>
+		</ul>
+		<div class="cd-popup-close img-replace" (click)="venueModalVisible=false">Close</div>
+	</div> <!-- cd-popup-container -->
+</div> <!-- cd-popup -->
+
+<!--
+    PARTICIPANTS MODAL
+-->
+<div class="cd-popup" [class.is-visible]="participantModalVisible == true" role="alert">
+	<div class="cd-popup-container">
+    <ng-container *ngIf="!tempParticipant">
+      <p>Search pages.</p>
+      <div class="input-group venue-search">
+        <input #participantSearch type="text" class="form-control sharp-border"
+         (keyup)="searchParticipants(participantSearch.value)" placeholder="Search participants">
+        <span class="input-group-addon sharp-border"><i class="fa fa-search" aria-hidden="true"></i></span>
+      </div>
+      <div class="list-group venue-result-container">
+        <button *ngFor="let result of participantResults | async" (click)="participantSearch.value = '';chooseParticipant(result)" type="button" class="list-group-item list-group-item-action venue-result sharp-border">
+          <img src="{{ result.imageurl }}"> {{ result.name }}
+        </button>
+      </div>
+      <p class="venue-help-text">Can't find the participant? <a href="javascript:void(0)" (click)="addManualParticipant()">Add manually</a></p>
+    </ng-container>
+    <!--
+    <ng-container *ngIf="tempVenue && venueGeocodeResults.length == 0">
+      <p>Create a custom venue</p>
+      <div class="venue-form-container">
+        <div *ngIf="venueResultError" class="alert alert-danger" role="alert">No results found for that address</div>
+        <form (ngSubmit)="manualVenueSubmit()" #venueForm="ngForm">
+          <div class="form-group" [class.has-error]="venuename.invalid && venuename.touched">
+            <label for="venue-name">Name</label>
+            <input type="text" class="form-control" id="venue-name" placeholder="Name" 
+              [(ngModel)]="tempVenue.name" name="venueName" required #venuename="ngModel" maxlength="60">
+            <div *ngIf="venuename.errors  && venuename.touched">
+              <span [class.hidden]="!venuename.errors.required"  class="help-block">Name is required</span>
+              <span [class.hidden]="!venuename.errors.maxlength"  class="help-block">
+                Name cannot be more than 60 characters long.
+              </span>
+            </div>
+          </div>
+        </form>
+      </div>
+      <p class="venue-help-text">Don't want to enter manually? <a href="javascript:void(0)" (click)="tempVenue=null">Use our search</a></p>
+    </ng-container>
+    -->
+    <br />
+		<ul *ngIf="tempParticipant" class="cd-buttons">
 			<li><div (click)="manualVenueSubmit()">Save</div></li>
 			<li><div (click)="venueModalVisible=false">Cancel</div></li>
 		</ul>

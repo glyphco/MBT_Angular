@@ -1,5 +1,5 @@
 export class Page {
-  id: number;
+  id = -1;
   name: string;
   slug: string;
   streetAddress: string;

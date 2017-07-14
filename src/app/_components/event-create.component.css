@@ -49,3 +49,15 @@
   margin:15px 15px 0px;
   text-align:left;
 }
+
+.participant-container img {
+  height:25px;
+  margin-right:5px;
+}
+.participant-container i {
+  margin-left:10px;
+  cursor:pointer;
+}
+.participant-container i:hover {
+  color:#000;
+}
