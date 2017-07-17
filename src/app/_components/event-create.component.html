@@ -69,6 +69,7 @@
     <button type="button" class="btn btn-danger" (click)="goBack()">Cancel</button>
   </form>
   <p>Form status: {{ eventForm.status | json }}</p>
+  <button (click)="debugTz()">Check Timezone</button>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
@@ -215,7 +216,7 @@
     <form>
       <div class="form-group venue-search">
         <select [(ngModel)]="tempTimezone" class="form-control sharp-border" name="timezone">
-          <option val="chatown">chicago</option>
+          <option *ngFor="let timezone of timezones" [value]="timezone.id">{{timezone.name}}</option>
         </select>
       </div>
     </form>

@@ -22,19 +22,36 @@ import 'rxjs/add/operator/switchMap';
 declare var google:any;
 
 class DateTime {
-  private dateTime = new moment().tz('America/Los_Angeles');
+  private _dateTime = new moment().tz('America/Los_Angeles');
+  private _timezoneId = 'America/Los_Angeles'; //default
   get date() {
-    return this.dateTime;
+    return this._dateTime;
+  }
+  set date(newDate){
+    let year = newDate.getFullYear();
+    let month = newDate.getMonth();
+    let date = newDate.getDate();
+    this._dateTime.year(year).month(month).date(date);
   }
   get time() {
-    return this.dateTime.format('HH:mm');
+    return this._dateTime.format('HH:mm');
+  }
+  set time(newTime) {
+    let timeArray = newTime.split(':');
+    let hours = timeArray[0];
+    let minutes = timeArray[1];
+    this._dateTime.hours(hours).minutes(minutes);
   }
   get timezone() {
-    return this.dateTime.format('z');
+    return this._dateTime.format('z');
     //return this.dateTime.tz.name;
   }
   set timezone(newTimezone:string) {
-    this.dateTime.tz(newTimezone);
+    this._dateTime.tz(newTimezone);
+    this._timezoneId = newTimezone;
+  }
+  get timezoneId() {
+    return this._timezoneId;
   }
 }
 
@@ -64,9 +81,16 @@ export class EventCreateComponent implements OnInit {
   venueResultError = false;
   @ViewChild('participantSearch') participantSearch: ElementRef;
   @ViewChild('venueSearch') venueSearch: ElementRef;
-  timezone = 'CST';
-  timezoneId = 'America/Chicago';
   tempTimezone:string;
+  timezones = [
+    {'id':'Pacific/Honolulu', 'name'  : 'Hawaii-Aleutian Standard Time (HAST)'},
+    {'id':'America/Anchorage', 'name' : 'Alaska with Daylight Savings Time (AKDT)'},
+    {'id':'PST8PDT', 'name'           : 'Pacific with Daylight Savings Time (PDT)'},
+    {'id':'MST', 'name'               : 'Mountain Standard Time (Arizona) (MST)'},
+    {'id':'MST7MDT', 'name'           : 'Mountain with Daylight Savings Time (MDT)'},
+    {'id':'CST6CDT', 'name'           : 'Central with Daylight Savings Time (CDT)'},
+    {'id':'EST5EDT', 'name'           : 'Eastern with Daylight Savings Time (EDT)'}
+  ];
 
   constructor(
     private eventService:EventService,
@@ -198,7 +222,6 @@ export class EventCreateComponent implements OnInit {
     this.tempVenue.lat = lat;
     this.tempVenue.lng = lng;
     this.eventService.getVenueTimezone(lat, lng, timestamp).then(result => {
-      let abbrevName = this.abbreviateTimezone(result.timeZoneName);
       this.setTimezone(result.timeZoneId);
     }).catch(() => {
 
@@ -210,40 +233,6 @@ export class EventCreateComponent implements OnInit {
     //clear results
     this.venueGeocodeResults = [];
     this.venueModalVisible = false;
-  }
-
-  private abbreviateTimezone(timezone):string{
-    let timezones = {
-      'Atlantic Daylight Time' :'ADT',
-      'Alaska Daylight Time' :'AKDT',	
-      'Alaska Standard Time' :'AKST',	
-      'Atlantic Standard Time' :'AST',
-      'Atlantic Time' :'AT',
-      'Central Daylight Time' :'CDT',	
-      'Central Standard Time' :'CST',	
-      'Central Time' :'CT',
-      'Eastern Daylight Time' :'EDT',
-      'Eastern Greenland Summer Time' :'EGST',
-      'East Greenland Time' :'EGT',
-      'Eastern Standard Time' :'EST',	
-      'Eastern Time' :'ET',
-      'Greenwich Mean Time' :'GMT',
-      'Hawaii-Aleutian Daylight Time' :'HADT',
-      'Hawaii-Aleutian Standard Time' :'HAST',
-      'Mountain Daylight Time' :'MDT',
-      'Mountain Standard Time' :'MST',
-      'Mountain Time' :'MT',
-      'Newfoundland Daylight Time' :'NDT',
-      'Newfoundland Standard Time' :'NST',
-      'Pacific Daylight Time' :'PDT',
-      'Pierre & Miquelon Daylight Time' :'PMDT',
-      'Pierre & Miquelon Standard Time' :'PMST',
-      'Pacific Standard Time' :'PST',
-      'Pacific Time' :'PT',
-      'Western Greenland Summer Time' :'WGST',
-      'West Greenland Time' :'WGT'
-      };
-      return timezones[timezone];
   }
 
   private setTimezone(timezone){
@@ -288,7 +277,7 @@ export class EventCreateComponent implements OnInit {
   }
 
   public saveTimezone(){
-    this.timezone = this.tempTimezone;
+    this.setTimezone(this.tempTimezone);
     this.timezoneModalVisible = false;
     this.tempTimezone = null;
   }
@@ -297,5 +286,8 @@ export class EventCreateComponent implements OnInit {
     this.timezoneModalVisible = false;
     this.tempTimezone = null;
   }
-}
 
+  public debugTz(){
+    console.log(this.startDateTime.time);
+  }
+}
