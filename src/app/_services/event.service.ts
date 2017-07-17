@@ -48,8 +48,10 @@ export class EventService {
       .toPromise();
   }
 
-  getVenueTimezone(lat,lng){
-    let path = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&key=${environment.googleTimezoneKey}`;
-    return this.http.get(path).toPromise();
+  getVenueTimezone(lat,lng,timestamp){
+    let path = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=${timestamp}&key=${environment.googleTimezoneKey}`;
+    return this.http.get(path)
+      .map(response => response.json())
+      .toPromise();
   }
 }

@@ -10,6 +10,7 @@ import { Page } from '../_models/page';
 import { EventService } from '../_services/event.service';
 import { Observable }        from 'rxjs/Observable';
 import { Subject }           from 'rxjs/Subject';
+import * as moment from 'moment-timezone'; // add this 1 of 4
 // Observable class extensions
 import 'rxjs/add/observable/of';
 // Observable operators
@@ -20,6 +21,23 @@ import 'rxjs/add/operator/switchMap';
 
 declare var google:any;
 
+class DateTime {
+  private dateTime = new moment().tz('America/Los_Angeles');
+  get date() {
+    return this.dateTime;
+  }
+  get time() {
+    return this.dateTime.format('HH:mm');
+  }
+  get timezone() {
+    return this.dateTime.format('z');
+    //return this.dateTime.tz.name;
+  }
+  set timezone(newTimezone:string) {
+    this.dateTime.tz(newTimezone);
+  }
+}
+
 @Component({
   selector: 'app-event-create',
   templateUrl: './event-create.component.html',
@@ -28,6 +46,7 @@ declare var google:any;
 export class EventCreateComponent implements OnInit {
   event = new Event();
   venue:Venue;
+  startDateTime = new DateTime();
   tempVenue:Venue; //used for creating a custom venue
   participants = [];
   tempParticipant:Page;
@@ -46,6 +65,7 @@ export class EventCreateComponent implements OnInit {
   @ViewChild('participantSearch') participantSearch: ElementRef;
   @ViewChild('venueSearch') venueSearch: ElementRef;
   timezone = 'CST';
+  timezoneId = 'America/Chicago';
   tempTimezone:string;
 
   constructor(
@@ -56,6 +76,7 @@ export class EventCreateComponent implements OnInit {
     private _ngZone: NgZone
   ){
     this.event.startTime = '20:00';
+    this.event.startDate = moment();
   }
 
   ngOnInit():void {
@@ -172,10 +193,13 @@ export class EventCreateComponent implements OnInit {
   public useManualResult(geocodeObj){
     let lat = geocodeObj.geometry.location.lat();
     let lng = geocodeObj.geometry.location.lng();
+    let timestamp = this.event.startDate.utc().unix();
+    console.log(this.event.startDate);
     this.tempVenue.lat = lat;
     this.tempVenue.lng = lng;
-    this.eventService.getVenueTimezone(lat, lng).then(result => {
-      console.log(result);
+    this.eventService.getVenueTimezone(lat, lng, timestamp).then(result => {
+      let abbrevName = this.abbreviateTimezone(result.timeZoneName);
+      this.setTimezone(result.timeZoneId);
     }).catch(() => {
 
     });
@@ -186,6 +210,48 @@ export class EventCreateComponent implements OnInit {
     //clear results
     this.venueGeocodeResults = [];
     this.venueModalVisible = false;
+  }
+
+  private abbreviateTimezone(timezone):string{
+    let timezones = {
+      'Atlantic Daylight Time' :'ADT',
+      'Alaska Daylight Time' :'AKDT',	
+      'Alaska Standard Time' :'AKST',	
+      'Atlantic Standard Time' :'AST',
+      'Atlantic Time' :'AT',
+      'Central Daylight Time' :'CDT',	
+      'Central Standard Time' :'CST',	
+      'Central Time' :'CT',
+      'Eastern Daylight Time' :'EDT',
+      'Eastern Greenland Summer Time' :'EGST',
+      'East Greenland Time' :'EGT',
+      'Eastern Standard Time' :'EST',	
+      'Eastern Time' :'ET',
+      'Greenwich Mean Time' :'GMT',
+      'Hawaii-Aleutian Daylight Time' :'HADT',
+      'Hawaii-Aleutian Standard Time' :'HAST',
+      'Mountain Daylight Time' :'MDT',
+      'Mountain Standard Time' :'MST',
+      'Mountain Time' :'MT',
+      'Newfoundland Daylight Time' :'NDT',
+      'Newfoundland Standard Time' :'NST',
+      'Pacific Daylight Time' :'PDT',
+      'Pierre & Miquelon Daylight Time' :'PMDT',
+      'Pierre & Miquelon Standard Time' :'PMST',
+      'Pacific Standard Time' :'PST',
+      'Pacific Time' :'PT',
+      'Western Greenland Summer Time' :'WGST',
+      'West Greenland Time' :'WGT'
+      };
+      return timezones[timezone];
+  }
+
+  private setTimezone(timezone){
+    this.startDateTime.timezone = timezone;
+  }
+
+  private updateTimezone(){
+
   }
 
   public removeParticipant(participant){
@@ -232,3 +298,4 @@ export class EventCreateComponent implements OnInit {
     this.tempTimezone = null;
   }
 }
+

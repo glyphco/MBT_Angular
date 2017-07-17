@@ -27,7 +27,7 @@
     <div class="form-group custom-group">
       <label for="start-time" class="inline-label">Start date</label>
       <md-input-container>
-        <input mdInput [mdDatepicker]="picker" #startDate="ngModel" [(ngModel)]="event.startDate" placeholder="Choose a date" dateFormat="MM-DD-YYYY" date name="startdate">
+        <input mdInput [mdDatepicker]="picker" #startDate="ngModel" [(ngModel)]="startDateTime.date" placeholder="Choose a date" dateFormat="MM-DD-YYYY" date name="startdate">
         <button mdSuffix [mdDatepickerToggle]="picker"></button>
       </md-input-container>
       <md-datepicker #picker></md-datepicker>
@@ -38,10 +38,10 @@
     <div class="form-group custom-group">
       <label for="start-time" class="inline-label">Start time</label>
       <md-input-container>
-        <input mdInput type="time" name="start_time" [(ngModel)]="event.startTime"> 
+        <input mdInput type="time" name="start_time" [(ngModel)]="startDateTime.time"> 
       </md-input-container>
       <span class="timezone-container">
-        <a href="javascript:void(0)" (click)="timezoneModalVisible=true">{{timezone}}</a>
+        <a href="javascript:void(0)" (click)="timezoneModalVisible=true">{{startDateTime.timezone}}</a>
       </span>
     </div>
     <label for="venue">Participants</label><br />
