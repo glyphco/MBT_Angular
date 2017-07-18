@@ -286,8 +286,4 @@ export class EventCreateComponent implements OnInit {
     this.timezoneModalVisible = false;
     this.tempTimezone = null;
   }
-
-  public debugTz(){
-    console.log(this.startDateTime.time);
-  }
 }
