@@ -21,7 +21,6 @@ export class Venue {
   streetAddress:string;
   tagline:string;
   updatedAt:string;
-  street_address:string;
   neighborhood:string;
   website:string;
   googlePlaceId:string;

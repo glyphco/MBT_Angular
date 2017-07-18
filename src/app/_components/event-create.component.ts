@@ -4,6 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import { StatesHelper } from '../_helpers/states-helper';
 import { SearchService } from '../_services/search.service';
+import { CategoryService } from '../_services/category.service';
 import { Event } from '../_models/event';
 import { Venue } from '../_models/venue';
 import { Page } from '../_models/page';
@@ -61,6 +62,7 @@ class DateTime {
   styleUrls: ['./modal.component.css','./event-create.component.css']
 })
 export class EventCreateComponent implements OnInit {
+  categories = [];
   event = new Event();
   venue:Venue;
   startDateTime = new DateTime();
@@ -97,7 +99,8 @@ export class EventCreateComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private searchService: SearchService,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    private categoryService: CategoryService
   ){
     this.event.startTime = '20:00';
     this.event.startDate = moment();
@@ -106,6 +109,8 @@ export class EventCreateComponent implements OnInit {
   ngOnInit():void {
     //Google map stuff
     this.geocoder = new google.maps.Geocoder;
+    //Get categories
+    this.getCategories();
     //live search for venues
     this.initVenueSearch();
     //live search for participants
@@ -214,6 +219,11 @@ export class EventCreateComponent implements OnInit {
     this.createEvent();
   }
 
+  private getCategories(){
+    this.categoryService.getCategories().then(categories => this.categories = categories.json().data)
+      .catch(() => console.log('There was an error getting categories'));
+  }
+
   public useManualResult(geocodeObj){
     let lat = geocodeObj.geometry.location.lat();
     let lng = geocodeObj.geometry.location.lng();
@@ -262,8 +272,29 @@ export class EventCreateComponent implements OnInit {
   }
 
   private createEvent(){
-    this.eventService.createEvent(this.event).then(response => {
-      
+    let params = <any>{};
+    let localStart = this.startDateTime.date;
+    params.name = this.event.name;
+    params.description = this.event.description;
+    params.local_tz = this.startDateTime.date.tz();
+    params.UTC_start = localStart.utc().format('YYYY-MM-DD HH-mm-ss');
+    //params.UTC_end
+    params.local_start = localStart.tz(params.local_tz).format('YYYY-MM-DD HH-mm-ss');
+    //params.local_end
+    if(this.venue){
+      params.venue_name = this.venue.name;
+      params.street_address = this.venue.streetAddress;
+      params.city = this.venue.city;
+      params.state = this.venue.state;
+      params.postalcode = this.venue.postalCode;
+      params.lat = this.venue.lat;
+      params.lng = this.venue.lng;
+    }
+    if(this.venue && this.venue.id > 0){
+      params.venue_id = this.venue.id;
+    }
+    this.eventService.createEvent(params).then(response => {
+      console.log('it all worked out');
     }).catch(error => console.log(error));
     console.log('the form was submitted');
   }
