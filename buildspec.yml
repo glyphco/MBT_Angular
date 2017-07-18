@@ -19,7 +19,7 @@ phases:
             - echo Build completed on `date`
 artifacts:
     files:
-        - '**/*'
+        - dist/*
         - appspec.yml
-    base-directory: 'dist*'
+        
     discard-paths: yes
