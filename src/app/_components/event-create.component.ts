@@ -62,8 +62,9 @@ class DateTime {
   styleUrls: ['./modal.component.css','./event-create.component.css']
 })
 export class EventCreateComponent implements OnInit {
-  categories = [];
+  categories = []; //for filling the dropdown
   event = new Event();
+  eventCategory:string;
   venue:Venue;
   startDateTime = new DateTime();
   tempVenue:Venue; //used for creating a custom venue
@@ -225,12 +226,22 @@ export class EventCreateComponent implements OnInit {
   }
 
   public useManualResult(geocodeObj){
+    let locationDetails = <any>{};
+    for (let component of geocodeObj.address_components){
+      locationDetails[component.types[0]] = component.long_name;
+    }
+    console.log(geocodeObj);
+    console.log(locationDetails);
+    let aptNum = locationDetails.subpremise ? locationDetails.subpremise : '';
     let lat = geocodeObj.geometry.location.lat();
     let lng = geocodeObj.geometry.location.lng();
     let timestamp = this.event.startDate.utc().unix();
-    console.log(this.event.startDate);
     this.tempVenue.lat = lat;
     this.tempVenue.lng = lng;
+    this.tempVenue.streetAddress = `${locationDetails.street_number} ${locationDetails.route} ${aptNum}`;
+    this.tempVenue.city = locationDetails.locality;
+    this.tempVenue.state = locationDetails.administrative_area_level_1;
+    this.tempVenue.postalCode = locationDetails.postal_code;
     this.eventService.getVenueTimezone(lat, lng, timestamp).then(result => {
       this.setTimezone(result.timeZoneId);
     }).catch(() => {
@@ -293,10 +304,50 @@ export class EventCreateComponent implements OnInit {
     if(this.venue && this.venue.id > 0){
       params.venue_id = this.venue.id;
     }
-    this.eventService.createEvent(params).then(response => {
-      console.log('it all worked out');
+
+    this.saveEvent(params);
+  }
+
+  private saveEvent(params){
+    this.eventService.createEvent(params).then(event => {
+      return this.saveParticipants(event.id);
+    }).then((eventId) => {
+      return this.saveCategory(eventId);
+    }).then((eventId) => {
+      console.log('This is te event id' + eventId);
     }).catch(error => console.log(error));
-    console.log('the form was submitted');
+  }
+
+  private saveParticipants(eventId):Promise<number>{
+    return new Promise((resolve, reject) => {
+      let savedParticipants = 0;
+      let numParticipants = this.participants.length;
+      for (let index in this.participants) {
+        this.eventService.addParticipant(eventId, this.participants[index]).then(response => {
+          savedParticipants++
+          if(savedParticipants == numParticipants){
+            //all participants have been saved
+            resolve(eventId);
+          }
+        }).catch(error => reject('There was an error adding the participant'));
+      }
+      resolve(eventId);
+    });
+  }
+
+  private saveCategory(eventId):Promise<number>{
+    return new Promise((resolve, reject) => {
+      if(this.eventCategory){
+        //parse category data
+        let parentCategory = this.eventCategory.split(',')[0];
+        let subCategory = this.eventCategory.split(',')[1];
+        this.eventService.addCategory(eventId,parentCategory,subCategory).then(response => {
+          resolve(eventId);
+        }).catch(error => reject('There was an error saving category.'));
+      }else{
+        resolve(eventId);
+      }
+    });
   }
 
   public showVenueModal(){

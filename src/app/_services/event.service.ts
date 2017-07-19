@@ -40,6 +40,7 @@ export class EventService {
 
   createEvent(params):Promise<any>{
     return this.httpHandlerService.post('event', params)
+      .map(response => response.json().data)
       .toPromise();
   }
 
@@ -47,6 +48,31 @@ export class EventService {
     let path = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=${timestamp}&key=${environment.googleTimezoneKey}`;
     return this.http.get(path)
       .map(response => response.json())
+      .toPromise();
+  }
+
+  addParticipant(id, participant){
+    console.log(participant);
+    let options = {
+      'event_id' : id,
+      'name':participant.name,
+      'info':participant.description,
+      'page_id':participant.id > 0 ? participant.id : undefined,
+      'start':participant.startTime
+    }
+    let path = `event/${id}/participants`;
+    return this.httpHandlerService.post(path, options)
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  addCategory(eventId, parentCategory, subCategory){
+    let path = `event/${eventId}/categories`;
+    let options = {
+      'category_id':parentCategory,
+      'subcategory_id':subCategory
+    };
+    return this.httpHandlerService.post(path, options)
       .toPromise();
   }
 }
