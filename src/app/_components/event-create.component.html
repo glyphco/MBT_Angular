@@ -44,7 +44,7 @@
         <a href="javascript:void(0)" (click)="timezoneModalVisible=true">{{startDateTime.timezone}}</a>
       </span>
     </div>
-    <label for="venue">Participants</label><br />
+    <label>Participants</label><br />
     <span *ngIf="participants.length == 0" class="help-block inline">No participants chosen. </span>
 
     <span *ngFor="let participant of participants" class="help-block participant-container">
@@ -52,6 +52,17 @@
       {{ participant.name }} <i class="fa fa-times" (click)="removeParticipant(participant)" aria-hidden="true"></i></span>
     <a href="javascript:void(0)" (click)="showParticipantModal()">
       <i class="fa fa-user-plus" aria-hidden="true"></i> Add participant
+    </a>
+
+    <br />
+    <label>Shows</label><br />
+    <span *ngIf="shows.length == 0" class="help-block inline">No shows chosen. </span>
+
+    <span *ngFor="let show of shows" class="help-block participant-container">
+      <img *ngIf="show.id > 0" src="{{ show.imageUrl }}" />
+      {{ show.name }} <i class="fa fa-times" (click)="removeShow(show)" aria-hidden="true"></i></span>
+    <a href="javascript:void(0)" (click)="showShowModal()">
+      <i class="fa fa-plus" aria-hidden="true"></i> Add show
     </a>
 
     <div class="form-group">
@@ -212,6 +223,28 @@
 			<li><div (click)="closeParticipantModal()">Cancel</div></li>
 		</ul>
 		<div class="cd-popup-close img-replace" (click)="closeParticipantModal()">Close</div>
+	</div> <!-- cd-popup-container -->
+</div> <!-- cd-popup -->
+
+<!--
+    SHOWS MODAL
+-->
+<div class="cd-popup" [class.is-visible]="showModalVisible == true" role="alert">
+	<div class="cd-popup-container">
+      <p>Search shows.</p>
+      <div class="input-group venue-search">
+        <input #showSearch type="text" class="form-control sharp-border"
+         (keyup)="searchShows(showSearch.value)" placeholder="Search shows">
+        <span class="input-group-addon sharp-border"><i class="fa fa-search" aria-hidden="true"></i></span>
+      </div>
+      <div class="list-group venue-result-container">
+        <button *ngFor="let result of showResults | async" (click)="showSearch.value = '';chooseShow(result)" type="button" class="list-group-item list-group-item-action venue-result sharp-border">
+          <img src="{{ result.imageurl }}"> {{ result.name }}
+        </button>
+      </div>
+      <br />
+      <br />
+		<div class="cd-popup-close img-replace" (click)="closeShowModal()">Close</div>
 	</div> <!-- cd-popup-container -->
 </div> <!-- cd-popup -->
 

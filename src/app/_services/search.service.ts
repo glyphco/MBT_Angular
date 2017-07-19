@@ -35,4 +35,11 @@ export class SearchService {
       .get(`page?q=${term}&pp=10&participant`)
       .map(response => response.json().data.data);
   }
+
+  searchShows(term: string): Observable<any> {
+    return this.httpHandlerService
+    //TODO: this will be a global search one day
+      .get(`show?q=${term}&pp=10`)
+      .map(response => response.json().data.data);
+  }
 }

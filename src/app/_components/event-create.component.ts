@@ -8,6 +8,7 @@ import { CategoryService } from '../_services/category.service';
 import { Event } from '../_models/event';
 import { Venue } from '../_models/venue';
 import { Page } from '../_models/page';
+import { Show } from '../_models/show';
 import { EventService } from '../_services/event.service';
 import { Observable }        from 'rxjs/Observable';
 import { Subject }           from 'rxjs/Subject';
@@ -66,6 +67,7 @@ export class EventCreateComponent implements OnInit {
   event = new Event();
   eventCategory:string;
   venue:Venue;
+  shows = [];
   startDateTime = new DateTime();
   tempVenue:Venue; //used for creating a custom venue
   participants = [];
@@ -74,10 +76,13 @@ export class EventCreateComponent implements OnInit {
   venueModalVisible = false;
   timezoneModalVisible = false;
   participantModalVisible = false;
+  showModalVisible = false;
   private searchVenueTerms = new Subject<string>();
   private searchParticipantTerms = new Subject<string>();
+  private searchShowTerms = new Subject<string>();
   venueResults: Observable<any[]>;
   participantResults: Observable<any[]>;
+  showResults: Observable<any[]>;
   geocoder:any;
   venueGeocodeResults = [];
   resultMapping:{[k: string]: string} = {'=0': '0 results.', '=1': '1 result.', 'other': '# results.'};
@@ -116,6 +121,8 @@ export class EventCreateComponent implements OnInit {
     this.initVenueSearch();
     //live search for participants
     this.initParticipantSearch();
+    //live search for shows
+    this.initShowSearch();
   }
 
   private initVenueSearch(){
@@ -148,11 +155,31 @@ export class EventCreateComponent implements OnInit {
       });
   }
 
+  private initShowSearch(){
+    this.showResults = this.searchShowTerms
+      .debounceTime(300)        // wait 300ms after each keystroke before considering the term
+      .distinctUntilChanged()   // ignore if next search term is same as previous
+      .switchMap(term => term   // switch to new observable each time the term changes
+        // return the http search observable
+        ? this.searchService.searchShows(term)
+        // or the observable of empty results if there was no search term
+        : Observable.of<any[]>([]))
+      .catch(error => {
+        // TODO: add real error handling
+        return Observable.of<any[]>([]);
+      });
+  }
+
   searchVenues(term: string): void {
     this.searchVenueTerms.next(term);
   }
+
   searchParticipants(term: string): void {
     this.searchParticipantTerms.next(term);
+  }
+
+  searchShows(term: string): void {
+    this.searchShowTerms.next(term);
   }
 
   public chooseVenue(venue: any){
@@ -162,14 +189,15 @@ export class EventCreateComponent implements OnInit {
   }
 
   public chooseParticipant(participant: any){
-    /*
-    this.participants.push(Page.map(participant));
-    this.participantModalVisible = false;
-    this.initParticipantSearch(); //clear out results
-    */
     participant = Page.map(participant);
     participant.startTime = '20:00';
     this.tempParticipant = participant;
+  }
+
+  public chooseShow(show: any){
+    show = show.map(show);
+    this.showModalVisible = false;
+    this.initShowSearch(); //clear out results
   }
 
   public addManualVenue(){
@@ -210,6 +238,10 @@ export class EventCreateComponent implements OnInit {
     this.initParticipantSearch();//clear out search results
     this.participantSearch.nativeElement.value = '';
     this.participantModalVisible = false;
+  }
+
+  public closeShowModal(){
+    this.showModalVisible = false;
   }
 
   public goBack(): void {
@@ -258,10 +290,6 @@ export class EventCreateComponent implements OnInit {
 
   private setTimezone(timezone){
     this.startDateTime.timezone = timezone;
-  }
-
-  private updateTimezone(){
-
   }
 
   public removeParticipant(participant){
@@ -356,6 +384,10 @@ export class EventCreateComponent implements OnInit {
 
   public showParticipantModal(){
     this.participantModalVisible = true;
+  }
+
+  public showShowModal(){
+    this.showModalVisible = true;
   }
 
   public saveTimezone(){
