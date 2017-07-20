@@ -52,7 +52,6 @@ export class EventService {
   }
 
   addParticipant(id, participant){
-    console.log(participant);
     let options = {
       'event_id' : id,
       'name':participant.name,
@@ -61,6 +60,16 @@ export class EventService {
       'start':participant.startTime
     }
     let path = `event/${id}/participants`;
+    return this.httpHandlerService.post(path, options)
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  addShow(id,show){
+    let options = {
+      'show_id':show.id
+    }
+    let path = `event/${id}/shows`;
     return this.httpHandlerService.post(path, options)
       .map(response => response.json())
       .toPromise();

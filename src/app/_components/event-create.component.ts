@@ -195,7 +195,7 @@ export class EventCreateComponent implements OnInit {
   }
 
   public chooseShow(show: any){
-    show = show.map(show);
+    this.shows.push(Show.map(show));
     this.showModalVisible = false;
     this.initShowSearch(); //clear out results
   }
@@ -300,6 +300,14 @@ export class EventCreateComponent implements OnInit {
     }
   }
 
+  public removeShow(show){
+    let index = this.shows.indexOf(show);
+    if(index !== -1){
+      //element exists in our array
+      this.shows.splice(index);
+    }
+  }
+
   private geocodeAddress(address) {
     this.geocoder.geocode({'address': address}, function(results, status) {
       if (status === 'OK') {
@@ -342,7 +350,9 @@ export class EventCreateComponent implements OnInit {
     }).then((eventId) => {
       return this.saveCategory(eventId);
     }).then((eventId) => {
-      console.log('This is te event id' + eventId);
+      return this.saveShows(eventId);
+    }).then((eventId) => {
+      console.log('Event saved');
     }).catch(error => console.log(error));
   }
 
@@ -355,6 +365,23 @@ export class EventCreateComponent implements OnInit {
           savedParticipants++
           if(savedParticipants == numParticipants){
             //all participants have been saved
+            resolve(eventId);
+          }
+        }).catch(error => reject('There was an error adding the participant'));
+      }
+      resolve(eventId);
+    });
+  }
+
+  private saveShows(eventId):Promise<number>{
+    return new Promise((resolve, reject) => {
+      let savedShows = 0;
+      let numShows = this.shows.length;
+      for (let index in this.shows) {
+        this.eventService.addShow(eventId, this.shows[index]).then(response => {
+          savedShows++
+          if(savedShows == numShows){
+            //all shows have been saved
             resolve(eventId);
           }
         }).catch(error => reject('There was an error adding the participant'));
