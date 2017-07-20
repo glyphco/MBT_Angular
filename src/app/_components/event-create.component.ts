@@ -35,6 +35,9 @@ class DateTime {
     let date = newDate.getDate();
     this._dateTime.year(year).month(month).date(date);
   }
+  get rawDate(){
+    return this._dateTime.toDate();
+  }
   get time() {
     return this._dateTime.format('HH:mm');
   }
@@ -69,6 +72,7 @@ export class EventCreateComponent implements OnInit {
   venue:Venue;
   shows = [];
   startDateTime = new DateTime();
+  endDateTime = new DateTime();
   tempVenue:Venue; //used for creating a custom venue
   participants = [];
   tempParticipant:Page;
@@ -183,7 +187,9 @@ export class EventCreateComponent implements OnInit {
   }
 
   public chooseVenue(venue: any){
-    this.venue = Venue.map(venue);
+    let venueObj = Venue.map(venue);
+    this.venue = venueObj;
+    this.setTimezone(venueObj.localTz);
     this.venueModalVisible = false;
     this.initVenueSearch(); //clear out results
   }
@@ -262,8 +268,6 @@ export class EventCreateComponent implements OnInit {
     for (let component of geocodeObj.address_components){
       locationDetails[component.types[0]] = component.long_name;
     }
-    console.log(geocodeObj);
-    console.log(locationDetails);
     let aptNum = locationDetails.subpremise ? locationDetails.subpremise : '';
     let lat = geocodeObj.geometry.location.lat();
     let lng = geocodeObj.geometry.location.lng();
@@ -290,6 +294,7 @@ export class EventCreateComponent implements OnInit {
 
   private setTimezone(timezone){
     this.startDateTime.timezone = timezone;
+    this.endDateTime.timezone = timezone;
   }
 
   public removeParticipant(participant){
@@ -321,13 +326,14 @@ export class EventCreateComponent implements OnInit {
   private createEvent(){
     let params = <any>{};
     let localStart = this.startDateTime.date;
+    let localEnd = this.endDateTime.date;
     params.name = this.event.name;
     params.description = this.event.description;
     params.local_tz = this.startDateTime.date.tz();
     params.UTC_start = localStart.utc().format('YYYY-MM-DD HH-mm-ss');
-    //params.UTC_end
+    params.UTC_end = localEnd.utc().format('YYYY-MM-DD HH-mm-ss');
     params.local_start = localStart.tz(params.local_tz).format('YYYY-MM-DD HH-mm-ss');
-    //params.local_end
+    params.local_end = localEnd.tz(params.local_tz).format('YYYY-MM-DD HH-mm-ss');
     if(this.venue){
       params.venue_name = this.venue.name;
       params.street_address = this.venue.streetAddress;

@@ -44,9 +44,29 @@
         <a href="javascript:void(0)" (click)="timezoneModalVisible=true">{{startDateTime.timezone}}</a>
       </span>
     </div>
+
+    <br />
+    <div class="form-group custom-group">
+      <label for="end-date" class="inline-label">End date</label>
+      <md-input-container>
+        <input mdInput [mdDatepicker]="endpicker" #endDate="ngModel" [(ngModel)]="endDateTime.date" placeholder="Choose an end date" dateFormat="MM-DD-YYYY" date name="enddate">
+        <button mdSuffix [mdDatepickerToggle]="endpicker"></button>
+      </md-input-container>
+      <md-datepicker #endpicker></md-datepicker>
+      <md-error *ngIf="endDate.errors">
+        Enter a <strong>valid</strong> date
+      </md-error>
+    </div>
+
+    <div class="form-group custom-group">
+      <label for="end-time" class="inline-label">End time</label>
+      <md-input-container>
+        <input mdInput type="time" name="end_time" [(ngModel)]="endDateTime.time"> 
+      </md-input-container>
+    </div>
+
     <label>Participants</label><br />
     <span *ngIf="participants.length == 0" class="help-block inline">No participants chosen. </span>
-
     <span *ngFor="let participant of participants" class="help-block participant-container">
       <img *ngIf="participant.id > 0" src="{{ participant.imageUrl }}" />
       {{ participant.name }} <i class="fa fa-times" (click)="removeParticipant(participant)" aria-hidden="true"></i></span>

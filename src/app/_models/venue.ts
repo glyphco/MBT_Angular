@@ -12,6 +12,7 @@ export class Venue {
   imageUrl:string;
   lat:string;
   lng:string;
+  localTz:string;
   location:string;
   phone:string;
   postalCode:string;
@@ -49,6 +50,7 @@ export class Venue {
       currentVenue.imageUrl = json.imageurl;
       currentVenue.lat = json.lat;
       currentVenue.lng = json.lng;
+      currentVenue.localTz = json.local_tz;
       currentVenue.location = json.location;
       currentVenue.phone = json.phone;
       currentVenue.postalCode = json.postalcode;
