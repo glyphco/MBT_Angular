@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '@angular/material';
 import { MdNativeDateModule, MdDatepickerModule, MdInputModule } from '@angular/material';
+import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 
 import { AuthGuard } from './_guards/auth.guard';
 import { PublicGuard } from './_guards/public.guard';
@@ -80,7 +81,8 @@ import { LocationService } from './_services/location.service';
     MdNativeDateModule,
     MdDatepickerModule,
     MdInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FileUploadModule
   ],
   providers: [
     AuthGuard,

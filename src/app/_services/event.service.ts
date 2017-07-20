@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Headers, RequestOptions, Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from './http-handler.service';
 import { environment } from '../../environments/environment';
@@ -51,6 +51,19 @@ export class EventService {
       .toPromise();
   }
 
+  s3SaveImage(s3Credentials, url){
+    console.log(s3Credentials);
+    let tempHeaders = new Headers();
+    tempHeaders.append('Content-Type', 'multipart/form-data');
+    let headers = new RequestOptions({ headers: tempHeaders });
+    let options = {
+      'hello' : 'there'
+    }
+    return this.http.post(url, options, headers)
+      .map(response => response.json())
+      .toPromise();
+  }
+
   addParticipant(id, participant){
     let options = {
       'event_id' : id,
@@ -82,6 +95,13 @@ export class EventService {
       'subcategory_id':subCategory
     };
     return this.httpHandlerService.post(path, options)
+      .toPromise();
+  }
+
+  getS3Key(eventId){
+    let path = `signupload/event/${eventId}/main`;
+    return this.httpHandlerService.get(path)
+      .map(response => response.json())
       .toPromise();
   }
 }

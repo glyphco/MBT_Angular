@@ -33,6 +33,7 @@
 }
 .event-description {
   margin-top:10px;
+  overflow:hidden;
 }
 .info-container p {
   margin-bottom:0px;
@@ -92,7 +93,10 @@
 	background-color: #292c3f;
 }
 
-@media (max-width: 767px) { 
+@media (max-width: 767px) {
+  .container {
+    overflow:hidden;
+  } 
   .event-image {
     max-height:95px;
     float:left;

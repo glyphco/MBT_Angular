@@ -24,7 +24,11 @@
        (click)="clearVenue()" aria-hidden="true"></i>
     </span>
     <br />
-    <div class="form-group custom-group">
+
+    <label for="event-image">Image</label>
+    <input id="event-image" type="file" (change)="fileChange(image)" name="image" #image />
+
+    <div class="form-group custom-group inline">
       <label for="start-time" class="inline-label">Start date</label>
       <md-input-container>
         <input mdInput [mdDatepicker]="picker" #startDate="ngModel" [(ngModel)]="startDateTime.date" placeholder="Choose a date" dateFormat="MM-DD-YYYY" date name="startdate">
@@ -35,6 +39,8 @@
         Enter a <strong>valid</strong> date
       </md-error>
     </div>
+    <span class="add-end-date"><a href="javascript:void(0)" (click)="hasEndDate = !hasEndDate">Add end date</a></span>
+
     <div class="form-group custom-group">
       <label for="start-time" class="inline-label">Start time</label>
       <md-input-container>
@@ -45,7 +51,7 @@
       </span>
     </div>
 
-    <br />
+    <ng-container *ngIf="hasEndDate">
     <div class="form-group custom-group">
       <label for="end-date" class="inline-label">End date</label>
       <md-input-container>
@@ -64,6 +70,7 @@
         <input mdInput type="time" name="end_time" [(ngModel)]="endDateTime.time"> 
       </md-input-container>
     </div>
+    </ng-container>
 
     <label>Participants</label><br />
     <span *ngIf="participants.length == 0" class="help-block inline">No participants chosen. </span>
@@ -112,6 +119,7 @@
   <p>&nbsp;</p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
+  <button (click)="debugImage()">Debug image</button>
 </div>
 
 <!--

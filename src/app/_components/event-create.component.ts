@@ -1,5 +1,6 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
+import { FileUploader } from 'ng2-file-upload';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import { StatesHelper } from '../_helpers/states-helper';
@@ -66,11 +67,15 @@ class DateTime {
   styleUrls: ['./modal.component.css','./event-create.component.css']
 })
 export class EventCreateComponent implements OnInit {
+  uploadUrl:string;
+  public uploader:FileUploader = new FileUploader({url: 'hello'});
   categories = []; //for filling the dropdown
   event = new Event();
   eventCategory:string;
   venue:Venue;
   shows = [];
+  image:any;
+  file_srcs = [];
   startDateTime = new DateTime();
   endDateTime = new DateTime();
   tempVenue:Venue; //used for creating a custom venue
@@ -81,6 +86,7 @@ export class EventCreateComponent implements OnInit {
   timezoneModalVisible = false;
   participantModalVisible = false;
   showModalVisible = false;
+  hasEndDate = false;
   private searchVenueTerms = new Subject<string>();
   private searchParticipantTerms = new Subject<string>();
   private searchShowTerms = new Subject<string>();
@@ -331,9 +337,11 @@ export class EventCreateComponent implements OnInit {
     params.description = this.event.description;
     params.local_tz = this.startDateTime.date.tz();
     params.UTC_start = localStart.utc().format('YYYY-MM-DD HH-mm-ss');
-    params.UTC_end = localEnd.utc().format('YYYY-MM-DD HH-mm-ss');
     params.local_start = localStart.tz(params.local_tz).format('YYYY-MM-DD HH-mm-ss');
-    params.local_end = localEnd.tz(params.local_tz).format('YYYY-MM-DD HH-mm-ss');
+    if(this.hasEndDate){
+      params.UTC_end = localEnd.utc().format('YYYY-MM-DD HH-mm-ss');
+      params.local_end = localEnd.tz(params.local_tz).format('YYYY-MM-DD HH-mm-ss');
+    }
     if(this.venue){
       params.venue_name = this.venue.name;
       params.street_address = this.venue.streetAddress;
@@ -358,8 +366,35 @@ export class EventCreateComponent implements OnInit {
     }).then((eventId) => {
       return this.saveShows(eventId);
     }).then((eventId) => {
+      return this.getS3Key(eventId);
+    }).then((s3Credentials) => {
+      let url = s3Credentials.url;
+      delete s3Credentials.url; //remove it from regular credentials
+      return this.saveImage(s3Credentials, url);
+    }).then((eventId) => {
       console.log('Event saved');
     }).catch(error => console.log(error));
+  }
+
+  private getS3Key(eventId){
+    return new Promise((resolve, reject) => {
+      this.eventService.getS3Key(eventId).then(response => {
+        let timestamp = new Date().getTime();
+        let s3Credentials = response.additionalData;
+        console.log(s3Credentials);
+        s3Credentials.key = `event/${eventId}/main/${timestamp}.jpg`;
+        s3Credentials.url = response.attributes.action;
+        resolve(s3Credentials);
+      }).catch(error => reject('S3 Credentials unavailable'));
+    });
+  }
+
+  private saveImage(s3Credentials, url){
+    return new Promise((resolve, reject) => {
+      this.eventService.s3SaveImage(s3Credentials, url).then(response => {
+        resolve(true);
+      }).catch(error => reject('S3 save failed'));
+    });
   }
 
   private saveParticipants(eventId):Promise<number>{
@@ -432,5 +467,85 @@ export class EventCreateComponent implements OnInit {
   public closeTimezoneModal(){
     this.timezoneModalVisible = false;
     this.tempTimezone = null;
+  }
+
+  fileChange(imageField){
+    this.readFiles(imageField.files);
+  }
+
+  readFiles(files, index = 0) {  
+      // Create the file reader  
+      let reader = new FileReader();  
+      // If there is a file  
+      if (index in files) {  
+        // Start reading this file  
+        this.readFile(files[index], reader, (result) => {  
+            // Create an img element and add the image file data to it  
+            var img = document.createElement("img");  
+            img.src = result;  
+            // Send this img to the resize function (and wait for callback)  
+            this.resize(img, 200, 200, (resized_jpeg, before, after) => {  
+                // For debugging (size in bytes before and after)  
+                //this.debug_size_before.push(before);  
+                //this.debug_size_after.push(after);  
+                // Add the resized jpeg img source to a list for preview  
+                // This is also the file you want to upload. (either as a  
+                // base64 string or img.src = resized_jpeg if you prefer a file).  
+                this.file_srcs.push(resized_jpeg);
+                console.log(before);
+                console.log(after);
+                // Read the next file;  
+                this.readFiles(files, index + 1);  
+            });  
+        });  
+      } else {  
+        // When all files are done This forces a change detection  
+        //this.changeDetectorRef.detectChanges();  
+      }  
+  }
+
+  private readFile(file, reader, callback) {  
+    reader.onload = () => {  
+        callback(reader.result);  
+        this.image = reader.result;   
+    }  
+    reader.readAsDataURL(file);  
+  }
+
+  private resize(img, MAX_WIDTH: number, MAX_HEIGHT: number, callback) {  
+    // This will wait until the img is loaded before calling this function  
+    return img.onload = () => {  
+        // Get the images current width and height  
+        var width = img.width;  
+        var height = img.height;  
+        // Set the WxH to fit the Max values (but maintain proportions)
+        if (width > height) {  
+            if (width > MAX_WIDTH) {  
+                height *= MAX_WIDTH / width;  
+                width = MAX_WIDTH;  
+            }  
+        } else {  
+            if (height > MAX_HEIGHT) {  
+                width *= MAX_HEIGHT / height;  
+                height = MAX_HEIGHT;  
+            }  
+        }
+        // create a canvas object  
+        var canvas = document.createElement("canvas");  
+        // Set the canvas to the new calculated dimensions  
+        canvas.width = width;  
+        canvas.height = height;  
+        var ctx = canvas.getContext("2d");  
+        ctx.drawImage(img, 0, 0, width, height);  
+        // Get this encoded as a jpeg  
+        // IMPORTANT: 'jpeg' NOT 'jpg'  
+        var dataUrl = canvas.toDataURL('image/jpeg');  
+        // callback with the results  
+        callback(dataUrl, img.src.length, dataUrl.length);  
+    }; 
+  }
+
+  public debugImage(){
+    console.log(this.image);
   }
 }
