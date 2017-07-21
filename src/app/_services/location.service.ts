@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject }    from 'rxjs/Subject';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 
@@ -34,11 +35,12 @@ export class LocationService {
   }
 
   public getCurrentLocation(){
-    return JSON.parse(localStorage.getItem('currentLocation'));
+    return localStorage.getItem('currentLocation') ? JSON.parse(localStorage.getItem('currentLocation')): environment.locationDefault;
   }
 
   public getSelectedLocation(){
-    return JSON.parse(localStorage.getItem('selectedLocation'));
+    return localStorage.getItem('selectedLocation') ? JSON.parse(localStorage.getItem('selectedLocation')) :
+    environment.locationDefault;
   }
 
   public getLocationType(){
@@ -55,6 +57,10 @@ export class LocationService {
 
   public useAnyLocation(){
     localStorage.setItem('locationType','any');
+  }
+
+  public hasCurrentLocation(){
+    return localStorage.getItem('currentLocation') ? true : false;
   }
 
   public getLat(){

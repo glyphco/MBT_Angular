@@ -5,19 +5,27 @@ import { LocationService } from './_services/location.service';
 import { Subscription }   from 'rxjs/Subscription';
 
 declare var google:any;
+const geolocationOptions = {
+      enableHighAccuracy: true, //will be more accurate but might take longer and uses more power
+      timeout: 5000,
+      maximumAge:0
+    }
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css','./_components/modal.component.css']
 })
 export class AppComponent implements OnDestroy, OnInit {
   title = 'MBT';
   subscription: Subscription;
   loggedIn: boolean;
+  map:any;
+  lat:number;
+  lng:number;
   geocoder:any;
   userLocation = 'Choose location';
-  selectLocation = false;
+  locationModalVisible = false;
 
   constructor( private authService: AuthService, private _ngZone:NgZone, private router:Router, private locationService:LocationService){}
 
@@ -32,23 +40,47 @@ export class AppComponent implements OnDestroy, OnInit {
           this.loggedIn = loggedInValue
         );
     });
-    let options = {
-      enableHighAccuracy: true, //will be more accurate but might take longer and uses more power
-      timeout: 5000,
-      maximumAge:0
-    }
 
     if(window.navigator.geolocation && this.locationService.getLocationType() == 'current'){
-        window.navigator.geolocation.getCurrentPosition(this.success.bind(this), this.error.bind(this), options);
+        //window.navigator.geolocation.getCurrentPosition(this.success.bind(this), this.error.bind(this), geolocationOptions);
     };
 
     //Google map stuff
     this.geocoder = new google.maps.Geocoder;
+
+    //Google map stuff
+    var origin = {lat: 41.94, lng: -87.68};
+    this.map = new google.maps.Map(document.getElementById('map'), {
+      center: origin,
+      zoom: 13
+    });
+
+    this.map.addListener("click", function (event) {
+        var latitude = event.latLng.lat();
+        var longitude = event.latLng.lng();
+        this.lat = latitude;
+        this.lng = longitude;
+
+        if(this.marker){
+          this.marker.setPosition({lat: latitude, lng: longitude});
+        }else{
+          this.marker = new google.maps.Marker({
+            map: this.map,
+            //anchorPoint: new google.maps.Point(latitude, longitude),
+            position: {lat: latitude, lng: longitude}
+          });
+        }
+    }.bind(this));
+  }
+
+  selectLocation(){
+    if(this.lat && this.lng){
+      this.geocodeLatLng(this.lat, this.lng);
+    }
   }
 
   success(pos) {
     //make the current location the chosen one
-    this.locationService.useCurrentLocation();
     let crd = pos.coords;
     this.geocodeLatLng(crd.latitude, crd.longitude);
   };
@@ -57,12 +89,11 @@ export class AppComponent implements OnDestroy, OnInit {
     //console.warn(`ERROR(${err.code}): ${err.message}`);
     //user denied geolocation
     if(err.code == 1){
-      this.selectLocation = true;
+      //this.selectLocation = true;
     }
   };
 
   geocodeLatLng(lat, lng):void {
-    let self = this;
     var latlng = {lat: parseFloat(lat), lng: parseFloat(lng)};
     this.geocoder.geocode({'location': latlng}, function(results, status) {
       if (status === 'OK') {
@@ -80,11 +111,13 @@ export class AppComponent implements OnDestroy, OnInit {
             postal_code: locationDetails.postal_code,
             country: locationDetails.country
           };
-          self.locationService.setCurrentLocation(locationProps);
+          this.locationService.setCurrentLocation(locationProps);
+          this.locationService.useCurrentLocation();
           //set user location text
-          self.userLocation = self.locationService.getLocationName();
-          self._ngZone.run(() => {
-            self.locationService.locationSource.next(true);
+          this.userLocation = this.locationService.getLocationName();
+          this._ngZone.run(() => {
+            //emit location change event
+            this.locationService.locationSource.next(true);
           });
         } else {
           window.alert('No results found');
@@ -92,10 +125,13 @@ export class AppComponent implements OnDestroy, OnInit {
       } else {
         window.alert('Geocoder failed due to: ' + status);
       }
-    });
+    }.bind(this));
   }
 
   useCurrentLocation(){
+    if(!this.locationService.hasCurrentLocation()){ //Ask for location if we don't have it
+      window.navigator.geolocation.getCurrentPosition(this.success.bind(this), this.error.bind(this), geolocationOptions);
+    }
     //set location type
     this.locationService.useCurrentLocation();
     //get location name
@@ -104,17 +140,16 @@ export class AppComponent implements OnDestroy, OnInit {
     this.locationService.locationSource.next(true);
   }
 
-  useSelectedLocation(){
-    this.selectLocation = !this.selectLocation;
-    this.locationService.useSelectedLocation();
-    this.locationService.locationSource.next(true);
-  }
-
-  useAnyLocation(){
-    this.locationService.useAnyLocation();
-    //get location name
-    this.userLocation = this.locationService.getLocationName();
-    this.locationService.locationSource.next(true);
+  useSelectLocation(){
+    if(!this.locationModalVisible){ //showing the modal
+      if(!this.locationService.hasCurrentLocation()){ //Ask for location if we don't have it
+        window.navigator.geolocation.getCurrentPosition(this.success.bind(this), this.error.bind(this), geolocationOptions);
+      }
+    }
+    //toggle location modal
+    this.locationModalVisible = !this.locationModalVisible;
+    //this.locationService.useSelectedLocation();
+    //this.locationService.locationSource.next(true);
   }
   
   ngOnDestroy(){

@@ -5,3 +5,7 @@
 .navbar {
   margin-bottom:0px;
 }
+
+#map {
+  height: 500px;
+}
