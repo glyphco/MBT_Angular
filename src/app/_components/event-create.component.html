@@ -128,7 +128,7 @@
 <div class="cd-popup" [class.is-visible]="venueModalVisible == true" role="alert">
 	<div class="cd-popup-container">
     <ng-container *ngIf="!tempVenue">
-      <p>Search locations.</p>
+      <p>Find an existing MBT Venue</p>
       <div class="input-group venue-search">
         <input #venueSearch type="text" class="form-control sharp-border" (keyup)="searchVenues(venueSearch.value)" placeholder="Search venues">
         <span class="input-group-addon sharp-border"><i class="fa fa-search" aria-hidden="true"></i></span>
@@ -138,10 +138,10 @@
           <img src="{{ result.imageurl }}"> {{ result.name }}
         </button>
       </div>
-      <p class="venue-help-text">Can't find a venue? <a href="javascript:void(0)" (click)="addManualVenue()">Add manually</a></p>
+      <p class="venue-help-text"><a href="javascript:void(0)" (click)="addManualVenue()">Manually add a non-MBT Venue</a></p>
     </ng-container>
     <ng-container *ngIf="tempVenue && venueGeocodeResults.length == 0">
-      <p>Create a custom venue</p>
+      <p>Manually add a non-MBT Venue</p>
       <div class="venue-form-container">
         <div *ngIf="venueResultError" class="alert alert-danger" role="alert">No results found for that address</div>
         <form (ngSubmit)="manualVenueSubmit()" #venueForm="ngForm">
@@ -167,7 +167,7 @@
           </div>
         </form>
       </div>
-      <p class="venue-help-text">Don't want to enter manually? <a href="javascript:void(0)" (click)="tempVenue=null">Use our search</a></p>
+      <p class="venue-help-text"><a href="javascript:void(0)" (click)="tempVenue=null">Find an Existing MBT Venue</a></p>
     </ng-container>
     <ng-container *ngIf="venueGeocodeResults.length > 0">
       <p>We found {{ venueGeocodeResults.length | i18nPlural: resultMapping }}</p>
@@ -193,7 +193,7 @@
 <div class="cd-popup" [class.is-visible]="participantModalVisible == true" role="alert">
 	<div class="cd-popup-container">
     <ng-container *ngIf="!tempParticipant">
-      <p>Search pages.</p>
+      <p>Find an Existing MBT Participant</p>
       <div class="input-group venue-search">
         <input #participantSearch type="text" class="form-control sharp-border"
          (keyup)="searchParticipants(participantSearch.value)" placeholder="Search participants">
@@ -204,10 +204,10 @@
           <img src="{{ result.imageurl }}"> {{ result.name }}
         </button>
       </div>
-      <p class="venue-help-text">Can't find the participant? <a href="javascript:void(0)" (click)="addManualParticipant()">Add manually</a></p>
+      <p class="venue-help-text"><a href="javascript:void(0)" (click)="addManualParticipant()">Manually add a non-MBT Participant</a></p>
     </ng-container>
     <ng-container *ngIf="tempParticipant">
-      <p *ngIf="tempParticipant.id < 0;else elseBlock">Create a custom venue</p>
+      <p *ngIf="tempParticipant.id < 0;else elseBlock">Manually add a non-MBT Participant</p>
       <ng-template #elseBlock><p>Choose start time</p>
         <span class="help-block participant-container in-modal">
           <img src="{{ tempParticipant.imageUrl }}" />
@@ -240,7 +240,7 @@
           </div>
         </form>
       </div>
-      <p *ngIf="tempParticipant.id < 0;else participantBack" class="venue-help-text">Don't want to enter manually? <a href="javascript:void(0)" (click)="tempParticipant=null">Use our search</a></p>
+      <p *ngIf="tempParticipant.id < 0;else participantBack" class="venue-help-text"><a href="javascript:void(0)" (click)="tempParticipant=null">Find an existing MBT Participant</a></p>
       <ng-template #participantBack>
         <p class="venue-help-text">Make a mistake? <a href="javascript:void(0)" (click)="tempParticipant=null">Go back</a></p>
       </ng-template>
@@ -259,7 +259,7 @@
 -->
 <div class="cd-popup" [class.is-visible]="showModalVisible == true" role="alert">
 	<div class="cd-popup-container">
-      <p>Search shows.</p>
+      <p>Find an Existing MBT Show</p>
       <div class="input-group venue-search">
         <input #showSearch type="text" class="form-control sharp-border"
          (keyup)="searchShows(showSearch.value)" placeholder="Search shows">
