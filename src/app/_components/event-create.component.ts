@@ -67,6 +67,7 @@ class DateTime {
   styleUrls: ['./modal.component.css','./event-create.component.css']
 })
 export class EventCreateComponent implements OnInit {
+  private apiEventId:number;
   uploadUrl:string;
   public uploader:FileUploader = new FileUploader({url: 'hello'});
   categories = []; //for filling the dropdown
@@ -76,6 +77,7 @@ export class EventCreateComponent implements OnInit {
   shows = [];
   image:any;
   file_srcs = [];
+  jpegImage:any;
   startDateTime = new DateTime();
   endDateTime = new DateTime();
   tempVenue:Venue; //used for creating a custom venue
@@ -362,6 +364,7 @@ export class EventCreateComponent implements OnInit {
     this.eventService.createEvent(params).then(event => {
       return this.saveParticipants(event.id);
     }).then((eventId) => {
+      this.apiEventId = eventId;
       return this.saveCategory(eventId);
     }).then((eventId) => {
       return this.saveShows(eventId);
@@ -371,7 +374,10 @@ export class EventCreateComponent implements OnInit {
       let url = s3Credentials.url;
       delete s3Credentials.url; //remove it from regular credentials
       return this.saveImage(s3Credentials, url);
-    }).then((eventId) => {
+    }).then((imageUrl) => {
+      return this.saveImageUrlToEvent(imageUrl);
+    }).then((response) => {
+      //TODO: handle event save
       console.log('Event saved');
     }).catch(error => console.log(error));
   }
@@ -391,9 +397,19 @@ export class EventCreateComponent implements OnInit {
 
   private saveImage(s3Credentials, url){
     return new Promise((resolve, reject) => {
-      this.eventService.s3SaveImage(s3Credentials, url).then(response => {
-        resolve(true);
+      this.eventService.s3SaveImage(s3Credentials, url, this.jpegImage).then(response => {
+        //return the url to the file on s3
+        resolve(`${s3Credentials.attributes.action}/${s3Credentials.additionalData.key}`);
       }).catch(error => reject('S3 save failed'));
+    });
+  }
+
+  private saveImageUrlToEvent(imageUrl){
+    return new Promise((resolve, reject) => {
+      this.eventService.saveImageUrl(this.apiEventId, imageUrl).then(response => {
+        //return the url to the file on s3
+        resolve(true);
+      }).catch(error => reject('Attaching image to event failed.'));
     });
   }
 
@@ -492,6 +508,7 @@ export class EventCreateComponent implements OnInit {
                 // This is also the file you want to upload. (either as a  
                 // base64 string or img.src = resized_jpeg if you prefer a file).  
                 this.file_srcs.push(resized_jpeg);
+                this.jpegImage = resized_jpeg;
                 console.log(before);
                 console.log(after);
                 // Read the next file;  

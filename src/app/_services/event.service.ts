@@ -51,15 +51,48 @@ export class EventService {
       .toPromise();
   }
 
-  s3SaveImage(s3Credentials, url){
-    console.log(s3Credentials);
+  s3SaveImage(s3Credentials, url, file){
     let tempHeaders = new Headers();
-    tempHeaders.append('Content-Type', 'multipart/form-data');
+    tempHeaders.append('Content-Type', 'image/jpeg');
     let headers = new RequestOptions({ headers: tempHeaders });
-    let options = {
-      'hello' : 'there'
+    let body = new FormData();
+    for(let key in s3Credentials){
+      body.append(key,s3Credentials[key]);
     }
-    return this.http.post(url, options, headers)
+    let image = this.dataURItoBlob(file, 'image/jpeg');
+    body.append('file', image);
+    return this.http.post(url, body)
+      .map(response => response.json())
+      .toPromise();
+  }
+
+
+  private dataURItoBlob(dataURI, type) {
+      // convert base64 to raw binary data held in a string
+      var byteString = atob(dataURI.split(',')[1]);
+
+      // separate out the mime component
+      var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+      // write the bytes of the string to an ArrayBuffer
+      var ab = new ArrayBuffer(byteString.length);
+      var ia = new Uint8Array(ab);
+      for (var i = 0; i < byteString.length; i++) {
+          ia[i] = byteString.charCodeAt(i);
+      }
+
+      // write the ArrayBuffer to a blob, and you're done
+      var bb = new Blob([ab], { type: type });
+      return bb;
+  }
+
+  //Attach image url to event
+  saveImageUrl(eventId, imageUrl){
+    let path = `event/${eventId}`;
+    let body = {
+      'imageurl':imageUrl
+    }
+    return this.httpHandlerService.put(path, body)
       .map(response => response.json())
       .toPromise();
   }
