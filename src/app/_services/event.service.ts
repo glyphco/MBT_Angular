@@ -52,18 +52,13 @@ export class EventService {
   }
 
   s3SaveImage(s3Credentials, url, file){
-    let tempHeaders = new Headers();
-    tempHeaders.append('Content-Type', 'image/jpeg');
-    let headers = new RequestOptions({ headers: tempHeaders });
     let body = new FormData();
     for(let key in s3Credentials){
       body.append(key,s3Credentials[key]);
     }
     let image = this.dataURItoBlob(file, 'image/jpeg');
     body.append('file', image);
-    return this.http.post(url, body)
-      .map(response => response.json())
-      .toPromise();
+    return this.http.post(url, body);
   }
 
 

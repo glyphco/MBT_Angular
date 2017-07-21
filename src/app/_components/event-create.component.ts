@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { StatesHelper } from '../_helpers/states-helper';
 import { SearchService } from '../_services/search.service';
@@ -118,7 +118,8 @@ export class EventCreateComponent implements OnInit {
     private location: Location,
     private searchService: SearchService,
     private _ngZone: NgZone,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private router: Router
   ){
     this.event.startTime = '20:00';
     this.event.startDate = moment();
@@ -369,38 +370,53 @@ export class EventCreateComponent implements OnInit {
     }).then((eventId) => {
       return this.saveShows(eventId);
     }).then((eventId) => {
-      return this.getS3Key(eventId);
+        return this.getS3Key(eventId);
     }).then((s3Credentials) => {
-      let url = s3Credentials.url;
-      delete s3Credentials.url; //remove it from regular credentials
-      return this.saveImage(s3Credentials, url);
+        if(s3Credentials){ //returns false if no image
+          let url = s3Credentials.url;
+          delete s3Credentials.url; //remove it from regular credentials
+          return this.saveImage(s3Credentials, url);
+        }
+        return Promise.resolve(false);
     }).then((imageUrl) => {
-      return this.saveImageUrlToEvent(imageUrl);
+      return imageUrl ? this.saveImageUrlToEvent(imageUrl): Promise.resolve(true);
     }).then((response) => {
       //TODO: handle event save
-      console.log('Event saved');
+      this.router.navigate(['dashboard']);
     }).catch(error => console.log(error));
   }
 
   private getS3Key(eventId){
     return new Promise((resolve, reject) => {
-      this.eventService.getS3Key(eventId).then(response => {
-        let timestamp = new Date().getTime();
-        let s3Credentials = response.additionalData;
-        console.log(s3Credentials);
-        s3Credentials.key = `event/${eventId}/main/${timestamp}.jpg`;
-        s3Credentials.url = response.attributes.action;
-        resolve(s3Credentials);
-      }).catch(error => reject('S3 Credentials unavailable'));
+      if(this.jpegImage){
+        this.eventService.getS3Key(eventId).then(response => {
+          let timestamp = new Date().getTime();
+          let s3Credentials = response.additionalData;
+          s3Credentials.key = `event/${eventId}/main/${timestamp}.jpg`;
+          s3Credentials.url = response.attributes.action;
+          resolve(s3Credentials);
+        }).catch(error => reject('S3 Credentials unavailable'));
+      }else{
+        resolve(false);
+      }
     });
   }
 
   private saveImage(s3Credentials, url){
     return new Promise((resolve, reject) => {
-      this.eventService.s3SaveImage(s3Credentials, url, this.jpegImage).then(response => {
-        //return the url to the file on s3
-        resolve(`${s3Credentials.attributes.action}/${s3Credentials.additionalData.key}`);
-      }).catch(error => reject('S3 save failed'));
+      if(this.jpegImage){
+        this.eventService.s3SaveImage(s3Credentials, url, this.jpegImage)
+          .map(response => {
+            //return the url to the file on s3
+            if(response.status === 204){
+              resolve(`${url}/${s3Credentials.key}`);
+            }else{
+              reject('S3 image save failed');
+            }
+          }).subscribe();
+      }else{
+        resolve(false);
+      }
     });
   }
 
@@ -507,10 +523,7 @@ export class EventCreateComponent implements OnInit {
                 // Add the resized jpeg img source to a list for preview  
                 // This is also the file you want to upload. (either as a  
                 // base64 string or img.src = resized_jpeg if you prefer a file).  
-                this.file_srcs.push(resized_jpeg);
                 this.jpegImage = resized_jpeg;
-                console.log(before);
-                console.log(after);
                 // Read the next file;  
                 this.readFiles(files, index + 1);  
             });  
@@ -560,9 +573,5 @@ export class EventCreateComponent implements OnInit {
         // callback with the results  
         callback(dataUrl, img.src.length, dataUrl.length);  
     }; 
-  }
-
-  public debugImage(){
-    console.log(this.image);
   }
 }
