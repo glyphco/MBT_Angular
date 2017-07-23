@@ -12,12 +12,12 @@ export class ShowService {
   ){}
 
   getShows(page=1, perpage=10):Promise<any>{
-    return this.httpHandlerService.get(`showpage?page=${page}&pp=${perpage}`)
+    return this.httpHandlerService.get(`show?page=${page}&pp=${perpage}`)
       .toPromise();
   }
 
   getShow(id:number){
-    return this.httpHandlerService.get(`showpage/${id}`)
+    return this.httpHandlerService.get(`show/${id}`)
       .toPromise();
   }
 
@@ -28,7 +28,7 @@ export class ShowService {
       //can't trim numbers though (i think)
       name: show.name
     }
-    return this.httpHandlerService.put(`showpage/${id}`, options)
+    return this.httpHandlerService.put(`show/${id}`, options)
       .toPromise();
   }
 
@@ -38,7 +38,7 @@ export class ShowService {
       description: show.description,
       public: show.public
     }
-    return this.httpHandlerService.post('showpage', options)
+    return this.httpHandlerService.post('show', options)
       .toPromise();
   }
 
