@@ -35,10 +35,17 @@
 		<p>We need your location to get the events closest to you.</p>
     <div *ngFor="let error of errors" style="color:#CC0000;padding-bottom:1em;">{{errors}}</div>
     <div id="map"></div>
-    <div id="infowindow-content">
-      <img src="" width="16" height="16" id="place-icon">
-      <span id="place-name"  class="title"></span><br>
-      <span id="place-address"></span>
+    <div class="radius-container">
+      <label for="radius">Distance</label>
+      <select [(ngModel)]="dist" (change)="distanceChanged()">
+        <option value="0.5">.5</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+      </select>
+      miles
     </div>
 		<ul class="cd-buttons">
 			<li><div (click)="selectLocation()">Save</div></li>

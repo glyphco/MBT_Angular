@@ -23,8 +23,10 @@ export class AppComponent implements OnDestroy, OnInit {
   map:any;
   lat:number;
   lng:number;
+  dist = 0.5;
   geocoder:any;
   marker:any;
+  circle:any;
   userLocation = 'Choose location';
   locationModalVisible = false;
 
@@ -56,21 +58,21 @@ export class AppComponent implements OnDestroy, OnInit {
       zoom: 13
     });
 
-    this.map.addListener("click", function (event) {
-        var latitude = event.latLng.lat();
-        var longitude = event.latLng.lng();
-        this.lat = latitude;
-        this.lng = longitude;
+    this.circle = new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35,
+      map: this.map
+    });
 
-        if(this.marker){
-          this.marker.setPosition({lat: latitude, lng: longitude});
-        }else{
-          this.marker = new google.maps.Marker({
-            map: this.map,
-            //anchorPoint: new google.maps.Point(latitude, longitude),
-            position: {lat: latitude, lng: longitude}
-          });
-        }
+    this.circle.addListener("click", function (event) {
+      this.clickReceived(event);
+    }.bind(this));
+
+    this.map.addListener("click", function (event) {
+      this.clickReceived(event);
     }.bind(this));
   }
 
@@ -84,17 +86,10 @@ export class AppComponent implements OnDestroy, OnInit {
     if(this.locationModalVisible){
       //Make a marker for the map if modal is visible
       let crd = pos.coords;
-      let latitude = crd.latitude;
-      let longitude = crd.longitude;
-      if(this.marker){
-        this.marker.setPosition({lat: latitude, lng: longitude});
-      }else{
-        this.marker = new google.maps.Marker({
-          map: this.map,
-          //anchorPoint: new google.maps.Point(latitude, longitude),
-          position: {lat: latitude, lng: longitude}
-        });
-      }
+      this.lat = crd.latitude;
+      this.lng = crd.longitude;
+      this.placeMarkerAndCircle();
+      this.map.setCenter({lat: this.lat, lng: this.lng});
     }
   }
 
@@ -105,6 +100,61 @@ export class AppComponent implements OnDestroy, OnInit {
       //this.selectLocation = true;
     }
   };
+
+  private clickReceived(event){
+    var latitude = event.latLng.lat();
+      var longitude = event.latLng.lng();
+      this.lat = latitude;
+      this.lng = longitude;
+      this.placeMarkerAndCircle();
+  }
+
+  distanceChanged(){
+    this.setMapZoom();
+    this.placeMarkerAndCircle();
+    this.map.setCenter({lat: this.lat, lng: this.lng});
+  }
+
+  setMapZoom(){
+    switch(this.dist * 1) {
+        case 0.5:
+            this.map.setZoom(13);
+            break;
+        case 1:
+            this.map.setZoom(13);
+            break;
+        case 2:
+            this.map.setZoom(12);
+            break;
+        case 5:
+            this.map.setZoom(11);
+            break;
+        case 10:
+            this.map.setZoom(10);
+            break;
+        case 20:
+            this.map.setZoom(9);
+            break;
+        default:
+            this.map.setZoom(13);
+    }
+  }
+
+  placeMarkerAndCircle(){
+    if(this.marker){
+      this.marker.setPosition({lat: this.lat, lng: this.lng});
+      this.circle.setCenter({lat: this.lat, lng: this.lng});
+      this.circle.setRadius(this.dist * 1609.34);
+    }else{
+      this.marker = new google.maps.Marker({
+        map: this.map,
+        //anchorPoint: new google.maps.Point(latitude, longitude),
+        position: {lat: this.lat, lng: this.lng}
+      });
+      this.circle.setCenter({lat: this.lat, lng: this.lng});
+      this.circle.setRadius(this.dist * 1609.34);
+    }
+  }
 
   geocodeLatLng(lat, lng):void {
     var latlng = {lat: parseFloat(lat), lng: parseFloat(lng)};
@@ -131,6 +181,7 @@ export class AppComponent implements OnDestroy, OnInit {
           this._ngZone.run(() => {
             //emit location change event
             this.locationService.locationSource.next(true);
+            this.locationModalVisible = false;
           });
         } else {
           window.alert('No results found');
