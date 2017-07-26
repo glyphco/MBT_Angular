@@ -29,6 +29,10 @@ export class AppComponent implements OnDestroy, OnInit {
   circle:any;
   userLocation = 'Choose location';
   locationModalVisible = false;
+  get username() {
+    let fullname = localStorage.getItem('username').split(' ');
+    return fullname[0];
+  }
 
   constructor( private authService: AuthService, private _ngZone:NgZone, private router:Router, private locationService:LocationService){}
 

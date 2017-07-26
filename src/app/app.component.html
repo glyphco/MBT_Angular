@@ -23,9 +23,19 @@
         <button (click)="redirectToSearch()" type="submit" class="btn btn-default">Search</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" (click)="useSelectLocation();false"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{userLocation}}</a></li>
-        <li><a href="#" (click)="logout();false" *ngIf="loggedIn">Logout</a></li>
+        <li><a href="javascript:void(0);" (click)="useSelectLocation()"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{userLocation}}</a></li>
+        <li><a href="javascript:void(0);" (click)="logout()" *ngIf="loggedIn">Logout</a></li>
         <li><a routerLink="login" *ngIf="!loggedIn">Login/Sign up</a></li>
+        <li class="dropdown">
+          <a href="javascript:void(0);" #user (click)="user.active = !user.active" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{{userimage}}" /> {{ username }}<span class="caret"></span></a>
+          <ul class="dropdown-menu" [class.visible]="user.active === true">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

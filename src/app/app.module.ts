@@ -87,10 +87,10 @@ import { LocationService } from './_services/location.service';
   providers: [
     AuthGuard,
     PublicGuard,
+    HttpHandlerService,
     AuthService,
     VenueService,
     EventService,
-    HttpHandlerService,
     JwtHelperService,
     SearchService,
     PageService,

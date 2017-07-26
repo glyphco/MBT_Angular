@@ -17,12 +17,17 @@ declare var FB:any;
 @Injectable()
 
 export class AuthService {
-  constructor(private http: Http,private router:Router, private jwtHelperService:JwtHelperService, private _zone:NgZone) {}
+  constructor(
+    private http: Http,
+    private router:Router,
+    private jwtHelperService:JwtHelperService,
+    private _zone:NgZone){}
 
   private loggedInSource = new Subject<boolean>();
   
   loggedIn$ = this.loggedInSource.asObservable();
   authUrl = environment.authServer;
+  apiUrl = environment.apiServer;
 
   //helpers
   isLoggedIn(){
@@ -76,38 +81,52 @@ export class AuthService {
     this.googleInit(googleBtnId);
   }
 
+  getUserInfo(){
+    let token = localStorage.getItem('token');
+    let headers = new Headers();
+    if(token){
+      headers.append('Authorization', `Bearer ${token}`);
+    }
+    headers.append('X-Requested-With', 'XMLHttpRequest');
+    let headersObj = new RequestOptions({ headers: headers });
+    const url = `${this.apiUrl}/me`;
+    return this.http.get(url, headersObj)
+      .map(response => response.json().data)
+      .toPromise()
+  }
+
   //handle facebook response
   facebookLogin(){
-    let that = this;
     FB.getLoginStatus(function(response) {
       if (response.status === 'connected') {
         let accessToken = response.authResponse.accessToken;
-        that.getJWT('facebook', accessToken).then(
-          token => {
-            that.login(token);
-          }
-        ).catch(
+        this.getJWT('facebook', accessToken).then(token => {
+            this.login(token);
+            return this.getUserInfo()
+        }).then(user => {
+          localStorage.setItem('username',user.name);
+          localStorage.setItem('avatar',user.avatar);
+        }).catch(
           error => console.log(error)
         )
       }
       else {
         console.log('there was an error');
       }
-    });
+    }.bind(this));
   }
 
   //Google login stuff
   auth2: any;
   googleInit(googleBtnId:string) {
-    let that = this;
     gapi.load('auth2', function () {
-      that.auth2 = gapi.auth2.init({
+      this.auth2 = gapi.auth2.init({
         client_id: '49563587913-aaa8ved79pe65df884an1peset2me3vu.apps.googleusercontent.com',
         //cookiepolicy: 'single_host_origin',
         scope: 'profile email'
       });
-      that.attachSignin(document.getElementById(googleBtnId));
-    });
+      this.attachSignin(document.getElementById(googleBtnId));
+    }.bind(this));
     gapi.signin2.render(googleBtnId, {
       'width': 300,
       'height': 50,
@@ -115,19 +134,18 @@ export class AuthService {
       'theme': 'dark'
     });
   }
+
   public attachSignin(element) {
-    let that = this;
     this.auth2.attachClickHandler(element, {},
       function (googleUser) {
-
         //let profile = googleUser.getBasicProfile(); //profile info
         let authResponse = googleUser.getAuthResponse();
-        that.getJWT('google', authResponse.access_token).then(
-          token => that.login(token)
+        this.getJWT('google', authResponse.access_token).then(
+          token => this.login(token)
         ).catch(
           () => console.log('something went wrong') 
         );
-      }, function (error) {
+      }.bind(this), function (error) {
         alert(JSON.stringify(error, undefined, 2));
       });
   }
