@@ -6,6 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "stage": "ng serve --ssl 1 --ssl-key \"C:\\code\\debug-cert\\server.key\" --ssl-cert \"C:\\code\\debug-cert\\server.crt\" --host mbtweb.dev",
+    "stage-mac": "ng serve --ssl 1 --ssl-key \"~\\code\\server.key\" --ssl-cert \"~\\code\\server.crt\" --host mbtweb.dev",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

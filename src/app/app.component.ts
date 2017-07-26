@@ -24,6 +24,7 @@ export class AppComponent implements OnDestroy, OnInit {
   lat:number;
   lng:number;
   geocoder:any;
+  marker:any;
   userLocation = 'Choose location';
   locationModalVisible = false;
 
@@ -80,10 +81,22 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
   success(pos) {
-    //make the current location the chosen one
-    let crd = pos.coords;
-    this.geocodeLatLng(crd.latitude, crd.longitude);
-  };
+    if(this.locationModalVisible){
+      //Make a marker for the map if modal is visible
+      let crd = pos.coords;
+      let latitude = crd.latitude;
+      let longitude = crd.longitude;
+      if(this.marker){
+        this.marker.setPosition({lat: latitude, lng: longitude});
+      }else{
+        this.marker = new google.maps.Marker({
+          map: this.map,
+          //anchorPoint: new google.maps.Point(latitude, longitude),
+          position: {lat: latitude, lng: longitude}
+        });
+      }
+    }
+  }
 
   error(err) {
     //console.warn(`ERROR(${err.code}): ${err.message}`);
