@@ -1,7 +1,8 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { Router }   from '@angular/router';
 import { AuthService } from './_services/auth.service';
 import { LocationService } from './_services/location.service';
+import { Subscription } from 'rxjs/Subscription';
 
 declare var google:any;
 const geolocationOptions = {
@@ -15,9 +16,10 @@ const geolocationOptions = {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css','./_components/modal.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'MBT';
-  loggedIn= this.authService.loggedIn;
+  subscription: Subscription;
+  loggedIn:boolean;
   map:any;
   lat:number;
   lng:number;
@@ -37,6 +39,16 @@ export class AppComponent implements OnInit {
   ngOnInit(){
     //set location name
     this.userLocation = this.locationService.getLocationName();
+
+    //set the logged in property
+    this.loggedIn = this.authService.isLoggedIn();
+    //listen to when the loggen in property changes
+    this.subscription = this.authService.loggedIn$.subscribe(loggedInValue => {
+      this._ngZone.run(() =>
+        this.loggedIn = loggedInValue
+      );
+    });
+
 
     //Google map stuff
     this.geocoder = new google.maps.Geocoder;
@@ -65,6 +77,11 @@ export class AppComponent implements OnInit {
       this.clickReceived(event);
     }.bind(this));
   }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
+
 
   saveLocation(){
     if(this.lat && this.lng && this.lat != this.locationService.getLat() && this.lng != this.locationService.getLng()){

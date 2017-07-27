@@ -26,7 +26,7 @@
         <li><a href="javascript:void(0);" (click)="selectLocation()"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{userLocation}}</a></li>
         <li><a href="javascript:void(0);" (click)="logout()" *ngIf="loggedIn">Logout</a></li>
         <li><a routerLink="login" *ngIf="!loggedIn">Login/Sign up</a></li>
-        <li class="dropdown">
+        <li *ngIf="loggedIn" class="dropdown">
           <a href="javascript:void(0);" #user (click)="user.active = !user.active" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{{userimage}}" /> {{ username }}<span class="caret"></span></a>
           <ul class="dropdown-menu" [class.visible]="user.active === true">
             <li><a href="#">Action</a></li>

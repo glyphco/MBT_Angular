@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { Observable }    from 'rxjs/Observable';
-
+import { Subject } from 'rxjs/Subject';
 import { environment } from '../../environments/environment';
 import { JwtHelperService } from './jwt-helper.service';
 import 'rxjs/add/operator/toPromise';
@@ -22,7 +22,10 @@ export class AuthService {
     private jwtHelperService:JwtHelperService,
     private _zone:NgZone){}
 
-  get loggedIn(){
+  private loggedInSource = new Subject<boolean>();
+  loggedIn$ = this.loggedInSource.asObservable();
+
+  isLoggedIn(){
     if (localStorage.getItem('token')) {
         // logged in so return true
         return true;
@@ -34,18 +37,19 @@ export class AuthService {
   apiUrl = environment.apiServer;
 
   login(token: string){
-    let parsedToken = this.jwtHelperService.decodeToken(token);
-    localStorage.setItem('token', token);
-    localStorage.setItem('tokenExpires', parsedToken.exp);
     //redirect
-    this._zone.run(() => 
-      this.router.navigate(['/dashboard'])
-    );
+    this._zone.run(() => {
+      let parsedToken = this.jwtHelperService.decodeToken(token);
+      localStorage.setItem('token', token);
+      localStorage.setItem('tokenExpires', parsedToken.exp);
+      this.router.navigate(['/dashboard']);
+    });
+    this.loggedInSource.next(true);
   }
 
   logout(){
     localStorage.removeItem('token');
-
+    this.loggedInSource.next(false);
     //redirect
     this.router.navigate(['/login']);
   }
@@ -95,8 +99,10 @@ export class AuthService {
       if (response.status === 'connected') {
         let accessToken = response.authResponse.accessToken;
         this.getJWT('facebook', accessToken).then(token => {
-            this.login(token);
-            return this.getUserInfo()
+          this._zone.run(() => 
+            this.login(token)
+          );
+          return this.getUserInfo()
         }).then(user => {
           localStorage.setItem('username',user.name);
           localStorage.setItem('avatar',user.avatar);
