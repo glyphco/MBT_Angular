@@ -86,7 +86,7 @@ export class AppComponent implements OnInit, OnDestroy {
   saveLocation(){
     if(this.lat && this.lng && this.lat != this.locationService.getLat() && this.lng != this.locationService.getLng()){
       //new location is different from old location
-      this.geocodeLatLng(this.lat, this.lng);
+      this.geocodeLatLng();
     }else{
       this.locationModalVisible = false;
     }
@@ -166,8 +166,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  geocodeLatLng(lat, lng):void {
-    var latlng = {lat: parseFloat(lat), lng: parseFloat(lng)};
+  geocodeLatLng():void {
+    var latlng = {lat: this.lat, lng: this.lng};
     this.geocoder.geocode({'location': latlng}, function(results, status) {
       if (status === 'OK') {
         if (results[1]) {
@@ -176,8 +176,9 @@ export class AppComponent implements OnInit, OnDestroy {
             locationDetails[component.types[0]] = component.long_name;
           }
           let locationProps = {
-            lat: lat,
-            lng: lng,
+            lat: this.lat,
+            lng: this.lng,
+            dist: this.dist,
             city: locationDetails.locality,
             neighborhood: locationDetails.neighborhood,
             state: locationDetails.administrative_area_level_1,

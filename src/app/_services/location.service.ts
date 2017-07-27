@@ -38,6 +38,16 @@ export class LocationService {
     return location.lng;
   }
 
+  public getDist(){
+    let location = localStorage.getItem('currentLocation') ? JSON.parse(localStorage.getItem('currentLocation')): environment.locationDefault;
+    let dist = location.dist;
+    return dist;
+  }
+
+  public getDistMeters(){
+    return this.getDist() * 1609.34;
+  }
+
   private coalesce(...args){
     for(let key in arguments){
       if(arguments[key] && arguments[key] != 'undefined'){
