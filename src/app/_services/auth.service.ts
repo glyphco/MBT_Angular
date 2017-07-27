@@ -1,7 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
-import { Subject }    from 'rxjs/Subject';
 import { Observable }    from 'rxjs/Observable';
 
 import { environment } from '../../environments/environment';
@@ -23,20 +22,16 @@ export class AuthService {
     private jwtHelperService:JwtHelperService,
     private _zone:NgZone){}
 
-  private loggedInSource = new Subject<boolean>();
-  
-  loggedIn$ = this.loggedInSource.asObservable();
-  authUrl = environment.authServer;
-  apiUrl = environment.apiServer;
-
-  //helpers
-  isLoggedIn(){
+  get loggedIn(){
     if (localStorage.getItem('token')) {
         // logged in so return true
         return true;
     }
     return false;
   }
+
+  authUrl = environment.authServer;
+  apiUrl = environment.apiServer;
 
   login(token: string){
     let parsedToken = this.jwtHelperService.decodeToken(token);
@@ -46,12 +41,11 @@ export class AuthService {
     this._zone.run(() => 
       this.router.navigate(['/dashboard'])
     );
-    this.loggedInSource.next(true);
   }
 
   logout(){
     localStorage.removeItem('token');
-    this.loggedInSource.next(false);
+
     //redirect
     this.router.navigate(['/login']);
   }

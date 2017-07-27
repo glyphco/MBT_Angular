@@ -1,8 +1,7 @@
-import { Component, OnDestroy, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router }   from '@angular/router';
 import { AuthService } from './_services/auth.service';
 import { LocationService } from './_services/location.service';
-import { Subscription }   from 'rxjs/Subscription';
 
 declare var google:any;
 const geolocationOptions = {
@@ -16,10 +15,9 @@ const geolocationOptions = {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css','./_components/modal.component.css']
 })
-export class AppComponent implements OnDestroy, OnInit {
+export class AppComponent implements OnInit {
   title = 'MBT';
-  subscription: Subscription;
-  loggedIn: boolean;
+  loggedIn= this.authService.loggedIn;
   map:any;
   lat:number;
   lng:number;
@@ -39,14 +37,6 @@ export class AppComponent implements OnDestroy, OnInit {
   ngOnInit(){
     //set location name
     this.userLocation = this.locationService.getLocationName();
-    //set the logged in property
-    this.loggedIn = this.authService.isLoggedIn();
-    //listen to when the loggen in property changes
-    this.subscription = this.authService.loggedIn$.subscribe(loggedInValue => {
-        this._ngZone.run(() =>
-          this.loggedIn = loggedInValue
-        );
-    });
 
     if(window.navigator.geolocation && this.locationService.getLocationType() == 'current'){
         //window.navigator.geolocation.getCurrentPosition(this.success.bind(this), this.error.bind(this), geolocationOptions);
@@ -218,10 +208,6 @@ export class AppComponent implements OnDestroy, OnInit {
     this.locationModalVisible = !this.locationModalVisible;
     //this.locationService.useSelectedLocation();
     //this.locationService.locationSource.next(true);
-  }
-  
-  ngOnDestroy(){
-    this.subscription.unsubscribe();
   }
 
   logout(){
