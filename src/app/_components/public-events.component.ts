@@ -14,6 +14,7 @@ export class PublicEventsComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   events = [];
   location = this.locationService.getLocationName();
+  loadingIndicatorVisible = false;
 
   constructor(private eventVenueService:EventVenueService, private locationService: LocationService){}
 
@@ -34,12 +35,17 @@ export class PublicEventsComponent implements OnInit, OnDestroy {
   }
 
   public getEventVenues(page:number){
+    this.loadingIndicatorVisible = true;
     this.eventVenueService.getEventVenues(page).then(eventVenues => {
       this.events = eventVenues.json().data.data;
       let perPage = eventVenues.json().data.per_page;
       let totalObjects = eventVenues.json().data.total;
       this.pagination.setPage(page, perPage, totalObjects);
-    }).catch(error => console.log(error));
+      this.loadingIndicatorVisible = false;
+    }).catch(error => {
+      this.loadingIndicatorVisible = false;
+      console.log(error);
+    });
   }
 
   public loadNextPage(){

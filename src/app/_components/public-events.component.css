@@ -93,6 +93,10 @@
 	background-color: #292c3f;
 }
 
+.loading-container {
+  text-align:center;
+}
+
 @media (max-width: 767px) {
   .container {
     overflow:hidden;
