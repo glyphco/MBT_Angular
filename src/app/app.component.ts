@@ -38,10 +38,6 @@ export class AppComponent implements OnInit {
     //set location name
     this.userLocation = this.locationService.getLocationName();
 
-    if(window.navigator.geolocation && this.locationService.getLocationType() == 'current'){
-        //window.navigator.geolocation.getCurrentPosition(this.success.bind(this), this.error.bind(this), geolocationOptions);
-    };
-
     //Google map stuff
     this.geocoder = new google.maps.Geocoder;
 
@@ -70,9 +66,12 @@ export class AppComponent implements OnInit {
     }.bind(this));
   }
 
-  selectLocation(){
-    if(this.lat && this.lng){
+  saveLocation(){
+    if(this.lat && this.lng && this.lat != this.locationService.getLat() && this.lng != this.locationService.getLng()){
+      //new location is different from old location
       this.geocodeLatLng(this.lat, this.lng);
+    }else{
+      this.locationModalVisible = false;
     }
   }
 
@@ -169,7 +168,6 @@ export class AppComponent implements OnInit {
             country: locationDetails.country
           };
           this.locationService.setCurrentLocation(locationProps);
-          this.locationService.useCurrentLocation();
           //set user location text
           this.userLocation = this.locationService.getLocationName();
           this._ngZone.run(() => {
@@ -186,22 +184,16 @@ export class AppComponent implements OnInit {
     }.bind(this));
   }
 
-  useCurrentLocation(){
-    if(!this.locationService.hasCurrentLocation()){ //Ask for location if we don't have it
-      window.navigator.geolocation.getCurrentPosition(this.success.bind(this), this.error.bind(this), geolocationOptions);
-    }
-    //set location type
-    this.locationService.useCurrentLocation();
-    //get location name
-    this.userLocation = this.locationService.getLocationName();
-    //emit location change event
-    this.locationService.locationSource.next(true);
-  }
-
-  useSelectLocation(){
-    if(!this.locationModalVisible){ //showing the modal
-      if(!this.locationService.hasCurrentLocation()){ //Ask for location if we don't have it
+  selectLocation(){
+    if(!this.locationModalVisible){ //show the modal if it's not already visible
+      if(!this.locationService.hasCurrentLocation()){ //Ask for location if we don't have it in local storage
         window.navigator.geolocation.getCurrentPosition(this.success.bind(this), this.error.bind(this), geolocationOptions);
+      }else{
+        //put local location on the map
+        this.lat = this.locationService.getLat();
+        this.lng = this.locationService.getLng();
+        this.map.setCenter({lat: this.lat, lng: this.lng});
+        this.placeMarkerAndCircle();
       }
     }
     //toggle location modal

@@ -23,7 +23,7 @@
         <button (click)="redirectToSearch()" type="submit" class="btn btn-default">Search</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="javascript:void(0);" (click)="useSelectLocation()"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{userLocation}}</a></li>
+        <li><a href="javascript:void(0);" (click)="selectLocation()"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{userLocation}}</a></li>
         <li><a href="javascript:void(0);" (click)="logout()" *ngIf="loggedIn">Logout</a></li>
         <li><a routerLink="login" *ngIf="!loggedIn">Login/Sign up</a></li>
         <li class="dropdown">
@@ -58,7 +58,7 @@
       miles
     </div>
 		<ul class="cd-buttons">
-			<li><div (click)="selectLocation()">Save</div></li>
+			<li><div (click)="saveLocation()">Save</div></li>
 			<li><div (click)="locationModalVisible = false">Cancel</div></li>
 		</ul>
 		<div class="cd-popup-close img-replace" (click)="locationModalVisible = false">Close</div>

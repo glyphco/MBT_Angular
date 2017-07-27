@@ -31,7 +31,6 @@ import { ShowCreateComponent } from './_components/show-create.component';
 import { EventEditComponent } from './_components/event-edit.component';
 import { EventCreateComponent } from './_components/event-create.component';
 import { DatepickerComponent } from './_components/datepicker.component';
-import { SetLocationComponent } from './_components/set-location.component';
 import { EventVenuesComponent } from './_components/event-venues.component';
 
 import { AuthService } from './_services/auth.service';
@@ -68,7 +67,6 @@ import { LocationService } from './_services/location.service';
     EventEditComponent,
     EventCreateComponent,
     DatepickerComponent,
-    SetLocationComponent,
     EventVenuesComponent
   ],
   imports: [
