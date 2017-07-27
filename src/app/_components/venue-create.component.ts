@@ -22,6 +22,15 @@ export class VenueCreateComponent implements OnInit {
   infowindowContent:any;
   states = StatesHelper.states;
   categories = [];
+  timezones = [
+    {'id':'Pacific/Honolulu', 'name'  : 'Hawaii-Aleutian Standard Time (HAST)'},
+    {'id':'America/Anchorage', 'name' : 'Alaska with Daylight Savings Time (AKDT)'},
+    {'id':'PST8PDT', 'name'           : 'Pacific with Daylight Savings Time (PDT)'},
+    {'id':'MST', 'name'               : 'Mountain Standard Time (Arizona) (MST)'},
+    {'id':'MST7MDT', 'name'           : 'Mountain with Daylight Savings Time (MDT)'},
+    {'id':'CST6CDT', 'name'           : 'Central with Daylight Savings Time (CDT)'},
+    {'id':'EST5EDT', 'name'           : 'Eastern with Daylight Savings Time (EDT)'}
+  ];
 
   constructor(
     private venueService:VenueService,
@@ -44,7 +53,7 @@ export class VenueCreateComponent implements OnInit {
     var origin = {lat: 41.94, lng: -87.68};
     var REQUIRED_ZOOM = 15;
 
-    this.map = new google.maps.Map(document.getElementById('map'), {
+    this.map = new google.maps.Map(document.getElementById('venue-map'), {
       center: origin,
       zoom: 13
     });

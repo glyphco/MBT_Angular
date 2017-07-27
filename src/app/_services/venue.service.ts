@@ -12,7 +12,7 @@ export class VenueService {
   ){}
 
   getVenues(page=1, perpage=10):Promise<any>{
-    return this.httpHandlerService.get(`venue?page=${page}&pp=${perpage}`)
+    return this.httpHandlerService.get(`venue?page=${page}&pp=${perpage}&ConfirmedAndUnconfirmed&PublicAndPrivate`)
       .toPromise();
   }
   
@@ -31,6 +31,7 @@ export class VenueService {
       state: venue.state,
       lat: venue.lat,
       lng: venue.lng,
+      local_tz: venue.localTz,
       google_place_id: venue.googlePlaceId,
       postalcode: venue.postalCode,
       neighborhood: venue.neighborhood,

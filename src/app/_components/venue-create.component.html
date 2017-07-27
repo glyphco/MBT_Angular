@@ -9,7 +9,7 @@
       <input id="pac-input" type="text" [value]="pacInput" placeholder="Enter a Venue">
     </div>
   </div>
-  <div id="map"></div>
+  <div id="venue-map"></div>
   <div id="infowindow-content">
     <img src="" width="16" height="16" id="place-icon">
     <span id="place-name"  class="title"></span><br>
@@ -57,6 +57,12 @@
       <div *ngIf="postalCode.errors  && postalCode.touched">
         <span [class.hidden]="!postalCode.errors.required"  class="help-block">Postal code is required</span>
       </div>
+    </div>
+    <div class="form-group">
+      <label for="timezone">Timezone</label>
+      <select [(ngModel)]="venue.localTz" class="form-control" id="timezone" name="timezone">
+        <option *ngFor="let timezone of timezones" [value]="timezone.id">{{timezone.name}}</option>
+      </select>
     </div>
     <div class="form-group">
       <label for="neighborhood">Neighborhood</label>

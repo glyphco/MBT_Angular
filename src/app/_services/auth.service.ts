@@ -21,7 +21,8 @@ export class AuthService {
     private router:Router,
     private jwtHelperService:JwtHelperService,
     private _zone:NgZone){}
-
+  
+  private token = '';
   private loggedInSource = new Subject<boolean>();
   loggedIn$ = this.loggedInSource.asObservable();
 
@@ -79,8 +80,7 @@ export class AuthService {
     this.googleInit(googleBtnId);
   }
 
-  getUserInfo(){
-    let token = localStorage.getItem('token');
+  getUserInfo(token){
     let headers = new Headers();
     if(token){
       headers.append('Authorization', `Bearer ${token}`);
@@ -99,13 +99,14 @@ export class AuthService {
       if (response.status === 'connected') {
         let accessToken = response.authResponse.accessToken;
         this.getJWT('facebook', accessToken).then(token => {
-          this._zone.run(() => 
-            this.login(token)
-          );
-          return this.getUserInfo()
+          this.token = token;
+          return this.getUserInfo(token);
         }).then(user => {
           localStorage.setItem('username',user.name);
           localStorage.setItem('avatar',user.avatar);
+          this._zone.run(() => 
+            this.login(this.token)
+          );
         }).catch(
           error => console.log(error)
         )

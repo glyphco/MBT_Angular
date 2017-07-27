@@ -1,4 +1,4 @@
-#map {
+#venue-map {
   height: 500px;
 }
 
@@ -16,7 +16,7 @@
   display: none;
 }
 
-#map #infowindow-content {
+#venue-map #infowindow-content {
   display: inline;
 }
 

@@ -32,6 +32,7 @@ import { EventEditComponent } from './_components/event-edit.component';
 import { EventCreateComponent } from './_components/event-create.component';
 import { DatepickerComponent } from './_components/datepicker.component';
 import { EventVenuesComponent } from './_components/event-venues.component';
+import { ExploreComponent } from './_components/explore.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
@@ -67,7 +68,8 @@ import { LocationService } from './_services/location.service';
     EventEditComponent,
     EventCreateComponent,
     DatepickerComponent,
-    EventVenuesComponent
+    EventVenuesComponent,
+    ExploreComponent
   ],
   imports: [
     BrowserModule,
