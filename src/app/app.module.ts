@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '@angular/material';
 import { MdNativeDateModule, MdDatepickerModule, MdInputModule } from '@angular/material';
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 import { AuthGuard } from './_guards/auth.guard';
 import { PublicGuard } from './_guards/public.guard';
@@ -31,7 +32,7 @@ import { ShowCreateComponent } from './_components/show-create.component';
 import { EventEditComponent } from './_components/event-edit.component';
 import { EventCreateComponent } from './_components/event-create.component';
 import { DatepickerComponent } from './_components/datepicker.component';
-import { EventVenuesComponent } from './_components/event-venues.component';
+import { PublicEventsComponent } from './_components/public-events.component';
 import { ExploreComponent } from './_components/explore.component';
 
 import { AuthService } from './_services/auth.service';
@@ -48,6 +49,7 @@ import { LocationService } from './_services/location.service';
 
 @NgModule({
   declarations: [
+    TruncatePipe,
     AppComponent,
     LoginComponent,
     DashboardComponent,
@@ -68,7 +70,7 @@ import { LocationService } from './_services/location.service';
     EventEditComponent,
     EventCreateComponent,
     DatepickerComponent,
-    EventVenuesComponent,
+    PublicEventsComponent,
     ExploreComponent
   ],
   imports: [

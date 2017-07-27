@@ -19,7 +19,7 @@ import { ShowCreateComponent } from './_components/show-create.component';
 import { PageEditComponent } from './_components/page-edit.component';
 import { EventEditComponent } from './_components/event-edit.component';
 import { EventCreateComponent } from './_components/event-create.component';
-import { EventVenuesComponent } from './_components/event-venues.component';
+import { PublicEventsComponent } from './_components/public-events.component';
 import { ExploreComponent } from './_components/explore.component';
 
 const routes: Routes = [
@@ -44,7 +44,7 @@ const routes: Routes = [
 
 
   { path: 'explore', component: ExploreComponent, canActivate: [AuthGuard] },
-  { path: 'events', component: EventVenuesComponent },
+  { path: 'events', component: PublicEventsComponent },
   
   //{ path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '', redirectTo: 'events', pathMatch: 'full' },
