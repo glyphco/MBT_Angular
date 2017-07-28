@@ -21,7 +21,7 @@
         <span class="day">{{ event.local_start | date:'EEEE' }}</span>
       </div>
       <div class="col-md-10 col-sm-10 info-container">
-        <p class="event-title"><strong>{{ event.name }}</strong></p>
+        <p class="event-title"><strong><a [routerLink]="['/event',event.id]">{{ event.name }}</a></strong></p>
         <p class="venue-name">
           <a *ngIf="event.venue_id; else elseBlock" [routerLink]="['/venue',event.venue_id]">{{ event.venue_name }}</a>
           <ng-template #elseBlock>{{ event.venue_name }}</ng-template>

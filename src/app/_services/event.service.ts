@@ -23,6 +23,7 @@ export class EventService {
 
   getEvent(id:number){
     return this.httpHandlerService.get(`event/${id}`)
+      .map(response => response.json().data)
       .toPromise()
   }
 

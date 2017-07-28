@@ -7,7 +7,7 @@ import { EventService } from '../_services/event.service';
 @Component({
   selector: 'app-event-detail',
   templateUrl: './event-detail.component.html',
-  //styleUrls: ['./events.component.css']
+  styleUrls: ['./event-detail.component.css']
 })
 export class EventDetailComponent implements OnInit, OnDestroy {
   event: Event;
@@ -36,7 +36,8 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
   private getEvent(id:number){
     this.eventService.getEvent(id).then(event => {
-      this.event = Event.map(event.json().data);
+      this.event = event;
+      console.log(this.event);
     }).catch(error => console.log(error));
   }
 }

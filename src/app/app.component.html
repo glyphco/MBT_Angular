@@ -28,11 +28,16 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a href="javascript:void(0);" (click)="selectLocation()"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{userLocation}}</a></li>
         <li><a routerLink="login" *ngIf="!loggedIn">Login/Sign up</a></li>
+
         <li *ngIf="loggedIn" class="dropdown">
-          <a href="javascript:void(0);" #user (click)="user.active = !user.active" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="user-image-header" src="{{userimage}}" /> {{ username }}<span class="caret"></span></a>
+          <a href="javascript:void(0);" #user (click)="user.active = !user.active" class="dropdown-toggle"
+           data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+           <img class="user-image-header" src="{{userimage}}" /> {{ username }}<span class="caret"></span></a>
           <ul class="dropdown-menu" [class.visible]="user.active === true">
-            <li><a routerLink="backstage" (click)="false">Backstage</a></li>
+            <ng-container *ngIf="meService.hasBackstage()">
+            <li><a routerLink="backstage" (click)="user.active = false">Backstage</a></li>
             <li role="separator" class="divider"></li>
+            </ng-container>
             <li><a href="javascript:void(0);" (click)="logout()">Logout</a></li>
           </ul>
         </li>

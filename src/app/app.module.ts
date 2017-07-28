@@ -46,6 +46,7 @@ import { ShowService } from './_services/show.service';
 import { CategoryService } from './_services/category.service';
 import { EventVenueService } from './_services/event-venue.service';
 import { LocationService } from './_services/location.service';
+import { MeService } from './_services/me.service';
 
 @NgModule({
   declarations: [
@@ -99,7 +100,8 @@ import { LocationService } from './_services/location.service';
     ShowService,
     CategoryService,
     EventVenueService,
-    LocationService
+    LocationService,
+    MeService
   ],
   bootstrap: [AppComponent]
 })

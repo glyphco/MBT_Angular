@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { Router }   from '@angular/router';
 import { AuthService } from './_services/auth.service';
 import { LocationService } from './_services/location.service';
+import { MeService } from './_services/me.service';
 import { Subscription } from 'rxjs/Subscription';
 
 declare var google:any;
@@ -30,15 +31,24 @@ export class AppComponent implements OnInit, OnDestroy {
   userLocation = 'Choose location';
   locationModalVisible = false;
   get username() {
-    return localStorage.getItem('username') ? localStorage.getItem('username').split(' ')[0] : 'Me';
+    return this.meService.firstName;
   }
   get userimage(){
-    return localStorage.getItem('avatar') ? localStorage.getItem('avatar') : 'assets/images/default_user.png';
+    return this.meService.profilePicture;
+    //return localStorage.getItem('avatar') ? localStorage.getItem('avatar') : 'assets/images/default_user.png';
   }
 
-  constructor( private authService: AuthService, private _ngZone:NgZone, private router:Router, private locationService:LocationService){}
+  constructor( 
+    private authService: AuthService, 
+    private _ngZone:NgZone, 
+    private router:Router, 
+    private locationService:LocationService,
+    private meService:MeService){}
 
   ngOnInit(){
+    //check if me service is instantiated
+    this.meService.initializeMe();
+
     //set location name
     this.userLocation = this.locationService.getLocationName();
 

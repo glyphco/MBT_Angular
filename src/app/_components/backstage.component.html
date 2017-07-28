@@ -1,5 +1,69 @@
-<div class="container">
+<div class="container white">
   <h2>Backstage</h2>
+  <div *ngIf="meService.hasEvents()" class="category-container">
+    <h3>Events</h3>
+    <ul>
+      <li *ngIf="meService.hasEventEdit()">
+        Public: {{ eventsAll }} / {{ eventsCurrent }} current <a>[Edit Events]</a>
+      </li>
+      <li *ngIf="meService.hasEventConfirm()">
+       Unconfirmed: {{ eventsUnconfirmed }} <a>[Confirm Events]</a>
+      </li>
+      <li *ngIf="meService.hasEventCreate()">
+        <a routerLink="/event/create">[Create Event]</a>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="meService.hasPages()" class="category-container">
+    <h3>Pages</h3>
+    <ul>
+      <li *ngIf="meService.hasPageEdit()">
+        Public: {{ pagesAll }} <a>[Edit Pages]</a>
+      </li>
+      <li *ngIf="meService.hasPageConfirm()">
+        Unconfirmed: {{ pagesUnconfirmed }} <a>[Confirm Pages]</a>
+      </li>
+      <li *ngIf="meService.hasPageCreate() && meService.hasPageEdit()">
+        <a>[Unlinked Pages]</a>
+      </li>
+      <li *ngIf="meService.hasPageCreate()">
+        <a routerLink="/page/create">[Create Page]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="meService.hasPages()" class="category-container">
+    <h3>Shows</h3>  
+    <ul>
+      <li *ngIf="meService.hasPageEdit()">
+        Public: {{ showsAll }} <a>[Edit Shows]</a>
+      </li>
+      <li *ngIf="meService.hasPageConfirm()">
+        Unconfirmed: {{ showsUnconfirmed }} <a>[Confirm Shows]</a>
+      </li>
+      <li  *ngIf="meService.hasPageCreate()">
+        <a routerLink="/show/create">[Create Show]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="meService.hasVenues()" class="category-container">
+    <h3>Venues</h3>
+    <ul>
+      <li *ngIf="meService.hasVenueEdit()">
+        Public: {{ venuesAll }} <a>[Edit Venues]</a>
+      </li>
+      <li *ngIf="meService.hasVenueConfirm()">
+        Unconfirmed: {{ venuesUnconfirmed }} <a>[Confirm Venues]</a>
+      </li>
+      <li *ngIf="meService.hasVenueCreate() && meService.hasVenueEdit()" >
+        <a>[Unlinked Venues]</a>
+      </li>
+      <li *ngIf="meService.hasVenueCreate()">
+        <a routerLink="/venue/create">[Create Venue]</a>
+      </li>
+    </ul>
+  </div>
 </div>
 <!--<datepicker></datepicker>-->
 <app-events></app-events>

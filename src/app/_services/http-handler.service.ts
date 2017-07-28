@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Headers, RequestOptions, Http } from '@angular/http';
-import { AuthService } from './auth.service';
 import { Observable }    from 'rxjs/Observable';
 import { Subject }    from 'rxjs/Subject';
-
+import { JwtHelperService } from './jwt-helper.service';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise'; //TODO might need to remove this
 import 'rxjs/add/operator/mergeMap';
@@ -12,8 +11,9 @@ import 'rxjs/add/operator/first';
 @Injectable()
 
 export class HttpHandlerService {
-  constructor(private http: Http, private authService: AuthService) {}
-  private apiurl = environment.apiServer;
+  constructor(private http: Http, private jwtHelperService:JwtHelperService) {}
+  private apiUrl = environment.apiServer;
+  private authUrl = environment.authServer;
   private accessSource = new Subject<boolean>();
   private accessable = true; //if requests are able to go out
   private accessStream$ = this.accessSource.asObservable();
@@ -57,13 +57,13 @@ export class HttpHandlerService {
   }
 
   get(url):Observable<any>{
-    let path = `${this.apiurl}/${url}`;
+    let path = `${this.apiUrl}/${url}`;
     if(this.tokenExpired() && this.accessable == true){
       //token bad & no wait
       //pause all other requests
       this.accessable = false;
       //get a new token and then complete request
-      return this.authService.refreshToken()
+      return this.refreshToken()
         .mergeMap((response) => {
           this.setAccessable(true);
           let headers = this.getHeaders();
@@ -86,14 +86,14 @@ export class HttpHandlerService {
   }
 
   put(url, options){
-    let path = `${this.apiurl}/${url}`;
+    let path = `${this.apiUrl}/${url}`;
     options = this.trimOptions(options);
     if(this.tokenExpired() && this.accessable == true){
       //token bad & no wait
       //pause all other requests
       this.accessable = false;
       //get a new token and then complete request
-      return this.authService.refreshToken()
+      return this.refreshToken()
         .mergeMap((response) => {
           this.setAccessable(true);
           let headers = this.getHeaders();
@@ -116,14 +116,14 @@ export class HttpHandlerService {
   }
 
   post(url:string, options){
-    let path = `${this.apiurl}/${url}`;
+    let path = `${this.apiUrl}/${url}`;
     options = this.trimOptions(options);
     if(this.tokenExpired() && this.accessable == true){
       //token bad & no wait
       //pause all other requests
       this.accessable = false;
       //get a new token and then complete request
-      return this.authService.refreshToken()
+      return this.refreshToken()
         .mergeMap((response) => {
           this.setAccessable(true);
           let headers = this.getHeaders();
@@ -143,6 +143,19 @@ export class HttpHandlerService {
                 }
               }).first();
     }
+  }
+
+  private refreshToken():Observable<any>{
+    let token = localStorage.getItem('token');
+    const path = `${this.authUrl}/refreshJWT?token=${token}`;
+    return this.http.get(path)
+            .map(response => {
+              let  headers = response.headers;
+              let newToken = headers.get('Authorization').substr(7);
+              let parsedToken = this.jwtHelperService.decodeToken(newToken);
+              localStorage.setItem('token', newToken);
+              localStorage.setItem('tokenExpires', parsedToken.exp);
+            });
   }
 
   //TODO: fake error handler for testing
