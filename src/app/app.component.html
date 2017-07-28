@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+      <button #mobile type="button" (click)="mobile.active = !mobile.active" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -13,7 +13,7 @@
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <div class="collapse navbar-collapse" [class.visible]="mobile.active" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li routerLinkActive="active"><a routerLink="events">Events</a></li>
         <li routerLinkActive="active"><a routerLink="explore">Explore</a></li>
@@ -34,8 +34,9 @@
            data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
            <img class="user-image-header" src="{{userimage}}" /> {{ username }}<span class="caret"></span></a>
           <ul class="dropdown-menu" [class.visible]="user.active === true">
+            <li><a routerLink="/profile" (click)="user.active = false">My profile</a></li>
             <ng-container *ngIf="meService.hasBackstage()">
-            <li><a routerLink="backstage" (click)="user.active = false">Backstage</a></li>
+              <li><a routerLink="/backstage" (click)="user.active = false">Backstage</a></li>
             <li role="separator" class="divider"></li>
             </ng-container>
             <li><a href="javascript:void(0);" (click)="logout()">Logout</a></li>

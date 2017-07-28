@@ -25,11 +25,13 @@ import { EventsEditableComponent } from './_components/events-editable.component
 import { PagesEditableComponent } from './_components/pages-editable.component';
 import { ShowsEditableComponent } from './_components/shows-editable.component';
 import { VenuesEditableComponent } from './_components/venues-editable.component';
+import { ProfileComponent } from './_components/profile.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [PublicGuard] },
   { path: 'backstage', component: BackstageComponent, canActivate: [AuthGuard] },
   { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   //Page routes
   { path: 'page/create', component: PageCreateComponent, canActivate: [AuthGuard] },
   { path: 'page/:id', component: PageDetailComponent, canActivate: [AuthGuard] },
