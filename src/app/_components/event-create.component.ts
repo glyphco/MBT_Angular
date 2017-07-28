@@ -382,7 +382,7 @@ export class EventCreateComponent implements OnInit {
       return imageUrl ? this.saveImageUrlToEvent(imageUrl): Promise.resolve(true);
     }).then((response) => {
       //TODO: handle event save
-      this.router.navigate(['dashboard']);
+      this.router.navigate(['backstage']);
     }).catch(error => console.log(error));
   }
 

@@ -43,7 +43,7 @@ export class AuthService {
       let parsedToken = this.jwtHelperService.decodeToken(token);
       localStorage.setItem('token', token);
       localStorage.setItem('tokenExpires', parsedToken.exp);
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/backstage']);
     });
     this.loggedInSource.next(true);
   }

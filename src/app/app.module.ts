@@ -14,7 +14,7 @@ import { PublicGuard } from './_guards/public.guard';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './_components/login.component';
-import { DashboardComponent } from './_components/dashboard.component';
+import { BackstageComponent } from './_components/backstage.component';
 import { EventsComponent } from './_components/events.component';
 import { VenuesComponent } from './_components/venues.component';
 import { VenueCreateComponent } from './_components/venue-create.component';
@@ -52,7 +52,7 @@ import { LocationService } from './_services/location.service';
     TruncatePipe,
     AppComponent,
     LoginComponent,
-    DashboardComponent,
+    BackstageComponent,
     EventsComponent,
     VenuesComponent,
     VenueCreateComponent,

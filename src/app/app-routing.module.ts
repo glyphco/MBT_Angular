@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { PublicGuard } from './_guards/public.guard';
 
-import { DashboardComponent } from './_components/dashboard.component';
+import { BackstageComponent } from './_components/backstage.component';
 import { LoginComponent } from './_components/login.component';
 import { SearchComponent } from './_components/search.component';
 import { PageDetailComponent } from './_components/page-detail.component';
@@ -24,7 +24,7 @@ import { ExploreComponent } from './_components/explore.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [PublicGuard] },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'backstage', component: BackstageComponent, canActivate: [AuthGuard] },
   { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
   //Page routes
   { path: 'page/create', component: PageCreateComponent, canActivate: [AuthGuard] },

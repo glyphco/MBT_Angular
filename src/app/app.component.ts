@@ -32,6 +32,9 @@ export class AppComponent implements OnInit, OnDestroy {
   get username() {
     return localStorage.getItem('username') ? localStorage.getItem('username').split(' ')[0] : 'Me';
   }
+  get userimage(){
+    return localStorage.getItem('avatar') ? localStorage.getItem('avatar') : 'assets/images/default_user.png';
+  }
 
   constructor( private authService: AuthService, private _ngZone:NgZone, private router:Router, private locationService:LocationService){}
 
