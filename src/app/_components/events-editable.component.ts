@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Event } from '../_models/event';
 import { EventService } from '../_services/event.service';
+import { MeService } from '../_services/me.service';
 import { Pagination } from '../_helpers/pagination';
 
 @Component({
   selector: 'app-events',
-  templateUrl: './events.component.html',
-  styleUrls: ['./events.component.css']
+  templateUrl: './events-editable.component.html',
+  styleUrls: ['./events-editable.component.css']
 })
-export class EventsComponent implements OnInit {
+export class EventsEditableComponent implements OnInit {
   pagination = new Pagination();
   events: Event[];
 
-  constructor(private eventService:EventService){}
+  constructor(private eventService:EventService, private meService:MeService){}
 
   ngOnInit():void{
     this.getEvents(1)

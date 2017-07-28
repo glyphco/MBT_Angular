@@ -4,11 +4,11 @@
     <h3>Events</h3>
     <ul>
       <li *ngIf="meService.hasEventEdit()">
-        Public: {{ eventsAll }} / {{ eventsCurrent }} current <a>[Edit Events]</a>
+        <a routerLink="/events/editable">[Edit Events]</a> Public: {{ eventsAll }} / {{ eventsCurrent }} current 
       </li>
-      <li *ngIf="meService.hasEventConfirm()">
-       Unconfirmed: {{ eventsUnconfirmed }} <a>[Confirm Events]</a>
-      </li>
+      <!--<li *ngIf="meService.hasEventConfirm()">
+       <a>[Confirm Events]</a> Unconfirmed: {{ eventsUnconfirmedCurrent }} 
+      </li>-->
       <li *ngIf="meService.hasEventCreate()">
         <a routerLink="/event/create">[Create Event]</a>
       </li>
@@ -18,14 +18,14 @@
     <h3>Pages</h3>
     <ul>
       <li *ngIf="meService.hasPageEdit()">
-        Public: {{ pagesAll }} <a>[Edit Pages]</a>
+        <a routerLink="/pages/editable">[Edit Pages]</a> Public: {{ pagesAll }} 
       </li>
-      <li *ngIf="meService.hasPageConfirm()">
-        Unconfirmed: {{ pagesUnconfirmed }} <a>[Confirm Pages]</a>
+      <!--<li *ngIf="meService.hasPageConfirm()">
+        <a>[Confirm Pages]</a> Unconfirmed: {{ pagesUnconfirmed }} 
       </li>
       <li *ngIf="meService.hasPageCreate() && meService.hasPageEdit()">
         <a>[Unlinked Pages]</a>
-      </li>
+      </li>-->
       <li *ngIf="meService.hasPageCreate()">
         <a routerLink="/page/create">[Create Page]</a>
       </li>
@@ -36,11 +36,11 @@
     <h3>Shows</h3>  
     <ul>
       <li *ngIf="meService.hasPageEdit()">
-        Public: {{ showsAll }} <a>[Edit Shows]</a>
+        <a routerLink="/shows/editable">[Edit Shows]</a> Public: {{ showsAll }} 
       </li>
-      <li *ngIf="meService.hasPageConfirm()">
-        Unconfirmed: {{ showsUnconfirmed }} <a>[Confirm Shows]</a>
-      </li>
+      <!--<li *ngIf="meService.hasPageConfirm()">
+        <a>[Confirm Shows]</a> Unconfirmed: {{ showsUnconfirmed }} 
+      </li>-->
       <li  *ngIf="meService.hasPageCreate()">
         <a routerLink="/show/create">[Create Show]</a>
       </li>
@@ -51,14 +51,14 @@
     <h3>Venues</h3>
     <ul>
       <li *ngIf="meService.hasVenueEdit()">
-        Public: {{ venuesAll }} <a>[Edit Venues]</a>
+        <a routerLink="/venues/editable">[Edit Venues]</a> Public: {{ venuesAll }} 
       </li>
-      <li *ngIf="meService.hasVenueConfirm()">
-        Unconfirmed: {{ venuesUnconfirmed }} <a>[Confirm Venues]</a>
+      <!--<li *ngIf="meService.hasVenueConfirm()">
+        <a>[Confirm Venues]</a> Unconfirmed: {{ venuesUnconfirmed }} 
       </li>
       <li *ngIf="meService.hasVenueCreate() && meService.hasVenueEdit()" >
         <a>[Unlinked Venues]</a>
-      </li>
+      </li>-->
       <li *ngIf="meService.hasVenueCreate()">
         <a routerLink="/venue/create">[Create Venue]</a>
       </li>
@@ -66,7 +66,3 @@
   </div>
 </div>
 <!--<datepicker></datepicker>-->
-<app-events></app-events>
-<app-pages></app-pages>
-<app-venues></app-venues>
-<app-shows></app-shows>

@@ -15,12 +15,12 @@ import { PublicGuard } from './_guards/public.guard';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './_components/login.component';
 import { BackstageComponent } from './_components/backstage.component';
-import { EventsComponent } from './_components/events.component';
-import { VenuesComponent } from './_components/venues.component';
+import { EventsEditableComponent } from './_components/events-editable.component';
+import { VenuesEditableComponent } from './_components/venues-editable.component';
 import { VenueCreateComponent } from './_components/venue-create.component';
-import { ShowsComponent } from './_components/shows.component';
+import { ShowsEditableComponent } from './_components/shows-editable.component';
 import { SearchComponent } from './_components/search.component';
-import { PagesComponent } from './_components/pages.component';
+import { PagesEditableComponent } from './_components/pages-editable.component';
 import { PageDetailComponent } from './_components/page-detail.component';
 import { PageEditComponent } from './_components/page-edit.component';
 import { PageCreateComponent } from './_components/page-create.component';
@@ -54,12 +54,12 @@ import { MeService } from './_services/me.service';
     AppComponent,
     LoginComponent,
     BackstageComponent,
-    EventsComponent,
-    VenuesComponent,
+    EventsEditableComponent,
+    VenuesEditableComponent,
     VenueCreateComponent,
-    ShowsComponent,
+    ShowsEditableComponent,
     SearchComponent,
-    PagesComponent,
+    PagesEditableComponent,
     PageDetailComponent,
     PageCreateComponent,
     EventDetailComponent,

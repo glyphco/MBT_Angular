@@ -7,7 +7,7 @@ import { ShowService } from '../_services/show.service';
 @Component({
   selector: 'app-show-detail',
   templateUrl: './show-detail.component.html',
-  //styleUrls: ['./events.component.css']
+  //styleUrls: ['./events-editable.component.css']
 })
 export class ShowDetailComponent implements OnInit, OnDestroy {
   show: Show;

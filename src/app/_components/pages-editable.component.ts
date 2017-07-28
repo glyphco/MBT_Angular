@@ -3,17 +3,18 @@ import { Router }   from '@angular/router';
 import { Page } from '../_models/page';
 import { PageService } from '../_services/page.service';
 import { Pagination } from '../_helpers/pagination';
+import { MeService } from '../_services/me.service';
 
 @Component({
   selector: 'app-pages',
-  templateUrl: './pages.component.html',
-  styleUrls: ['./events.component.css']
+  templateUrl: './pages-editable.component.html',
+  styleUrls: ['./events-editable.component.css']
 })
-export class PagesComponent implements OnInit {
+export class PagesEditableComponent implements OnInit {
   pagination = new Pagination();
   pages: Page[];
 
-  constructor(private pageService:PageService, private router:Router){}
+  constructor(private pageService:PageService, private router:Router, private meService: MeService){}
 
   ngOnInit():void{
     this.getPages(1)

@@ -21,6 +21,10 @@ import { EventEditComponent } from './_components/event-edit.component';
 import { EventCreateComponent } from './_components/event-create.component';
 import { PublicEventsComponent } from './_components/public-events.component';
 import { ExploreComponent } from './_components/explore.component';
+import { EventsEditableComponent } from './_components/events-editable.component';
+import { PagesEditableComponent } from './_components/pages-editable.component';
+import { ShowsEditableComponent } from './_components/shows-editable.component';
+import { VenuesEditableComponent } from './_components/venues-editable.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [PublicGuard] },
@@ -30,17 +34,21 @@ const routes: Routes = [
   { path: 'page/create', component: PageCreateComponent, canActivate: [AuthGuard] },
   { path: 'page/:id', component: PageDetailComponent, canActivate: [AuthGuard] },
   { path: 'page/edit/:id', component: PageEditComponent, canActivate: [AuthGuard] },
+  { path: 'pages/editable', component: PagesEditableComponent, canActivate: [AuthGuard] },
   //Venue routes
   { path: 'venue/create', component: VenueCreateComponent, canActivate: [AuthGuard] },
   { path: 'venue/:id', component: VenueDetailComponent },
+  { path: 'venues/editable', component: VenuesEditableComponent, canActivate: [AuthGuard] },
   //Event routes
   { path: 'event/create', component: EventCreateComponent, canActivate: [AuthGuard] },
   { path: 'event/:id', component: EventDetailComponent, canActivate: [AuthGuard] },
   { path: 'event/edit/:id', component: EventEditComponent, canActivate: [AuthGuard] },
+  { path: 'events/editable', component: EventsEditableComponent, canActivate: [AuthGuard] },
   //Show routes
   { path: 'show/create', component: ShowCreateComponent, canActivate: [AuthGuard] },
   { path: 'show/:id', component: ShowDetailComponent, canActivate: [AuthGuard] },
   { path: 'show/edit/:id', component: ShowEditComponent, canActivate: [AuthGuard] },
+  { path: 'shows/editable', component: ShowsEditableComponent, canActivate: [AuthGuard] },
 
 
   { path: 'explore', component: ExploreComponent, canActivate: [AuthGuard] },

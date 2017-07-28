@@ -1,21 +1,22 @@
 <div class="container">
-<h2>Venues</h2>
-<a [routerLink]="['/venue/create']"><button class="btn btn-primary">Create venue</button></a>
+<h2>Events</h2>
+<a *ngIf="meService.hasEventCreate()" [routerLink]="['/event/create']"><button class="btn btn-primary">Create event</button></a>
+<br />
 <table class="table">
   <thead>
     <th>Name</th>
-    <th>City</th>
+    <th>Description</th>
     <th>Created at</th>
   </thead>
   <tbody>
-    <tr *ngFor="let venue of venues">
+    <tr *ngFor="let event of events">
       <td>
-        <a [routerLink]="['/venue',venue.id]">
-          {{venue.name}}
+        <a [routerLink]="['/event', event.id]">
+          {{event.name}}
         </a>
       </td>
-      <td>{{venue.city}}</td>
-      <td>{{ venue.createdAt }}</td>
+      <td>{{event.description}}</td>
+      <td>{{ event.createdAt }}</td>
     </tr>
   </tbody>
 </table>
@@ -26,7 +27,7 @@
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-    <li class="page-button" *ngFor="let number of pagination.pageList" [class.active]="number === pagination.currentPage" (click)="getVenues(number)">
+    <li class="page-button" *ngFor="let number of pagination.pageList" [class.active]="number === pagination.currentPage" (click)="getEvents(number)">
       {{number}}
     </li>
     <li>

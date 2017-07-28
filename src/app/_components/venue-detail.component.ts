@@ -7,7 +7,7 @@ import { VenueService } from '../_services/venue.service';
 @Component({
   selector: 'app-venue-detail',
   templateUrl: './venue-detail.component.html',
-  //styleUrls: ['./events.component.css']
+  //styleUrls: ['./events-editable.component.css']
 })
 export class VenueDetailComponent implements OnInit, OnDestroy {
   venue: Venue;

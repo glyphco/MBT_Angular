@@ -33,7 +33,7 @@ export class BackstageComponent implements OnInit {
       .then(response => {
         this.eventsAll = response.events.all;
         this.eventsCurrent = response.events.current;
-        this.eventsUnconfirmedCurrent = response.events.unconfirmed;
+        this.eventsUnconfirmedCurrent = response.events.unconfirmedcurrent;
         this.pagesAll = response.pages.all;
         this.pagesUnconfirmed = response.pages.unconfirmed;
         this.showsAll = response.shows.all;

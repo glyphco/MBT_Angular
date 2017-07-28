@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ShowService } from '../_services/show.service';
+import { MeService } from '../_services/me.service';
 import { Show } from '../_models/show';
 import { Pagination } from '../_helpers/pagination';
 
 @Component({
   selector: 'app-shows',
-  templateUrl: './shows.component.html',
-  styleUrls: ['./events.component.css']
+  templateUrl: './shows-editable.component.html',
+  styleUrls: ['./events-editable.component.css']
 })
-export class ShowsComponent implements OnInit {
+export class ShowsEditableComponent implements OnInit {
   
   pagination = new Pagination();
   shows: Show[];
 
-  constructor(private showService: ShowService){}
+  constructor(private showService: ShowService, private meService: MeService){}
 
   ngOnInit():void{
     this.getShows(1);
