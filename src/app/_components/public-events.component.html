@@ -8,17 +8,17 @@
   <div class="col-md-2 col-sm-2 event-details-container image-time clearfix">
     <img class="event-image img-responsive center-block" src="{{ event.imageurl }}">
     <div class="date-container visible-xs-inline-block">
-      <span class="month">{{ event.local_start | date:'MMMM' }}</span>
-      <span class="date">{{ event.local_start | date:'d' }}</span>
-      <span class="day">{{ event.local_start | date:'EEEE' }}</span>
+      <span class="month">{{ event.local_start | dateFormatter:'MMMM' }}</span>
+      <span class="date">{{ event.local_start | dateFormatter:'D' }}</span>
+      <span class="day">{{ event.local_start | dateFormatter:'dddd' }}</span>
     </div>
   </div>
   <div class="col-md-7 col-sm-7 xs-row">
     <div class="row event-details-container">
       <div class="col-md-2 col-sm-2 hidden-xs alpha omega date-container">
-        <span class="month">{{ event.local_start | date:'MMMM' }}</span>
-        <span class="date">{{ event.local_start | date:'d' }}</span>
-        <span class="day">{{ event.local_start | date:'EEEE' }}</span>
+        <span class="month">{{ event.local_start | dateFormatter:'MMMM' }}</span>
+        <span class="date">{{ event.local_start | dateFormatter:'D' }}</span>
+        <span class="day">{{ event.local_start | dateFormatter:'dddd' }}</span>
       </div>
       <div class="col-md-10 col-sm-10 info-container">
         <p class="event-title"><strong><a [routerLink]="['/event',event.id]">{{ event.name }}</a></strong></p>
@@ -27,7 +27,7 @@
           <ng-template #elseBlock>{{ event.venue_name }}</ng-template>
         </p>
         <p class="event-times">
-          <strong>{{ event.local_start | date:'shortTime' }}</strong> to <strong>{{ event.local_end | date:'shortTime' }}</strong>
+          <strong>{{ event.local_start | dateFormatter:'h:mm A' }}</strong> to <strong>{{ event.local_end | dateFormatter:'h:mm A' }}</strong>
         </p>
         <span><strong>{{ event.categories.length > 0 ? event.categories[0].subcategory.name : '' }}</strong> $20 - $40</span>
       </div>
@@ -46,7 +46,10 @@
       <div *ngFor="let participant of event.eventparticipants" class="participant-container clearfix">
         <img *ngIf="participant.imageurl" class="pull-left" src="{{ participant.imageurl }}">
         <div class="participant">
-          <p class="participant-name">{{ participant.name }}</p>
+          <p *ngIf="participant.page_id;else noLink" class="participant-name"><a [routerLink]="['/page', participant.page_id]">{{ participant.name }}</a></p>
+          <ng-template #noLink>
+            <p class="participant-name">{{ participant.name }}</p>
+          </ng-template>
         </div>
       </div>
     </div>
