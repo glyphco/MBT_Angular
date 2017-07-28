@@ -16,12 +16,5 @@
 </head>
 <body>
   <app-root><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></app-root>
-  <script language="javascript"> 
-    if (typeof(window.history.pushState) == 'function') { 
-      window.history.pushState(null, "My Boring Town", window.location.hash.substring(2)); 
-    } else { 
-      window.location.hash = window.location.hash.substring(2); 
-    } 
-  </script>
 </body>
 </html>
