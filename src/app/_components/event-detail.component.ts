@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Event } from '../_models/event';
 import { EventService } from '../_services/event.service';
@@ -16,7 +16,8 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   constructor(
     private eventService:EventService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private router: Router
   ){}
 
   ngOnInit():void {
@@ -32,6 +33,10 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
   goBack(): void {
     this.location.back();
+  }
+
+  goEdit():void {
+    this.router.navigate(['/event/edit', this.event.id])
   }
 
   private getEvent(id:number){
