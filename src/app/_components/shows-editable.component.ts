@@ -17,11 +17,11 @@ export class ShowsEditableComponent implements OnInit {
   constructor(private showService: ShowService, private meService: MeService){}
 
   ngOnInit():void{
-    this.getShows(1);
+    this.getShowsEditable(1);
   }
 
-  getShows(page:number):void {
-    this.showService.getShows(page).then(shows => {
+  getShowsEditable(page:number):void {
+    this.showService.getShowsEditable(page).then(shows => {
       this.shows = Show.arrayMap(shows.json().data.data);
       let perPage = shows.json().data.per_page;
       let totalObjects = shows.json().data.total;

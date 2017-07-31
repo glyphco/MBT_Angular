@@ -20,6 +20,11 @@ export class PageService {
       .toPromise();
   }
 
+  getPagesEditable(page=1, perpage=10):Promise<any>{
+    return this.httpHandlerService.get(`page/editable?page=${page}&pp=${perpage}`)
+      .toPromise();
+  }
+
   getPage(id:number):Promise<any>{
     return this.httpHandlerService.get(`page/${id}`)
       .toPromise();
@@ -48,7 +53,16 @@ export class PageService {
     let options = {
       name: page.name,
       description: page.description,
-      public: page.public
+      public: page.public,
+      confirmed: page.confirmed,
+      city: page.city,
+      state: page.state,
+      postalcode: page.postalcode,
+      slug: page.slug,
+      phone: page.phone,
+      email: page.email,
+      tagline: page.tagline,
+      summary: page.summary
     }
     return this.httpHandlerService.post('page', options)
       .toPromise();

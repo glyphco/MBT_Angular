@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Show } from '../_models/show';
 import { ShowService } from '../_services/show.service';
+import { MeService } from '../_services/me.service';
 
 @Component({
   selector: 'app-show-create',
@@ -15,7 +16,9 @@ export class ShowCreateComponent {
   constructor(
     private showService:ShowService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private router: Router,
+    private meService: MeService
   ){}
 
   public goBack(): void {
@@ -28,7 +31,7 @@ export class ShowCreateComponent {
 
   private createShow(){
     this.showService.createShow(this.show).then(response => {
-      
+      this.router.navigate(['/backstage']);
     }).catch(error => console.log(error));
     console.log('the form was submitted');
   }

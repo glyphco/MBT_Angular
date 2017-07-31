@@ -17,11 +17,11 @@ export class VenuesEditableComponent implements OnInit {
   constructor(private venueService: VenueService, private meService:MeService){}
 
   ngOnInit():void{
-    this.getVenues(1);
+    this.getVenuesEditable(1);
   }
 
-  getVenues(page:number):void {
-    this.venueService.getVenues(page).then(venues => {
+  getVenuesEditable(page:number):void {
+    this.venueService.getVenuesEditable(page).then(venues => {
       this.venues = Venue.arrayMap(venues.json().data.data);
       let perPage = venues.json().data.per_page;
       let totalObjects = venues.json().data.total;

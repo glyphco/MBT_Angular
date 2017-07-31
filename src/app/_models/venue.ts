@@ -16,7 +16,8 @@ export class Venue {
   location:string;
   phone:string;
   postalCode:string;
-  public:number = 1;
+  public:boolean = true;
+  confirmed:boolean = false;
   slug:string;
   state:string;
   streetAddress:string;

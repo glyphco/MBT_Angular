@@ -21,6 +21,11 @@ export class EventService {
       .toPromise()
   }
 
+  getEventsEditable(page=1, perpage=10):Promise<any>{
+    return this.httpHandlerService.get(`event/editable?page=${page}&pp=${perpage}`)
+      .toPromise()
+  }
+
   getEvent(id:number){
     return this.httpHandlerService.get(`event/${id}`)
       .map(response => response.json().data)

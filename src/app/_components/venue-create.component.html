@@ -18,7 +18,7 @@
 
   <form (ngSubmit)="onSubmit()" #venueForm="ngForm">
     <div class="form-group" [class.has-error]="name.invalid && name.touched">
-      <label for="name">Name</label>
+      <label for="name">Name *</label>
       <input type="text" class="form-control" id="name" placeholder="Name" 
         [(ngModel)]="venue.name" name="name" required #name="ngModel" maxlength="60">
       <div *ngIf="name.errors  && name.touched">
@@ -32,7 +32,7 @@
     <input id="venue-image" type="file" (change)="fileChange(image)" name="image" #image />
     <br />
     <div class="form-group">
-      <label for="street-adress">Street address</label>
+      <label for="street-adress">Street address *</label>
       <input type="text" class="form-control" id="street-address" placeholder="Street address" 
         [(ngModel)]="venue.streetAddress" name="streetAddress" required #streetAddress="ngModel">
       <div *ngIf="streetAddress.errors  && streetAddress.touched">
@@ -40,7 +40,7 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="city">City</label>
+      <label for="city">City *</label>
       <input type="text" class="form-control" id="city" placeholder="City" 
         [(ngModel)]="venue.city" name="city" required #city="ngModel">
       <div *ngIf="city.errors  && city.touched">
@@ -48,13 +48,16 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="state">State</label>
-      <select class="form-control" id="state" [(ngModel)]="venue.state" name="state">
+      <label for="state">State *</label>
+      <select class="form-control" #state="ngModel" id="state" [(ngModel)]="venue.state" name="state" required>
         <option *ngFor="let state of states" [value]="state.abbreviation">{{state.name}}</option>
       </select>
+      <div *ngIf="state.errors  && state.touched">
+        <span [class.hidden]="!state.errors.required"  class="help-block">State is required</span>
+      </div>
     </div>
     <div class="form-group">
-      <label for="postal-code">Postal code</label>
+      <label for="postal-code">Postal code *</label>
       <input type="text" class="form-control" id="postal-code" placeholder="Postal code" 
         [(ngModel)]="venue.postalCode" name="postalCode" required #postalCode="ngModel">
       <div *ngIf="postalCode.errors  && postalCode.touched">
@@ -62,15 +65,18 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="timezone">Timezone</label>
-      <select [(ngModel)]="venue.localTz" class="form-control" id="timezone" name="timezone">
+      <label for="timezone">Timezone *</label>
+      <select [(ngModel)]="venue.localTz" #localTz="ngModel" class="form-control" id="timezone" name="timezone" required>
         <option *ngFor="let timezone of timezones" [value]="timezone.id">{{timezone.name}}</option>
       </select>
+      <div *ngIf="localTz.errors  && localTz.touched">
+        <span [class.hidden]="!localTz.errors.required"  class="help-block">Timezone is required</span>
+      </div>
     </div>
     <div class="form-group">
       <label for="neighborhood">Neighborhood</label>
       <input type="text" class="form-control" id="neighborhood" placeholder="Neighborhood" 
-        [(ngModel)]="venue.neighborhood" name="neighborhood" required #neighborhood="ngModel">
+        [(ngModel)]="venue.neighborhood" name="neighborhood" #neighborhood="ngModel">
       <div *ngIf="neighborhood.errors  && neighborhood.touched">
         <span [class.hidden]="!neighborhood.errors.required"  class="help-block">Neighborhood is required</span>
       </div>
@@ -78,10 +84,7 @@
     <div class="form-group">
       <label for="website">Website</label>
       <input type="text" class="form-control" id="website" placeholder="Website" 
-        [(ngModel)]="venue.website" name="website" required #website="ngModel">
-      <div *ngIf="website.errors  && website.touched">
-        <span [class.hidden]="!website.errors.required"  class="help-block">Website is required</span>
-      </div>
+        [(ngModel)]="venue.website" name="website" #website="ngModel">
     </div>
     <div class="form-group">
       <label for="phone">Phone number</label>
@@ -108,12 +111,14 @@
       <input type="text" class="form-control" id="description" placeholder="Description" [(ngModel)]="venue.description" name="description">
     </div>
     <div class="form-group">
-      <label for="visibility">Visibility</label>
-      <select class="form-control" id="visibility" [(ngModel)]="venue.public" name="visibility">
-        <option [value]="1">Public</option>
-        <option [value]="0">Private</option>
-      </select>
+      <label for="public">Public</label>
+      <input type="checkbox" id="public" [(ngModel)]="venue.public" name="public" />
     </div>
+    <div *ngIf="meService.hasPageConfirm();else noConfirm" class="form-group">
+      <label for="confirmed">Confirmed</label>
+      <input type="checkbox" id="confirmed" [(ngModel)]="venue.confirmed" name="confirmed">
+    </div>
+    <ng-template #noConfirm><p>After saving, this page will need to be confirmed by an admin.</p></ng-template>
 
     <button type="submit" class="btn btn-success" [disabled]="!venueForm.form.valid">Submit</button>
   </form>

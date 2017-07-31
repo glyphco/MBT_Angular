@@ -10,11 +10,11 @@ export class Page {
   lng: string;
   phone: string;
   email: string;
-  participant: boolean;
-  production: boolean;
+  participant: boolean = true;
+  production: boolean = false;
   canhavemembers: boolean;
   canbeamember: boolean;
-  public: number = 1;
+  public: boolean = true;
   confirmed: boolean;
   tagline: string;
   summary: string;

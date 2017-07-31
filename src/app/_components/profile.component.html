@@ -1,10 +1,11 @@
 <div class="container white">
   <h3>Coming soon</h3>
+  <div *ngIf="message" class="alert alert-info" role="alert">{{message}}</div>
   <label>Role</label>
   <select [(ngModel)]="role" name="role">
     <option value="superadmin">Super admin</option>
     <option value="admin">Admin</option>
-    <option value="editor">Master editor</option>
+    <option value="mastereditor">Master editor</option>
     <option value="contributor">Contributor</option>
     <option value="nothing">Nothing</option>
   </select>

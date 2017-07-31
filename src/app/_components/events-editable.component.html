@@ -27,7 +27,7 @@
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-    <li class="page-button" *ngFor="let number of pagination.pageList" [class.active]="number === pagination.currentPage" (click)="getEvents(number)">
+    <li class="page-button" *ngFor="let number of pagination.pageList" [class.active]="number === pagination.currentPage" (click)="getEventsEditable(number)">
       {{number}}
     </li>
     <li>

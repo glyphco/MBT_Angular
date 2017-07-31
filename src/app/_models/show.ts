@@ -2,12 +2,13 @@ export class Show {
   id: number;
   name: string;
   description: string;
+  summary: string;
   category: string;
   tagline: string;
   slug: string;
   imageUrl: string;
   backgroundUrl: string;
-  public: number = 1;
+  public: boolean = true;
   confirmed: number;
   createdAt: string;
   updatedAt: string;
@@ -35,6 +36,7 @@ export class Show {
       currentShow.slug = json.slug;
       currentShow.imageUrl = json.imageurl;
       currentShow.backgroundUrl = json.backgroundurl;
+      currentShow.summary = json.summary;
       currentShow.public = json.public;
       currentShow.confirmed = json.confirmed;
       currentShow.createdAt = json.created_at;

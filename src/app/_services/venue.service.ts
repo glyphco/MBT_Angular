@@ -11,8 +11,8 @@ export class VenueService {
     private httpHandlerService: HttpHandlerService
   ){}
 
-  getVenues(page=1, perpage=10):Promise<any>{
-    return this.httpHandlerService.get(`venue?page=${page}&pp=${perpage}&ConfirmedAndUnconfirmed&PublicAndPrivate`)
+  getVenuesEditable(page=1, perpage=10):Promise<any>{
+    return this.httpHandlerService.get(`venue/editable?page=${page}&pp=${perpage}&ConfirmedAndUnconfirmed&PublicAndPrivate`)
       .toPromise();
   }
   
@@ -26,6 +26,7 @@ export class VenueService {
       name: venue.name,
       description: venue.description,
       public: venue.public,
+      confirmed: venue.confirmed,
       street_address: venue.streetAddress,
       city: venue.city,
       state: venue.state,
@@ -38,7 +39,6 @@ export class VenueService {
       website: venue.website,
       phone: venue.phone,
       email: venue.email,
-      category: venue.category,
       slug: venue.slug,
       tagline: venue.tagline
     }

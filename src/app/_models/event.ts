@@ -35,11 +35,9 @@ export class Event {
       //An object was passed in
       for(let index in json){
         let position = parseInt(index); //convert the index:String to a number
-        if(position){
-          let event = json[position]
-          let eventObj = this.map(event);
-          events.push(eventObj);
-        }
+        let event = json[position]
+        let eventObj = this.map(event);
+        events.push(eventObj);
       }
     }else{ //An array was passed in
       for (let event of json as any[]){

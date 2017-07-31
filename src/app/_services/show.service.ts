@@ -16,6 +16,11 @@ export class ShowService {
       .toPromise();
   }
 
+  getShowsEditable(page=1, perpage=10):Promise<any>{
+    return this.httpHandlerService.get(`show/editable?page=${page}&pp=${perpage}`)
+      .toPromise();
+  }
+
   getShow(id:number){
     return this.httpHandlerService.get(`show/${id}`)
       .toPromise();
@@ -36,6 +41,10 @@ export class ShowService {
     let options = {
       name: show.name,
       description: show.description,
+      summary: show.summary,
+      tagline: show.tagline,
+      slug: show.slug,
+      confirmed: show.confirmed,
       public: show.public
     }
     return this.httpHandlerService.post('show', options)

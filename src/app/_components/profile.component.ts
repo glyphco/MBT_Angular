@@ -9,13 +9,15 @@ import { HttpHandlerService } from '../_services/http-handler.service';
 })
 export class ProfileComponent {
   role = 'nothing';
+  message;
 
   constructor(private meService: MeService, private httpHandlerService:HttpHandlerService){}
 
   saveRole(){
     this.httpHandlerService.get(`me/makeme/${this.role}`)
+      .map(response => response.json())
       .toPromise()
-      .then(response => console.log('Role changed'))
-      .catch(error => console.log('Can not change role'))
+      .then(response => this.message = response.data )
+      .catch(error => this.message = 'Role change failed')
   }
 }

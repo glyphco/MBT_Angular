@@ -16,11 +16,11 @@ export class EventsEditableComponent implements OnInit {
   constructor(private eventService:EventService, private meService:MeService){}
 
   ngOnInit():void{
-    this.getEvents(1)
+    this.getEventsEditable(1)
   }
 
-  public getEvents(page:number){
-    this.eventService.getEvents(page).then(events => {
+  public getEventsEditable(page:number){
+    this.eventService.getEventsEditable(page).then(events => {
       this.events = Event.arrayMap(events.json().data.data)
       let perPage = events.json().data.per_page;
       let totalObjects = events.json().data.total;

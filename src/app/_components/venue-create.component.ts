@@ -1,9 +1,10 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Venue } from '../_models/venue';
 import { VenueService } from '../_services/venue.service';
 import { CategoryService } from '../_services/category.service';
+import { MeService } from '../_services/me.service';
 import { StatesHelper } from '../_helpers/states-helper';
 
 declare var google:any;
@@ -24,13 +25,13 @@ export class VenueCreateComponent implements OnInit {
   image:any;
   jpegImage:any;
   timezones = [
-    {'id':'Pacific/Honolulu', 'name'  : 'Hawaii-Aleutian Standard Time (HAST)'},
-    {'id':'America/Anchorage', 'name' : 'Alaska with Daylight Savings Time (AKDT)'},
-    {'id':'PST8PDT', 'name'           : 'Pacific with Daylight Savings Time (PDT)'},
-    {'id':'MST', 'name'               : 'Mountain Standard Time (Arizona) (MST)'},
-    {'id':'MST7MDT', 'name'           : 'Mountain with Daylight Savings Time (MDT)'},
-    {'id':'CST6CDT', 'name'           : 'Central with Daylight Savings Time (CDT)'},
-    {'id':'EST5EDT', 'name'           : 'Eastern with Daylight Savings Time (EDT)'}
+    {'id':'CST6CDT', 'name'           : 'Central with Daylight Savings Time (Chicago)'},
+    {'id':'EST5EDT', 'name'           : 'Eastern with Daylight Savings Time (New York)'},
+    {'id':'MST7MDT', 'name'           : 'Mountain with Daylight Savings Time (Denver)'},
+    {'id':'MST', 'name'               : 'Mountain Standard Time (Arizona) (MST)'},
+    {'id':'PST8PDT', 'name'           : 'Pacific with Daylight Savings Time (Los Angeles)'},
+    {'id':'America/Anchorage', 'name' : 'Alaska with Daylight Savings Time'},
+    {'id':'Pacific/Honolulu', 'name'  : 'Hawaii-Aleutian Standard Time'}
   ];
 
   constructor(
@@ -38,7 +39,9 @@ export class VenueCreateComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private _zone: NgZone,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private router: Router,
+    private meService: MeService
   ){}
 
   //TODO: remove this later
@@ -49,6 +52,7 @@ export class VenueCreateComponent implements OnInit {
   ngOnInit():void{
     let self = this;
 
+    this.venue.localTz = 'CST6CDT';
     //Google map stuff
     var origin = {lat: 41.94, lng: -87.68};
     var REQUIRED_ZOOM = 15;
@@ -373,7 +377,7 @@ export class VenueCreateComponent implements OnInit {
 
   private createVenue(){
     this.venueService.createVenue(this.venue).then(response => {
-      
+      this.router.navigate(['/backstage']);
     }).catch(error => console.log(error));
   }
 

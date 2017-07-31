@@ -17,11 +17,11 @@ export class PagesEditableComponent implements OnInit {
   constructor(private pageService:PageService, private router:Router, private meService: MeService){}
 
   ngOnInit():void{
-    this.getPages(1)
+    this.getPagesEditable(1)
   }
 
-  public getPages(page:number){
-    this.pageService.getPages(page).then(pages => {
+  public getPagesEditable(page:number){
+    this.pageService.getPagesEditable(page).then(pages => {
       this.pages = Page.arrayMap(pages.json().data.data)
       let perPage = pages.json().data.per_page;
       let totalObjects = pages.json().data.total;
