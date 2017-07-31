@@ -25,6 +25,7 @@ import { EventsEditableComponent } from './_components/events-editable.component
 import { PagesEditableComponent } from './_components/pages-editable.component';
 import { ShowsEditableComponent } from './_components/shows-editable.component';
 import { VenuesEditableComponent } from './_components/venues-editable.component';
+import { VenueEditComponent } from './_components/venue-edit.component';
 import { ProfileComponent } from './_components/profile.component';
 
 const routes: Routes = [
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'venue/create', component: VenueCreateComponent, canActivate: [AuthGuard] },
   { path: 'venue/:id', component: VenueDetailComponent },
   { path: 'venues/editable', component: VenuesEditableComponent, canActivate: [AuthGuard] },
+  { path: 'venue/edit/:id', component: VenueEditComponent, canActivate: [AuthGuard] },
   //Event routes
   { path: 'event/create', component: EventCreateComponent, canActivate: [AuthGuard] },
   { path: 'event/:id', component: EventDetailComponent, canActivate: [AuthGuard] },

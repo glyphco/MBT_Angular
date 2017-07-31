@@ -10,7 +10,7 @@
   <tbody>
     <tr *ngFor="let show of shows">
       <td>
-        <a [routerLink]="['/show', show.id]">
+        <a [routerLink]="['/show/edit', show.id]">
           {{show.name}}
         </a>
       </td>

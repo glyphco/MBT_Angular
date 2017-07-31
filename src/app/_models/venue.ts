@@ -53,10 +53,13 @@ export class Venue {
       currentVenue.lng = json.lng;
       currentVenue.localTz = json.local_tz;
       currentVenue.location = json.location;
+      currentVenue.neighborhood = json.neighborhood;
       currentVenue.phone = json.phone;
       currentVenue.postalCode = json.postalcode;
       currentVenue.public = json.public;
+      currentVenue.confirmed = json.confirmed;
       currentVenue.slug = json.slug;
+      currentVenue.website = json.website;
       currentVenue.state = json.state;
       currentVenue.streetAddress = json.street_address;
       currentVenue.tagline = json.tagline;

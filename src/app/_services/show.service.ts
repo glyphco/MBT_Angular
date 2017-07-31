@@ -26,12 +26,21 @@ export class ShowService {
       .toPromise();
   }
 
+  getShowEdit(id:number){
+    return this.httpHandlerService.get(`show/${id}/edit`)
+      .toPromise();
+  }
+
   updateShow(show:Show):Promise<any>{
     let id = show.id;
     let options = {
-      //TODO: could put all the trimming into the http service as a function
-      //can't trim numbers though (i think)
-      name: show.name
+      name: show.name,
+      description: show.description,
+      summary: show.summary,
+      tagline: show.tagline,
+      slug: show.slug,
+      confirmed: show.confirmed,
+      public: show.public
     }
     return this.httpHandlerService.put(`show/${id}`, options)
       .toPromise();

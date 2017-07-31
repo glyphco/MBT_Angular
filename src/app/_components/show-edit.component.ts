@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Show } from '../_models/show';
 import { ShowService } from '../_services/show.service';
+import { MeService } from '../_services/me.service';
 
 @Component({
   selector: 'app-show-edit',
@@ -17,36 +18,31 @@ export class ShowEditComponent implements OnInit, OnDestroy {
   constructor(
     private showService:ShowService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private meService: MeService,
+    private router: Router
   ){}
 
   ngOnInit():void{
     this.sub = this.route.params.subscribe(params => {
        let id = +params['id']; // (+) converts string 'id' to a number
-       this.getShow(id);
+       this.getShowEdit(id);
     });
-    this.getCategories();
   }
 
   ngOnDestroy():void {
     this.sub.unsubscribe();
   }
 
-  public getShow(id:number){
-    this.showService.getShow(id).then(show => {
+  public getShowEdit(id:number){
+    this.showService.getShowEdit(id).then(show => {
       this.show = Show.map(show.json().data)
     }).catch(error => console.log(error));
   }
 
-  private getCategories(){
-    //TODO: move getCategories into it's own service or helper
-    this.showService.getCategories().then(categories => this.categories = categories.json().data)
-      .catch(error => console.log(error));
-  }
-
   public onSubmit(){
     this.showService.updateShow(this.show).then(response => {
-
+      this.router.navigate(['/backstage']);
     }).catch(error => console.log(error));
     console.log('the form was submitted');
   }

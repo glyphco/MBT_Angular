@@ -1,28 +1,29 @@
 <div class="container">
   <h3>Edit page</h3>
   <form (ngSubmit)="onSubmit()" #pageForm="ngForm">
-    <div class="form-group" [class.has-error]="name.invalid">
+    <div class="form-group" [class.has-error]="name.invalid && name.touched">
       <label for="name">Name</label>
       <input type="text" class="form-control" id="name" placeholder="Name" 
         [(ngModel)]="page.name" name="name" required #name="ngModel" maxlength="60">
-      <div *ngIf="name.errors">
+      <div *ngIf="name.errors && name.touched">
         <span [class.hidden]="!name.errors.required"  class="help-block">Name is required</span>
         <span [class.hidden]="!name.errors.maxlength"  class="help-block">
           Name cannot be more than 60 characters long.
         </span>
       </div>
     </div>
-    <div class="form-group" [class.has-error]="slug.invalid">
-      <label for="slug">Slug</label>
-      <input type="text" class="form-control" id="slug" placeholder="Slug" [(ngModel)]="page.slug" name="slug"
-        maxlength="60" #slug="ngModel">
-        <span class="help-block">Slug cannot be more than 60 characters long.</span>
+    <div class="form-group">
+      <label for="participant">Can perform at an event</label>
+      <input type="checkbox" id="participant" [(ngModel)]="page.participant" name="participant" />
     </div>
     <div class="form-group">
-      <label for="category">Category</label>
-      <select class="form-control" id="category" [(ngModel)]="page.state" name="state">
-        <option *ngFor="let state of states" [value]="state.abbreviation">{{state.name}}</option>
-      </select>
+      <label for="production">Can produce events</label>
+      <input type="checkbox" id="production" [(ngModel)]="page.production" name="production" />
+    </div>
+    <div class="form-group" [class.has-error]="city.invalid && city.touched">
+      <label for="city">City</label>
+      <input type="text" class="form-control" id="city" placeholder="City" [(ngModel)]="page.city" name="city" required #city="ngModel">
+      <span [class.hidden]="city.valid || city.pristine"  class="help-block">City is required</span>
     </div>
     <div class="form-group">
       <label for="state">State</label>
@@ -30,15 +31,16 @@
         <option *ngFor="let state of states" [value]="state.abbreviation">{{state.name}}</option>
       </select>
     </div>
-    <div class="form-group" [class.has-error]="city.invalid">
-      <label for="city">City</label>
-      <input type="text" class="form-control" id="city" placeholder="City" [(ngModel)]="page.city" name="city" required #city="ngModel">
-      <span [class.hidden]="city.valid || city.pristine"  class="help-block">City is required</span>
-    </div>
-    <div class="form-group" [class.has-error]="postalcode.invalid">
+    <div class="form-group" [class.has-error]="postalcode.invalid && postalcode.touched">
       <label for="postalcode">Postal code</label>
       <input type="text" class="form-control" id="postalcode" placeholder="Postal code" [(ngModel)]="page.postalcode" name="postalcode" required #postalcode="ngModel">
       <span [class.hidden]="postalcode.valid || postalcode.pristine"  class="help-block">Postal code is required</span>
+    </div>
+    <div class="form-group" [class.has-error]="slug.invalid">
+      <label for="slug">Slug</label>
+      <input type="text" class="form-control" id="slug" placeholder="Slug" [(ngModel)]="page.slug" name="slug"
+        maxlength="60" #slug="ngModel">
+        <span class="help-block">Slug cannot be more than 60 characters long.</span>
     </div>
     <div class="form-group">
       <label for="phone">Phone number</label>
@@ -64,6 +66,15 @@
       <label for="description">Description</label>
       <input type="text" class="form-control" id="description" placeholder="Description" [(ngModel)]="page.description" name="description">
     </div>
+    <div class="form-group">
+      <label for="public">Public</label>
+      <input type="checkbox" id="public" [(ngModel)]="page.public" name="public" />
+    </div>
+    <div *ngIf="meService.hasPageConfirm();else noConfirm" class="form-group">
+      <label for="confirmed">Confirmed</label>
+      <input type="checkbox" id="confirmed" [(ngModel)]="page.confirmed" name="confirmed">
+    </div>
+    <ng-template #noConfirm><p>After saving, this page will need to be confirmed by an admin.</p></ng-template>
 
     <button type="submit" class="btn btn-success" [disabled]="!pageForm.form.valid">Submit</button>
   </form>

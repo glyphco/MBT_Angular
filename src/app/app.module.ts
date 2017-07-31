@@ -27,6 +27,7 @@ import { PageEditComponent } from './_components/page-edit.component';
 import { PageCreateComponent } from './_components/page-create.component';
 import { EventDetailComponent } from './_components/event-detail.component';
 import { VenueDetailComponent } from './_components/venue-detail.component';
+import { VenueEditComponent } from './_components/venue-edit.component';
 import { ShowDetailComponent } from './_components/show-detail.component';
 import { ShowEditComponent } from './_components/show-edit.component';
 import { ShowCreateComponent } from './_components/show-create.component';
@@ -60,6 +61,7 @@ import { MeService } from './_services/me.service';
     EventsEditableComponent,
     VenuesEditableComponent,
     VenueCreateComponent,
+    VenueEditComponent,
     ShowsEditableComponent,
     SearchComponent,
     PagesEditableComponent,

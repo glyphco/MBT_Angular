@@ -1,20 +1,19 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Venue } from '../_models/venue';
 import { VenueService } from '../_services/venue.service';
-import { CategoryService } from '../_services/category.service';
-import { MeService } from '../_services/me.service';
 import { StatesHelper } from '../_helpers/states-helper';
+import { MeService } from '../_services/me.service';
 
 declare var google:any;
 
 @Component({
-  selector: 'app-venue-create',
-  templateUrl: './venue-create.component.html',
+  selector: 'app-venue-edit',
+  templateUrl: './venue-edit.component.html',
   styleUrls: ['./venue-create.component.css']
 })
-export class VenueCreateComponent implements OnInit {
+export class VenueEditComponent implements OnInit, OnDestroy {
   venue = new Venue;
   pacInput = '';
   map:any;
@@ -24,6 +23,7 @@ export class VenueCreateComponent implements OnInit {
   states = StatesHelper.states;
   image:any;
   jpegImage:any;
+  private sub: any;
   timezones = [
     {'id':'CST6CDT', 'name'           : 'Central with Daylight Savings Time (Chicago)'},
     {'id':'EST5EDT', 'name'           : 'Eastern with Daylight Savings Time (New York)'},
@@ -39,18 +39,15 @@ export class VenueCreateComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private _zone: NgZone,
-    private categoryService: CategoryService,
     private router: Router,
     private meService: MeService
   ){}
 
-  //TODO: remove this later
-  debugVenue(){
-    console.log(this.venue);
-  }
-
   ngOnInit():void{
-    let self = this;
+    this.sub = this.route.params.subscribe(params => {
+       let id = +params['id']; // (+) converts string 'id' to a number
+       this.getVenueEdit(id);
+    });
 
     this.venue.localTz = 'CST6CDT';
     //Google map stuff
@@ -61,8 +58,6 @@ export class VenueCreateComponent implements OnInit {
       center: origin,
       zoom: 13
     });
-
-    console.log(this.map);
 
     var card = document.getElementById('pac-card');
     var input = document.getElementById('pac-input');
@@ -90,16 +85,16 @@ export class VenueCreateComponent implements OnInit {
     this.infowindowContent = document.getElementById('infowindow-content');
     this.infowindow.setContent(this.infowindowContent);
     this.marker = new google.maps.Marker({
-      map: self.map,
+      map: this.map,
       anchorPoint: new google.maps.Point(1, 1)
     });
 
     autocomplete.addListener('place_changed', function()
     {
-      self.infowindow.close();
-      self.marker.setVisible(false);
+      this.infowindow.close();
+      this.marker.setVisible(false);
       var place = autocomplete.getPlace();
-      self.fillInAddressFromPlace(place);
+      this.fillInAddressFromPlace(place);
       if (!place.geometry) {
         // User entered the name of a Place that was not suggested and
         // pressed the Enter key, or the Place Details request failed.
@@ -109,12 +104,12 @@ export class VenueCreateComponent implements OnInit {
 
       // If the place has a geometry, then present it on a map.
       if (place.geometry.viewport) {
-        self.map.fitBounds(place.geometry.viewport);
+        this.map.fitBounds(place.geometry.viewport);
       } else {
-        self.map.setCenter(place.geometry.location);
-        self.map.setZoom(17);  // Why 17? Because it looks good.
+        this.map.setCenter(place.geometry.location);
+        this.map.setZoom(17);  // Why 17? Because it looks good.
       }
-      self.marker.setPosition(place.geometry.location);
+      this.marker.setPosition(place.geometry.location);
       //marker.setVisible(true);
 
       var address = '';
@@ -126,13 +121,13 @@ export class VenueCreateComponent implements OnInit {
         ].join(' ');
       }
 
-      self.infowindowContent.children['place-icon'].src = place.icon;
-      self.infowindowContent.children['place-name'].textContent = place.name;
-      self.infowindowContent.children['place-address'].textContent = address;
-      self.infowindow.setPosition(place.geometry.location)
-      self.infowindow.open(self.map);
-      self.marker.setVisible(false);
-    });
+      this.infowindowContent.children['place-icon'].src = place.icon;
+      this.infowindowContent.children['place-name'].textContent = place.name;
+      this.infowindowContent.children['place-address'].textContent = address;
+      this.infowindow.setPosition(place.geometry.location)
+      this.infowindow.open(this.map);
+      this.marker.setVisible(false);
+    }.bind(this));
 
     this.map.addListener("click", function (event)
     {
@@ -142,21 +137,31 @@ export class VenueCreateComponent implements OnInit {
 
         if (event.placeId) {
           console.log('place:'+event.placeId);
-          self.getPlaceFromID(event.placeId, self)
+          this.getPlaceFromID(event.placeId)
         } else {
           console.log('geo:'+event.latLng);
-          self.geocodeLatLng(geocoder, self.map, event.latLng, self);
+          this.geocodeLatLng(geocoder, event.latLng);
         }
-    });
+    }.bind(this));
   }
-  
-  public getPlaceFromID(place_id, self) {
-    var service = new google.maps.places.PlacesService(self.map);
+
+  ngOnDestroy():void {
+    this.sub.unsubscribe();
+  }
+
+  private getVenueEdit(id){
+    this.venueService.getVenueEdit(id).then(venue => {
+      this.venue = venue;
+    }).catch(error => console.log(error));
+  }
+
+  public getPlaceFromID(place_id) {
+    var service = new google.maps.places.PlacesService(this.map);
     service.getDetails({
       placeId: place_id
     }, function(place, status) {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        self.fillInAddressFromPlace(place);
+        this.fillInAddressFromPlace(place);
 
         if (!place.geometry) {
           // User entered the name of a Place that was not suggested and
@@ -167,13 +172,13 @@ export class VenueCreateComponent implements OnInit {
 
         // If the place has a geometry, then present it on a map.
         if (place.geometry.viewport) {
-          self.map.fitBounds(place.geometry.viewport);
+          this.map.fitBounds(place.geometry.viewport);
         } else {
-          self.map.setCenter(place.geometry.location);
-          self.map.setZoom(16);  // Why 17? Because it looks good.
+          this.map.setCenter(place.geometry.location);
+          this.map.setZoom(16);  // Why 17? Because it looks good.
         }
 
-        self.marker.setPosition(place.geometry.location);
+        this.marker.setPosition(place.geometry.location);
         //marker.setVisible(true);
 
         var address = '';
@@ -185,32 +190,32 @@ export class VenueCreateComponent implements OnInit {
           ].join(' ');
         }
 
-        self.infowindowContent.children['place-icon'].src = place.icon;
-        self.infowindowContent.children['place-name'].textContent = place.name;
-        self.infowindowContent.children['place-address'].textContent = address;
-        self.infowindow.setPosition(place.geometry.location)
-        self.infowindow.open(self.map);
-        self.marker.setVisible(false);
+        this.infowindowContent.children['place-icon'].src = place.icon;
+        this.infowindowContent.children['place-name'].textContent = place.name;
+        this.infowindowContent.children['place-address'].textContent = address;
+        this.infowindow.setPosition(place.geometry.location)
+        this.infowindow.open(this.map);
+        this.marker.setVisible(false);
       } else {
         //console.log(status);
       }
 
-    });
+    }.bind(this));
   }
 
-  public geocodeLatLng(geocoder, map, latlng, self) {
+  public geocodeLatLng(geocoder, latlng) {
     geocoder.geocode({'location': latlng}, function(results, status) {
       if (status === google.maps.GeocoderStatus.OK) {
         if (results[0]) {
           let placename = results[0].formatted_address;
-          self.fillInAddressFromGeo(results[0]);
+          this.fillInAddressFromGeo(results[0]);
           (<HTMLInputElement>document.getElementById('pac-input')).value = placename;
         } else {
             window.alert('No results found');
         }
-        map.setCenter(results[0].geometry.location);
-        if (map.getZoom() < 16) {
-          map.setZoom(16);  // Why 16? Because it looks good.
+        this.map.setCenter(results[0].geometry.location);
+        if (this.map.getZoom() < 16) {
+          this.map.setZoom(16);  // Why 16? Because it looks good.
         }
 
         var address = '';
@@ -222,16 +227,16 @@ export class VenueCreateComponent implements OnInit {
           ].join(' ');
         }
 
-        self.infowindowContent.children['place-icon'].src = '';
-        self.infowindowContent.children['place-name'].textContent = 'unknown';
-        self.infowindowContent.children['place-address'].textContent = address;
-        self.infowindow.setPosition(results[0].geometry.location)
-        self.infowindow.open(map);
-        self.marker.setVisible(false);
+        this.infowindowContent.children['place-icon'].src = '';
+        this.infowindowContent.children['place-name'].textContent = 'unknown';
+        this.infowindowContent.children['place-address'].textContent = address;
+        this.infowindow.setPosition(results[0].geometry.location)
+        this.infowindow.open(this.map);
+        this.marker.setVisible(false);
       } else {
       window.alert('Geocoder failed due to: ' + status);
       }
-    });
+    }.bind(this));
   }
 
   public fillInAddressFromPlace(result) {
@@ -374,11 +379,11 @@ export class VenueCreateComponent implements OnInit {
   }
 
   public onSubmit(){
-    this.createVenue();
+    this.updateVenue();
   }
 
-  private createVenue(){
-    this.venueService.createVenue(this.venue).then(response => {
+  private updateVenue(){
+    this.venueService.updateVenue(this.venue).then(response => {
       this.router.navigate(['/backstage']);
     }).catch(error => console.log(error));
   }

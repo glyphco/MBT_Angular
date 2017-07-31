@@ -10,7 +10,7 @@
   <tbody>
     <tr *ngFor="let venue of venues">
       <td>
-        <a [routerLink]="['/venue',venue.id]">
+        <a [routerLink]="['/venue/edit',venue.id]">
           {{venue.name}}
         </a>
       </td>

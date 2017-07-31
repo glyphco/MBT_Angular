@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Page } from '../_models/page';
 import { PageService } from '../_services/page.service';
+import { MeService } from '../_services/me.service';
 import { StatesHelper } from '../_helpers/states-helper';
 
 @Component({
@@ -19,36 +20,31 @@ export class PageEditComponent implements OnInit, OnDestroy {
   constructor(
     private pageService:PageService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private meService: MeService,
+    private router: Router
   ){}
 
   ngOnInit():void{
     this.sub = this.route.params.subscribe(params => {
        let id = +params['id']; // (+) converts string 'id' to a number
-       this.getPage(id);
+       this.getPageEdit(id);
     });
-    this.getCategories();
   }
 
   ngOnDestroy():void {
     this.sub.unsubscribe();
   }
 
-  public getPage(id:number){
-    this.pageService.getPage(id).then(page => {
+  public getPageEdit(id:number){
+    this.pageService.getPageEdit(id).then(page => {
       this.page = Page.map(page.json().data)
     }).catch(error => console.log(error));
   }
 
-  private getCategories(){
-    //TODO: move getCategories into it's own service or helper
-    this.pageService.getCategories().then(categories => this.categories = categories.json().data)
-      .catch(error => console.log(error));
-  }
-
   public onSubmit(){
     this.pageService.updatePage(this.page).then(response => {
-
+      this.router.navigate(['/backstage']);
     }).catch(error => console.log(error));
     console.log('the form was submitted');
   }

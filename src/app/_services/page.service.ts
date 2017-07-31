@@ -29,16 +29,29 @@ export class PageService {
     return this.httpHandlerService.get(`page/${id}`)
       .toPromise();
   }
+
+  getPageEdit(id:number):Promise<any>{
+    return this.httpHandlerService.get(`page/${id}/edit`)
+      .toPromise();
+  }
   
   updatePage(page:Page):Promise<any>{
     let id = page.id;
     let options = {
-      //TODO: could put all the trimming into the http service as a function
-      //can't trim numbers though (i think)
       name: page.name,
-      state: page.state,
+      description: page.description,
+      public: page.public,
+      confirmed: page.confirmed,
       city: page.city,
-      postalcode: page.postalcode
+      state: page.state,
+      postalcode: page.postalcode,
+      participant: page.participant,
+      production: page.production,
+      slug: page.slug,
+      phone: page.phone,
+      email: page.email,
+      tagline: page.tagline,
+      summary: page.summary
     }
     return this.httpHandlerService.put(`page/${id}`, options)
       .toPromise();
@@ -58,6 +71,8 @@ export class PageService {
       city: page.city,
       state: page.state,
       postalcode: page.postalcode,
+      participant: page.participant,
+      production: page.production,
       slug: page.slug,
       phone: page.phone,
       email: page.email,
