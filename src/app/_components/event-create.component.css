@@ -61,6 +61,22 @@
 .participant-container i:hover {
   color:#000;
 }
+.category-container img {
+  height:25px;
+  margin-right:5px;
+}
+.category-container i {
+  margin-left:4px;
+  cursor:pointer;
+}
+.category-container i:hover {
+  color:#000;
+}
+
+.category-container {
+  display:inline-block;
+  margin-right:20px;
+}
 
 .participant-container.in-modal {
   text-align: left;

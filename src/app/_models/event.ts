@@ -4,7 +4,8 @@ export class Event {
   id: number;
   backgroundUrl:string;
   //city:string;
-  confirmed:number;
+  public:boolean = true;
+  confirmed:boolean;
   createdAt:string;
   createdBy:number;
   description:string;
@@ -16,7 +17,6 @@ export class Event {
   name:string;
   particapants:any;
   postalCode:string;
-  public:number = 1;
   start:string;
   startTime:any;
   localTz:any;

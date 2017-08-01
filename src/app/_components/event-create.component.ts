@@ -12,6 +12,7 @@ import { Venue } from '../_models/venue';
 import { Page } from '../_models/page';
 import { Show } from '../_models/show';
 import { EventService } from '../_services/event.service';
+import { MeService } from '../_services/me.service';
 import { Observable }        from 'rxjs/Observable';
 import { Subject }           from 'rxjs/Subject';
 import * as moment from 'moment-timezone'; // add this 1 of 4
@@ -37,6 +38,8 @@ export class EventCreateComponent implements OnInit {
   categories = []; //for filling the dropdown
   event = new Event();
   eventCategory:string;
+  categorySelect = 'null';
+  eventCategories = [];
   venue:Venue;
   shows = [];
   image:any;
@@ -45,24 +48,31 @@ export class EventCreateComponent implements OnInit {
   startDateTime = new DateTime();
   endDateTime = new DateTime();
   tempVenue:Venue; //used for creating a custom venue
+  producers = [];
+  tempProducer:Page;
   participants = [];
   tempParticipant:Page;
   states = StatesHelper.states;
   venueModalVisible = false;
   timezoneModalVisible = false;
+  producerModalVisible = false;
   participantModalVisible = false;
   showModalVisible = false;
   hasEndDate = false;
   private searchVenueTerms = new Subject<string>();
+  private searchProducerTerms = new Subject<string>();
   private searchParticipantTerms = new Subject<string>();
   private searchShowTerms = new Subject<string>();
   venueResults: Observable<any[]>;
+  producerResults: Observable<any[]>;
   participantResults: Observable<any[]>;
   showResults: Observable<any[]>;
   geocoder:any;
   venueGeocodeResults = [];
   resultMapping:{[k: string]: string} = {'=0': '0 results.', '=1': '1 result.', 'other': '# results.'};
   venueResultError = false;
+  @ViewChild('category') category: ElementRef;
+  @ViewChild('producerSearch') producerSearch: ElementRef;
   @ViewChild('participantSearch') participantSearch: ElementRef;
   @ViewChild('venueSearch') venueSearch: ElementRef;
   tempTimezone:string;
@@ -83,7 +93,8 @@ export class EventCreateComponent implements OnInit {
     private searchService: SearchService,
     private _ngZone: NgZone,
     private categoryService: CategoryService,
-    private router: Router
+    private router: Router,
+    private meService: MeService
   ){
     this.event.startTime = '20:00';
     this.event.startDate = moment();
@@ -96,6 +107,8 @@ export class EventCreateComponent implements OnInit {
     this.getCategories();
     //live search for venues
     this.initVenueSearch();
+    //live search for producers
+    this.initProducerSearch();
     //live search for participants
     this.initParticipantSearch();
     //live search for shows
@@ -109,6 +122,21 @@ export class EventCreateComponent implements OnInit {
       .switchMap(term => term   // switch to new observable each time the term changes
         // return the http search observable
         ? this.searchService.searchVenues(term)
+        // or the observable of empty results if there was no search term
+        : Observable.of<any[]>([]))
+      .catch(error => {
+        // TODO: add real error handling
+        return Observable.of<any[]>([]);
+      });
+  }
+
+  private initProducerSearch(){
+    this.producerResults = this.searchProducerTerms
+      .debounceTime(300)        // wait 300ms after each keystroke before considering the term
+      .distinctUntilChanged()   // ignore if next search term is same as previous
+      .switchMap(term => term   // switch to new observable each time the term changes
+        // return the http search observable
+        ? this.searchService.searchProducers(term)
         // or the observable of empty results if there was no search term
         : Observable.of<any[]>([]))
       .catch(error => {
@@ -151,6 +179,10 @@ export class EventCreateComponent implements OnInit {
     this.searchVenueTerms.next(term);
   }
 
+  searchProducers(term: string): void {
+    this.searchProducerTerms.next(term);
+  }
+
   searchParticipants(term: string): void {
     this.searchParticipantTerms.next(term);
   }
@@ -167,6 +199,12 @@ export class EventCreateComponent implements OnInit {
     this.initVenueSearch(); //clear out results
   }
 
+  public chooseProducer(producer: any){
+    this.producers.push(Page.map(producer));
+    this.producerModalVisible = false;
+    this.initProducerSearch(); //clear out results
+  }
+
   public chooseParticipant(participant: any){
     participant = Page.map(participant);
     participant.startTime = '20:00';
@@ -179,9 +217,23 @@ export class EventCreateComponent implements OnInit {
     this.initShowSearch(); //clear out results
   }
 
+  private showExists(show){
+    for(let eventShow of this.shows){
+      if(show.id == eventShow.id){
+        return true;
+      }
+    }
+    return false;
+  }
+
   public addManualVenue(){
     this.tempVenue = new Venue();
   }
+
+  public addManualProducer(){
+    this.tempProducer = new Page();
+  }
+
   public addManualParticipant(){
     this.tempParticipant = new Page();
     this.tempParticipant.startTime = '20:00';
@@ -192,6 +244,35 @@ export class EventCreateComponent implements OnInit {
     this.venueResultError = false;
     let address = `${this.tempVenue.streetAddress || ''}`;
     this.geocodeAddress(address);
+  }
+
+  public addCategory(value){
+    let values = value.split(',');
+    let category = {
+      category_id:values[0],
+      subcategory_id:values[1],
+      subcategory_name:values[2]
+    };
+    if(!this.categoryExists(category)){
+      this.eventCategories.push(category);
+    }
+    this.category.nativeElement.value = 'null'; //set the dropdown back to the default value
+  }
+
+  private categoryExists(category){
+    for(let eventCategory of this.eventCategories){
+      if(category.subcategory_id == eventCategory.subcategory_id){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public manualProducerSubmit(){
+    //TODO: Do validations here
+    this.producers.push(this.tempProducer);
+    this.tempProducer = null;
+    this.producerModalVisible = false;
   }
 
   public manualParticipantSubmit(){
@@ -212,10 +293,21 @@ export class EventCreateComponent implements OnInit {
     this.venueModalVisible = false;
   }
 
+  public closeProducerModal(){
+    this.producerModalVisible = false;
+    this.tempProducer = null;
+    if(this.producerSearch && this.producerSearch.nativeElement){
+      this.producerSearch.nativeElement.value = '';
+    }
+    this.initProducerSearch();//clear out search results
+  }
+
   public closeParticipantModal(){
     this.tempParticipant = null;
     this.initParticipantSearch();//clear out search results
-    this.participantSearch.nativeElement.value = '';
+    if(this.participantSearch && this.participantSearch.nativeElement){
+      this.participantSearch.nativeElement.value = '';
+    }
     this.participantModalVisible = false;
   }
 
@@ -270,6 +362,14 @@ export class EventCreateComponent implements OnInit {
     this.endDateTime.timezone = timezone;
   }
 
+  public removeProducer(producer){
+    let index = this.producers.indexOf(producer);
+    if(index !== -1){
+      //element exists in our array
+      this.producers.splice(index);
+    }
+  }
+
   public removeParticipant(participant){
     let index = this.participants.indexOf(participant);
     if(index !== -1){
@@ -302,6 +402,8 @@ export class EventCreateComponent implements OnInit {
     let localEnd = this.endDateTime.date;
     params.name = this.event.name;
     params.description = this.event.description;
+    params.public = this.event.public;
+    params.confirmed = this.event.confirmed;
     params.local_tz = this.startDateTime.date.tz();
     params.UTC_start = localStart.utc().format('YYYY-MM-DD HH-mm-ss');
     params.local_start = localStart.tz(params.local_tz).format('YYYY-MM-DD HH-mm-ss');
@@ -321,18 +423,34 @@ export class EventCreateComponent implements OnInit {
     if(this.venue && this.venue.id > 0){
       params.venue_id = this.venue.id;
     }
+    params.categories = this.eventCategories.length > 0 ? JSON.stringify(this.eventCategories) : undefined;
+    let showsJson = [];
+    for (let index in this.shows) {
+      let tempShow = {};
+      tempShow['id'] = this.shows[index].id;
+      showsJson.push(tempShow);
+    }
+    params.shows = showsJson.length > 0 ? JSON.stringify(showsJson) : undefined;
 
+    let producersJson = [];
+    for (let producer of this.producers){
+      let tempProducer = {
+        page_id: producer.id > 0 ? producer.id : undefined,
+        name: producer.name,
+        info: producer.tagline,
+        imageurl: producer.imageUrl
+        //private_info: TODO: make this a thing 
+      }
+      producersJson.push(tempProducer);
+    }
+    params.producers = producersJson.length > 0 ? JSON.stringify(producersJson) : undefined;
+    console.log(params);
     this.saveEvent(params);
   }
 
   private saveEvent(params){
     this.eventService.createEvent(params).then(event => {
       return this.saveParticipants(event.id);
-    }).then((eventId) => {
-      this.apiEventId = eventId;
-      return this.saveCategory(eventId);
-    }).then((eventId) => {
-      return this.saveShows(eventId);
     }).then((eventId) => {
         return this.getS3Key(eventId);
     }).then((s3Credentials) => {
@@ -444,6 +562,10 @@ export class EventCreateComponent implements OnInit {
 
   public showVenueModal(){
     this.venueModalVisible = true;
+  }
+
+  public showProducerModal(){
+    this.producerModalVisible = true;
   }
 
   public showParticipantModal(){
