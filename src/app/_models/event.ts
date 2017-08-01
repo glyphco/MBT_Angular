@@ -14,11 +14,14 @@ export class Event {
   //lng:string;
   location:string;
   name:string;
-  //particapants: TODO: make a model for this
+  particapants:any;
   postalCode:string;
   public:number = 1;
   start:string;
   startTime:any;
+  localTz:any;
+  localStart:any;
+  localEnd:any;
   startDate:any;
   state:string;
   streetAddress:string;
@@ -63,7 +66,7 @@ export class Event {
     //currentEvent.lng = json.lng;
     currentEvent.location = json.location;
     currentEvent.name = json.name;
-    //currentEvent.particapants TODO: fix this
+    currentEvent.particapants = json.eventparticipants;
     currentEvent.postalCode = json.postalcode;
     currentEvent.public = json.public;
     currentEvent.start = json.start;
@@ -71,6 +74,9 @@ export class Event {
     currentEvent.streetAddress = json.street_address;
     currentEvent.updatedAt = json.updated_at;
     currentEvent.updatedBy = json.updated_by;
+    currentEvent.localTz = json.local_tz;
+    currentEvent.localStart = json.local_start;
+    currentEvent.localEnd = json.local_end;
     currentEvent.venue = json.venue && Venue.map(json.venue);
     currentEvent.venueId = json.venue_id;
     currentEvent.venueName = json.venue_name;

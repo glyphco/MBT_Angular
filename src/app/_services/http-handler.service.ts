@@ -145,6 +145,35 @@ export class HttpHandlerService {
     }
   }
 
+  delete(url):Observable<any>{
+    let path = `${this.apiUrl}/${url}`;
+    if(this.tokenExpired() && this.accessable == true){
+      //token bad & no wait
+      //pause all other requests
+      this.accessable = false;
+      //get a new token and then complete request
+      return this.refreshToken()
+        .mergeMap((response) => {
+          this.setAccessable(true);
+          let headers = this.getHeaders();
+          return this.http.delete(path, headers);
+        })
+    } else if(this.accessable == true) {
+      //token good/no token & no wait
+      let headers = this.getHeaders();
+      return this.http.delete(path, headers);
+    } else {
+      let headers = this.getHeaders(); //this HAS to be inside the else
+      return this.accessStream$
+              .mergeMap(access => {
+                if(access == true){
+                  let headers = this.getHeaders();
+                  return this.http.delete(path, headers);
+                }
+              }).first();
+    }
+  }
+
   private refreshToken():Observable<any>{
     let token = localStorage.getItem('token');
     const path = `${this.authUrl}/refreshJWT?token=${token}`;

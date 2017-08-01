@@ -57,6 +57,11 @@ export class PageService {
       .toPromise();
   }
 
+  deletePage(id):Promise<any>{
+    return this.httpHandlerService.delete(`page/${id}`)
+      .toPromise();
+  }
+
   getCategories(){
     return this.httpHandlerService.get('pagecategory')
       .toPromise();

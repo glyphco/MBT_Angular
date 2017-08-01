@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { StatesHelper } from '../_helpers/states-helper';
 import { SearchService } from '../_services/search.service';
 import { CategoryService } from '../_services/category.service';
+import { DateTime } from '../_helpers/date-time.service';
 import { Event } from '../_models/event';
 import { Venue } from '../_models/venue';
 import { Page } from '../_models/page';
@@ -23,43 +24,6 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 
 declare var google:any;
-
-class DateTime {
-  private _dateTime = new moment().tz('America/Los_Angeles');
-  private _timezoneId = 'America/Los_Angeles'; //default
-  get date() {
-    return this._dateTime;
-  }
-  set date(newDate){
-    let year = newDate.getFullYear();
-    let month = newDate.getMonth();
-    let date = newDate.getDate();
-    this._dateTime.year(year).month(month).date(date);
-  }
-  get rawDate(){
-    return this._dateTime.toDate();
-  }
-  get time() {
-    return this._dateTime.format('HH:mm');
-  }
-  set time(newTime) {
-    let timeArray = newTime.split(':');
-    let hours = timeArray[0];
-    let minutes = timeArray[1];
-    this._dateTime.hours(hours).minutes(minutes);
-  }
-  get timezone() {
-    return this._dateTime.format('z');
-    //return this.dateTime.tz.name;
-  }
-  set timezone(newTimezone:string) {
-    this._dateTime.tz(newTimezone);
-    this._timezoneId = newTimezone;
-  }
-  get timezoneId() {
-    return this._timezoneId;
-  }
-}
 
 @Component({
   selector: 'app-event-create',

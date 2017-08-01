@@ -155,6 +155,12 @@ export class VenueEditComponent implements OnInit, OnDestroy {
     }).catch(error => console.log(error));
   }
 
+  public deleteShow(){
+    this.venueService.deleteVenue(this.venue.id).then(response => {
+      this.router.navigate(['/backstage']);
+    }).catch(error => console.log(error));
+  }
+
   public getPlaceFromID(place_id) {
     var service = new google.maps.places.PlacesService(this.map);
     service.getDetails({

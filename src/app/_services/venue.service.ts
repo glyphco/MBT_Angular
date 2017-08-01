@@ -52,6 +52,11 @@ export class VenueService {
       .toPromise();
   }
 
+  deleteVenue(id):Promise<any>{
+    return this.httpHandlerService.delete(`venue/${id}`)
+      .toPromise();
+  }
+
   updateVenue(venue:Venue):Promise<any>{
     let params = {
       name: venue.name,

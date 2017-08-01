@@ -46,6 +46,11 @@ export class ShowService {
       .toPromise();
   }
 
+  deleteShow(id):Promise<any>{
+    return this.httpHandlerService.delete(`show/${id}`)
+      .toPromise();
+  }
+
   createShow(show:Show):Promise<any>{
     let options = {
       name: show.name,

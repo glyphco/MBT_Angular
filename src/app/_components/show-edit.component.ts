@@ -46,4 +46,10 @@ export class ShowEditComponent implements OnInit, OnDestroy {
     }).catch(error => console.log(error));
     console.log('the form was submitted');
   }
+
+  public deleteShow(){
+    this.showService.deleteShow(this.show.id).then(response => {
+      this.router.navigate(['/backstage']);
+    }).catch(error => console.log(error));
+  }
 }
