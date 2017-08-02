@@ -31,6 +31,7 @@ export class Event {
   venueId:number;
   venueName:string;
   tagline:string;
+  categoriesJson:any;
 
   public static arrayMap(json):Event[]{
     let events:Event[] = [];
@@ -81,6 +82,7 @@ export class Event {
     currentEvent.venueId = json.venue_id;
     currentEvent.venueName = json.venue_name;
     currentEvent.tagline = json.tagline;
+    currentEvent.categoriesJson = json.categoriesjson;
     return currentEvent;
   }
 }

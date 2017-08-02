@@ -390,6 +390,7 @@ export class EventCreateComponent implements OnInit {
       params.venue_id = this.venue.id;
     }
     params.categories = this.eventCategories.length > 0 ? JSON.stringify(this.eventCategories) : undefined;
+    
     let showsJson = [];
     for (let index in this.shows) {
       let tempShow = {};

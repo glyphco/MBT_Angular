@@ -41,7 +41,7 @@ export class ShowService {
       slug: show.slug,
       confirmed: show.confirmed,
       public: show.public,
-      categories: categories.length > 0 ? JSON.stringify(categories) : undefined
+      categories: JSON.stringify(categories)
     }
     return this.httpHandlerService.put(`show/${id}`, options)
       .toPromise();

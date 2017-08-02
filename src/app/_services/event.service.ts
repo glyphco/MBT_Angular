@@ -21,7 +21,7 @@ export class EventService {
       .toPromise()
   }
 
-  getEventsEditable(page=1, perpage=10):Promise<any>{
+  getEventsEditable(page=1, perpage=100):Promise<any>{
     return this.httpHandlerService.get(`event/editable?page=${page}&pp=${perpage}`)
       .toPromise()
   }
@@ -38,15 +38,8 @@ export class EventService {
       .toPromise()
   }
 
-  updateEvent(event:Event):Promise<any>{
-    let id = event.id;
-    let options = {
-      //TODO: could put all the trimming into the http service as a function
-      //can't trim numbers though (i think)
-      name: event.name,
-      description: event.description
-    }
-    return this.httpHandlerService.put(`event/${id}`, options)
+  updateEvent(params):Promise<any>{
+    return this.httpHandlerService.put(`event/${params.id}`, params)
       .toPromise();
   }
 

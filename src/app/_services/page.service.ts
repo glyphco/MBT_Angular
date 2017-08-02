@@ -52,7 +52,7 @@ export class PageService {
       email: page.email,
       tagline: page.tagline,
       summary: page.summary,
-      categories: categories.length > 0 ? JSON.stringify(categories) : undefined
+      categories: JSON.stringify(categories)
     }
     return this.httpHandlerService.put(`page/${id}`, options)
       .toPromise();

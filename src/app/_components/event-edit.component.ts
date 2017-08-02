@@ -7,7 +7,6 @@ import {FormControl, Validators} from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
 import { StatesHelper } from '../_helpers/states-helper';
 import { SearchService } from '../_services/search.service';
-import { CategoryService } from '../_services/category.service';
 import { DateTime } from '../_helpers/date-time.service';
 import { Venue } from '../_models/venue';
 import { Page } from '../_models/page';
@@ -35,14 +34,15 @@ export class EventEditComponent implements OnInit {
   private sub:any;
   uploadUrl:string;
   public uploader:FileUploader = new FileUploader({url: 'hello'});
-  categories = []; //for filling the dropdown
+  eventCategories = []; //for filling the dropdown
   event = new Event();
-  eventCategory:string;
   venue:Venue;
   shows = [];
   image:any;
   file_srcs = [];
   jpegImage:any;
+  producers = [];
+  tempProducer:Page;
   startDateTime = new DateTime();
   endDateTime = new DateTime();
   tempVenue:Venue; //used for creating a custom venue
@@ -51,19 +51,23 @@ export class EventEditComponent implements OnInit {
   states = StatesHelper.states;
   venueModalVisible = false;
   timezoneModalVisible = false;
+  producerModalVisible = false;
   participantModalVisible = false;
   showModalVisible = false;
   hasEndDate = false;
   private searchVenueTerms = new Subject<string>();
+  private searchProducerTerms = new Subject<string>();
   private searchParticipantTerms = new Subject<string>();
   private searchShowTerms = new Subject<string>();
   venueResults: Observable<any[]>;
+  producerResults: Observable<any[]>;
   participantResults: Observable<any[]>;
   showResults: Observable<any[]>;
   geocoder:any;
   venueGeocodeResults = [];
   resultMapping:{[k: string]: string} = {'=0': '0 results.', '=1': '1 result.', 'other': '# results.'};
   venueResultError = false;
+  @ViewChild('producerSearch') producerSearch: ElementRef;
   @ViewChild('participantSearch') participantSearch: ElementRef;
   @ViewChild('venueSearch') venueSearch: ElementRef;
   tempTimezone:string;
@@ -83,7 +87,6 @@ export class EventEditComponent implements OnInit {
     private location: Location,
     private searchService: SearchService,
     private _ngZone: NgZone,
-    private categoryService: CategoryService,
     private router: Router
   ){
     this.event.startTime = '20:00';
@@ -98,10 +101,10 @@ export class EventEditComponent implements OnInit {
     });
     //Init google map geocoder
     this.geocoder = new google.maps.Geocoder;
-    //Get categories
-    this.getCategories();
     //live search for venues
     this.initVenueSearch();
+    //live search for producers
+    this.initProducerSearch();
     //live search for participants
     this.initParticipantSearch();
     //live search for shows
@@ -123,7 +126,6 @@ export class EventEditComponent implements OnInit {
         this.venue.id = this.event.venueId;
       }
       for(let participant of this.event.particapants){
-        console.log(participant);
         let tempParticipant = new Page();
         tempParticipant.id = participant.page_id;
         tempParticipant.name = participant.name;
@@ -131,6 +133,7 @@ export class EventEditComponent implements OnInit {
         tempParticipant.imageUrl = participant.imageurl;
         this.participants.push(tempParticipant);
       }
+      this.eventCategories = this.event.categoriesJson ? JSON.parse(this.event.categoriesJson) : [];
     }).catch(error => console.log(error));
   }
 
@@ -141,6 +144,21 @@ export class EventEditComponent implements OnInit {
       .switchMap(term => term   // switch to new observable each time the term changes
         // return the http search observable
         ? this.searchService.searchVenues(term)
+        // or the observable of empty results if there was no search term
+        : Observable.of<any[]>([]))
+      .catch(error => {
+        // TODO: add real error handling
+        return Observable.of<any[]>([]);
+      });
+  }
+
+  private initProducerSearch(){
+    this.producerResults = this.searchProducerTerms
+      .debounceTime(300)        // wait 300ms after each keystroke before considering the term
+      .distinctUntilChanged()   // ignore if next search term is same as previous
+      .switchMap(term => term   // switch to new observable each time the term changes
+        // return the http search observable
+        ? this.searchService.searchProducers(term)
         // or the observable of empty results if there was no search term
         : Observable.of<any[]>([]))
       .catch(error => {
@@ -183,6 +201,10 @@ export class EventEditComponent implements OnInit {
     this.searchVenueTerms.next(term);
   }
 
+  searchProducers(term: string): void {
+    this.searchProducerTerms.next(term);
+  }
+
   searchParticipants(term: string): void {
     this.searchParticipantTerms.next(term);
   }
@@ -197,6 +219,12 @@ export class EventEditComponent implements OnInit {
     this.setTimezone(venueObj.localTz);
     this.venueModalVisible = false;
     this.initVenueSearch(); //clear out results
+  }
+
+  public chooseProducer(producer: any){
+    this.producers.push(Page.map(producer));
+    this.producerModalVisible = false;
+    this.initProducerSearch(); //clear out results
   }
 
   public chooseParticipant(participant: any){
@@ -214,6 +242,11 @@ export class EventEditComponent implements OnInit {
   public addManualVenue(){
     this.tempVenue = new Venue();
   }
+
+  public addManualProducer(){
+    this.tempProducer = new Page();
+  }
+
   public addManualParticipant(){
     this.tempParticipant = new Page();
     this.tempParticipant.startTime = '20:00';
@@ -224,6 +257,13 @@ export class EventEditComponent implements OnInit {
     this.venueResultError = false;
     let address = `${this.tempVenue.streetAddress || ''}`;
     this.geocodeAddress(address);
+  }
+
+  public manualProducerSubmit(){
+    //TODO: Do validations here
+    this.producers.push(this.tempProducer);
+    this.tempProducer = null;
+    this.producerModalVisible = false;
   }
 
   public manualParticipantSubmit(){
@@ -244,6 +284,15 @@ export class EventEditComponent implements OnInit {
     this.venueModalVisible = false;
   }
 
+  public closeProducerModal(){
+    this.producerModalVisible = false;
+    this.tempProducer = null;
+    if(this.producerSearch && this.producerSearch.nativeElement){
+      this.producerSearch.nativeElement.value = '';
+    }
+    this.initProducerSearch();//clear out search results
+  }
+
   public closeParticipantModal(){
     this.tempParticipant = null;
     this.initParticipantSearch();//clear out search results
@@ -261,11 +310,6 @@ export class EventEditComponent implements OnInit {
 
   public onSubmit(){
     this.createEvent();
-  }
-
-  private getCategories(){
-    this.categoryService.getCategories().then(categories => this.categories = categories.json().data)
-      .catch(() => console.log('There was an error getting categories'));
   }
 
   public useManualResult(geocodeObj){
@@ -302,6 +346,14 @@ export class EventEditComponent implements OnInit {
     this.endDateTime.timezone = timezone;
   }
 
+  public removeProducer(producer){
+    let index = this.producers.indexOf(producer);
+    if(index !== -1){
+      //element exists in our array
+      this.producers.splice(index, 1);
+    }
+  }
+
   public removeParticipant(participant){
     let index = this.participants.indexOf(participant);
     if(index !== -1){
@@ -332,6 +384,7 @@ export class EventEditComponent implements OnInit {
     let params = <any>{};
     let localStart = this.startDateTime.date;
     let localEnd = this.endDateTime.date;
+    params.id = this.event.id;
     params.name = this.event.name;
     params.description = this.event.description;
     params.local_tz = this.startDateTime.date.tz();
@@ -353,18 +406,36 @@ export class EventEditComponent implements OnInit {
     if(this.venue && this.venue.id > 0){
       params.venue_id = this.venue.id;
     }
+    //save categories
+    params.categories = JSON.stringify(this.eventCategories);
+    //save shows
+    let showsJson = [];
+    for (let index in this.shows) {
+      let tempShow = {};
+      tempShow['id'] = this.shows[index].id;
+      showsJson.push(tempShow);
+    }
+    params.shows = JSON.stringify(showsJson);
+    //save producers
+    let producersJson = [];
+    for (let producer of this.producers){
+      let tempProducer = {
+        page_id: producer.id > 0 ? producer.id : undefined,
+        name: producer.name,
+        info: producer.tagline,
+        imageurl: producer.imageUrl
+        //private_info: TODO: make this a thing 
+      }
+      producersJson.push(tempProducer);
+    }
+    params.producers = JSON.stringify(producersJson);
 
-    this.saveEvent(params);
+    this.updateEvent(params);
   }
 
-  private saveEvent(params){
-    this.eventService.createEvent(params).then(event => {
+  private updateEvent(params){
+    this.eventService.updateEvent(params).then(event => {
       return this.saveParticipants(event.id);
-    }).then((eventId) => {
-      this.apiEventId = eventId;
-      return this.saveCategory(eventId);
-    }).then((eventId) => {
-      return this.saveShows(eventId);
     }).then((eventId) => {
         return this.getS3Key(eventId);
     }).then((s3Credentials) => {
@@ -459,23 +530,12 @@ export class EventEditComponent implements OnInit {
     });
   }
 
-  private saveCategory(eventId):Promise<number>{
-    return new Promise((resolve, reject) => {
-      if(this.eventCategory){
-        //parse category data
-        let parentCategory = this.eventCategory.split(',')[0];
-        let subCategory = this.eventCategory.split(',')[1];
-        this.eventService.addCategory(eventId,parentCategory,subCategory).then(response => {
-          resolve(eventId);
-        }).catch(error => reject('There was an error saving category.'));
-      }else{
-        resolve(eventId);
-      }
-    });
-  }
-
   public showVenueModal(){
     this.venueModalVisible = true;
+  }
+
+  public showProducerModal(){
+    this.producerModalVisible = true;
   }
 
   public showParticipantModal(){

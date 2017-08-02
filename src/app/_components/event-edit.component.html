@@ -72,6 +72,17 @@
     </div>
     </ng-container>
 
+    <label>Producers</label><br />
+    <span *ngIf="producers.length == 0" class="help-block inline">No producers chosen. </span>
+    <span *ngFor="let producer of producers" class="help-block participant-container">
+      <img *ngIf="producer.id > 0" src="{{ producer.imageUrl }}" />
+      {{ producer.name }} <i class="fa fa-times" (click)="removeProducer(producer)" aria-hidden="true"></i></span>
+    <a href="javascript:void(0)" (click)="showProducerModal()">
+      <i class="fa fa-user-plus" aria-hidden="true"></i> Add producer
+    </a>
+
+    <br />
+    <br />
     <label>Participants</label><br />
     <span *ngIf="participants.length == 0" class="help-block inline">No participants chosen. </span>
     <span *ngFor="let participant of participants" class="help-block participant-container">
@@ -82,6 +93,7 @@
     </a>
 
     <br />
+    <br />
     <label>Shows</label><br />
     <span *ngIf="shows.length == 0" class="help-block inline">No shows chosen. </span>
 
@@ -91,17 +103,12 @@
     <a href="javascript:void(0)" (click)="showShowModal()">
       <i class="fa fa-plus" aria-hidden="true"></i> Add show
     </a>
+    <br />
+    <br />
 
-    <div class="form-group">
-      <label for="category">Category</label>
-      <select class="form-control" id="category" [(ngModel)]="eventCategory" name="category">
-        <ng-container *ngFor="let category of categories">
-          <optgroup label="{{category.name}}">
-            <option *ngFor="let subcategory of category.subcategories" [value]="category.id+','+subcategory.id">{{subcategory.name}}</option>
-          </optgroup>
-        </ng-container>
-      </select>
-    </div>
+
+    <category-select [(categories)]="eventCategories"></category-select>
+    
     <div class="form-group">
       <label for="description">Description</label>
       <textarea type="text" class="form-control event-description" id="description" placeholder="Description" [(ngModel)]="event.description" name="description"></textarea>
@@ -183,6 +190,67 @@
 			<li><div (click)="closeVenueModal()">Cancel</div></li>
 		</ul>
 		<div class="cd-popup-close img-replace" (click)="closeVenueModal()">Close</div>
+	</div> <!-- cd-popup-container -->
+</div> <!-- cd-popup -->
+
+<!--
+    PRODUCERS MODAL
+-->
+<div class="cd-popup" [class.is-visible]="producerModalVisible == true" role="alert">
+	<div class="cd-popup-container">
+    <ng-container *ngIf="!tempProducer">
+      <p>Find an Existing MBT Producer</p>
+      <div class="input-group venue-search">
+        <input #producerSearch type="text" class="form-control sharp-border"
+         (keyup)="searchProducers(producerSearch.value)" placeholder="Search producers">
+        <span class="input-group-addon sharp-border"><i class="fa fa-search" aria-hidden="true"></i></span>
+      </div>
+      <div class="list-group venue-result-container">
+        <button *ngFor="let result of producerResults | async" (click)="producerSearch.value = '';chooseProducer(result)" type="button" class="list-group-item list-group-item-action venue-result sharp-border">
+          <img src="{{ result.imageurl }}"> {{ result.name }}
+        </button>
+      </div>
+      <p class="venue-help-text"><a href="javascript:void(0)" (click)="addManualProducer()">Manually add a non-MBT Producer</a></p>
+    </ng-container>
+    <ng-container *ngIf="tempProducer">
+      <p *ngIf="tempProducer.id < 0;else producerElse">Manually add a non-MBT Producer</p>
+      <ng-template #producerElse><p>Choose start time</p>
+        <span class="help-block participant-container in-modal">
+          <img src="{{ tempProducer.imageUrl }}" />
+          {{ tempProducer.name }}
+        </span>
+      </ng-template>
+      <div class="venue-form-container">
+        <div *ngIf="producerResultError" class="alert alert-danger" role="alert">No results found for that producer</div>
+        <form (ngSubmit)="manualProducerSubmit()" #producerForm="ngForm">
+          <div *ngIf="tempProducer.id < 0" class="form-group" [class.has-error]="producername.invalid && producername.touched">
+            <label for="producer-name">Name</label>
+            <input type="text" class="form-control" id="producer-name" placeholder="Name" 
+              [(ngModel)]="tempProducer.name" name="producerName" required #producername="ngModel" maxlength="60">
+            <div *ngIf="producername.errors  && producername.touched">
+              <span [class.hidden]="!producername.errors.required"  class="help-block">Name is required</span>
+              <span [class.hidden]="!producername.errors.maxlength"  class="help-block">
+                Name cannot be more than 60 characters long.
+              </span>
+            </div>
+          </div>
+          <div *ngIf="tempProducer.id < 0" class="form-group">
+            <label for="producer-tagline">Tagline</label>
+            <textarea [(ngModel)]="tempProducer.tagline" class="form-control" id="producer-tagline" name="producerTagline"></textarea>
+          </div>
+        </form>
+      </div>
+      <p *ngIf="tempProducer.id < 0;else producerBack" class="venue-help-text"><a href="javascript:void(0)" (click)="tempProducer=null">Find an existing MBT Producer</a></p>
+      <ng-template #producerBack>
+        <p class="venue-help-text">Make a mistake? <a href="javascript:void(0)" (click)="tempProducer=null">Go back</a></p>
+      </ng-template>
+    </ng-container>
+    <br />
+		<ul *ngIf="tempProducer" class="cd-buttons">
+			<li><div (click)="manualProducerSubmit()">Save</div></li>
+			<li><div (click)="closeProducerModal()">Cancel</div></li>
+		</ul>
+		<div class="cd-popup-close img-replace" (click)="closeProducerModal()">Close</div>
 	</div> <!-- cd-popup-container -->
 </div> <!-- cd-popup -->
 
