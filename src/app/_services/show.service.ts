@@ -31,7 +31,7 @@ export class ShowService {
       .toPromise();
   }
 
-  updateShow(show:Show):Promise<any>{
+  updateShow(show:Show, categories):Promise<any>{
     let id = show.id;
     let options = {
       name: show.name,
@@ -40,7 +40,8 @@ export class ShowService {
       tagline: show.tagline,
       slug: show.slug,
       confirmed: show.confirmed,
-      public: show.public
+      public: show.public,
+      categories: categories.length > 0 ? JSON.stringify(categories) : undefined
     }
     return this.httpHandlerService.put(`show/${id}`, options)
       .toPromise();
@@ -51,7 +52,7 @@ export class ShowService {
       .toPromise();
   }
 
-  createShow(show:Show):Promise<any>{
+  createShow(show:Show,categories):Promise<any>{
     let options = {
       name: show.name,
       description: show.description,
@@ -59,7 +60,8 @@ export class ShowService {
       tagline: show.tagline,
       slug: show.slug,
       confirmed: show.confirmed,
-      public: show.public
+      public: show.public,
+      categories: categories.length > 0 ? JSON.stringify(categories) : undefined
     }
     return this.httpHandlerService.post('show', options)
       .toPromise();

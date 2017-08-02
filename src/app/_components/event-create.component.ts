@@ -5,7 +5,6 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { StatesHelper } from '../_helpers/states-helper';
 import { SearchService } from '../_services/search.service';
-import { CategoryService } from '../_services/category.service';
 import { DateTime } from '../_helpers/date-time.service';
 import { Event } from '../_models/event';
 import { Venue } from '../_models/venue';
@@ -35,10 +34,7 @@ export class EventCreateComponent implements OnInit {
   private apiEventId:number;
   uploadUrl:string;
   public uploader:FileUploader = new FileUploader({url: 'hello'});
-  categories = []; //for filling the dropdown
   event = new Event();
-  eventCategory:string;
-  categorySelect = 'null';
   eventCategories = [];
   venue:Venue;
   shows = [];
@@ -71,7 +67,6 @@ export class EventCreateComponent implements OnInit {
   venueGeocodeResults = [];
   resultMapping:{[k: string]: string} = {'=0': '0 results.', '=1': '1 result.', 'other': '# results.'};
   venueResultError = false;
-  @ViewChild('category') category: ElementRef;
   @ViewChild('producerSearch') producerSearch: ElementRef;
   @ViewChild('participantSearch') participantSearch: ElementRef;
   @ViewChild('venueSearch') venueSearch: ElementRef;
@@ -92,7 +87,6 @@ export class EventCreateComponent implements OnInit {
     private location: Location,
     private searchService: SearchService,
     private _ngZone: NgZone,
-    private categoryService: CategoryService,
     private router: Router,
     private meService: MeService
   ){
@@ -103,8 +97,6 @@ export class EventCreateComponent implements OnInit {
   ngOnInit():void {
     //Google map stuff
     this.geocoder = new google.maps.Geocoder;
-    //Get categories
-    this.getCategories();
     //live search for venues
     this.initVenueSearch();
     //live search for producers
@@ -246,27 +238,6 @@ export class EventCreateComponent implements OnInit {
     this.geocodeAddress(address);
   }
 
-  public addCategory(value){
-    let values = value.split(',');
-    let category = {
-      category_id:values[0],
-      subcategory_id:values[1],
-      subcategory_name:values[2]
-    };
-    if(!this.categoryExists(category)){
-      this.eventCategories.push(category);
-    }
-    this.category.nativeElement.value = 'null'; //set the dropdown back to the default value
-  }
-
-  private categoryExists(category){
-    for(let eventCategory of this.eventCategories){
-      if(category.subcategory_id == eventCategory.subcategory_id){
-        return true;
-      }
-    }
-    return false;
-  }
 
   public manualProducerSubmit(){
     //TODO: Do validations here
@@ -323,11 +294,6 @@ export class EventCreateComponent implements OnInit {
     this.createEvent();
   }
 
-  private getCategories(){
-    this.categoryService.getCategories().then(categories => this.categories = categories.json().data)
-      .catch(() => console.log('There was an error getting categories'));
-  }
-
   public useManualResult(geocodeObj){
     let locationDetails = <any>{};
     for (let component of geocodeObj.address_components){
@@ -366,7 +332,7 @@ export class EventCreateComponent implements OnInit {
     let index = this.producers.indexOf(producer);
     if(index !== -1){
       //element exists in our array
-      this.producers.splice(index);
+      this.producers.splice(index, 1);
     }
   }
 
@@ -374,7 +340,7 @@ export class EventCreateComponent implements OnInit {
     let index = this.participants.indexOf(participant);
     if(index !== -1){
       //element exists in our array
-      this.participants.splice(index);
+      this.participants.splice(index, 1);
     }
   }
 
@@ -382,7 +348,7 @@ export class EventCreateComponent implements OnInit {
     let index = this.shows.indexOf(show);
     if(index !== -1){
       //element exists in our array
-      this.shows.splice(index);
+      this.shows.splice(index, 1);
     }
   }
 
@@ -542,21 +508,6 @@ export class EventCreateComponent implements OnInit {
         }).catch(error => reject('There was an error adding the participant'));
       }
       resolve(eventId);
-    });
-  }
-
-  private saveCategory(eventId):Promise<number>{
-    return new Promise((resolve, reject) => {
-      if(this.eventCategory){
-        //parse category data
-        let parentCategory = this.eventCategory.split(',')[0];
-        let subCategory = this.eventCategory.split(',')[1];
-        this.eventService.addCategory(eventId,parentCategory,subCategory).then(response => {
-          resolve(eventId);
-        }).catch(error => reject('There was an error saving category.'));
-      }else{
-        resolve(eventId);
-      }
     });
   }
 

@@ -35,7 +35,7 @@ export class PageService {
       .toPromise();
   }
   
-  updatePage(page:Page):Promise<any>{
+  updatePage(page:Page, categories):Promise<any>{
     let id = page.id;
     let options = {
       name: page.name,
@@ -51,7 +51,8 @@ export class PageService {
       phone: page.phone,
       email: page.email,
       tagline: page.tagline,
-      summary: page.summary
+      summary: page.summary,
+      categories: categories.length > 0 ? JSON.stringify(categories) : undefined
     }
     return this.httpHandlerService.put(`page/${id}`, options)
       .toPromise();
@@ -67,7 +68,7 @@ export class PageService {
       .toPromise();
   }
 
-  createPage(page:Page):Promise<any>{
+  createPage(page:Page, categories):Promise<any>{
     let options = {
       name: page.name,
       description: page.description,
@@ -82,7 +83,8 @@ export class PageService {
       phone: page.phone,
       email: page.email,
       tagline: page.tagline,
-      summary: page.summary
+      summary: page.summary,
+      categories: categories.length > 0 ? JSON.stringify(categories) : undefined
     }
     return this.httpHandlerService.post('page', options)
       .toPromise();

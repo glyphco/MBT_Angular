@@ -37,6 +37,7 @@ import { DatepickerComponent } from './_components/datepicker.component';
 import { PublicEventsComponent } from './_components/public-events.component';
 import { ExploreComponent } from './_components/explore.component';
 import { ProfileComponent } from './_components/profile.component';
+import { CategorySelectComponent } from './_components/category-select.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
@@ -78,7 +79,8 @@ import { MeService } from './_services/me.service';
     DatepickerComponent,
     PublicEventsComponent,
     ExploreComponent,
-    ProfileComponent
+    ProfileComponent,
+    CategorySelectComponent
   ],
   imports: [
     BrowserModule,

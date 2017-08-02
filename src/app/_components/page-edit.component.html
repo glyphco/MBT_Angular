@@ -36,6 +36,7 @@
       <input type="text" class="form-control" id="postalcode" placeholder="Postal code" [(ngModel)]="page.postalcode" name="postalcode" required #postalcode="ngModel">
       <span [class.hidden]="postalcode.valid || postalcode.pristine"  class="help-block">Postal code is required</span>
     </div>
+    <category-select [(categories)]="pageCategories"></category-select>
     <div class="form-group" [class.has-error]="slug.invalid">
       <label for="slug">Slug</label>
       <input type="text" class="form-control" id="slug" placeholder="Slug" [(ngModel)]="page.slug" name="slug"

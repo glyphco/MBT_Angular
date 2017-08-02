@@ -15,7 +15,7 @@ export class PageEditComponent implements OnInit, OnDestroy {
   page = new Page;
   private sub: any;
   states = StatesHelper.states;
-  categories = {};
+  pageCategories = [];
 
   constructor(
     private pageService:PageService,
@@ -38,12 +38,13 @@ export class PageEditComponent implements OnInit, OnDestroy {
 
   public getPageEdit(id:number){
     this.pageService.getPageEdit(id).then(page => {
-      this.page = Page.map(page.json().data)
+      this.page = Page.map(page.json().data);
+      this.pageCategories = this.page.categoriesJson ? JSON.parse(this.page.categoriesJson) : [];
     }).catch(error => console.log(error));
   }
 
   public onSubmit(){
-    this.pageService.updatePage(this.page).then(response => {
+    this.pageService.updatePage(this.page, this.pageCategories).then(response => {
       this.router.navigate(['/backstage']);
     }).catch(error => console.log(error));
   }

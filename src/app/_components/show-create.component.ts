@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Show } from '../_models/show';
@@ -8,10 +8,12 @@ import { MeService } from '../_services/me.service';
 @Component({
   selector: 'app-show-create',
   templateUrl: './show-create.component.html',
-  //styles: ['./page-edit.component.css']
+  //styleUrls: ['./show-create.component.css']
 })
 export class ShowCreateComponent {
   show = new Show;
+  categoriesList = [];
+  showCategories = [];
 
   constructor(
     private showService:ShowService,
@@ -30,7 +32,7 @@ export class ShowCreateComponent {
   }
 
   private createShow(){
-    this.showService.createShow(this.show).then(response => {
+    this.showService.createShow(this.show, this.showCategories).then(response => {
       this.router.navigate(['/backstage']);
     }).catch(error => console.log(error));
     console.log('the form was submitted');

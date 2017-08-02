@@ -9,6 +9,7 @@ export class Show {
   imageUrl: string;
   backgroundUrl: string;
   public: boolean = true;
+  categoriesJson:any;
   confirmed: number;
   createdAt: string;
   updatedAt: string;
@@ -45,6 +46,7 @@ export class Show {
       currentShow.updatedBy = json.updated_by;
       currentShow.eventsCount = json.events_count;
       currentShow.likesCount = json.likes_count;
+      currentShow.categoriesJson = json.categoriesjson;
       return currentShow;
   }
 }

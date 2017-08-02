@@ -306,7 +306,7 @@ export class EventEditComponent implements OnInit {
     let index = this.participants.indexOf(participant);
     if(index !== -1){
       //element exists in our array
-      this.participants.splice(index);
+      this.participants.splice(index, 1);
     }
   }
 
@@ -314,7 +314,7 @@ export class EventEditComponent implements OnInit {
     let index = this.shows.indexOf(show);
     if(index !== -1){
       //element exists in our array
-      this.shows.splice(index);
+      this.shows.splice(index, 1);
     }
   }
 

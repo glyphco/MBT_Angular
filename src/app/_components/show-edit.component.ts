@@ -13,7 +13,7 @@ import { MeService } from '../_services/me.service';
 export class ShowEditComponent implements OnInit, OnDestroy {
   show = new Show;
   private sub: any;
-  categories = {};
+  showCategories = [];
 
   constructor(
     private showService:ShowService,
@@ -36,12 +36,13 @@ export class ShowEditComponent implements OnInit, OnDestroy {
 
   public getShowEdit(id:number){
     this.showService.getShowEdit(id).then(show => {
-      this.show = Show.map(show.json().data)
+      this.show = Show.map(show.json().data);
+      this.showCategories = this.show.categoriesJson ? JSON.parse(this.show.categoriesJson) : [];
     }).catch(error => console.log(error));
   }
 
   public onSubmit(){
-    this.showService.updateShow(this.show).then(response => {
+    this.showService.updateShow(this.show, this.showCategories).then(response => {
       this.router.navigate(['/backstage']);
     }).catch(error => console.log(error));
     console.log('the form was submitted');

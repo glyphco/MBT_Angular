@@ -106,22 +106,7 @@
 
     <br />
     <br />
-    <div class="form-group">
-      <label for="category">Category</label>
-      <br />
-      <span *ngFor="let category of eventCategories" class="help-block category-container">
-          {{ category.subcategory_name }} <i class="fa fa-times" (click)="removeShow(category)" aria-hidden="true"></i>
-      </span>
-      
-      <select class="form-control" #category id="category" (change)="addCategory(category.value)" name="category">
-        <option [value]="null" disabled selected>Select a category</option>
-        <ng-container *ngFor="let category of categories">
-          <optgroup label="{{category.name}}">
-            <option *ngFor="let subcategory of category.subcategories" [value]="category.id+','+subcategory.id +','+subcategory.name">{{subcategory.name}}</option>
-          </optgroup>
-        </ng-container>
-      </select>
-    </div>
+    <category-select [(categories)]="eventCategories"></category-select>
     <div class="form-group">
       <label for="description">Description</label>
       <textarea type="text" class="form-control event-description" id="description" placeholder="Description" [(ngModel)]="event.description" name="description"></textarea>

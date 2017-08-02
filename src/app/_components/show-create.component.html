@@ -12,6 +12,7 @@
         </span>
       </div>
     </div>
+    <category-select [(categories)]="showCategories"></category-select>
     <div class="form-group" [class.has-error]="slug.invalid">
       <label for="slug">Slug</label>
       <input type="text" class="form-control" id="slug" placeholder="Slug" [(ngModel)]="show.slug" name="slug"
