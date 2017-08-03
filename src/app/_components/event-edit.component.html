@@ -123,6 +123,9 @@
     <button type="submit" class="btn btn-success" [disabled]="!eventForm.form.valid">Submit</button>
     <button type="button" class="btn btn-danger" (click)="goBack()">Cancel</button>
   </form>
+  <a [routerLink]="['/event/delete', event.id]">
+    <button class="btn btn-danger">Delete</button>
+  </a>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>

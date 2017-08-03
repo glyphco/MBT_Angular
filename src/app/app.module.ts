@@ -25,11 +25,15 @@ import { PagesEditableComponent } from './_components/pages-editable.component';
 import { PageDetailComponent } from './_components/page-detail.component';
 import { PageEditComponent } from './_components/page-edit.component';
 import { PageCreateComponent } from './_components/page-create.component';
+import { PageDeleteComponent } from './_components/page-delete.component';
 import { EventDetailComponent } from './_components/event-detail.component';
+import { EventDeleteComponent } from './_components/event-delete.component';
 import { VenueDetailComponent } from './_components/venue-detail.component';
 import { VenueEditComponent } from './_components/venue-edit.component';
+import { VenueDeleteComponent } from './_components/venue-delete.component';
 import { ShowDetailComponent } from './_components/show-detail.component';
 import { ShowEditComponent } from './_components/show-edit.component';
+import { ShowDeleteComponent } from './_components/show-delete.component';
 import { ShowCreateComponent } from './_components/show-create.component';
 import { EventEditComponent } from './_components/event-edit.component';
 import { EventCreateComponent } from './_components/event-create.component';
@@ -63,15 +67,19 @@ import { MeService } from './_services/me.service';
     VenuesEditableComponent,
     VenueCreateComponent,
     VenueEditComponent,
+    VenueDeleteComponent,
     ShowsEditableComponent,
     SearchComponent,
     PagesEditableComponent,
     PageDetailComponent,
+    EventDeleteComponent,
     PageCreateComponent,
+    PageDeleteComponent,
     EventDetailComponent,
     VenueDetailComponent,
     ShowDetailComponent,
     ShowEditComponent,
+    ShowDeleteComponent,
     ShowCreateComponent,
     PageEditComponent,
     EventEditComponent,

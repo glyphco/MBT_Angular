@@ -114,15 +114,17 @@
       <label for="public">Public</label>
       <input type="checkbox" id="public" [(ngModel)]="venue.public" name="public" />
     </div>
-    <div *ngIf="meService.hasPageConfirm();else noConfirm" class="form-group">
+    <div *ngIf="meService.hasVenueConfirm();else noConfirm" class="form-group">
       <label for="confirmed">Confirmed</label>
       <input type="checkbox" id="confirmed" [(ngModel)]="venue.confirmed" name="confirmed">
     </div>
-    <ng-template #noConfirm><p>After saving, this page will need to be confirmed by an admin.</p></ng-template>
+    <ng-template #noConfirm><p>After saving, this venue will need to be confirmed by an admin.</p></ng-template>
 
     <button type="submit" class="btn btn-success" [disabled]="!venueForm.form.valid">Submit</button>
   </form>
-  <button class="btn btn-danger" (click)="deleteVenue()">Delete</button>
+  <a [routerLink]="['/venue/delete', venue.id]">
+    <button class="btn btn-danger">Delete</button>
+  </a>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>

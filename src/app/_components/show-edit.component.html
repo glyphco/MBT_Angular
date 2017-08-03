@@ -47,7 +47,9 @@
 
     <button type="submit" class="btn btn-success" [disabled]="!showForm.form.valid">Submit</button>
   </form>
-  <button class="btn btn-danger" (click)="deleteShow()">Delete</button>
+  <a [routerLink]="['/show/delete', show.id]">
+    <button class="btn btn-danger">Delete</button>
+  </a>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>

@@ -48,10 +48,4 @@ export class PageEditComponent implements OnInit, OnDestroy {
       this.router.navigate(['/backstage']);
     }).catch(error => console.log(error));
   }
-
-  public deletePage(){
-    this.pageService.deletePage(this.page.id).then(response => {
-      this.router.navigate(['/backstage']);
-    }).catch(error => console.log(error));
-  }
 }

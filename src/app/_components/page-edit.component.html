@@ -79,7 +79,9 @@
 
     <button type="submit" class="btn btn-success" [disabled]="!pageForm.form.valid">Submit</button>
   </form>
-  <button class="btn btn-danger" (click)="deletePage()">Delete</button>
+  <a [routerLink]="['/page/delete', page.id]">
+    <button class="btn btn-danger">Delete</button>
+  </a>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
