@@ -62,6 +62,12 @@ export class EventService {
       .toPromise();
   }
 
+  confirmEvent(id):Promise<any>{
+    return this.httpHandlerService.get(`event/${id}/confirm`)
+      .map(response => response.json().data)
+      .toPromise();
+  }
+
   getVenueTimezone(lat,lng,timestamp){
     let path = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=${timestamp}&key=${environment.googleTimezoneKey}`;
     return this.http.get(path)

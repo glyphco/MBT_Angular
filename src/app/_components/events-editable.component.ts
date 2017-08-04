@@ -27,4 +27,10 @@ export class EventsEditableComponent implements OnInit {
       this.pagination.setPage(page, perPage, totalObjects);
     }).catch(error => console.log(error));
   }
+
+  public confirmEvent(event){
+    this.eventService.confirmEvent(event.id).then(response => {
+      event.confirmed = 1;
+    }).catch(error => console.log(error));
+  }
 }
