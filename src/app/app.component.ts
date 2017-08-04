@@ -30,6 +30,8 @@ export class AppComponent implements OnInit, OnDestroy {
   circle:any;
   userLocation = 'Choose location';
   locationModalVisible = false;
+  locationPickerVisible = false;
+  routerOutletVisible = true;
   get username() {
     return this.meService.firstName;
   }
@@ -214,7 +216,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }.bind(this));
   }
 
-  selectLocation(){
+  selectLocation2(){
     if(!this.locationModalVisible){ //show the modal if it's not already visible
       if(!this.locationService.hasCurrentLocation()){ //Ask for location if we don't have it in local storage
         window.navigator.geolocation.getCurrentPosition(this.success.bind(this), this.error.bind(this), geolocationOptions);
@@ -228,6 +230,25 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     //toggle location modal
     this.locationModalVisible = !this.locationModalVisible;
+    //this.locationService.useSelectedLocation();
+    //this.locationService.locationSource.next(true);
+  }
+
+  selectLocation(){
+    if(!this.locationModalVisible){ //show the modal if it's not already visible
+      if(!this.locationService.hasCurrentLocation()){ //Ask for location if we don't have it in local storage
+        window.navigator.geolocation.getCurrentPosition(this.success.bind(this), this.error.bind(this), geolocationOptions);
+      }else{
+        //put local location on the map
+        this.lat = this.locationService.getLat();
+        this.lng = this.locationService.getLng();
+        this.map.setCenter({lat: this.lat, lng: this.lng});
+        this.placeMarkerAndCircle();
+      }
+    }
+    //toggle location modal
+    this.locationPickerVisible = !this.locationPickerVisible;
+    this.routerOutletVisible = !this.routerOutletVisible;
     //this.locationService.useSelectedLocation();
     //this.locationService.locationSource.next(true);
   }

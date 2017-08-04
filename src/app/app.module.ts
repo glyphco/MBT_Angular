@@ -43,6 +43,7 @@ import { PublicEventsComponent } from './_components/public-events.component';
 import { ExploreComponent } from './_components/explore.component';
 import { ProfileComponent } from './_components/profile.component';
 import { CategorySelectComponent } from './_components/category-select.component';
+import { LocationPickerComponent } from './_components/location-picker.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
@@ -90,7 +91,8 @@ import { MeService } from './_services/me.service';
     PublicEventsComponent,
     ExploreComponent,
     ProfileComponent,
-    CategorySelectComponent
+    CategorySelectComponent,
+    LocationPickerComponent
   ],
   imports: [
     BrowserModule,
