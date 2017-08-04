@@ -40,6 +40,7 @@ export class EventService {
 
   updateEvent(params):Promise<any>{
     return this.httpHandlerService.put(`event/${params.id}`, params)
+      .map(response => response.json().data)
       .toPromise();
   }
 

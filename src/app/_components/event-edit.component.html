@@ -114,12 +114,14 @@
       <textarea type="text" class="form-control event-description" id="description" placeholder="Description" [(ngModel)]="event.description" name="description"></textarea>
     </div>
     <div class="form-group">
-      <label for="visibility">Visibility</label>
-      <select class="form-control" id="visibility" [(ngModel)]="event.public" name="visibility">
-        <option [value]="1" selected>Public</option>
-        <option [value]="0">Private</option>
-      </select>
+      <label for="public">Public</label>
+      <input type="checkbox" id="public" [(ngModel)]="event.public" name="public" />
     </div>
+    <div *ngIf="meService.hasEventConfirm();else noConfirm" class="form-group">
+      <label for="confirmed">Confirmed</label>
+      <input type="checkbox" id="confirmed" [(ngModel)]="event.confirmed" name="confirmed">
+    </div>
+    <ng-template #noConfirm><p>After saving, this event will need to be confirmed by an admin.</p></ng-template>
     <button type="submit" class="btn btn-success" [disabled]="!eventForm.form.valid">Submit</button>
     <button type="button" class="btn btn-danger" (click)="goBack()">Cancel</button>
   </form>

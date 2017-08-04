@@ -399,6 +399,22 @@ export class EventCreateComponent implements OnInit {
     }
     params.shows = showsJson.length > 0 ? JSON.stringify(showsJson) : undefined;
 
+    let participantsJson = [];
+    for (let participant of this.participants){
+      let tempParticipant = {
+        page_id: participant.id > 0 ? participant.id : undefined,
+        name: participant.name,
+        info: participant.tagline,
+        imageurl: participant.imageUrl,
+        start: participant.startTime,
+        public: 1,
+        confirmed: 1
+        //private_info: TODO: make this a thing 
+      }
+      participantsJson.push(tempParticipant);
+    }
+    params.participants = participantsJson.length > 0 ? JSON.stringify(participantsJson) : undefined;
+
     let producersJson = [];
     for (let producer of this.producers){
       let tempProducer = {
@@ -416,10 +432,8 @@ export class EventCreateComponent implements OnInit {
   }
 
   private saveEvent(params){
-    this.eventService.createEvent(params).then(event => {
-      return this.saveParticipants(event.id);
-    }).then((eventId) => {
-        return this.getS3Key(eventId);
+    this.eventService.createEvent(params).then((event) => {
+        return this.getS3Key(event.id);
     }).then((s3Credentials) => {
         if(s3Credentials){ //returns false if no image
           let url = s3Credentials.url;
@@ -475,23 +489,6 @@ export class EventCreateComponent implements OnInit {
         //return the url to the file on s3
         resolve(true);
       }).catch(error => reject('Attaching image to event failed.'));
-    });
-  }
-
-  private saveParticipants(eventId):Promise<number>{
-    return new Promise((resolve, reject) => {
-      let savedParticipants = 0;
-      let numParticipants = this.participants.length;
-      for (let index in this.participants) {
-        this.eventService.addParticipant(eventId, this.participants[index]).then(response => {
-          savedParticipants++
-          if(savedParticipants == numParticipants){
-            //all participants have been saved
-            resolve(eventId);
-          }
-        }).catch(error => reject('There was an error adding the participant'));
-      }
-      resolve(eventId);
     });
   }
 

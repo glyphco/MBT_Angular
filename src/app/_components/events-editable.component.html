@@ -1,22 +1,31 @@
-<div class="container">
+<div class="container white">
 <h2>Events</h2>
 <a *ngIf="meService.hasEventCreate()" [routerLink]="['/event/create']"><button class="btn btn-primary">Create event</button></a>
 <br />
 <table class="table">
   <thead>
+    <th>Date</th>
     <th>Name</th>
-    <th>Description</th>
-    <th>Created at</th>
+    <th>Venue</th>
+    <th>Public</th>
+    <th>Confirm</th>
   </thead>
   <tbody>
     <tr *ngFor="let event of events">
+      <td>{{event.local_start | dateFormatter:'YYYY MMM DD' }}</td>
       <td>
         <a [routerLink]="['/event/edit', event.id]">
           {{event.name}}
         </a>
       </td>
-      <td>{{event.description}}</td>
-      <td>{{ event.createdAt }}</td>
+      <td>{{ event.venue_name }}</td>
+      <td>
+        <i *ngIf="event.public; else privateBlock" class="fa fa-eye" aria-hidden="true"></i>
+        <ng-template #privateBlock>
+          <i class="fa fa-eye-slash" aria-hidden="true"></i>
+        </ng-template>
+      </td>
+      <td><button *ngIf="!event.confirmed" class="btn btn-primary">Confirm</button></td>
     </tr>
   </tbody>
 </table>

@@ -21,7 +21,7 @@ export class EventsEditableComponent implements OnInit {
 
   public getEventsEditable(page:number){
     this.eventService.getEventsEditable(page).then(events => {
-      this.events = Event.arrayMap(events.json().data.data)
+      this.events = events.json().data.data;
       let perPage = events.json().data.per_page;
       let totalObjects = events.json().data.total;
       this.pagination.setPage(page, perPage, totalObjects);
