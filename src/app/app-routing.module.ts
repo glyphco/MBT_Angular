@@ -11,6 +11,7 @@ import { SearchComponent } from './_components/search.component';
 import { PageDetailComponent } from './_components/page-detail.component';
 import { PageCreateComponent } from './_components/page-create.component';
 import { EventDetailComponent } from './_components/event-detail.component';
+import { EventFullComponent } from './_components/event-full.component';
 import { VenueDetailComponent } from './_components/venue-detail.component';
 import { VenueCreateComponent } from './_components/venue-create.component';
 import { ShowDetailComponent } from './_components/show-detail.component';
@@ -53,6 +54,7 @@ const routes: Routes = [
   { path: 'event/create', component: EventCreateComponent, canActivate: [AuthGuard] },
   { path: 'event/:id', component: EventDetailComponent, canActivate: [AuthGuard] },
   { path: 'event/edit/:id', component: EventEditComponent, canActivate: [AuthGuard] },
+  { path: 'event/full/:id', component: EventFullComponent, canActivate: [AuthGuard] },
   { path: 'event/delete/:id', component: EventDeleteComponent, canActivate: [AuthGuard] },
   { path: 'events/editable', component: EventsEditableComponent, canActivate: [AuthGuard] },
   //Show routes

@@ -32,6 +32,12 @@ export class EventService {
       .toPromise()
   }
 
+  getEventFull(id:number){
+    return this.httpHandlerService.get(`event/${id}`)
+      .map(response => response.json().data)
+      .toPromise()
+  }
+
   getEventEdit(id:number){
     return this.httpHandlerService.get(`event/${id}/edit`)
       .map(response => response.json().data)
