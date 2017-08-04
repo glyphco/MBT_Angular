@@ -1,6 +1,11 @@
 <div class="container">
   <div *ngIf="venue">
     <h3>{{venue.name}}</h3>
+    <p>
+      <a href="http://maps.google.com/?q={{ venue.streetAddress+' '+venue.city+', '+venue.state}}" target="_blank">
+      {{venue.streetAddress}} {{venue.city}}, {{venue.state}}
+      </a>
+    </p>
     <h4>More information coming soon</h4>
   </div>
   <br/>

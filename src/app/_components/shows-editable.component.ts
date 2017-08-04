@@ -22,10 +22,16 @@ export class ShowsEditableComponent implements OnInit {
 
   getShowsEditable(page:number):void {
     this.showService.getShowsEditable(page).then(shows => {
-      this.shows = Show.arrayMap(shows.json().data.data);
+      this.shows = shows.json().data.data;
       let perPage = shows.json().data.per_page;
       let totalObjects = shows.json().data.total;
       this.pagination.setPage(page, perPage, totalObjects);
+    }).catch(error => console.log(error));
+  }
+
+  public confirmShow(show){
+    this.showService.confirmShow(show.id).then(response => {
+      show.confirmed = 1;
     }).catch(error => console.log(error));
   }
 }

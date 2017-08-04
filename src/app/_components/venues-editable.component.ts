@@ -22,10 +22,16 @@ export class VenuesEditableComponent implements OnInit {
 
   getVenuesEditable(page:number):void {
     this.venueService.getVenuesEditable(page).then(venues => {
-      this.venues = Venue.arrayMap(venues.json().data.data);
+      this.venues = venues.json().data.data;
       let perPage = venues.json().data.per_page;
       let totalObjects = venues.json().data.total;
       this.pagination.setPage(page, perPage, totalObjects);
+    }).catch(error => console.log(error));
+  }
+
+  public confirmVenue(venue){
+    this.venueService.confirmVenue(venue.id).then(response => {
+      venue.confirmed = 1;
     }).catch(error => console.log(error));
   }
 }

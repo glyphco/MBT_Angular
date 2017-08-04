@@ -22,10 +22,16 @@ export class PagesEditableComponent implements OnInit {
 
   public getPagesEditable(page:number){
     this.pageService.getPagesEditable(page).then(pages => {
-      this.pages = Page.arrayMap(pages.json().data.data)
+      this.pages = pages.json().data.data;
       let perPage = pages.json().data.per_page;
       let totalObjects = pages.json().data.total;
       this.pagination.setPage(page, perPage, totalObjects);
+    }).catch(error => console.log(error));
+  }
+
+  public confirmPage(page){
+    this.pageService.confirmPage(page.id).then(response => {
+      page.confirmed = 1;
     }).catch(error => console.log(error));
   }
 }

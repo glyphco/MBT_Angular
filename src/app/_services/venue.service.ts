@@ -52,6 +52,12 @@ export class VenueService {
       .toPromise();
   }
 
+  confirmVenue(id):Promise<any>{
+    return this.httpHandlerService.get(`venue/${id}/confirm`)
+      .map(response => response.json().data)
+      .toPromise();
+  }
+
   deleteVenue(id):Promise<any>{
     return this.httpHandlerService.delete(`venue/${id}`)
       .toPromise();

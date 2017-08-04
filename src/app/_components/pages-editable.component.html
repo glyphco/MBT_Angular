@@ -5,7 +5,7 @@
   <thead>
     <th>Name</th>
     <th>Email</th>
-    <th>Created at</th>
+    <th>Confirm</th>
   </thead>
   <tbody>
     <tr *ngFor="let page of pages">
@@ -15,7 +15,7 @@
         </a>
       </td>
       <td>{{page.email}}</td>
-      <td>{{ page.createdAt }}</td>
+      <td><button *ngIf="!page.confirmed" (click)="confirmPage(page)" class="btn btn-primary">Confirm</button></td>
     </tr>
   </tbody>
 </table>

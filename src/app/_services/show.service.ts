@@ -52,6 +52,12 @@ export class ShowService {
       .toPromise();
   }
 
+  confirmShow(id):Promise<any>{
+    return this.httpHandlerService.get(`show/${id}/confirm`)
+      .map(response => response.json().data)
+      .toPromise();
+  }
+
   createShow(show:Show,categories):Promise<any>{
     let options = {
       name: show.name,

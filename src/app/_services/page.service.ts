@@ -63,6 +63,12 @@ export class PageService {
       .toPromise();
   }
 
+  confirmPage(id):Promise<any>{
+    return this.httpHandlerService.get(`page/${id}/confirm`)
+      .map(response => response.json().data)
+      .toPromise();
+  }
+
   getCategories(){
     return this.httpHandlerService.get('pagecategory')
       .toPromise();
