@@ -13,7 +13,7 @@
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" [class.visible]="mobile.active" id="bs-example-navbar-collapse-1" style="position: absolute;z-index:9999;background-color:#fff;width:100%;">
+    <div class="collapse navbar-collapse" [class.visible]="mobile.active" id="bs-example-navbar-collapse-1" >
       <ul class="nav navbar-nav">
         <li routerLinkActive="active"><a routerLink="events">Events</a></li>
         <li routerLinkActive="active"><a routerLink="explore">Explore</a></li>
@@ -72,8 +72,6 @@
 	</div> 
 </div>--> <!-- cd-popup -->
 
-<app-location-picker *ngIf="locationPickerVisible"></app-location-picker>
-<!--
-<set-location *ngIf="selectLocation" [showPopup]="selectLocation" 
-  (closePopup)="selectLocation = $event" (selectedLocation)="userLocation = $event"></set-location>-->
-<router-outlet *ngIf="routerOutletVisible"></router-outlet>
+<app-location-picker *ngIf="locationPickerVisible" [(visible)]="locationPickerVisible" ></app-location-picker>
+
+<router-outlet *ngIf="!locationPickerVisible"></router-outlet>

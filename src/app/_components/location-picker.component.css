@@ -5,3 +5,52 @@
 .no-margin {
   padding:0px;
 }
+
+.map-options-container {
+  height:40px;
+}
+
+.map-button-square {
+  height:40px;
+  width:40px;
+  border:none;
+  color:#668ba6;
+  background-color:#fff;
+}
+
+.map-button-square.map-focus {
+  margin-right:15px;
+  border-right:1px solid #edf3f7;
+}
+.map-button-square.map-close {
+  /*background-color:#ff5050;*/
+  color:#668ba6;
+}
+
+.map-button-select {
+  height:40px;
+  width:100px;
+  border:none;
+}
+
+.map-buttons-container {
+
+}
+
+.map-buttons-container .map-button {
+  height:40px;
+  width:50%;
+  border:none;
+  margin:0px;
+  float:left;
+}
+
+.map-save {
+  background-color:#ec9747;
+  color:#fef8c6;
+}
+.map-cancel {
+  background-color:#668ba6;
+  color:#fff;
+}
+

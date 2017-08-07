@@ -87,6 +87,7 @@ export class AuthService {
   //handle facebook response
   facebookLogin(){
     FB.getLoginStatus(function(response) {
+      console.log(response);
       if (response.status === 'connected') {
         let accessToken = response.authResponse.accessToken;
         this.getJWT('facebook', accessToken).then(token => {
@@ -101,7 +102,7 @@ export class AuthService {
         )
       }
       else {
-        console.log('there was an error');
+        alert('Your browser does not support Facebook login');
       }
     }.bind(this));
   }
