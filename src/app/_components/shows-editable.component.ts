@@ -13,6 +13,9 @@ export class ShowsEditableComponent implements OnInit {
   
   pagination = new Pagination();
   shows: Show[];
+  orderBy = "name";
+  publicPrivate;
+  confirmedUnconfirmed;
 
   constructor(private showService: ShowService, private meService: MeService){}
 
@@ -20,8 +23,26 @@ export class ShowsEditableComponent implements OnInit {
     this.getShowsEditable(1);
   }
 
+  private getOptions(){
+    let options = <any>{};
+    options.sortby = this.orderBy;
+    if(this.publicPrivate == "public"){
+      options.public = 1;
+    }else if(this.publicPrivate == "private"){
+      options.private = 1;
+    }
+
+    if(this.confirmedUnconfirmed == "confirmed"){
+      options.confirmed = 1
+    }else if(this.confirmedUnconfirmed == "unconfirmed"){
+      options.unconfirmed = 1;
+    }
+    return options;
+  }
+
   getShowsEditable(page:number):void {
-    this.showService.getShowsEditable(page).then(shows => {
+    let options = this.getOptions();
+    this.showService.getShowsEditable(page, 100, options).then(shows => {
       this.shows = shows.json().data.data;
       let perPage = shows.json().data.per_page;
       let totalObjects = shows.json().data.total;
@@ -33,5 +54,18 @@ export class ShowsEditableComponent implements OnInit {
     this.showService.confirmShow(show.id).then(response => {
       show.confirmed = 1;
     }).catch(error => console.log(error));
+  }
+
+  public setOrderBy(value){
+    this.orderBy = value;
+    this.getShowsEditable(1);
+  }
+  public setPublic(value){
+    this.publicPrivate = value;
+    this.getShowsEditable(1);
+  }
+  public setConfirmed(value){
+    this.confirmedUnconfirmed = value;
+    this.getShowsEditable(1);
   }
 }

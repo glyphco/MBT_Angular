@@ -20,8 +20,9 @@ export class PageService {
       .toPromise();
   }
 
-  getPagesEditable(page=1, perpage=10):Promise<any>{
-    return this.httpHandlerService.get(`page/editable?page=${page}&pp=${perpage}`)
+  getPagesEditable(page=1, perpage=100, options):Promise<any>{
+    let query = this.httpHandlerService.serialize(options);
+    return this.httpHandlerService.get(`page/editable?page=${page}&pp=${perpage}&${query}`)
       .toPromise();
   }
 

@@ -2,15 +2,41 @@
 <h2>Events</h2>
 <a *ngIf="meService.hasEventCreate()" [routerLink]="['/event/create']"><button class="btn btn-primary">Create event</button></a>
 <br />
-<table class="table">
-  <thead>
+<p>&nbsp;</p>
+<label>
+  Order by:
+</label>
+<select #orderBy (change)="setOrderBy(orderBy.value)">
+  <option value="date">Date</option>
+  <option value="venue">Venue</option>
+  <option value="event">Event</option>
+</select>
+
+<label>
+  Public:
+</label>
+<select #public (change)="setPublic(public.value)">
+  <option value="">All</option>
+  <option value="public">Public</option>
+  <option value="private">Private</option>
+</select>
+
+<label>
+  Confirmed:
+</label>
+<select #confirmed (change)="setConfirmed(confirmed.value)">
+  <option value="">All</option>
+  <option value="confirmed">Confirmed</option>
+  <option value="unconfirmed">Unconfirmed</option>
+</select>
+<table class="table table-bordered table-striped">
+  <tr>
     <th>Date</th>
     <th>Name</th>
     <th>Venue</th>
     <th>Public</th>
     <th>Confirm</th>
-  </thead>
-  <tbody>
+  </tr>
     <tr *ngFor="let event of events">
       <td>{{event.local_start | dateFormatter:'YYYY MMM DD' }}</td>
       <td>
@@ -27,7 +53,7 @@
       </td>
       <td><button *ngIf="!event.confirmed" (click)="confirmEvent(event)" class="btn btn-primary">Confirm</button></td>
     </tr>
-  </tbody>
+
 </table>
 <nav aria-label="Page navigation">
   <ul class="pagination">
