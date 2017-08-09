@@ -1,11 +1,143 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 /* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+
+/*--------------------------------------------------------------
+CSS Reset
+--------------------------------------------------------------*/
+html {
+  font-family: sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust:     100%;
+}
 
 body {
-  font-family: 'Source Sans Pro', sans-serif;
-  background-color:#f3f3f3;
+  margin: 0;
 }
+
+img {
+  display: block;
+  border: 0;
+  width: 100%;
+  height: auto;
+}
+
+/*--------------------------------------------------------------
+Accessibility
+--------------------------------------------------------------*/
+/* Text meant only for screen readers */
+.screen-reader-text {
+  clip: rect(1px, 1px, 1px, 1px);
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+
+.screen-reader-text:hover,
+.screen-reader-text:active,
+.screen-reader-text:focus {
+  background-color: #f1f1f1;
+  border-radius: 3px;
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+  clip: auto !important;
+  color: #21759b;
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  height: auto;
+  left: 5px;
+  line-height: normal;
+  padding: 15px 23px 14px;
+  text-decoration: none;
+  top: 5px;
+  width: auto;
+  z-index: 100000; /* Above WP toolbar */
+}
+
+/*--------------------------------------------------------------
+Typography
+--------------------------------------------------------------*/
+body,
+button,
+input,
+select,
+textarea {
+  color: #404040;
+  font-family: 'Roboto Condensed', 'Helvetica', Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  padding: 1em 0;
+}
+
+p {
+  margin: 0;
+  padding: 5px 0;
+}
+
+h3 {
+  padding:0px 0px 5px 0px;
+  font-size:16px;
+  font-weight:inherit;
+}
+
+a {
+  text-decoration: none;
+  color:inherit;
+}
+
+/*--------------------------------------------------------------
+If no grid support, limit width to 50em and center align
+--------------------------------------------------------------*/
+
+@supports not (display: grid) {
+  .main-content {
+    max-width: 50em;
+    margin: 0 auto;
+  }
+}
+
+/*------------------------------------------------------------
+Web view defaults
+------------------------------------------------------------*/
+.navbar-logo {
+  width:180px;
+  margin:0 auto;
+}
+
+
+
+
+
+/*--------------------------------------------------------------
+https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout
+
+CSS Grid layout for wider screens, when browser supports grid:
+--------------------------------------------------------------*/
+
+@supports (display: grid) {
+  @media screen and (min-width: 800px) {
+    .main-content {
+      width:1170px;
+      margin:0 auto;
+      padding:10px;
+    }
+
+  }
+} 
+
+
+
+/*------------------------------------------------------------
+Helper classes
+------------------------------------------------------------*/
+
 /*
 .ng-valid[required], .ng-valid.required  {
   border-left: 5px solid #42A948; 
@@ -14,6 +146,15 @@ body {
   border-left: 5px solid #a94442; 
 }
 */
+
+.mbt-blue {
+  color:#004294;
+}
+
+.black {
+  color:#000;
+}
+
 .hidden {
   display:none !important;
 }
