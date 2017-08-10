@@ -124,7 +124,7 @@ CSS Grid layout for wider screens, when browser supports grid:
 @supports (display: grid) {
   @media screen and (min-width: 800px) {
     .main-content {
-      width:1170px;
+      max-width:1170px;
       margin:0 auto;
       padding:10px;
     }
