@@ -6,7 +6,7 @@
 
 .event-item {
   margin: .5em 0;
-  padding: 1em 0;
+  padding: 1em 10px;
   border-bottom: 1px solid #ddd;
 }
 
@@ -14,18 +14,48 @@
   border-bottom: none;
 }
 
-.event-details-container ul {
+.event-item ul {
   color:#000;
   list-style-type:none;
   padding:0;
 }
 
 
-@supports (display: flex) {
+  
+@supports (display: grid) {
   .event-item {
-    display:flex;
-    flex-direction: row;
-  }
+        display: grid;
+        grid-column-gap: 10px;
+        grid-template-columns: 118px auto 100px;
+        grid-template-rows: auto auto auto auto auto;
+        grid-template-areas:
+          "blockeventimage blockeventname blockeventname"
+          "blockeventimage blockeventvenue blockeventvenue"
+          "blockeventimage blockeventinfo blockeventinfo"
+          "blockeventimage blockeventdescription blockeventdescription"
+          "blockeventgoing blockeventgoing blockeventinterested"
+          ;
+      }
+  
+  .event-image-container {
+      grid-area: blockeventimage;
+    }
+
+    .event-title {
+      grid-area: blockeventname;
+    }
+
+    .event-venue {
+      grid-area: blockeventvenue;
+    }
+
+    .event-description {
+      grid-area:blockeventdescription;
+    }
+    .event-info {
+      grid-area:blockeventinfo;
+    }
+
   .event-item p {
     padding:0px 0px 5px;
   }
@@ -44,29 +74,19 @@
   }
 
   .event-image-container {
-    padding:0px 5px;
     max-height:200px;
     overflow:hidden;
   }
   .event-image {
     width:118px;
   }
-  
-  @supports (display: grid) {
-    @media screen and (min-width: 800px) {
-      
 
-    }
-  }
-}
-
-.event-item {
+  @media screen and (min-width: 800px) {
+    .event-item {
         display: grid;
-        border:1px solid #000;
-        border-collapse:collapse;
         grid-column-gap: 10px;
         grid-template-columns: 150px 195px 100px auto 100px;
-        grid-template-rows: 50px 50px 50px 50px 50px;
+        grid-template-rows: auto auto auto auto auto;
         grid-template-areas:
           "blockeventimage blockeventname blockeventname blockeventname blockeventinfo "
           "blockeventimage blockeventvenue blockeventvenue blockeventvenue blockeventinfo "
@@ -75,22 +95,7 @@
           "blockeventimage blockeventgoing blockeventgoing blockeventgoing blockeventgoing "
           ;
       }
+  }
+}
 
-      .event-image-container {
-        grid-area: blockeventimage;
-      }
 
-      .event-title {
-        grid-area: blockeventname;
-      }
-
-      .event-venue {
-        grid-area: blockeventvenue;
-      }
-
-      .event-description {
-        grid-area:blockeventdescription;
-      }
-      .event-details-container {
-        grid-area:blockeventinfo;
-      }

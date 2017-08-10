@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject }    from 'rxjs/Subject';
+import { Http } from '@angular/http';
 import { environment } from '../../environments/environment';
 
 const geolocationOptions = {
@@ -11,7 +12,9 @@ const geolocationOptions = {
 @Injectable()
 
 export class LocationService {
-  constructor() {}
+  constructor(
+    private http: Http
+  ) {}
   
   public locationSource = new Subject<boolean>(); //will fire when location is changed
 
@@ -61,6 +64,20 @@ export class LocationService {
 
   public getDistMeters(){
     return this.getDist() * 1609.34;
+  }
+
+  public getTimezone(){
+    let location = localStorage.getItem('currentLocation') ? JSON.parse(localStorage.getItem('currentLocation')): environment.locationDefault;
+    let timezone = location.timezone;
+    return timezone;
+  }
+
+  //Gets timezone from Google API
+  public getApiTimezone(lat,lng,timestamp):Promise<any>{
+    let path = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=${timestamp}&key=${environment.googleTimezoneKey}`;
+    return this.http.get(path)
+      .map(response => response.json())
+      .toPromise();
   }
 
   private coalesce(...args){

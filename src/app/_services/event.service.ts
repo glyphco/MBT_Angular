@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Headers, RequestOptions, Http } from '@angular/http';
-import { Router } from '@angular/router';
 import { HttpHandlerService } from './http-handler.service';
+import { LocationService } from './location.service';
 import { environment } from '../../environments/environment';
 import { Event } from '../_models/event';
 import 'rxjs/add/operator/toPromise';
@@ -12,7 +12,7 @@ import 'rxjs/add/operator/toPromise';
 export class EventService {
   constructor(
     private http: Http,
-    private router:Router,
+    private locationService: LocationService,
     private httpHandlerService: HttpHandlerService
   ){}
 
@@ -29,6 +29,16 @@ export class EventService {
 
   getEvent(id:number){
     return this.httpHandlerService.get(`event/${id}`)
+      .map(response => response.json().data)
+      .toPromise()
+  }
+
+  getEventsToday(page:number){
+    let lat = this.locationService.getLat();
+    let lng = this.locationService.getLng();
+    let dist = this.locationService.getDistMeters();
+    let tz = this.locationService.getTimezone();
+    return this.httpHandlerService.get(`event/today?lat=${lat}`)
       .map(response => response.json().data)
       .toPromise()
   }
@@ -70,6 +80,7 @@ export class EventService {
   }
 
   getVenueTimezone(lat,lng,timestamp){
+    //TODO: change this to the locationService.getTimezone
     let path = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=${timestamp}&key=${environment.googleTimezoneKey}`;
     return this.http.get(path)
       .map(response => response.json())

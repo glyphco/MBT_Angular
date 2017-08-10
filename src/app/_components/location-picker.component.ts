@@ -3,7 +3,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { EventService } from '../_services/event.service';
 import { LocationService } from '../_services/location.service';
+import { DateTime } from '../_helpers/date-time.service';
 import { environment } from '../../environments/environment';
+import * as moment from 'moment-timezone'; // add this 1 of 4
 
 declare var google:any;
 
@@ -52,6 +54,7 @@ export class LocationPickerComponent implements OnInit, OnDestroy {
   marker:any;
   circle:any;
   private sub: any;
+  private locationInfo: any; //used for location save
   @Input() visible;
   @Output() visibleChange = new EventEmitter();
 
@@ -110,9 +113,21 @@ export class LocationPickerComponent implements OnInit, OnDestroy {
   saveLocation(){
     if(this.lat && this.lng && this.lat != this.locationService.getLat() && this.lng != this.locationService.getLng()){
       //new location is different from old location
-      this.geocodeLatLng();
+      this.geocodeLatLng().then(locationInfo => {
+        //set user location text
+        //this.userLocation = this.locationService.getLocationName();
+        this.locationInfo = locationInfo;
+        let timestamp = moment().utc().unix();
+        return this.locationService.getApiTimezone(this.lat, this.lng, timestamp);
+      }).then(response => {
+        this.locationInfo.timezone = response.timeZoneId;
+        this.locationService.setCurrentLocation(this.locationInfo);
+        //emit location change event
+        this.locationService.locationSource.next(true);
+        this.closeMap();
+      }).catch(error => console.log(error));
     }else{
-      this.closeMap();
+      
     }
   }
 
@@ -207,40 +222,35 @@ export class LocationPickerComponent implements OnInit, OnDestroy {
     this.map.setCenter({lat: this.lat, lng: this.lng});
   }
 
-  geocodeLatLng():void {
-    var latlng = {lat: this.lat, lng: this.lng};
-    this.geocoder.geocode({'location': latlng}, function(results, status) {
-      if (status === 'OK') {
-        if (results[1]) {
-          let locationDetails = <any>{};
-          for (let component of results[1].address_components){
-            locationDetails[component.types[0]] = component.long_name;
+  private geocodeLatLng():Promise<any> {
+    return new Promise((resolve, reject) => {
+      var latlng = {lat: this.lat, lng: this.lng};
+      this.geocoder.geocode({'location': latlng}, function(results, status) {
+        if (status === 'OK') {
+          if (results[1]) {
+            let locationDetails = <any>{};
+            for (let component of results[1].address_components){
+              locationDetails[component.types[0]] = component.long_name;
+            }
+            let locationProps = {
+              lat: this.lat,
+              lng: this.lng,
+              dist: this.dist,
+              city: locationDetails.locality,
+              neighborhood: locationDetails.neighborhood,
+              state: locationDetails.administrative_area_level_1,
+              postal_code: locationDetails.postal_code,
+              country: locationDetails.country
+            };
+            resolve(locationProps);
+          } else {
+            reject('No results found.');
           }
-          let locationProps = {
-            lat: this.lat,
-            lng: this.lng,
-            dist: this.dist,
-            city: locationDetails.locality,
-            neighborhood: locationDetails.neighborhood,
-            state: locationDetails.administrative_area_level_1,
-            postal_code: locationDetails.postal_code,
-            country: locationDetails.country
-          };
-          this.locationService.setCurrentLocation(locationProps);
-          //set user location text
-          this.userLocation = this.locationService.getLocationName();
-          this._ngZone.run(() => {
-            //emit location change event
-            this.locationService.locationSource.next(true);
-            this.closeMap();
-          });
         } else {
-          window.alert('No results found');
+          reject('Geocoder failed due to: ' + status);
         }
-      } else {
-        window.alert('Geocoder failed due to: ' + status);
-      }
-    }.bind(this));
+      }.bind(this));
+    });
   }
 
 }

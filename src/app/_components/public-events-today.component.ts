@@ -5,11 +5,11 @@ import { Pagination } from '../_helpers/pagination';
 import { Subscription }   from 'rxjs/Subscription';
 
 @Component({
-  selector: 'app-public-events',
-  templateUrl: './public-events.component.html',
-  styleUrls: ['./public-events.component.css']
+  selector: 'app-public-events-today',
+  templateUrl: './public-events-today.component.html',
+  styleUrls: ['./events.component.css']
 })
-export class PublicEventsComponent implements OnInit, OnDestroy {
+export class PublicEventsTodayComponent implements OnInit, OnDestroy {
   pagination = new Pagination();
   subscription: Subscription;
   events = [];

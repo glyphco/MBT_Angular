@@ -9,18 +9,13 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" [class.visible]="mobile.active" id="bs-example-navbar-collapse-1" >
       <ul class="nav navbar-nav">
-        <li routerLinkActive="active"><a routerLink="events">Events</a></li>
+        <li *ngIf="loggedIn" routerLinkActive="active"><a routerLink="events/today">Today</a></li>
+        <li *ngIf="!loggedIn" routerLinkActive="active"><a routerLink="events">Events</a></li>
         <li routerLinkActive="active"><a routerLink="explore">Explore</a></li>
       </ul>
-      <!--
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button (click)="redirectToSearch()" type="submit" class="btn btn-default">Search</button>
-      </form>-->
+
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="javascript:void(0);" (click)="mobile.active=false;selectLocation()"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{userLocation}}</a></li>
+        <li><a href="javascript:void(0);" (click)="mobile.active=false;selectLocation()"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{locationService.getLocationName()}}</a></li>
         <li><a routerLink="login" *ngIf="!loggedIn">Login/Sign up</a></li>
 
         <li *ngIf="loggedIn" class="dropdown">

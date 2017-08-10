@@ -21,7 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
   geocoder:any;
   marker:any;
   circle:any;
-  userLocation = 'Choose location';
+  userLocation = 'Choose location'; //TODO: this should be able to go
   locationModalVisible = false;
   locationPickerVisible = false;
   routerOutletVisible = true;
@@ -45,6 +45,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.meService.initializeMe();
 
     //set location name
+    //TODO: this should be able to go too
     this.userLocation = this.locationService.getLocationName();
 
     //set the logged in property

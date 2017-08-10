@@ -1,7 +1,7 @@
 <div class="main-content white">
 <p>&nbsp;</p>
 
-<h4>Tonight near {{location}}</h4>
+<h4>Today near {{location}}</h4>
 <br />
 <div *ngIf="loadingIndicatorVisible" class="loading-container"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
 <div class="page-content">
@@ -10,7 +10,6 @@
         <div class="event-image-container">
           <img class="event-image img-responsive center-block" src="{{ event.imageurl }}">
         </div>
-        <div class="event-details-container">
           <h3 class="event-title mbt-blue"><a [routerLink]="['/event',event.id]">{{ event.name }}</a></h3>
           <p class="event-venue">
             <a *ngIf="event.venue_id; else elseBlock" [routerLink]="['/venue',event.venue_id]">{{ event.venue_name }}</a> &bull; {{ event.distance * .000621371 | number : '1.2-2' }} miles
@@ -30,7 +29,6 @@
           <p class="event-description">
             {{ event.description | truncate : [200 ,'...'] }}<br />
           </p>
-        </div>
     </li>
   </ul>
   <div class="sidebar">

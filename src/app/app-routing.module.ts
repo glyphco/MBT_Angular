@@ -24,7 +24,8 @@ import { PageDeleteComponent } from './_components/page-delete.component';
 import { EventEditComponent } from './_components/event-edit.component';
 import { EventDeleteComponent } from './_components/event-delete.component';
 import { EventCreateComponent } from './_components/event-create.component';
-import { PublicEventsComponent } from './_components/public-events.component';
+import { PublicEventsTodayComponent } from './_components/public-events-today.component';
+import { EventsTodayComponent } from './_components/events-today.component';
 import { ExploreComponent } from './_components/explore.component';
 import { EventsEditableComponent } from './_components/events-editable.component';
 import { PagesEditableComponent } from './_components/pages-editable.component';
@@ -57,6 +58,7 @@ const routes: Routes = [
   { path: 'event/full/:id', component: EventFullComponent, canActivate: [AuthGuard] },
   { path: 'event/delete/:id', component: EventDeleteComponent, canActivate: [AuthGuard] },
   { path: 'events/editable', component: EventsEditableComponent, canActivate: [AuthGuard] },
+  { path: 'events/today', component: EventsTodayComponent, canActivate: [AuthGuard] },
   //Show routes
   { path: 'show/create', component: ShowCreateComponent, canActivate: [AuthGuard] },
   { path: 'show/:id', component: ShowDetailComponent, canActivate: [AuthGuard] },
@@ -66,7 +68,7 @@ const routes: Routes = [
 
 
   { path: 'explore', component: ExploreComponent, canActivate: [AuthGuard] },
-  { path: 'events', component: PublicEventsComponent },
+  { path: 'events', component: PublicEventsTodayComponent, canActivate: [PublicGuard] },
   
   //{ path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '', redirectTo: 'events', pathMatch: 'full' },
