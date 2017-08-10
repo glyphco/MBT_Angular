@@ -2,11 +2,12 @@
   margin: 0;
   padding: 0;
   list-style-type: none;
+  max-width:550px;
 }
 
 .event-item {
   margin: .5em 0;
-  padding: 1em 10px;
+  padding: 16px 10px 0px;
   border-bottom: 1px solid #ddd;
 }
 
@@ -20,7 +21,29 @@
   padding:0;
 }
 
+.inline-images {
+  display: inline-block;
+}
+.inline-images img {
+	border-radius: 50%;
+	border: 2px solid #fff;
+  position: relative;
+}
 
+
+.goer img {
+	width:16px;
+  margin-right: -5px;
+}
+
+.participant-images {
+  width:25px;
+  margin-right: -2px;
+}
+.participant-images:last-child {
+  width:25px;
+  margin-right: 10px;
+}
   
 @supports (display: grid) {
   .event-item {
@@ -33,28 +56,47 @@
           "blockeventimage blockeventvenue blockeventvenue"
           "blockeventimage blockeventinfo blockeventinfo"
           "blockeventimage blockeventdescription blockeventdescription"
+          "border border border"
           "blockeventgoing blockeventgoing blockeventinterested"
           ;
       }
   
   .event-image-container {
-      grid-area: blockeventimage;
-    }
+    grid-area: blockeventimage;
+  }
 
-    .event-title {
-      grid-area: blockeventname;
-    }
+  .event-title {
+    grid-area: blockeventname;
+  }
 
-    .event-venue {
-      grid-area: blockeventvenue;
-    }
+  .event-venue {
+    grid-area: blockeventvenue;
+  }
 
-    .event-description {
-      grid-area:blockeventdescription;
-    }
-    .event-info {
-      grid-area:blockeventinfo;
-    }
+  .event-description {
+    grid-area:blockeventdescription;
+  }
+  .event-info {
+    grid-area:blockeventinfo;
+  }
+
+  .event-going-container {
+    grid-area:blockeventgoing;
+  }
+
+  .event-interested-container {
+    border-left:1px solid #ddd;
+    grid-area:blockeventinterested;
+  }
+
+  .event-participants-container {
+    display: none;
+  }
+
+  .event-border {
+    border-bottom:1px solid #ddd;
+    grid-area:border;
+  }
 
   .event-item p {
     padding:0px 0px 5px;
@@ -81,6 +123,17 @@
     width:118px;
   }
 
+  .event-interested-container button {
+    border:none;
+    width:100%;
+    height:50px;
+    background-color:#fff;
+  }
+
+  .inline-participant-names {
+    display:inline-block;
+  }
+
   @media screen and (min-width: 800px) {
     .event-item {
         display: grid;
@@ -92,9 +145,18 @@
           "blockeventimage blockeventvenue blockeventvenue blockeventvenue blockeventinfo "
           "blockeventimage blockeventdescription blockeventdescription blockeventdescription blockeventinfo "
           "blockeventimage blockeventparticipants blockeventparticipants blockeventparticipants blockeventparticipants "
-          "blockeventimage blockeventgoing blockeventgoing blockeventgoing blockeventgoing "
+          "blockeventimage blockeventgoing blockeventinterested blank blank "
           ;
       }
+    .event-participants-container {
+      border-bottom:1px solid #ddd;
+      grid-area:blockeventparticipants;
+      display:flex;
+    }
+
+    .event-border {
+      display:none;
+    }
   }
 }
 

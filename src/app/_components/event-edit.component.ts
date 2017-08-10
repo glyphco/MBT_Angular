@@ -127,7 +127,7 @@ export class EventEditComponent implements OnInit {
         this.venue.name = this.event.venueName;
         this.venue.id = this.event.venueId;
       }
-      for(let participant of this.event.particapants){
+      for(let participant of this.event.participants){
         let tempParticipant = new Page();
         tempParticipant.id = participant.page_id;
         tempParticipant.name = participant.name;

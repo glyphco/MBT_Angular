@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Event } from '../_models/event';
 import { EventService } from '../_services/event.service';
 import { LocationService } from '../_services/location.service';
 import { Pagination } from '../_helpers/pagination';
@@ -40,11 +41,12 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
   public getEvents(page:number){
     this.loadingIndicatorVisible = true;
     this.eventService.getEventsToday(page).then(events => {
-      this.events = events.data;
+      this.events = Event.arrayMap(events.data);
       let perPage = events.per_page;
       let totalObjects = events.total;
       this.pagination.setPage(page, perPage, totalObjects);
       this.loadingIndicatorVisible = false;
+      console.log(this.events);
     }).catch(error => {
       this.loadingIndicatorVisible = false;
       console.log(error);

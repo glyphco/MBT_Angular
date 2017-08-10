@@ -38,7 +38,7 @@ export class EventService {
     let lng = this.locationService.getLng();
     let dist = this.locationService.getDistMeters();
     let tz = this.locationService.getTimezone();
-    return this.httpHandlerService.get(`event/today?lat=${lat}`)
+    return this.httpHandlerService.get(`event/today?lat=${lat}&lng=${lng}&dist=${dist}&tz=${tz}`)
       .map(response => response.json().data)
       .toPromise()
   }

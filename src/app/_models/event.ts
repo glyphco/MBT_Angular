@@ -13,9 +13,11 @@ export class Event {
   imageUrl:string;
   //lat:string;
   //lng:string;
+  distance:number;
   location:string;
   name:string;
-  particapants:any;
+  participants:any;
+  participantsjson:any;
   postalCode:string;
   start:string;
   startTime:any;
@@ -31,7 +33,11 @@ export class Event {
   venueId:number;
   venueName:string;
   tagline:string;
+  categories:any;
   categoriesJson:any;
+  friendsAttendingYes:any;
+  friendsAttendingYesCount:number;
+  attendingYesCount:number;
 
   public static arrayMap(json):Event[]{
     let events:Event[] = [];
@@ -65,9 +71,11 @@ export class Event {
     currentEvent.imageUrl = json.imageurl;
     //currentEvent.lat = json.lat;
     //currentEvent.lng = json.lng;
+    currentEvent.distance = json.distance;
     currentEvent.location = json.location;
     currentEvent.name = json.name;
-    currentEvent.particapants = json.eventparticipants;
+    currentEvent.participants = JSON.parse(json.participantsjson);
+    currentEvent.participantsjson = json.participantsjson;
     currentEvent.postalCode = json.postalcode;
     currentEvent.public = json.public;
     currentEvent.start = json.start;
@@ -82,7 +90,11 @@ export class Event {
     currentEvent.venueId = json.venue_id;
     currentEvent.venueName = json.venue_name;
     currentEvent.tagline = json.tagline;
+    currentEvent.categories = JSON.parse(json.categoriesjson);
     currentEvent.categoriesJson = json.categoriesjson;
+    currentEvent.friendsAttendingYes = json.friendsattendingyes;
+    currentEvent.friendsAttendingYesCount = json.friendsattendingyes_count;
+    currentEvent.attendingYesCount = json.attendingyes_count;
     return currentEvent;
   }
 }
