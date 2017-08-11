@@ -1,0 +1,192 @@
+
+/*Shawn's new styles */
+.item-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.list-item{
+  margin: .5em 0;
+  padding: 16px 10px 0px;
+}
+
+.list-item ul {
+  color:#000;
+  list-style-type:none;
+  padding:0;
+}
+
+.item-image-container {
+  max-height:118px;
+  max-width:118px;
+  overflow-y: hidden;
+}
+.item-image-container img {
+  width:118px;
+}
+
+/* Specific to the SOLOEVENTS listing */
+
+.soloevent-image-container-container {
+  width:100%;
+}
+
+.soloevent-image-container {
+  display:block;
+  margin:auto;
+  max-height:600px;
+  max-width:400px;
+  overflow-y: hidden;
+}
+.soloevent-image-container img{
+
+}
+
+.soloevent-interested-container button {
+  border:none;
+  width:100%;
+  height:50px;
+  background-color:#fff;
+}
+
+/* our grids */
+
+@supports (display: grid) {
+
+  .soloevent-item-grid {
+    display: grid;
+    grid-column-gap: 10px;
+    grid-template-columns: 1fr 100px;
+    grid-template-rows: auto auto auto auto auto auto ;
+    grid-template-areas:
+      "blocksoloeventimage blocksoloeventimage"
+      "blocksoloeventname blocksoloeventname "
+      "blocksoloeventvenue blocksoloeventvenue "
+      "blocksoloeventdate blocksoloeventdate "
+      "blocksoloeventinfo blocksoloeventinfo "
+      "blocksoloeventgoing blocksoloeventinterested "      
+      ;
+  }
+
+  .soloevent-image-container-container{
+    grid-area: blocksoloeventimage;
+  }
+
+  .soloevent-name {
+    grid-area: blocksoloeventname;
+  }
+  .soloevent-venue {
+    grid-area: blocksoloeventvenue;
+  }
+  .soloevent-date {
+        grid-area: blocksoloeventdate;
+  }
+  .soloevent-info {
+        grid-area: blocksoloeventinfo;
+  }
+  .soloevent-going-container {
+        grid-area: blocksoloeventgoing;
+  }
+  .soloevent-interested-container {
+        grid-area: blocksoloeventinterested;
+  }
+
+
+  .venue-item-grid {
+    display: grid;
+    grid-column-gap: 10px;
+    grid-template-columns: 118px auto;
+    grid-template-rows: min-content 1fr;
+    grid-template-areas:
+      "blockvenueimage blockvenuename"
+      "blockvenueimage blockvenueinfo"
+      ;
+  }
+
+  .venue-image-container {
+    grid-area: blockvenueimage;
+  }
+  .venue-name {
+    grid-area: blockvenuename;
+  }
+  .venue-info {
+    grid-area: blockvenueinfo;
+  }
+
+  .participant-item-grid {
+    display: grid;
+    grid-column-gap: 10px;
+    grid-template-columns: 118px auto;
+    grid-template-rows: min-content 1fr;
+    grid-template-areas:
+      "blockparticipantimage blockparticipantname"
+      "blockparticipantimage blockparticipantinfo"
+      ;
+  }
+
+  .participant-image-container {
+    grid-area: blockparticipantimage;
+  }
+  .participant-name {
+    grid-area: blockparticipantname;
+  }
+  .participant-info {
+    grid-area: blockparticipantinfo;
+  }
+
+  .producer-item-grid {
+    display: grid;
+    grid-column-gap: 10px;
+    grid-template-columns: 118px auto;
+    grid-template-rows: min-content 1fr;
+    grid-template-areas:
+      "blockproducerimage blockproducername"
+      "blockproducerimage blockproducerinfo"
+      ;
+  }
+
+  .producer-image-container {
+    grid-area: blockproducerimage;
+  }
+  .producer-name {
+    grid-area: blockproducername;
+  }
+  .producer-info {
+    grid-area: blockproducerinfo;
+  }
+
+
+
+  .show-item-grid {
+    display: grid;
+    grid-column-gap: 10px;
+    grid-template-columns: 118px auto;
+    grid-template-rows: min-content 1fr;
+    grid-template-areas:
+      "blockshowimage blockshowname"
+      "blockshowimage blockshowinfo"
+      ;
+  }
+
+  .show-image-container {
+    grid-area: blockshowimage;
+  }
+  .show-name {
+    grid-area: blockshowname;
+  }
+  .show-info {
+    grid-area: blockshowinfo;
+  }
+
+
+  @media screen and (min-width: 800px) {
+
+    .item-list {
+      min-width:550px;
+    }
+
+  }
+}
+
+

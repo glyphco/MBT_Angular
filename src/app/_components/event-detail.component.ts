@@ -7,7 +7,7 @@ import { EventService } from '../_services/event.service';
 @Component({
   selector: 'app-event-detail',
   templateUrl: './event-detail.component.html',
-  styleUrls: ['./event-detail.component.css']
+  styleUrls: ['./lists.component.css']
 })
 export class EventDetailComponent implements OnInit, OnDestroy {
   event: Event;

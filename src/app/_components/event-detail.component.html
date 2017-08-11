@@ -1,52 +1,170 @@
-<div class="container white">
-    <div *ngIf="event" class="row event-venue-container">
-      <div class="col-md-2 col-sm-2 event-details-container image-time clearfix">
-        <img class="event-image img-responsive center-block" src="{{ event.imageurl }}">
-        <div class="date-container visible-xs-inline-block">
-          <span class="month">{{ event.local_start | dateFormatter:'MMMM' }}</span>
-          <span class="date">{{ event.local_start | dateFormatter:'D' }}</span>
-          <span class="day">{{ event.local_start | dateFormatter:'dddd' }}</span>
+
+<div class="main-content white">
+  <ul class=item-list>
+    <li *ngIf="event" class="soloevent-item-grid list-item">
+      <div class="soloevent-image-container-container">
+        <div class="soloevent-image-container">
+          <img class="soloevent-image img-responsive center-block" src="{{ event.imageurl }}">
         </div>
       </div>
-      <div class="col-md-7 col-sm-7 xs-row">
-        <div class="row event-details-container">
-          <div class="col-md-2 col-sm-2 hidden-xs alpha omega date-container">
-            <span class="month">{{ event.local_start | dateFormatter:'MMMM' }}</span>
-            <span class="date">{{ event.local_start | dateFormatter:'D' }}</span>
-            <span class="day">{{ event.local_start | dateFormatter:'dddd' }}</span>
-          </div>
-          <div class="col-md-10 col-sm-10 info-container">
-            <p class="event-title"><strong><a [routerLink]="['/event',event.id]">{{ event.name }}</a></strong></p>
-            <p class="venue-name">
-              <a *ngIf="event.venue_id; else elseBlock" [routerLink]="['/venue',event.venue_id]">{{ event.venue_name }}</a>
-              <ng-template #elseBlock>{{ event.venue_name }}</ng-template>
-            </p>
-            <p class="event-times">
-              <strong>{{ event.local_start | dateFormatter:'h:mm A' }}</strong> to <strong>{{ event.local_end | dateFormatter:'h:mm A' }}</strong>
-            </p>
-            <span><strong>{{ event.categories.length > 0 ? event.categories[0].subcategory.name : '' }}</strong> $20 - $40</span>
-          </div>
-        </div>
-        <div class="row event-details-container">
-          <div class="col-md-12">
-            <p class="event-description">
-              {{ event.description | truncate : [200 ,'...'] }}<br />
-            </p>
-          </div>
-        </div>
+      <h3 class="soloevent-name"><a [routerLink]="['/event',event.id]">{{ event.name }}</a></h3>
+      <p class="soloevent-venue">
+        {{ event.venueName }} &bull; {{ event.distance * .000621371 | number : '1.2-2' }} miles
+            <ng-template #elseBlock>{{ event.venueName }}</ng-template>
+      </p>
+      <p class="soloevent-date">
+          {{ event.local_start | dateFormatter:'dddd, MMMM D' }}
+      </p>
+
+      <ul class="soloevent-info">
+        
+        <li *ngIf="event.local_end">
+          {{ event.local_start | dateFormatter:'short_time' }} to {{ event.local_end | dateFormatter:'short_time' }}
+        </li>
+        <li *ngIf="!event.local_end">
+          {{ event.local_start | dateFormatter:'short_time' }}
+        </li>
+        <li>{{ event.categories.length > 0 ? event.categories[0].subcategory_name : '' }} $20 - $40</li>
+      </ul>
+
+      <div class="soloevent-going-container">
+        <span class="mbt-blue">
+          {{event.attendingYesCount}} Going &bull; {{event.friendsAttendingYesCount}} Friends
+        </span>
+        <ul class="goers" style="">
+          <li *ngFor="let friend of event.friendsAttendingYes | slice:0:8; let i=index" class="inline-images goer">
+            <img src="{{friend.avatar}}" [style.z-index]="50 - i" title="{{friend.name}}">
+          </li>
+        </ul>
       </div>
-      <div class="col-md-3 col-sm-3 alpha omega participants-container">
-        <div class="participants-header"><strong>Participants</strong></div>
-        <div class="scroll-container scrollbar">
-          <div *ngFor="let participant of event.eventparticipants" class="participant-container clearfix">
-            <img *ngIf="participant.imageurl" class="pull-left" src="{{ participant.imageurl }}">
-            <div class="participant">
-              <p class="participant-name">{{ participant.name }}</p>
-            </div>
-          </div>
-        </div>
+      <div class="soloevent-interested-container">
+        <button class="mbt-blue">Interested?</button>
       </div>
-    </div>
+
+
+    </li>
+  </ul>
+
+  <ul class="item-list">
+    <li class="list-item venue-item-grid">
+      <div class="venue-image-container item-image-container">
+        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
+      </div>
+      <h3 class="venue-name item-name">
+        [VENUE NAME]
+      </h3>
+      <div class="venue-info item-info">
+        [Neighborhood]<br />
+        [Address]<br />
+        [City, State, ZIP]<br />
+        <br />
+        {{ event.distance * .000621371 | number : '1.2-2' }} miles <br />
+        [Directions Link]
+      </div>
+    </li>
+  </ul>
+
+  <p class="event-description">
+    {{ event.description | truncate : [200 ,'...'] }}<br />
+  </p>
+
+  <h3>Scheduled to Appear</h3>
+
+  <ul class="item-list">
+
+    <li class="participant-item-grid list-item">
+      <div class="participant-image-container item-image-container">
+        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
+      </div>
+      <h3 class="participant-name">
+       [participant.name]
+      </h3>    
+      <div class="participant-info">
+      Tagline Goes Here
+      </div>
+    </li>
+    <li class="participant-item-grid list-item">
+      <div class="participant-image-container item-image-container">
+        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
+      </div>
+      <h3 class="participant-name">
+       [participant.name]
+      </h3>       
+      <div class="participant-info">
+      Tagline Goes Here
+      </div>
+    </li>
+      <li class="participant-item-grid list-item">
+      <div class="participant-image-container item-image-container">
+        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
+      </div>
+      <h3 class="participant-name">
+       [participant.name]
+      </h3>       
+      <div class="participant-info">
+      Tagline Goes Here
+      </div>
+    </li>
+  </ul>
+
+  <ul class="item-list">
+
+    <li class="show-item-grid list-item">
+      <div class="show-image-container item-image-container">
+        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
+      </div>
+      <h3 class="show-name">
+       [show.name]
+      </h3>    
+      <div class="show-info">
+      Tagline Goes Here
+      </div>
+    </li>
+  </ul>
+
+
+
+  <h3>Produced By</h3>
+
+  <ul class="item-list">
+
+    <li class="producer-item-grid list-item">
+      <div class="producer-image-container item-image-container">
+        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
+      </div>
+      <h3 class="producer-name">
+       [producer.name]
+      </h3>    
+      <div class="producer-info">
+      Tagline Goes Here
+      </div>
+    </li>
+    <li class="producer-item-grid list-item">
+      <div class="producer-image-container item-image-container">
+        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
+      </div>
+      <h3 class="producer-name">
+       [producer.name]
+      </h3>       
+      <div class="producer-info">
+      Tagline Goes Here
+      </div>
+    </li>
+      <li class="producer-item-grid list-item">
+      <div class="producer-image-container item-image-container">
+        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
+      </div>
+      <h3 class="producer-name">
+       [producer.name]
+      </h3>       
+      <div class="producer-info">
+      Tagline Goes Here
+      </div>
+    </li>
+  </ul>
+
+
+
     <h3>More coming soon</h3>
   <br/>
   <button class="btn btn-default" (click)="goEdit()">Edit</button>
