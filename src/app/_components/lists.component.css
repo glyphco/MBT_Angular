@@ -50,6 +50,21 @@
   background-color:#fff;
 }
 
+.inline-images {
+  display: inline-block;
+}
+.inline-images img {
+	border-radius: 50%;
+	border: 2px solid #fff;
+  position: relative;
+}
+
+
+.goer img {
+	width:16px;
+  margin-right: -5px;
+}
+
 /* our grids */
 
 @supports (display: grid) {

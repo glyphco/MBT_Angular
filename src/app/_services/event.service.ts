@@ -33,6 +33,15 @@ export class EventService {
       .toPromise()
   }
 
+  //custom call for event view page
+  getEventDetails(id:number){
+    let lat = this.locationService.getLat();
+    let lng = this.locationService.getLng();
+    return this.httpHandlerService.get(`event/${id}/details?lat=${lat}&lng=${lng}`)
+      .map(response => response.json().data)
+      .toPromise()
+  }
+
   getEventsToday(page:number){
     let lat = this.locationService.getLat();
     let lng = this.locationService.getLng();

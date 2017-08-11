@@ -4,7 +4,7 @@
     <li *ngIf="event" class="soloevent-item-grid list-item">
       <div class="soloevent-image-container-container">
         <div class="soloevent-image-container">
-          <img class="soloevent-image img-responsive center-block" src="{{ event.imageurl }}">
+          <img class="soloevent-image img-responsive center-block" src="{{ event.imageUrl }}">
         </div>
       </div>
       <h3 class="soloevent-name"><a [routerLink]="['/event',event.id]">{{ event.name }}</a></h3>
@@ -48,15 +48,15 @@
   <ul class="item-list">
     <li class="list-item venue-item-grid">
       <div class="venue-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
+        <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}">
       </div>
       <h3 class="venue-name item-name">
-        [VENUE NAME]
+        {{ event.venueName }}
       </h3>
       <div class="venue-info item-info">
         [Neighborhood]<br />
-        [Address]<br />
-        [City, State, ZIP]<br />
+        {{ event.streetAddress }}<br />
+        [City, {{ event.state }} {{ event.postalCode }}]<br />
         <br />
         {{ event.distance * .000621371 | number : '1.2-2' }} miles <br />
         [Directions Link]
@@ -74,7 +74,7 @@
 
     <li class="participant-item-grid list-item">
       <div class="participant-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
+        <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}">
       </div>
       <h3 class="participant-name">
        [participant.name]
@@ -85,7 +85,7 @@
     </li>
     <li class="participant-item-grid list-item">
       <div class="participant-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
+        <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}">
       </div>
       <h3 class="participant-name">
        [participant.name]
@@ -96,7 +96,7 @@
     </li>
       <li class="participant-item-grid list-item">
       <div class="participant-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
+        <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}">
       </div>
       <h3 class="participant-name">
        [participant.name]
@@ -111,7 +111,7 @@
 
     <li class="show-item-grid list-item">
       <div class="show-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
+        <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}">
       </div>
       <h3 class="show-name">
        [show.name]
@@ -130,7 +130,7 @@
 
     <li class="producer-item-grid list-item">
       <div class="producer-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
+        <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}">
       </div>
       <h3 class="producer-name">
        [producer.name]
@@ -141,7 +141,7 @@
     </li>
     <li class="producer-item-grid list-item">
       <div class="producer-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
+        <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}">
       </div>
       <h3 class="producer-name">
        [producer.name]
@@ -152,7 +152,7 @@
     </li>
       <li class="producer-item-grid list-item">
       <div class="producer-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
+        <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}">
       </div>
       <h3 class="producer-name">
        [producer.name]
