@@ -4,13 +4,14 @@
       <img class="navbar-logo" alt="Brand" src="assets/images/mbt_bw.png" style="">
     </div>
 
+    <div #mobile class="nav-toggle" (click)="mobile.active = !mobile.active">&#9776;</div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     
-    <div class="navbar-items clearfix">
+    <div [hidden]="!mobile.active" class="navbar-items clearfix">
       <ul class="inline-list navbar-left">
-        <li *ngIf="loggedIn" routerLinkActive="active"><a routerLink="events/today">Today</a></li>
-        <li *ngIf="!loggedIn" routerLinkActive="active"><a routerLink="events">Events</a></li>
-        <li routerLinkActive="active"><a routerLink="explore">Explore</a></li>
+        <li *ngIf="loggedIn" routerLinkActive="active"><a routerLink="events/today" (click)="mobile.active=false">Today</a></li>
+        <li *ngIf="!loggedIn" routerLinkActive="active"><a routerLink="events" (click)="mobile.active=false">Events</a></li>
+        <li routerLinkActive="active"><a routerLink="explore" (click)="mobile.active=false">Explore</a></li>
       </ul>
 
       <ul class="inline-list navbar-right">
@@ -23,15 +24,15 @@
            <i class="fa fa-caret-down" aria-hidden="true"></i>
           </a>
 
-          <ul class="dropdown-menu" [hidden]="true">
-            <li><a routerLink="/profile" (click)="user.active = false">My profile</a></li>
+          <ul class="dropdown-menu" [hidden]="!user.active">
+            <li><a routerLink="/profile" (click)="user.active = false; mobile.active=false">My profile</a></li>
 
             <ng-container *ngIf="meService.hasBackstage()">
-              <li><a routerLink="/backstage" (click)="user.active = false">Backstage</a></li>
+              <li><a routerLink="/backstage" (click)="user.active = false; mobile.active=false">Backstage</a></li>
               <li role="separator" class="divider"></li>
             </ng-container>
 
-            <li><a href="javascript:void(0);" (click)="logout()">Logout</a></li>
+            <li><a href="javascript:void(0);" (click)="logout();user.active = false; mobile.active=false">Logout</a></li>
           </ul>
 
         </li>

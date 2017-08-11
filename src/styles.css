@@ -110,50 +110,48 @@ If no grid support, limit width to 50em and center align
 /*------------------------------------------------------------
 Web view defaults
 ------------------------------------------------------------*/
-
-
-
 nav {
-  height:60px;
+  /*height:60px;*/
   padding:5px;
 }
 .brand {
   float:left;
 }
+
 .brand img{
   height:50px;
   width:auto;
 }
 
-.navbar-left{
-  float:left;
-}
-
-.navbar-right {
-  float:right;
-}
-
-.navbar-items {
-  padding:0px 10px;
-}
-.navbar-items ul {
-  margin:0px 0px;
-  height:100%;
-}
-.navbar-items ul li {
-  margin-left:15px;
-  padding:0px 10px;
-  height:50px;
-  line-height:50px;
-}
-
-.navbar-items ul li:hover {
-  background-color:blue;
+.nav-toggle {
+  display:none;
 }
 
 .nav-user img {
   display:inline-block;
   vertical-align: sub;
+}
+
+@media screen and (max-width: 799px) {
+  .navbar-items {
+    /*display:none;*/
+    position:relative;
+    background-color:#000;
+    color:#fff;
+    margin-top:50px;
+  }
+
+  .navbar-items ul li {
+    display:block;
+    padding:5px 0px;
+  }
+
+  .nav-toggle {
+    float:right;
+    font-size:25px;
+    display:block;
+    cursor:pointer;
+  }
 }
 
 /*--------------------------------------------------------------
@@ -170,6 +168,37 @@ CSS Grid layout for wider screens, when browser supports grid:
       padding:10px;
     }
 
+    nav {
+      height:60px;
+      padding:5px;
+    }
+
+    .navbar-left{
+      float:left;
+    }
+
+    .navbar-right {
+      float:right;
+    }
+
+    .navbar-items {
+      display:block;
+      padding:0px 10px;
+    }
+    .navbar-items ul {
+      margin:0px 0px;
+      height:100%;
+    }
+    .navbar-items ul li {
+      margin-left:15px;
+      padding:0px 10px;
+      height:50px;
+      line-height:50px;
+    }
+
+    .navbar-items ul li:hover {
+      background-color:blue;
+    }
   }
 } 
 
