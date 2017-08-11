@@ -4,7 +4,7 @@
     <li *ngIf="event" class="soloevent-item-grid list-item">
       <div class="soloevent-image-container-container">
         <div class="soloevent-image-container">
-          <img class="soloevent-image img-responsive center-block" src="{{ event.imageUrl }}">
+          <img class="soloevent-image img-responsive center-block" src="{{ event.imageurl }}">
         </div>
       </div>
       <h3 class="soloevent-name"><a [routerLink]="['/event',event.id]">{{ event.name }}</a></h3>
@@ -48,15 +48,15 @@
   <ul class="item-list">
     <li class="list-item venue-item-grid">
       <div class="venue-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}">
+        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}">
       </div>
       <h3 class="venue-name item-name">
-        {{ event.venueName }}
+         {{ event.venueName }}
       </h3>
       <div class="venue-info item-info">
         [Neighborhood]<br />
-        {{ event.streetAddress }}<br />
-        [City, {{ event.state }} {{ event.postalCode }}]<br />
+         {{ event.streetAddress }}<br />
+        {{ event.city }}, {{ event.state }} {{ event.postalCode }}<br />
         <br />
         {{ event.distance * .000621371 | number : '1.2-2' }} miles <br />
         [Directions Link]
@@ -68,53 +68,30 @@
     {{ event.description | truncate : [200 ,'...'] }}<br />
   </p>
 
-  <h3>Scheduled to Appear</h3>
 
-  <ul class="item-list">
-
-    <li class="participant-item-grid list-item">
+  <h4 *ngIf="event.participantspivot.length > 0" >Scheduled to Appear:</h4>
+  <ul *ngIf="event.participantspivot.length > 0" class="item-list">
+     <li *ngFor="let participant of event.participantspivot" class="participant-item-grid list-item">
       <div class="participant-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}">
+        <img class="item-image img-responsive center-block" src="{{ participant.imageurl }}" title="{{ participant.name }}">
       </div>
       <h3 class="participant-name">
-       [participant.name]
+       {{ participant.name }}
       </h3>    
       <div class="participant-info">
-      Tagline Goes Here
-      </div>
-    </li>
-    <li class="participant-item-grid list-item">
-      <div class="participant-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}">
-      </div>
-      <h3 class="participant-name">
-       [participant.name]
-      </h3>       
-      <div class="participant-info">
-      Tagline Goes Here
-      </div>
-    </li>
-      <li class="participant-item-grid list-item">
-      <div class="participant-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}">
-      </div>
-      <h3 class="participant-name">
-       [participant.name]
-      </h3>       
-      <div class="participant-info">
-      Tagline Goes Here
+      {{ participant.info }}
       </div>
     </li>
   </ul>
 
-  <ul class="item-list">
-
-    <li class="show-item-grid list-item">
+  <h4 *ngIf="event.showspivot.length > 0" >Event of this Show:</h4>
+  <ul *ngIf="event.showspivot.length > 0" class="item-list">
+    <li *ngFor="let show of event.showspivot" class="show-item-grid list-item">
       <div class="show-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}">
+        <img class="item-image img-responsive center-block" src="{{ show.imageurl }}" title="{{ show.name }}">
       </div>
       <h3 class="show-name">
-       [show.name]
+       {{ show.name }}
       </h3>    
       <div class="show-info">
       Tagline Goes Here
@@ -122,50 +99,21 @@
     </li>
   </ul>
 
-
-
-  <h3>Produced By</h3>
-
-  <ul class="item-list">
-
-    <li class="producer-item-grid list-item">
+  <h4 *ngIf="event.producerspivot.length > 0" >Produced By</h4>
+  <ul *ngIf="event.producerspivot.length > 0" class="item-list">
+     <li *ngFor="let producer of event.producerspivot" class="producer-item-grid list-item">
       <div class="producer-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}">
+        <img class="item-image img-responsive center-block" src="{{ producer.imageurl }}" title="{{ producer.name }}">
       </div>
       <h3 class="producer-name">
-       [producer.name]
+       {{ producer.name }}
       </h3>    
-      <div class="producer-info">
-      Tagline Goes Here
-      </div>
-    </li>
-    <li class="producer-item-grid list-item">
-      <div class="producer-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}">
-      </div>
-      <h3 class="producer-name">
-       [producer.name]
-      </h3>       
-      <div class="producer-info">
-      Tagline Goes Here
-      </div>
-    </li>
-      <li class="producer-item-grid list-item">
-      <div class="producer-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}">
-      </div>
-      <h3 class="producer-name">
-       [producer.name]
-      </h3>       
       <div class="producer-info">
       Tagline Goes Here
       </div>
     </li>
   </ul>
 
-
-
-    <h3>More coming soon</h3>
   <br/>
   <button class="btn btn-default" (click)="goEdit()">Edit</button>
   <button class="btn btn-primary" (click)="goBack()">Back</button>

@@ -3,7 +3,7 @@ import { Venue } from './venue';
 export class Event {
   id: number;
   backgroundUrl:string;
-  //city:string;
+  city:string;
   public:boolean = true;
   confirmed:boolean;
   createdAt:string;
@@ -18,6 +18,11 @@ export class Event {
   name:string;
   participants:any;
   participantsjson:any;
+  participantspivot:any;
+  showspivot:any;
+  shows:any;
+  showsjson:any;
+  producerspivot:any;
   postalCode:string;
   start:string;
   startTime:any;
@@ -62,7 +67,7 @@ export class Event {
     let currentEvent = new Event();
     currentEvent.id = json.id;
     currentEvent.backgroundUrl = json.backgroundurl;
-    //currentEvent.city = json.city;
+    currentEvent.city = json.city;
     currentEvent.confirmed = json.confirmed;
     currentEvent.createdAt = json.created_at;
     currentEvent.createdBy = json.created_by;
@@ -74,8 +79,13 @@ export class Event {
     currentEvent.distance = json.distance;
     currentEvent.location = json.location;
     currentEvent.name = json.name;
+    currentEvent.participantspivot = json.eventparticipants;
     currentEvent.participants = JSON.parse(json.participantsjson);
     currentEvent.participantsjson = json.participantsjson;
+    currentEvent.showspivot = json.eventshows;    
+    currentEvent.shows = JSON.parse(json.showsjson);
+    currentEvent.showsjson = json.showsjson;
+    currentEvent.producerspivot = json.eventproducer;    
     currentEvent.postalCode = json.postalcode;
     currentEvent.public = json.public;
     currentEvent.start = json.start;
