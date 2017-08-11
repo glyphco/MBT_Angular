@@ -5,6 +5,8 @@
 /*--------------------------------------------------------------
 CSS Reset
 --------------------------------------------------------------*/
+
+
 html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
@@ -21,7 +23,7 @@ img {
   width: 100%;
   height: auto;
 }
-
+  
 /*--------------------------------------------------------------
 Accessibility
 --------------------------------------------------------------*/
@@ -101,17 +103,35 @@ If no grid support, limit width to 50em and center align
     max-width: 50em;
     margin: 0 auto;
   }
+
+  
 }
 
 /*------------------------------------------------------------
 Web view defaults
 ------------------------------------------------------------*/
-.navbar-logo {
-  width:180px;
-  margin:0 auto;
+
+
+
+nav {
+  height:50px;
+  padding:5px;
+}
+.brand {
+  float:left;
+}
+.brand img{
+  height:50px;
+  width:auto;
 }
 
+.navbar-left{
+  float:left;
+}
 
+.navbar-right {
+  float:right;
+}
 
 
 
@@ -171,4 +191,14 @@ Helper classes
 
 .white {
   background-color:#fff;
+}
+
+.inline-list > li {
+  display:inline-block;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
 }

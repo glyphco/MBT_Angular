@@ -1,16 +1,9 @@
 @charset "utf-8";
-/* CSS Document */
-
-/* ---------- FONTAWESOME ---------- */
-/* ---------- https://fortawesome.github.com/Font-Awesome/ ---------- */
-/* ---------- http://weloveiconfonts.com/ ---------- */
-
-@import url(http://weloveiconfonts.com/api/?family=fontawesome);
 
 /* ---------- ERIC MEYER'S RESET CSS ---------- */
 /* ---------- https://meyerweb.com/eric/tools/css/reset/ ---------- */
 
-@import url(https://meyerweb.com/eric/tools/css/reset/reset.css);
+/*@import url(https://meyerweb.com/eric/tools/css/reset/reset.css);*/
 
 /* ---------- FONTAWESOME ---------- */
 

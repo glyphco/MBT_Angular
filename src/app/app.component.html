@@ -1,39 +1,39 @@
-<nav class="navbar navbar-default navbar-static-top">
-  <div class="container-fluid">
+<nav class="clearfix">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header" #mobile>
-      <!--<div class="navbar-brand"  href="javascript:void(0);"><img src="assets/images/mbt_bw.png" style="height:50px;"/></div>-->
+    <div class="brand">
       <img class="navbar-logo" alt="Brand" src="assets/images/mbt_bw.png" style="">
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" [class.visible]="mobile.active" id="bs-example-navbar-collapse-1" >
-      <ul class="nav navbar-nav">
+      <ul class="inline-list navbar-left">
         <li *ngIf="loggedIn" routerLinkActive="active"><a routerLink="events/today">Today</a></li>
         <li *ngIf="!loggedIn" routerLinkActive="active"><a routerLink="events">Events</a></li>
         <li routerLinkActive="active"><a routerLink="explore">Explore</a></li>
       </ul>
 
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="inline-list navbar-right">
         <li><a href="javascript:void(0);" (click)="mobile.active=false;selectLocation()"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{locationService.getLocationName()}}</a></li>
         <li><a routerLink="login" *ngIf="!loggedIn">Login/Sign up</a></li>
 
         <li *ngIf="loggedIn" class="dropdown">
           <a href="javascript:void(0);" #user (click)="user.active = !user.active" class="dropdown-toggle"
            data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-           <img class="user-image-header" src="{{userimage}}" /> {{ username }}<span class="caret"></span></a>
-          <ul class="dropdown-menu" [class.visible]="user.active === true">
+           <img class="user-image" src="{{userimage}}" /> {{ username }}<span class="caret"></span>
+          </a>
+
+          <ul class="dropdown-menu" [hidden]="true">
             <li><a routerLink="/profile" (click)="user.active = false">My profile</a></li>
+
             <ng-container *ngIf="meService.hasBackstage()">
               <li><a routerLink="/backstage" (click)="user.active = false">Backstage</a></li>
-            <li role="separator" class="divider"></li>
+              <li role="separator" class="divider"></li>
             </ng-container>
+
             <li><a href="javascript:void(0);" (click)="logout()">Logout</a></li>
           </ul>
+
         </li>
       </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
 </nav>
 <!--
 <div class="cd-popup" [class.is-visible]="locationModalVisible" role="alert">
