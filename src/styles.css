@@ -112,7 +112,9 @@ Web view defaults
 ------------------------------------------------------------*/
 nav {
   /*height:60px;*/
-  padding:5px;
+  /*padding:5px;*/
+  background-color:#000;
+  color:#ddd;
 }
 .brand {
   float:left;
@@ -132,7 +134,21 @@ nav {
   vertical-align: sub;
 }
 
+.nav-content {
+  max-width:1170px;
+  margin:0 auto;
+  padding:0px 10px;
+}
+
 @media screen and (max-width: 799px) {
+  nav {
+    padding:5px;
+  }
+
+  .nav-content {
+    padding:5px;
+  }
+
   .navbar-items {
     /*display:none;*/
     position:relative;
@@ -149,6 +165,7 @@ nav {
   .nav-toggle {
     float:right;
     font-size:25px;
+    padding:5px;
     display:block;
     cursor:pointer;
   }
@@ -165,12 +182,15 @@ CSS Grid layout for wider screens, when browser supports grid:
     .main-content {
       max-width:1170px;
       margin:0 auto;
-      padding:10px;
+      padding:0px 10px;
+    }
+
+    .brand img{
+      margin:5px 0px;
     }
 
     nav {
       height:60px;
-      padding:5px;
     }
 
     .navbar-left{
@@ -192,12 +212,12 @@ CSS Grid layout for wider screens, when browser supports grid:
     .navbar-items ul li {
       margin-left:15px;
       padding:0px 10px;
-      height:50px;
-      line-height:50px;
+      height:60px;
+      line-height:60px;
     }
 
     .navbar-items ul li:hover {
-      background-color:blue;
+      background-color:#232323;
     }
   }
 } 

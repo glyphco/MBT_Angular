@@ -1,42 +1,44 @@
 <nav class="clearfix">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="brand">
-      <img class="navbar-logo" alt="Brand" src="assets/images/mbt_bw.png" style="">
-    </div>
+    <div class="nav-content">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div #user class="brand">
+        <img class="navbar-logo" alt="Brand" src="assets/images/logo_blue.png" style="">
+      </div>
 
-    <div #mobile class="nav-toggle" (click)="mobile.active = !mobile.active">&#9776;</div>
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    
-    <div [hidden]="!mobile.active" class="navbar-items clearfix">
-      <ul class="inline-list navbar-left">
-        <li *ngIf="loggedIn" routerLinkActive="active"><a routerLink="events/today" (click)="mobile.active=false">Today</a></li>
-        <li *ngIf="!loggedIn" routerLinkActive="active"><a routerLink="events" (click)="mobile.active=false">Events</a></li>
-        <li routerLinkActive="active"><a routerLink="explore" (click)="mobile.active=false">Explore</a></li>
-      </ul>
+      <div #mobile class="nav-toggle" (click)="mobile.active = !mobile.active;user.active=false">&#9776;</div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      
+      <div [hidden]="!mobile.active" class="navbar-items clearfix">
+        <ul class="inline-list navbar-left">
+          <li *ngIf="loggedIn" routerLinkActive="active"><a routerLink="events/today" (click)="mobile.active=false;user.active=false">Today</a></li>
+          <li *ngIf="!loggedIn" routerLinkActive="active"><a routerLink="events" (click)="mobile.active=false;user.active=false">Events</a></li>
+          <li routerLinkActive="active"><a routerLink="explore" (click)="mobile.active=false;user.active=false">Explore</a></li>
+        </ul>
 
-      <ul class="inline-list navbar-right">
-        <li><a href="javascript:void(0);" (click)="mobile.active=false;selectLocation()"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{locationService.getLocationName()}}</a></li>
-        <li *ngIf="!loggedIn"><a routerLink="login">Login/Sign up</a></li>
+        <ul class="inline-list navbar-right">
+          <li><a href="javascript:void(0);" (click)="mobile.active=false;user.active=false;selectLocation()"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{locationService.getLocationName()}}</a></li>
+          <li *ngIf="!loggedIn" (click)="mobile.active=false;user.active=false;selectLocation()"><a routerLink="login">Login/Sign up</a></li>
 
-        <li *ngIf="loggedIn" class="dropdown nav-user">
-          <a href="javascript:void(0);" #user (click)="user.active = !user.active" class="dropdown-toggle">
-           <img class="user-image" src="{{userimage}}" /> {{ username }} 
-           <i class="fa fa-caret-down" aria-hidden="true"></i>
-          </a>
+          <li *ngIf="loggedIn" class="dropdown nav-user">
+            <a href="javascript:void(0);"  (click)="user.active = !user.active" class="dropdown-toggle">
+            <img class="user-image" src="{{userimage}}" /> {{ username }} 
+            <i class="fa fa-caret-down" aria-hidden="true"></i>
+            </a>
 
-          <ul class="dropdown-menu" [hidden]="!user.active">
-            <li><a routerLink="/profile" (click)="user.active = false; mobile.active=false">My profile</a></li>
+            <ul class="dropdown-menu" [hidden]="!user.active">
+              <li><a routerLink="/profile" (click)="user.active = false; mobile.active=false">My profile</a></li>
 
-            <ng-container *ngIf="meService.hasBackstage()">
-              <li><a routerLink="/backstage" (click)="user.active = false; mobile.active=false">Backstage</a></li>
-              <li role="separator" class="divider"></li>
-            </ng-container>
+              <ng-container *ngIf="meService.hasBackstage()">
+                <li><a routerLink="/backstage" (click)="user.active = false; mobile.active=false">Backstage</a></li>
+                <li role="separator" class="divider"></li>
+              </ng-container>
 
-            <li><a href="javascript:void(0);" (click)="logout();user.active = false; mobile.active=false">Logout</a></li>
-          </ul>
+              <li><a href="javascript:void(0);" (click)="logout();user.active = false; mobile.active=false">Logout</a></li>
+            </ul>
 
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
     </div>
 </nav>
 <!--
