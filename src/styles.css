@@ -114,7 +114,7 @@ Web view defaults
 
 
 nav {
-  height:50px;
+  height:60px;
   padding:5px;
 }
 .brand {
@@ -133,7 +133,28 @@ nav {
   float:right;
 }
 
+.navbar-items {
+  padding:0px 10px;
+}
+.navbar-items ul {
+  margin:0px 0px;
+  height:100%;
+}
+.navbar-items ul li {
+  margin-left:15px;
+  padding:0px 10px;
+  height:50px;
+  line-height:50px;
+}
 
+.navbar-items ul li:hover {
+  background-color:blue;
+}
+
+.nav-user img {
+  display:inline-block;
+  vertical-align: sub;
+}
 
 /*--------------------------------------------------------------
 https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout

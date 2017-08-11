@@ -5,6 +5,8 @@
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
+    
+    <div class="navbar-items clearfix">
       <ul class="inline-list navbar-left">
         <li *ngIf="loggedIn" routerLinkActive="active"><a routerLink="events/today">Today</a></li>
         <li *ngIf="!loggedIn" routerLinkActive="active"><a routerLink="events">Events</a></li>
@@ -13,12 +15,12 @@
 
       <ul class="inline-list navbar-right">
         <li><a href="javascript:void(0);" (click)="mobile.active=false;selectLocation()"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{locationService.getLocationName()}}</a></li>
-        <li><a routerLink="login" *ngIf="!loggedIn">Login/Sign up</a></li>
+        <li *ngIf="!loggedIn"><a routerLink="login">Login/Sign up</a></li>
 
-        <li *ngIf="loggedIn" class="dropdown">
-          <a href="javascript:void(0);" #user (click)="user.active = !user.active" class="dropdown-toggle"
-           data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-           <img class="user-image" src="{{userimage}}" /> {{ username }}<span class="caret"></span>
+        <li *ngIf="loggedIn" class="dropdown nav-user">
+          <a href="javascript:void(0);" #user (click)="user.active = !user.active" class="dropdown-toggle">
+           <img class="user-image" src="{{userimage}}" /> {{ username }} 
+           <i class="fa fa-caret-down" aria-hidden="true"></i>
           </a>
 
           <ul class="dropdown-menu" [hidden]="true">
@@ -34,6 +36,7 @@
 
         </li>
       </ul>
+    </div>
 </nav>
 <!--
 <div class="cd-popup" [class.is-visible]="locationModalVisible" role="alert">
