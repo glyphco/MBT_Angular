@@ -26,10 +26,15 @@ export class Page {
   createdBy: number;
   updatedBy: number;
   location: string;
-  eventsCount: number;
-  likesCount: number;
   startTime:string; //used for event create
   categoriesJson:any;
+
+  eventsCount: number;
+  likesCount: number;
+  friendslikeCount: number;
+  friendslike: any;  
+  eventsAsParticipantCurrent:any;
+  eventsAsProducerCurrent:any;
 
   public static arrayMap(json):Page[]{
     let pages:Page[] = [];
@@ -71,6 +76,10 @@ export class Page {
       currentPage.location = json.location; 
       currentPage.eventsCount = json.events_count; 
       currentPage.likesCount = json.likes_count; 
+      currentPage.friendslikeCount = json.friendslike_count; 
+      currentPage.friendslike = json.friendslike; 
+      currentPage.eventsAsParticipantCurrent = json.events_as_participant_current; 
+      currentPage.eventsAsProducerCurrent = json.events_as_producer_current;       
       currentPage.categoriesJson = json.categoriesjson; 
       return currentPage;
   }

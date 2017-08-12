@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHandlerService } from './http-handler.service';
+import { LocationService } from './location.service';
 import { Venue } from '../_models/venue';
 import 'rxjs/add/operator/toPromise';
 
@@ -8,7 +9,8 @@ import 'rxjs/add/operator/toPromise';
 
 export class VenueService {
   constructor(
-    private httpHandlerService: HttpHandlerService
+    private httpHandlerService: HttpHandlerService,
+    private locationService: LocationService
   ){}
 
   getVenuesEditable(page=1, perpage=10, options):Promise<any>{
@@ -20,6 +22,15 @@ export class VenueService {
   getVenue(id:number){
     return this.httpHandlerService.get(`venue/${id}`)
       .toPromise();
+  }
+
+  //custom call for venue view page
+  getVenueDetails(id:number){
+      let lat = this.locationService.getLat();
+    let lng = this.locationService.getLng();
+    return this.httpHandlerService.get(`venue/${id}/details?lat=${lat}&lng=${lng}`)
+      .map(response => response.json().data)
+      .toPromise()
   }
 
   getVenueEdit(id:number){

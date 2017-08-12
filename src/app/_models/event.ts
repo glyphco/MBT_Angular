@@ -79,7 +79,10 @@ export class Event {
     currentEvent.distance = json.distance;
     currentEvent.location = json.location;
     currentEvent.name = json.name;
-    currentEvent.participantspivot = json.eventparticipants;
+    if ("eventparticipants" in json) {
+        currentEvent.participantspivot = json.eventparticipants;
+    }
+
     currentEvent.participants = JSON.parse(json.participantsjson);
     currentEvent.participantsjson = json.participantsjson;
     currentEvent.showspivot = json.eventshows;    

@@ -7,7 +7,7 @@ import { VenueService } from '../_services/venue.service';
 @Component({
   selector: 'app-venue-detail',
   templateUrl: './venue-detail.component.html',
-  //styleUrls: ['./events-editable.component.css']
+  styleUrls: ['./lists.component.css']
 })
 export class VenueDetailComponent implements OnInit, OnDestroy {
   venue: Venue;
@@ -35,8 +35,9 @@ export class VenueDetailComponent implements OnInit, OnDestroy {
   }
 
   private getVenue(id:number){
-    this.venueService.getVenue(id).then(venue => {
-      this.venue = Venue.map(venue.json().data);
+    this.venueService.getVenueDetails(id).then(venue => {
+      this.venue = Venue.map(venue);
+      console.log(this.venue);
     }).catch(error => console.log(error));
   }
 }

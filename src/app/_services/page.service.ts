@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from './http-handler.service';
+import { LocationService } from './location.service';
 import { Page } from '../_models/page';
 import 'rxjs/add/operator/toPromise';
 
@@ -12,7 +13,8 @@ export class PageService {
   constructor(
     private http: Http,
     private router:Router,
-    private httpHandlerService: HttpHandlerService
+    private httpHandlerService: HttpHandlerService,
+    private locationService: LocationService
   ){}
 
   getPages(page=1, perpage=10):Promise<any>{
@@ -29,6 +31,15 @@ export class PageService {
   getPage(id:number):Promise<any>{
     return this.httpHandlerService.get(`page/${id}`)
       .toPromise();
+  }
+
+  //custom call for page view page
+  getPageDetails(id:number){
+    let lat = this.locationService.getLat();
+    let lng = this.locationService.getLng();
+    return this.httpHandlerService.get(`page/${id}/details?lat=${lat}&lng=${lng}`)
+      .map(response => response.json().data)
+      .toPromise()
   }
 
   getPageEdit(id:number):Promise<any>{

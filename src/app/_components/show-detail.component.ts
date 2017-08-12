@@ -7,7 +7,7 @@ import { ShowService } from '../_services/show.service';
 @Component({
   selector: 'app-show-detail',
   templateUrl: './show-detail.component.html',
-  //styleUrls: ['./events-editable.component.css']
+  styleUrls: ['./lists.component.css']
 })
 export class ShowDetailComponent implements OnInit, OnDestroy {
   show: Show;
@@ -35,8 +35,9 @@ export class ShowDetailComponent implements OnInit, OnDestroy {
   }
 
   private getShow(id:number){
-    this.showService.getShow(id).then(show => {
-      this.show = Show.map(show.json().data);
+    this.showService.getShowDetails(id).then(show => {
+      this.show = Show.map(show);
+      console.log(this.show);
     }).catch(error => console.log(error));
   }
 }

@@ -1,22 +1,22 @@
 
 <div class="main-content white">
   <ul class=item-list>
-    <li *ngIf="event" class="soloevent-item-grid list-item">
-      <div class="soloevent-image-container-container">
-        <div class="soloevent-image-container">
-          <img class="soloevent-image img-responsive center-block" src="{{ event.imageurl }}">
+    <li *ngIf="event" class="eventdetail-item-grid list-item">
+      <div class="eventdetail-image-container-container">
+        <div class="eventdetail-image-container">
+          <img class="eventdetail-image img-responsive center-block" src="{{ event.imageurl }}">
         </div>
       </div>
-      <h3 class="soloevent-name"><a [routerLink]="['/event',event.id]">{{ event.name }}</a></h3>
-      <p class="soloevent-venue">
+      <h3 class="eventdetail-name"><a [routerLink]="['/event',event.id]">{{ event.name }}</a></h3>
+      <p class="eventdetail-venue">
         {{ event.venueName }} &bull; {{ event.distance * .000621371 | number : '1.2-2' }} miles
             <ng-template #elseBlock>{{ event.venueName }}</ng-template>
       </p>
-      <p class="soloevent-date">
+      <p class="eventdetail-date">
           {{ event.local_start | dateFormatter:'dddd, MMMM D' }}
       </p>
 
-      <ul class="soloevent-info">
+      <ul class="eventdetail-info">
         
         <li *ngIf="event.local_end">
           {{ event.local_start | dateFormatter:'short_time' }} to {{ event.local_end | dateFormatter:'short_time' }}
@@ -27,7 +27,7 @@
         <li>{{ event.categories.length > 0 ? event.categories[0].subcategory_name : '' }} $20 - $40</li>
       </ul>
 
-      <div class="soloevent-going-container">
+      <div class="eventdetail-going-container">
         <span class="mbt-blue">
           {{event.attendingYesCount}} Going &bull; {{event.friendsAttendingYesCount}} Friends
         </span>
@@ -37,7 +37,7 @@
           </li>
         </ul>
       </div>
-      <div class="soloevent-interested-container">
+      <div class="eventdetail-interested-container">
         <button class="mbt-blue">Interested?</button>
       </div>
 

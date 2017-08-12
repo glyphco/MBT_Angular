@@ -1,8 +1,83 @@
 <div class="container">
   <div *ngIf="page">
-    <h3>{{page.name}}</h3>
-    <p>City: {{page.city}}</p>
-    <h4>More information coming soon</h4>
+
+  <ul class=item-list>
+    <li *ngIf="page" class="pagedetail-item-grid list-item">
+      <div class="pagedetail-image-container-container">
+        <div class="pagedetail-image-container">
+          <img class="pagedetail-image img-responsive center-block" src="{{ page.imageUrl }}">
+        </div>
+      </div>
+      <h3 class="pagedetail-name"><a [routerLink]="['/page',page.id]">{{ page.name }}</a></h3>
+      
+      <div class="pagedetail-info">
+
+	    <p>From: {{page.city}}</p>
+
+	    <p>also: backgroundurl, categoriesjson</p>
+
+		<p class="pagedetail-tagline">{{ page.tagline }}</p>
+		<p class="pagedetail-summary">{{ page.summary }}</p>
+		<p class="pagedetail-description">{{ page.description }}</p>
+
+      </div>
+
+      <div class="pagedetail-liked-container">
+        <span class="mbt-blue">
+          {{page.likesCount}} Liked &bull; {{page.friendslikeCount}} Friends
+        </span>
+        <ul class="likers" style="">
+          <li *ngFor="let friend of page.friendslike | slice:0:8; let i=index" class="inline-images liker">
+            <img src="{{friend.avatar}}" [style.z-index]="50 - i" title="{{friend.name}}">
+          </li>
+        </ul>
+      </div>
+      <div class="pagedetail-interested-container">
+        <button class="mbt-blue">Like?</button>
+      </div>
+    </li>
+  </ul>
+
+    <h4 *ngIf="page.eventsAsParticipantCurrent?.length > 0" >Appearing at:</h4>
+  <ul *ngIf="page.eventsAsParticipantCurrent?.length > 0" class="item-list">
+     <li *ngFor="let event of page.eventsAsParticipantCurrent" class="event-item-grid list-item">
+      <div class="event-image-container item-image-container">
+        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}" title="{{ event.name }}">
+      </div>
+      <h3 class="event-name">
+       {{ event.name }}
+      </h3>    
+
+      <p class="event-venue">
+        <a *ngIf="event.venue_id; else elseBlock" [routerLink]="['/venue',event.venue_id]">{{ event.venue_name }}</a>
+        <ng-template #elseBlock>{{ event.venue_name }}</ng-template>
+      </p>
+      <ul class="event-info">
+        <li>{{ event.local_start | dateFormatter:'dddd, MMMM D' }}</li>
+      </ul>
+    </li>
+  </ul>
+
+    <h4 *ngIf="page.eventsAsProducerCurrent?.length > 0" >Producing:</h4>
+  <ul *ngIf="page.eventsAsProducerCurrent?.length > 0" class="item-list">
+     <li *ngFor="let event of page.eventsAsProducerCurrent" class="event-item-grid list-item">
+      <div class="event-image-container item-image-container">
+        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}" title="{{ event.name }}">
+      </div>
+      <h3 class="event-name">
+       {{ event.name }}
+      </h3>    
+
+      <p class="event-venue">
+        <a *ngIf="event.venue_id; else elseBlock" [routerLink]="['/venue',event.venue_id]">{{ event.venue_name }}</a>
+        <ng-template #elseBlock>{{ event.venue_name }}</ng-template>
+      </p>
+      <ul class="event-info">
+        <li>{{ event.local_start | dateFormatter:'dddd, MMMM D' }}</li>
+      </ul>
+    </li>
+  </ul>
+
   </div>
   <h3>More coming soon</h3>
   <br/>

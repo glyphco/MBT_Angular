@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHandlerService } from './http-handler.service';
+import { LocationService } from './location.service';
 import { Show } from '../_models/show';
 import 'rxjs/add/operator/toPromise';
 
@@ -8,7 +9,8 @@ import 'rxjs/add/operator/toPromise';
 
 export class ShowService {
   constructor(
-    private httpHandlerService: HttpHandlerService
+    private httpHandlerService: HttpHandlerService,
+    private locationService: LocationService
   ){}
 
   getShows(page=1, perpage=10):Promise<any>{
@@ -25,6 +27,15 @@ export class ShowService {
   getShow(id:number){
     return this.httpHandlerService.get(`show/${id}`)
       .toPromise();
+  }
+
+  //custom call for show view page
+  getShowDetails(id:number){
+    let lat = this.locationService.getLat();
+    let lng = this.locationService.getLng();
+    return this.httpHandlerService.get(`show/${id}/details?lat=${lat}&lng=${lng}`)
+      .map(response => response.json().data)
+      .toPromise()
   }
 
   getShowEdit(id:number){

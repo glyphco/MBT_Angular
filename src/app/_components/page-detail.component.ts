@@ -7,7 +7,7 @@ import { PageService } from '../_services/page.service';
 @Component({
   selector: 'app-page-detail',
   templateUrl: './page-detail.component.html',
-  //styleUrls: ['./page-detail.component.css']
+  styleUrls: ['./lists.component.css']
 })
 export class PageDetailComponent implements OnInit, OnDestroy {
   page: Page;
@@ -35,8 +35,9 @@ export class PageDetailComponent implements OnInit, OnDestroy {
   }
 
   private getPage(id:number){
-    this.pageService.getPage(id).then(page => {
-      this.page = Page.map(page.json().data);
+    this.pageService.getPageDetails(id).then(page => {
+      this.page = Page.map(page);
+            console.log(this.page);
     }).catch(error => console.log(error));
   }
 }
