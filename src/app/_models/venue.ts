@@ -8,7 +8,6 @@ export class Venue {
   currentEventsCount:number;
   description:string;
   email:string;
-  eventsCount:number;
   imageUrl:string;
   lat:string;
   lng:string;
@@ -26,6 +25,12 @@ export class Venue {
   neighborhood:string;
   website:string;
   googlePlaceId:string;
+
+  eventsCount: number;
+  eventslistcurrent: any;
+  likesCount: number;
+  friendslikeCount: number;
+  friendslike: any;  
 
   public static arrayMap(json):Venue[]{
     let venues:Venue[] = [];
@@ -47,7 +52,6 @@ export class Venue {
       currentVenue.currentEventsCount = json.currentevents_count;
       currentVenue.description = json.description;
       currentVenue.email = json.email;
-      currentVenue.eventsCount = json.events_count;
       currentVenue.imageUrl = json.imageurl;
       currentVenue.lat = json.lat;
       currentVenue.lng = json.lng;
@@ -65,6 +69,13 @@ export class Venue {
       currentVenue.tagline = json.tagline;
       currentVenue.googlePlaceId = json.googlePlaceId;
       currentVenue.updatedAt = json.updated_at;
+
+      currentVenue.eventsCount = json.events_count; 
+      currentVenue.likesCount = json.likes_count; 
+      currentVenue.friendslikeCount = json.friendslike_count; 
+      currentVenue.friendslike = json.friendslike; 
+      currentVenue.eventslistcurrent = json.eventslistcurrent; 
+
       return currentVenue;
   }
 }

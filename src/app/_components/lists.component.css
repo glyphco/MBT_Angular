@@ -137,6 +137,69 @@
     grid-area: blockpagedetailinterested;
   }
 
+  .showdetail-item-grid {
+    display: grid;
+    grid-column-gap: 10px;
+    grid-template-columns: minmax(200px, 1fr) 100px 1fr;
+    grid-template-rows: auto auto auto auto auto auto ;
+    grid-template-areas:
+      "blockshowdetailimage blockshowdetailimage ..."
+      "blockshowdetailname blockshowdetailname ... "
+      "blockshowdetailinfo blockshowdetailinfo ..."
+      "blockshowdetaillikes blockshowdetailinterested ..."      
+      ;
+  }
+
+  .showdetail-image-container {
+    grid-area: blockshowdetailimage;
+  }
+
+  .showdetail-name {
+    grid-area: blockshowdetailname;
+  }
+
+  .showdetail-info {
+    grid-area: blockshowdetailinfo;
+  }
+  .showdetail-liked-container {
+    grid-area: blockshowdetaillikes;
+  }
+  .showdetail-interested-container {
+    grid-area: blockshowdetailinterested;
+  }
+
+  .venuedetail-item-grid {
+    display: grid;
+    grid-column-gap: 10px;
+    grid-template-columns: minmax(200px, 1fr) 100px 1fr;
+    grid-template-rows: auto auto auto auto auto auto ;
+    grid-template-areas:
+      "blockvenuedetailimage blockvenuedetailimage ..."
+      "blockvenuedetailname blockvenuedetailname ... "
+      "blockvenuedetailinfo blockvenuedetailinfo ..."
+      "blockvenuedetaillikes blockvenuedetailinterested ..."      
+      ;
+  }
+
+  .venuedetail-image-container {
+    grid-area: blockvenuedetailimage;
+  }
+
+  .venuedetail-name {
+    grid-area: blockvenuedetailname;
+  }
+
+  .venuedetail-info {
+    grid-area: blockvenuedetailinfo;
+  }
+  .venuedetail-liked-container {
+    grid-area: blockvenuedetaillikes;
+  }
+  .venuedetail-interested-container {
+    grid-area: blockvenuedetailinterested;
+  }
+
+
   .event-item-grid {
     display: grid;
     grid-column-gap: 10px;

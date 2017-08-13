@@ -15,8 +15,12 @@ export class Show {
   updatedAt: string;
   createdBy: number;
   updatedBy: number;
+
   eventsCount: number;
+  eventslistcurrent: any;
   likesCount: number;
+  friendslikeCount: number;
+  friendslike: any;  
   
   public static arrayMap(json):Show[]{
     let shows:Show[] = [];
@@ -44,8 +48,11 @@ export class Show {
       currentShow.updatedAt = json.updated_at;
       currentShow.createdBy = json.created_by;
       currentShow.updatedBy = json.updated_by;
-      currentShow.eventsCount = json.events_count;
-      currentShow.likesCount = json.likes_count;
+      currentShow.eventsCount = json.events_count; 
+      currentShow.likesCount = json.likes_count; 
+      currentShow.friendslikeCount = json.friendslike_count; 
+      currentShow.friendslike = json.friendslike; 
+      currentShow.eventslistcurrent = json.eventslistcurrent; 
       currentShow.categoriesJson = json.categoriesjson;
       return currentShow;
   }

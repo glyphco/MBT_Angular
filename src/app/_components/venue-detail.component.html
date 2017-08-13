@@ -1,12 +1,72 @@
 <div class="container">
   <div *ngIf="venue">
-    <h3>{{venue.name}}</h3>
-    <p>
+
+  <ul class=item-list>
+    <li *ngIf="venue" class="venuedetail-item-grid list-item">
+      <div class="venuedetail-image-container-container">
+        <div class="venuedetail-image-container">
+          <img class="venuedetail-image img-responsive center-block" src="{{ venue.imageUrl }}">
+        </div>
+      </div>
+      <h3 class="venuedetail-name"><a [routerLink]="['/venue',venue.id]">{{ venue.name }}</a></h3>
+      
+      <div class="venuedetail-info">
+
       <a href="http://maps.google.com/?q={{ venue.streetAddress+' '+venue.city+', '+venue.state}}" target="_blank">
       {{venue.streetAddress}} {{venue.city}}, {{venue.state}}
       </a>
-    </p>
-    <h4>More information coming soon</h4>
+
+      <p class="venuedetail-description">{{ venue.description }}</p>
+
+      </div>
+
+
+      <div *ngIf="venue.friendslikeCount > 0; else noLikers" class="venuedetail-liked-container">
+        <span class="mbt-blue">
+          {{venue.likesCount}} Likes
+          <span *ngIf="venue.friendslikeCount > 0;"> &bull; {{venue.friendslikeCount}} Friends</span>
+        </span>
+        <ul class="likers" style="">
+          <li *ngFor="let friend of venue.friendslike | slice:0:8; let i=index" class="inline-images liker">
+            <img src="{{friend.avatar}}" [style.z-index]="50 - i" title="{{friend.name}}">
+          </li>
+        </ul>
+      </div>
+
+      <ng-template #noLikers>
+        <div class="venuedetail-liked-container">
+          <span class="mbt-blue">
+            (no likes yet..)
+          </span>
+        </div>
+      </ng-template>
+
+      <div class="venuedetail-interested-container">
+        <button class="mbt-blue">Like?</button>
+      </div>
+    </li>
+  </ul>
+
+    <h4 *ngIf="venue.eventslistcurrent?.length > 0" >Upcoming Events:</h4>
+  <ul *ngIf="venue.eventslistcurrent?.length > 0" class="item-list">
+     <li *ngFor="let event of venue.eventslistcurrent" class="event-item-grid list-item">
+      <div class="event-image-container item-image-container">
+        <img class="item-image img-responsive center-block" src="{{ event.imageurl }}" title="{{ event.name }}">
+      </div>
+      <h3 class="event-name">
+              <a [routerLink]="['/event',event.id]">{{ event.name }}</a>
+      </h3>    
+
+      <p class="event-venue">
+        <a *ngIf="event.venue_id; else elseBlock" [routerLink]="['/venue',event.venue_id]">{{ event.venue_name }}</a>
+        <ng-template #elseBlock>{{ event.venue_name }}</ng-template>
+      </p>
+      <ul class="event-info">
+        <li>{{ event.local_start | dateFormatter:'dddd, MMMM D' }}</li>
+      </ul>
+    </li>
+  </ul>
+
   </div>
   <br/>
   <button class="btn btn-primary" (click)="goBack()">Back</button>
