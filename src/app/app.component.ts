@@ -41,15 +41,18 @@ export class AppComponent implements OnInit, OnDestroy {
     private meService:MeService){}
 
   ngOnInit(){
-    //check if me service is instantiated
-    this.meService.initializeMe();
-
     //set location name
     //TODO: this should be able to go too
     this.userLocation = this.locationService.getLocationName();
 
     //set the logged in property
     this.loggedIn = this.authService.isLoggedIn();
+
+    //check if me service is instantiated
+    if(this.loggedIn){
+      this.meService.initializeMe();
+    }
+    
     //listen to when the loggen in property changes
     this.subscription = this.authService.loggedIn$.subscribe(loggedInValue => {
       this._ngZone.run(() =>

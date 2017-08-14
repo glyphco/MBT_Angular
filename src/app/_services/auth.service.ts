@@ -97,14 +97,35 @@ export class AuthService {
           this._zone.run(() => 
             this.login()
           );
-        }).catch(
-          error => console.log(error)
-        )
-      }
-      else {
+        }).catch(error => {
+          console.log(error);
+        })
+      } else if (response.status === 'unknown'){
+        this.redirectUserToFacebook();
+      } else {
         alert('Your browser does not support Facebook login');
       }
     }.bind(this));
+  }
+
+  private redirectUserToFacebook(){
+    FB.login(function(response){
+      if(response.authResponse){
+        let accessToken = response.authResponse.accessToken;
+        this.getJWT('facebook', accessToken).then(token => {
+          this.saveToken(token);
+          return this.meService.initializeMe();
+        }).then(user => {
+          this._zone.run(() => 
+            this.login()
+          );
+        }).catch(
+          error => console.log(error)
+        )
+      } else {
+        console.log('User cancelled login or did not fully authorize.');
+      }
+    }.bind(this))
   }
 
   //Google login stuff

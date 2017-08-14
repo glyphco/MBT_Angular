@@ -17,7 +17,7 @@
 
         <ul class="inline-list navbar-right">
           <li><a href="javascript:void(0);" (click)="mobile.active=false;user.active=false;selectLocation()"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{locationService.getLocationName()}}</a></li>
-          <li *ngIf="!loggedIn" (click)="mobile.active=false;user.active=false;selectLocation()"><a routerLink="login">Login/Sign up</a></li>
+          <li *ngIf="!loggedIn" (click)="mobile.active=false;user.active=false"><a routerLink="login">Login/Sign up</a></li>
 
           <li *ngIf="loggedIn" class="dropdown nav-user">
             <a href="javascript:void(0);"  (click)="user.active = !user.active" class="dropdown-toggle">
