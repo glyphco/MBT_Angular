@@ -39,7 +39,7 @@ export class AuthService {
     return false;
   }
 
-  login(token: string){
+  login(){
     //redirect
     this._zone.run(() => {
       this.router.navigate(['/backstage']);
@@ -108,6 +108,7 @@ export class AuthService {
     }.bind(this));
   }
 
+  //Shows facebook login dialog box if user isn't already signed in
   private redirectUserToFacebook(){
     FB.login(function(response){
       if(response.authResponse){
@@ -137,30 +138,26 @@ export class AuthService {
         //cookiepolicy: 'single_host_origin',
         scope: 'profile email'
       });
-      this.attachSignin(document.getElementById(googleBtnId));
     }.bind(this));
-    gapi.signin2.render(googleBtnId, {
-      'width': 300,
-      'height': 50,
-      'longtitle': true,
-      'theme': 'dark'
-    });
   }
 
-  public attachSignin(element) {
-    this.auth2.attachClickHandler(element, {},
-      function (googleUser) {
-        //let profile = googleUser.getBasicProfile(); //profile info
-        let authResponse = googleUser.getAuthResponse();
-        this.getJWT('google', authResponse.access_token).then(
-          token => this.login(token)
-        ).catch(
-          () => console.log('something went wrong') 
+  loginWithGoogle(){
+    let options = {};
+    this.auth2.signIn(options).then(response => {
+      let authResponse = response.getAuthResponse();
+      this.getJWT('google', authResponse.access_token).then(token => {
+        this.saveToken(token);
+        return this.meService.initializeMe();
+      }).then(user => {
+        this._zone.run(() => 
+          this.login()
         );
-      }.bind(this), function (error) {
-        alert(JSON.stringify(error, undefined, 2));
-      });
+      }).catch(
+        () => console.log('Something went wrong when getting JWT token from API') 
+      );
+    }).catch(error => console.log(error));
   }
+
 
   getJWT(provider: string, accessToken: string):Promise<string>{
     const url = `${this.authUrl}/gettoken/${provider}?token=${accessToken}`;

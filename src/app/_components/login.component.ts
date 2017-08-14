@@ -21,4 +21,8 @@ export class LoginComponent implements AfterViewInit {
   facebookLogin(){
     this.authService.facebookLogin();
   }
+
+  loginWithGoogle(){
+    this.authService.loginWithGoogle();
+  }
 }
