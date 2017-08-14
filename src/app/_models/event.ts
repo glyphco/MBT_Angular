@@ -11,8 +11,8 @@ export class Event {
   description:string;
   end:string;
   imageUrl:string;
-  //lat:string;
-  //lng:string;
+  lat:number;
+  lng:number;
   distance:number;
   location:string;
   name:string;
@@ -74,8 +74,8 @@ export class Event {
     currentEvent.description = json.description;
     currentEvent.end = json.end;
     currentEvent.imageUrl = json.imageurl;
-    //currentEvent.lat = json.lat;
-    //currentEvent.lng = json.lng;
+    currentEvent.lat = +json.lat;
+    currentEvent.lng = +json.lng;
     currentEvent.distance = json.distance;
     currentEvent.location = json.location;
     currentEvent.name = json.name;

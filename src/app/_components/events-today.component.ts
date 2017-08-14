@@ -5,6 +5,8 @@ import { LocationService } from '../_services/location.service';
 import { Pagination } from '../_helpers/pagination';
 import { Subscription }   from 'rxjs/Subscription';
 
+declare var google:any;
+
 @Component({
   selector: 'app-events-today',
   templateUrl: './events-today.component.html',
@@ -16,6 +18,7 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
   events = [];
   location = this.locationService.getLocationName();
   loadingIndicatorVisible = false;
+  map:any;
 
   constructor(
     private eventService:EventService, 
@@ -23,6 +26,12 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
   ){}
 
   ngOnInit():void{
+    //Set up Google map
+    this.map = new google.maps.Map(document.getElementById('sidebar-map'));
+    this.map.setCenter({lat: this.locationService.getLat(), lng: this.locationService.getLng()});
+    this.setMapZoom();
+
+    //Get events
     this.getEvents(1);
     this.subscription = this.locationService.locationChange$.subscribe(change => {
         //refresh list when location changes
@@ -47,6 +56,9 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
       this.pagination.setPage(page, perPage, totalObjects);
       this.loadingIndicatorVisible = false;
       console.log(this.events);
+
+      //Populate Google map
+      this.populateMap();
     }).catch(error => {
       this.loadingIndicatorVisible = false;
       console.log(error);
@@ -61,5 +73,42 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
       let totalObjects = events.total;
       this.pagination.setPage(page, perPage, totalObjects);
     }).catch(error => console.log(error));
+  }
+
+  private populateMap(){
+    //Right now, just populate the map with the lat and lngs from current events
+    for (let event of this.events){
+      console.log(event);
+      new google.maps.Marker({
+        map: this.map,
+        //anchorPoint: new google.maps.Point(latitude, longitude),
+        position: {lat: event.lat, lng: event.lng}
+      });
+    }
+  }
+
+  private setMapZoom(){
+    switch(+this.locationService.getDist()) {
+        case 0.5:
+            this.map.setZoom(13);
+            break;
+        case 1:
+            this.map.setZoom(13);
+            break;
+        case 2:
+            this.map.setZoom(12);
+            break;
+        case 5:
+            this.map.setZoom(11);
+            break;
+        case 10:
+            this.map.setZoom(10);
+            break;
+        case 20:
+            this.map.setZoom(9);
+            break;
+        default:
+            this.map.setZoom(13);
+    }
   }
 }
