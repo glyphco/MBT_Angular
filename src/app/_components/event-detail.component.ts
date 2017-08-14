@@ -10,7 +10,7 @@ import { EventService } from '../_services/event.service';
   styleUrls: ['./lists.component.css']
 })
 export class EventDetailComponent implements OnInit, OnDestroy {
-  event: Event;
+  event = new Event();
   private sub: any;
 
   constructor(
@@ -42,7 +42,6 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   private getEvent(id:number){
     this.eventService.getEventDetails(id).then(event => {
       this.event = Event.map(event);
-      console.log(this.event);
     }).catch(error => console.log(error));
   }
 }

@@ -18,11 +18,11 @@ export class Event {
   name:string;
   participants:any;
   participantsjson:any;
-  participantspivot:any;
-  showspivot:any;
+  participantspivot = [];
+  showspivot = [];
   shows:any;
   showsjson:any;
-  producerspivot:any;
+  producerspivot = [];
   postalCode:string;
   start:string;
   startTime:any;
@@ -38,7 +38,7 @@ export class Event {
   venueId:number;
   venueName:string;
   tagline:string;
-  categories:any;
+  categories = [];
   categoriesJson:any;
   friendsAttendingYes:any;
   friendsAttendingYesCount:number;
