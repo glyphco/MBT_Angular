@@ -209,7 +209,7 @@ CSS Grid layout for wider screens, when browser supports grid:
       margin:0px 0px;
       height:100%;
     }
-    .navbar-items ul li {
+    .navbar-items > ul > li {
       margin-left:15px;
       padding:0px 10px;
       height:60px;
@@ -226,10 +226,13 @@ CSS Grid layout for wider screens, when browser supports grid:
     .dropdown-menu {
       background-color: #000;
       position:absolute;
-      right:25px;
+      right:0px;
+      padding:0px;
     }
     .dropdown-menu li {
       height:auto;
+      min-width:150px;
+      margin:10px 20px;
       line-height:1em;
     }
   }
