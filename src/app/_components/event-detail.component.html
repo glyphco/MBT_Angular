@@ -85,10 +85,10 @@
     <ul class="item-list">
       <li *ngFor="let participant of event.participantspivot" class="participant-item-grid list-item">
         <div class="participant-image-container item-image-container">
-          <img class="item-image img-responsive center-block" src="{{ participant.imageurl }}" title="{{ participant.name }}">
+          <img class="item-image img-responsive center-block" src="{{ participant.imageUrl }}" title="{{ participant.name }}">
         </div>
         <h3 class="participant-name">
-        <a *ngIf="participant.page_id; else noParticipantLinkBlock" [routerLink]="['/page',participant.page_id]">{{ participant.name }}</a>
+        <a *ngIf="participant.page_id; else noParticipantLinkBlock" [routerLink]="['/page',participant.pageId]">{{ participant.name }}</a>
         <ng-template #noParticipantLinkBlock>{{ participant.name }}</ng-template>
         </h3>    
         <div class="participant-info">
@@ -103,15 +103,15 @@
     <ul class="item-list">
       <li *ngFor="let show of event.showspivot" class="show-item-grid list-item">
         <div class="show-image-container item-image-container">
-          <img class="item-image img-responsive center-block" src="{{ show.imageurl }}" title="{{ show.name }}">
+          <img class="item-image img-responsive center-block" src="{{ show.imageUrl }}" title="{{ show.name }}">
         </div>
         <h3 class="show-name">
         
-        <a *ngIf="show.show_id; else noProducerLinkBlock" [routerLink]="['/show',show.show_id]">{{ show.name }}</a>
+        <a *ngIf="show.show_id; else noProducerLinkBlock" [routerLink]="['/show',show.showId]">{{ show.name }}</a>
         <ng-template #noProducerLinkBlock>{{ show.name }}</ng-template>
         </h3>    
         <div class="show-info">
-        Tagline Goes Here
+        {{ show.info }}
         </div>
       </li>
     </ul>
@@ -122,14 +122,15 @@
     <ul *ngIf="event.producerspivot.length > 0" class="item-list">
       <li *ngFor="let producer of event.producerspivot" class="producer-item-grid list-item">
         <div class="producer-image-container item-image-container">
-          <img class="item-image img-responsive center-block" src="{{ producer.imageurl }}" title="{{ producer.name }}">
+          <img class="item-image img-responsive center-block" src="{{ producer.imageUrl }}" title="{{ producer.name }}">
         </div>
         <h3 class="producer-name">
-        <a *ngIf="producer.page_id; else noProducerLinkBlock" [routerLink]="['/page',producer.page_id]">{{ producer.name }}</a>
+        <a *ngIf="producer.page_id; else noProducerLinkBlock" [routerLink]="['/page',producer.pageId]">{{ producer.name }}</a>
         <ng-template #noProducerLinkBlock>{{ producer.name }}</ng-template>
         </h3>    
         <div class="producer-info">
-        Tagline Goes Here
+    {{ producer.info }}
+
         </div>
       </li>
     </ul>

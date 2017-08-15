@@ -1,3 +1,5 @@
+import { Event } from './event';
+
 export class Show {
   id: number;
   name: string;
@@ -17,7 +19,7 @@ export class Show {
   updatedBy: number;
 
   eventsCount: number;
-  eventslistcurrent: any;
+  eventsListCurrent: any;
   likesCount: number;
   friendslikeCount: number;
   friendslike: any;  
@@ -52,7 +54,7 @@ export class Show {
       currentShow.likesCount = json.likes_count; 
       currentShow.friendslikeCount = json.friendslike_count; 
       currentShow.friendslike = json.friendslike; 
-      currentShow.eventslistcurrent = json.eventslistcurrent; 
+      currentShow.eventsListCurrent = Event.arrayMap(json.eventslistcurrent);   
       currentShow.categoriesJson = json.categoriesjson;
       return currentShow;
   }

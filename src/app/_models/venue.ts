@@ -1,3 +1,5 @@
+import { Event } from './event';
+
 export class Venue {
   id = -1;
   name: string;
@@ -26,11 +28,11 @@ export class Venue {
   website:string;
   googlePlaceId:string;
 
-  eventsCount: number;
-  eventslistcurrent: any;
-  likesCount: number;
-  friendslikeCount: number;
-  friendslike: any;  
+  eventsCount = 0;
+  eventsListCurrent = [];
+  likesCount = 0;
+  friendslikeCount = 0;
+  friendslike= [];  
 
   public static arrayMap(json):Venue[]{
     let venues:Venue[] = [];
@@ -74,7 +76,8 @@ export class Venue {
       currentVenue.likesCount = json.likes_count; 
       currentVenue.friendslikeCount = json.friendslike_count; 
       currentVenue.friendslike = json.friendslike; 
-      currentVenue.eventslistcurrent = json.eventslistcurrent; 
+      //currentVenue.eventslistcurrent = json.eventslistcurrent; 
+      currentVenue.eventsListCurrent = Event.arrayMap(json.eventslistcurrent);     
 
       return currentVenue;
   }

@@ -39,8 +39,8 @@ export class Event {
   tagline:string;
   categories = [];
   categoriesJson:any;
-  friendsAttendingYes:any;
-  friendsAttendingYesCount:number;
+  friendsAttendingYes = []
+  friendsAttendingYesCount = 0;
   attendingYesCount:number;
 
   //TODO: map these
@@ -56,20 +56,14 @@ export class Event {
 
   public static arrayMap(json):Event[]{
     let events:Event[] = [];
-    if(typeof json === 'object'){
-      //An object was passed in
-      for(let index in json){
-        let position = parseInt(index); //convert the index:String to a number
-        let event = json[position]
-        let eventObj = this.map(event);
-        events.push(eventObj);
-      }
-    }else{ //An array was passed in
-      for (let event of json as any[]){
-        let eventList = this.map(event);
-        events.push(eventList);
-      }
+    if(!json){
+      return [];
     }
+    for(let event of json){
+      let eventObj = this.map(event);
+      events.push(eventObj);
+    }
+
     return events;
   }
 
@@ -90,14 +84,14 @@ export class Event {
     currentEvent.location = json.location;
     currentEvent.name = json.name;
 
-    //currentEvent.participantspivot = json.eventparticipants;
-
-
     currentEvent.participants = JSON.parse(json.participantsjson);
     currentEvent.participantspivot = ParticipantPivot.arrayMap(json.eventparticipants);
-    currentEvent.showspivot = json.eventshows;    
-    currentEvent.shows = JSON.parse(json.showsjson);
-    //currentEvent.producerspivot = ProducersPivot.arrayMap(json.eventproducer);    
+    currentEvent.shows = JSON.parse(json.showsjson);    
+    currentEvent.showspivot = ShowPivot.arrayMap(json.eventshows);    
+    currentEvent.producerspivot = ProducerPivot.arrayMap(json.eventproducer);    
+    currentEvent.categories = JSON.parse(json.categoriesjson);
+    currentEvent.categoriesJson = json.categoriesjson; 
+       
     currentEvent.postalCode = json.postalcode;
     currentEvent.public = json.public;
     currentEvent.start = json.start;
@@ -113,8 +107,7 @@ export class Event {
     currentEvent.venueName = json.venue_name;
     currentEvent.venueTagline = json.venue_tagline;
     currentEvent.tagline = json.tagline;
-    currentEvent.categories = JSON.parse(json.categoriesjson);
-    currentEvent.categoriesJson = json.categoriesjson;
+
     currentEvent.friendsAttendingYes = json.friendsattendingyes;
     currentEvent.friendsAttendingYesCount = json.friendsattendingyes_count;
     currentEvent.attendingYesCount = json.attendingyes_count;
@@ -170,7 +163,7 @@ class ParticipantPivot {
   }
 }
 
-class ProducersPivot {
+class ProducerPivot {
   eventId:number;
   pageId:number;
   name:string;
@@ -180,13 +173,68 @@ class ProducersPivot {
   order:number;
   public:boolean;
   confirmed:boolean;
+
+  public static arrayMap(json):ProducerPivot[]{
+    let producers:ProducerPivot[] = [];
+    if(!json){
+      return [];
+    }
+    //json = JSON.parse(json);
+    //An object was passed in
+    for(let producer of json){
+      let producerObj = this.map(producer);
+      producers.push(producerObj);
+    }
+    return producers;
+  }
+
+  public static map(json):ProducerPivot{
+    let currentProducer = new ProducerPivot();
+    currentProducer.eventId = json.event_id;
+    currentProducer.pageId = json.page_id;
+    currentProducer.name = json.name;
+    currentProducer.info = json.info;
+    currentProducer.privateInfo = json.private_info;
+    currentProducer.imageUrl = json.imageurl;
+    currentProducer.order = json.order;
+    currentProducer.public = json.public;
+    currentProducer.confirmed = json.confirmed;
+    return currentProducer;
+  }
+
 }
 
-class ShowsPivot {
+class ShowPivot {
   eventId:number;
   pageId:number;
   name:string;
   info:string;
   imageUrl:string;
   order:number;
+
+  public static arrayMap(json):ShowPivot[]{
+    let shows:ShowPivot[] = [];
+    if(!json){
+      return [];
+    }
+    //json = JSON.parse(json);
+    //An object was passed in
+    for(let show of json){
+      let showObj = this.map(show);
+      shows.push(showObj);
+    }
+    return shows;
+  }
+
+  public static map(json):ShowPivot{
+    let currentShow = new ShowPivot();
+    currentShow.eventId = json.event_id;
+    currentShow.pageId = json.page_id;
+    currentShow.name = json.name;
+    currentShow.info = json.info;
+    currentShow.imageUrl = json.imageurl;
+    currentShow.order = json.order;
+    return currentShow;
+  }
+
 }

@@ -1,3 +1,5 @@
+import { Event } from './event';
+
 export class Page {
   id = -1;
   name: string;
@@ -33,8 +35,8 @@ export class Page {
   likesCount: number;
   friendslikeCount: number;
   friendslike: any;  
-  eventsAsParticipantCurrent:any;
-  eventsAsProducerCurrent:any;
+  eventsAsParticipantCurrent = [];
+  eventsAsProducerCurrent = [];
 
   public static arrayMap(json):Page[]{
     let pages:Page[] = [];
@@ -78,9 +80,10 @@ export class Page {
       currentPage.likesCount = json.likes_count; 
       currentPage.friendslikeCount = json.friendslike_count; 
       currentPage.friendslike = json.friendslike; 
-      currentPage.eventsAsParticipantCurrent = json.events_as_participant_current; 
-      currentPage.eventsAsProducerCurrent = json.events_as_producer_current;       
+      currentPage.eventsAsParticipantCurrent = Event.arrayMap(json.events_as_participant_current);    
+      currentPage.eventsAsProducerCurrent = Event.arrayMap(json.events_as_producer_current);    
       currentPage.categoriesJson = json.categoriesjson; 
       return currentPage;
   }
 }
+
