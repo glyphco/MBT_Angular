@@ -42,6 +42,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   private getEvent(id:number){
     this.eventService.getEventDetails(id).then(event => {
       this.event = Event.map(event);
+      console.log(this.event);
     }).catch(error => console.log(error));
   }
 }

@@ -17,11 +17,9 @@ export class Event {
   location:string;
   name:string;
   participants:any;
-  participantsjson:any;
   participantspivot = [];
   showspivot = [];
   shows:any;
-  showsjson:any;
   producerspivot = [];
   postalCode:string;
   start:string;
@@ -37,12 +35,24 @@ export class Event {
   venue: Venue;
   venueId:number;
   venueName:string;
+  venueTagline:string;
   tagline:string;
   categories = [];
   categoriesJson:any;
   friendsAttendingYes:any;
   friendsAttendingYesCount:number;
   attendingYesCount:number;
+
+  //TODO: map these
+  mveId:number;
+  ages:number;
+  info:string;
+  privateInfo:string;
+  price:number
+  priceMin:number;
+  priceMax:number;
+  priceDescription:string;
+  priceLink:string;
 
   public static arrayMap(json):Event[]{
     let events:Event[] = [];
@@ -79,16 +89,15 @@ export class Event {
     currentEvent.distance = json.distance;
     currentEvent.location = json.location;
     currentEvent.name = json.name;
-    if ("eventparticipants" in json) {
-        currentEvent.participantspivot = json.eventparticipants;
-    }
+
+    //currentEvent.participantspivot = json.eventparticipants;
+
 
     currentEvent.participants = JSON.parse(json.participantsjson);
-    currentEvent.participantsjson = json.participantsjson;
+    currentEvent.participantspivot = ParticipantPivot.arrayMap(json.eventparticipants);
     currentEvent.showspivot = json.eventshows;    
     currentEvent.shows = JSON.parse(json.showsjson);
-    currentEvent.showsjson = json.showsjson;
-    currentEvent.producerspivot = json.eventproducer;    
+    //currentEvent.producerspivot = ProducersPivot.arrayMap(json.eventproducer);    
     currentEvent.postalCode = json.postalcode;
     currentEvent.public = json.public;
     currentEvent.start = json.start;
@@ -102,6 +111,7 @@ export class Event {
     currentEvent.venue = json.venue && Venue.map(json.venue);
     currentEvent.venueId = json.venue_id;
     currentEvent.venueName = json.venue_name;
+    currentEvent.venueTagline = json.venue_tagline;
     currentEvent.tagline = json.tagline;
     currentEvent.categories = JSON.parse(json.categoriesjson);
     currentEvent.categoriesJson = json.categoriesjson;
@@ -110,4 +120,73 @@ export class Event {
     currentEvent.attendingYesCount = json.attendingyes_count;
     return currentEvent;
   }
+}
+
+/*------------------------------------------------------
+  PIVOT MODELS
+------------------------------------------------------*/
+
+class ParticipantPivot {
+  eventId:number;
+  pageId:number;
+  name:string;
+  info:string;
+  privateInfo:string;
+  imageUrl:string;
+  start:any;
+  end:any;
+  order:number;
+  public:boolean;
+  confirmed:boolean;
+
+  public static arrayMap(json):ParticipantPivot[]{
+    let participants:ParticipantPivot[] = [];
+    if(!json){
+      return [];
+    }
+    //json = JSON.parse(json);
+    //An object was passed in
+    for(let participant of json){
+      let participantObj = this.map(participant);
+      participants.push(participantObj);
+    }
+    return participants;
+  }
+
+  public static map(json):ParticipantPivot{
+    let currentParticipant = new ParticipantPivot();
+    currentParticipant.eventId = json.event_id;
+    currentParticipant.pageId = json.page_id;
+    currentParticipant.name = json.name;
+    currentParticipant.info = json.info;
+    currentParticipant.privateInfo = json.private_info;
+    currentParticipant.imageUrl = json.imageurl;
+    currentParticipant.start = json.start;
+    currentParticipant.end = json.end;
+    currentParticipant.order = json.order;
+    currentParticipant.public = json.public;
+    currentParticipant.confirmed = json.confirmed;
+    return currentParticipant;
+  }
+}
+
+class ProducersPivot {
+  eventId:number;
+  pageId:number;
+  name:string;
+  info:string;
+  privateInfo:string;
+  imageUrl:string;
+  order:number;
+  public:boolean;
+  confirmed:boolean;
+}
+
+class ShowsPivot {
+  eventId:number;
+  pageId:number;
+  name:string;
+  info:string;
+  imageUrl:string;
+  order:number;
 }
