@@ -33,6 +33,15 @@ export class EventService {
       .toPromise()
   }
 
+  getEventsTodayPoints():Promise<any>{
+    let lat = this.locationService.getLat();
+    let lng = this.locationService.getLng();
+    let dist = this.locationService.getDist();
+    return this.httpHandlerService.get(`event/today/map?lat=${lat}&lng=${lng}&dist=${dist}`)
+      .map(response => response.json().data)
+      .toPromise()
+  }
+
   //custom call for event view page
   getEventDetails(id:number){
     let lat = this.locationService.getLat();

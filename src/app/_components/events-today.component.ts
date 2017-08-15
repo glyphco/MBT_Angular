@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 import { Event } from '../_models/event';
 import { EventService } from '../_services/event.service';
 import { LocationService } from '../_services/location.service';
@@ -22,7 +23,8 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
 
   constructor(
     private eventService:EventService, 
-    private locationService: LocationService
+    private locationService: LocationService,
+    @Inject(DOCUMENT) private document: Document
   ){}
 
   ngOnInit():void{
@@ -41,6 +43,22 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
 
   ngOnDestroy():void{
     this.subscription.unsubscribe();
+  }
+
+  //Track page scroll to dynamically move the map
+  @HostListener("window:scroll", [])
+  onWindowScroll() {
+    let scrollTop = this.document.body.scrollTop;
+    let width = this.document.body.clientWidth;
+    let mapContainer = this.document.getElementById("sidebar-map");
+    console.log(width);
+    if (scrollTop > 150 && width > 800) {
+      //adjust map top
+      let mapTop = scrollTop - 150;
+      mapContainer.style.top = String(mapTop) + 'px';
+    } else if(scrollTop < 100 || width < 800){
+      mapContainer.style.top = '0px';
+    }
   }
 
   public trackEvent(index, event){
@@ -76,7 +94,10 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
   }
 
   private populateMap(){
-    //Right now, just populate the map with the lat and lngs from current events
+    //Get map points for events today
+    this.eventService.getEventsTodayPoints().then(response => {
+
+    }).catch(error => console.log(error));
     for (let event of this.events){
       console.log(event);
       new google.maps.Marker({
