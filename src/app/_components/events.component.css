@@ -1,5 +1,7 @@
 #sidebar-map {
   height:250px;
+  width:auto;
+  position:relative;
 }
 
 .event-list {
@@ -147,10 +149,14 @@
     flex-wrap:wrap-reverse;
   }
 
+  .event-list {
+    flex: 1 1 100%;
+  }
+
   .sidebar {
-      /*width:25%;*/
-      flex: 1 1 auto;
-    }
+    /*width:25%;*/
+    flex: 1 1 100%;
+  }
 
   @media screen and (min-width: 800px) {
     .event-item {
@@ -169,11 +175,13 @@
         ;
     }
 
+    #sidebar-map {
+        width:100%;
+        overflow:hidden;
+    }
+
     .event-list {
-      /*
-      width:75%;
-      min-width:550px;*/
-      flex: 1 0 550px;
+      flex: 9999 0 550px;
     }
 
     .page-content {
@@ -182,7 +190,7 @@
 
     .sidebar {
       /*width:25%;*/
-      flex: 1 1 auto;
+      flex: 1 1 250px;
     }
 
     .event-participants-container {

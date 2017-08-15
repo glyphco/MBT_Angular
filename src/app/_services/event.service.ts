@@ -36,7 +36,7 @@ export class EventService {
   getEventsTodayPoints():Promise<any>{
     let lat = this.locationService.getLat();
     let lng = this.locationService.getLng();
-    let dist = this.locationService.getDist();
+    let dist = this.locationService.getDistMeters() *1.2;
     return this.httpHandlerService.get(`event/today/map?lat=${lat}&lng=${lng}&dist=${dist}`)
       .map(response => response.json().data)
       .toPromise()

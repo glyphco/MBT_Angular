@@ -111,7 +111,11 @@ export class LocationPickerComponent implements OnInit, OnDestroy {
   }
 
   saveLocation(){
-    if(this.lat && this.lng && this.lat != this.locationService.getLat() && this.lng != this.locationService.getLng()){
+    if((this.lat && this.lng && this.dist) 
+      && (this.lat != this.locationService.getLat() 
+        || this.lng != this.locationService.getLng() 
+        || this.dist != this.locationService.getDist())
+      ){
       //new location is different from old location
       this.geocodeLatLng().then(locationInfo => {
         //set user location text

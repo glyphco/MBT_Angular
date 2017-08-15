@@ -20,6 +20,8 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
   location = this.locationService.getLocationName();
   loadingIndicatorVisible = false;
   map:any;
+  markers = [];
+  circle:any;
 
   constructor(
     private eventService:EventService, 
@@ -29,9 +31,10 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
 
   ngOnInit():void{
     //Set up Google map
-    this.map = new google.maps.Map(document.getElementById('sidebar-map'));
+    this.map = new google.maps.Map(document.getElementById('sidebar-map'), {
+      disableDefaultUI: true
+    });
     this.map.setCenter({lat: this.locationService.getLat(), lng: this.locationService.getLng()});
-    this.setMapZoom();
 
     //Get events
     this.getEvents(1);
@@ -51,13 +54,13 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
     let scrollTop = this.document.body.scrollTop;
     let width = this.document.body.clientWidth;
     let mapContainer = this.document.getElementById("sidebar-map");
-    console.log(width);
-    if (scrollTop > 150 && width > 800) {
-      //adjust map top
-      let mapTop = scrollTop - 150;
-      mapContainer.style.top = String(mapTop) + 'px';
-    } else if(scrollTop < 100 || width < 800){
-      mapContainer.style.top = '0px';
+    if (scrollTop > 150 && width > 900) {
+      mapContainer.style.position = 'fixed';
+      mapContainer.style.top = '15px';
+      mapContainer.style.width = '250px';
+    } else if(scrollTop <= 150 || width < 900){
+      mapContainer.style.width = 'auto';
+      mapContainer.style.position = 'relative';
     }
   }
 
@@ -86,7 +89,7 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
   public loadNextPage(){
     let page = this.pagination.currentPage + 1;
     this.eventService.getEventsToday(page).then(events => {
-      this.events = this.events.concat(events.data);
+      this.events = this.events.concat(Event.arrayMap(events.data));
       let perPage = events.per_page;
       let totalObjects = events.total;
       this.pagination.setPage(page, perPage, totalObjects);
@@ -95,41 +98,61 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
 
   private populateMap(){
     //Get map points for events today
-    this.eventService.getEventsTodayPoints().then(response => {
+    this.eventService.getEventsTodayPoints().then(points => {
+      let allBounds = new google.maps.LatLngBounds();
+      let insideBounds = new google.maps.LatLngBounds();
 
-    }).catch(error => console.log(error));
-    for (let event of this.events){
-      console.log(event);
-      new google.maps.Marker({
-        map: this.map,
-        //anchorPoint: new google.maps.Point(latitude, longitude),
-        position: {lat: event.lat, lng: event.lng}
+      this.circle = new google.maps.Circle({
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillOpacity:0.1,
+        center: {lat: this.locationService.getLat(), lng: this.locationService.getLng()},
+        radius: this.locationService.getDistMeters(),
+        map: this.map
       });
-    }
-  }
 
-  private setMapZoom(){
-    switch(+this.locationService.getDist()) {
-        case 0.5:
-            this.map.setZoom(13);
-            break;
-        case 1:
-            this.map.setZoom(13);
-            break;
-        case 2:
-            this.map.setZoom(12);
-            break;
-        case 5:
-            this.map.setZoom(11);
-            break;
-        case 10:
-            this.map.setZoom(10);
-            break;
-        case 20:
-            this.map.setZoom(9);
-            break;
-        default:
-            this.map.setZoom(13);
-    }
+      for(let point of points){
+        let icon:any;
+        //Outside of distance
+        if(point.distance > this.locationService.getDistMeters()){
+          icon = {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale:4,
+            fillColor: '#125ebc',
+            fillOpacity:0.8,
+            strokeColor:'#fff',
+            strokeWeight:1,
+            strokeOpacity:1
+          };
+        }else{
+          //Marker inside of user's chosen distance
+          icon = {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale:4,
+            fillColor: '#ff0000',
+            fillOpacity:0.8,
+            strokeColor:'#fff',
+            strokeWeight:1,
+            strokeOpacity:1
+          }
+        }
+        let marker = new google.maps.Marker({
+          map: this.map,
+          icon: icon,
+          position: {lat: +point.lat, lng: +point.lng}
+        });
+
+        this.markers.push(marker);
+        allBounds.extend(marker.getPosition());
+        if(point.distance > this.locationService.getDistMeters()){
+          insideBounds.extend(marker.getPosition());
+        }
+      }
+      //MARK: These allow us to change map bounds. Just uncomment the one you want
+      //this.map.fitBounds(allBounds);
+      //this.map.fitBounds(insideBounds);
+      this.map.fitBounds(this.circle.getBounds());
+    }).catch(error => console.log(error));
   }
 }
