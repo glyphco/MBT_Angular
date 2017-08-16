@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { EventVenueService } from '../_services/event-venue.service';
+import { Event } from '../_models/event';
+import { EventService } from '../_services/event.service';
 import { LocationService } from '../_services/location.service';
 import { Pagination } from '../_helpers/pagination';
 import { Subscription }   from 'rxjs/Subscription';
@@ -16,13 +17,13 @@ export class PublicEventsTodayComponent implements OnInit, OnDestroy {
   location = this.locationService.getLocationName();
   loadingIndicatorVisible = false;
 
-  constructor(private eventVenueService:EventVenueService, private locationService: LocationService){}
+  constructor(private eventService:EventService, private locationService: LocationService){}
 
   ngOnInit():void{
-    this.getEventVenues(1);
+    this.getEvents(1);
     this.subscription = this.locationService.locationChange$.subscribe(change => {
         //refresh list when location changes
-        this.getEventVenues(1);
+        this.getEvents(1);
     });
   }
 
@@ -34,14 +35,18 @@ export class PublicEventsTodayComponent implements OnInit, OnDestroy {
     return event.id;
   }
 
-  public getEventVenues(page:number){
+  public getEvents(page:number){
     this.loadingIndicatorVisible = true;
-    this.eventVenueService.getEventVenues(page).then(eventVenues => {
-      this.events = eventVenues.json().data.data;
-      let perPage = eventVenues.json().data.per_page;
-      let totalObjects = eventVenues.json().data.total;
+    this.eventService.getPublicEventsToday(page).then(events => {
+      this.events = Event.arrayMap(events.data);
+      let perPage = events.per_page;
+      let totalObjects = events.total;
       this.pagination.setPage(page, perPage, totalObjects);
       this.loadingIndicatorVisible = false;
+      console.log(this.events);
+
+      //Populate Google map
+      //this.populateMap();
     }).catch(error => {
       this.loadingIndicatorVisible = false;
       console.log(error);
@@ -50,12 +55,12 @@ export class PublicEventsTodayComponent implements OnInit, OnDestroy {
 
   public loadNextPage(){
     let page = this.pagination.currentPage + 1;
-    this.eventVenueService.getEventVenues(page).then(eventVenues => {
-      this.events = this.events.concat(eventVenues.json().data.data);
-      let perPage = eventVenues.json().data.per_page;
-      let totalObjects = eventVenues.json().data.total;
+    this.eventService.getPublicEventsToday(page).then(events => {
+      this.events = this.events.concat(Event.arrayMap(events.data));
+      let perPage = events.per_page;
+      let totalObjects = events.total;
       this.pagination.setPage(page, perPage, totalObjects);
-      console.log(this.events);
     }).catch(error => console.log(error));
   }
+
 }

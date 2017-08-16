@@ -18,7 +18,7 @@ export class EventVenueService {
     let lng = this.locationService.getLng();
     let dist = this.locationService.getDistMeters();
     let options = lat && lng ? `&lat=${lat}&lng=${lng}&dist=${dist}` : '';
-    return this.httpHandlerService.get(`public/events?page=${page}&pp=${perpage}${options}`)
+    return this.httpHandlerService.get(`public/events/today?page=${page}&pp=${perpage}${options}`)
       .toPromise()
   }
 }

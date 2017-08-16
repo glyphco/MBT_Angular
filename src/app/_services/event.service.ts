@@ -61,6 +61,16 @@ export class EventService {
       .toPromise()
   }
 
+  getPublicEventsToday(page:number){
+    let lat = this.locationService.getLat();
+    let lng = this.locationService.getLng();
+    let dist = this.locationService.getDistMeters();
+    let tz = this.locationService.getTimezone();
+    return this.httpHandlerService.get(`public/events/today?lat=${lat}&lng=${lng}&dist=${dist}&tz=${tz}`)
+      .map(response => response.json().data)
+      .toPromise()
+  }
+
   getEventFull(id:number){
     return this.httpHandlerService.get(`event/${id}`)
       .map(response => response.json().data)
