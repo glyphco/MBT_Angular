@@ -23,14 +23,14 @@
       </div>
 
 
-      <div *ngIf="page.friendslikeCount > 0; else noLikers" class="pagedetail-liked-container">
+      <div *ngIf="page.pyfslikeCount > 0; else noLikers" class="pagedetail-liked-container">
         <span class="mbt-blue">
           {{page.likesCount}} Likes
-          <span *ngIf="page.friendslikeCount > 0;"> &bull; {{page.friendslikeCount}} Friends</span>
+          <span *ngIf="page.pyfslikeCount > 0;"> &bull; {{page.pyfslikeCount}} Pyfs</span>
         </span>
         <ul class="likers" style="">
-          <li *ngFor="let friend of page.friendslike | slice:0:8; let i=index" class="inline-images liker">
-            <img src="{{friend.avatar}}" [style.z-index]="50 - i" title="{{friend.name}}">
+          <li *ngFor="let pyf of page.pyfslike | slice:0:8; let i=index" class="inline-images liker">
+            <img src="{{pyf.avatar}}" [style.z-index]="50 - i" title="{{pyf.name}}">
           </li>
         </ul>
       </div>

@@ -39,8 +39,8 @@ export class Event {
   tagline:string;
   categories = [];
   categoriesJson:any;
-  friendsAttendingYes = []
-  friendsAttendingYesCount = 0;
+  pyfsAttendingYes = []
+  pyfsAttendingYesCount = 0;
   attendingYesCount:number;
 
   //TODO: map these
@@ -108,8 +108,8 @@ export class Event {
     currentEvent.venueTagline = json.venue_tagline;
     currentEvent.tagline = json.tagline;
 
-    currentEvent.friendsAttendingYes = json.friendsattendingyes;
-    currentEvent.friendsAttendingYesCount = json.friendsattendingyes_count;
+    currentEvent.pyfsAttendingYes = json.pyfsattendingyes;
+    currentEvent.pyfsAttendingYesCount = json.pyfsattendingyes_count;
     currentEvent.attendingYesCount = json.attendingyes_count;
     return currentEvent;
   }

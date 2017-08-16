@@ -33,8 +33,8 @@ export class Page {
 
   eventsCount: number;
   likesCount: number;
-  friendslikeCount: number;
-  friendslike: any;  
+  pyfslikeCount: number;
+  pyfslike: any;  
   eventsAsParticipantCurrent = [];
   eventsAsProducerCurrent = [];
 
@@ -78,8 +78,8 @@ export class Page {
       currentPage.location = json.location; 
       currentPage.eventsCount = json.events_count; 
       currentPage.likesCount = json.likes_count; 
-      currentPage.friendslikeCount = json.friendslike_count; 
-      currentPage.friendslike = json.friendslike; 
+      currentPage.pyfslikeCount = json.pyfslike_count; 
+      currentPage.pyfslike = json.pyfslike; 
       currentPage.eventsAsParticipantCurrent = Event.arrayMap(json.events_as_participant_current);    
       currentPage.eventsAsProducerCurrent = Event.arrayMap(json.events_as_producer_current);    
       currentPage.categoriesJson = json.categoriesjson; 

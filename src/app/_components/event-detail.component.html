@@ -30,11 +30,11 @@
       <div *ngIf="event.attendingYesCount > 0; else noGoers" class="eventdetail-going-container">
         <span class="mbt-blue">
           {{event.attendingYesCount}} Going
-          <span *ngIf="event.friendsAttendingYesCount > 0;"> &bull; {{event.friendsAttendingYesCount}} Friends</span>
+          <span *ngIf="event.pyfsAttendingYesCount > 0;"> &bull; {{event.pyfsAttendingYesCount}} Pyfs</span>
         </span>
         <ul class="goers" style="">
-          <li *ngFor="let friend of event.friendsAttendingYes | slice:0:8; let i=index" class="inline-images goer">
-            <img src="{{friend.avatar}}" [style.z-index]="50 - i" title="{{friend.name}}">
+          <li *ngFor="let pyf of event.pyfsAttendingYes | slice:0:8; let i=index" class="inline-images goer">
+            <img src="{{pyf.avatar}}" [style.z-index]="50 - i" title="{{pyf.name}}">
           </li>
         </ul>
       </div>

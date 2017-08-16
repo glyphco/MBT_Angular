@@ -54,9 +54,9 @@ import { EventService } from '../_services/event.service';
         <li>attendingyes_count: {{event.attendingyes_count}}</li>
         <li>attendingmaybe_count: {{event.attendingmaybe_count}}</li>
         <li>attendingwish_count: {{event.attendingwish_count}}</li>
-        <li>friendsattendingyes_count: {{event.friendsattendingyes_count}}</li>
-        <li>friendsattendingmaybe_count: {{event.friendsattendingmaybe_count}}</li>
-        <li>friendsattendingwish_count: {{event.friendsattendingwish_count}}</li>
+        <li>pyfsattendingyes_count: {{event.pyfsattendingyes_count}}</li>
+        <li>pyfsattendingmaybe_count: {{event.pyfsattendingmaybe_count}}</li>
+        <li>pyfsattendingwish_count: {{event.pyfsattendingwish_count}}</li>
         <li>mve: {{event.mve}}</li>
         <li>venue: {{event.venue}}</li>
         <li>eventshows: {{event.eventshows}}</li>
@@ -66,9 +66,9 @@ import { EventService } from '../_services/event.service';
         <li>attendingyes: {{event.attendingyes}}</li>
         <li>attendingmaybe: {{event.attendingmaybe}}</li>
         <li>attendingwish: {{event.attendingwish}}</li>
-        <li>friendsattendingyes: {{event.friendsattendingyes}}</li>
-        <li>friendsattendingmaybe: {{event.friendsattendingmaybe}}</li>
-        <li>friendsattendingwish: {{event.friendsattendingwish}}</li>
+        <li>pyfsattendingyes: {{event.pyfsattendingyes}}</li>
+        <li>pyfsattendingmaybe: {{event.pyfsattendingmaybe}}</li>
+        <li>pyfsattendingwish: {{event.pyfsattendingwish}}</li>
       </ul>
     </div>
   `

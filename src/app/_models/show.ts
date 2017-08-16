@@ -21,8 +21,8 @@ export class Show {
   eventsCount: number;
   eventsListCurrent: any;
   likesCount: number;
-  friendslikeCount: number;
-  friendslike: any;  
+  pyfslikeCount: number;
+  pyfslike: any;  
   
   public static arrayMap(json):Show[]{
     let shows:Show[] = [];
@@ -52,8 +52,8 @@ export class Show {
       currentShow.updatedBy = json.updated_by;
       currentShow.eventsCount = json.events_count; 
       currentShow.likesCount = json.likes_count; 
-      currentShow.friendslikeCount = json.friendslike_count; 
-      currentShow.friendslike = json.friendslike; 
+      currentShow.pyfslikeCount = json.pyfslike_count; 
+      currentShow.pyfslike = json.pyfslike; 
       currentShow.eventsListCurrent = Event.arrayMap(json.eventslistcurrent);   
       currentShow.categoriesJson = json.categoriesjson;
       return currentShow;

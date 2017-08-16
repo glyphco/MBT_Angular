@@ -31,8 +31,8 @@ export class Venue {
   eventsCount = 0;
   eventsListCurrent = [];
   likesCount = 0;
-  friendslikeCount = 0;
-  friendslike= [];  
+  pyfslikeCount = 0;
+  pyfslike= [];  
 
   public static arrayMap(json):Venue[]{
     let venues:Venue[] = [];
@@ -74,8 +74,8 @@ export class Venue {
 
       currentVenue.eventsCount = json.events_count; 
       currentVenue.likesCount = json.likes_count; 
-      currentVenue.friendslikeCount = json.friendslike_count; 
-      currentVenue.friendslike = json.friendslike; 
+      currentVenue.pyfslikeCount = json.pyfslike_count; 
+      currentVenue.pyfslike = json.pyfslike; 
       //currentVenue.eventslistcurrent = json.eventslistcurrent; 
       currentVenue.eventsListCurrent = Event.arrayMap(json.eventslistcurrent);     
 
