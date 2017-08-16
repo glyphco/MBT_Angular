@@ -47,6 +47,7 @@ import { UserDetailComponent } from './_components/user-detail.component';
 import { CategorySelectComponent } from './_components/category-select.component';
 import { LocationPickerComponent } from './_components/location-picker.component';
 import { ProfileEditComponent } from './_components/profile-edit.component';
+import { UsersEditableComponent } from './_components/users-editable.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
@@ -60,6 +61,7 @@ import { CategoryService } from './_services/category.service';
 import { EventVenueService } from './_services/event-venue.service';
 import { LocationService } from './_services/location.service';
 import { MeService } from './_services/me.service';
+import { UserService } from './_services/user.service';
 
 @NgModule({
   declarations: [
@@ -98,7 +100,8 @@ import { MeService } from './_services/me.service';
     UserDetailComponent,
     CategorySelectComponent,
     LocationPickerComponent,
-    ProfileEditComponent
+    ProfileEditComponent,
+    UsersEditableComponent
   ],
   imports: [
     BrowserModule,
@@ -127,7 +130,8 @@ import { MeService } from './_services/me.service';
     CategoryService,
     EventVenueService,
     LocationService,
-    MeService
+    MeService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

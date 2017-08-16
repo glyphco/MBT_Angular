@@ -1,0 +1,64 @@
+<div class="main-content white">
+<h2>Users</h2>
+<p>&nbsp;</p>
+<label>
+  Order by:
+</label>
+<select #orderBy (change)="setOrderBy(orderBy.value)">
+  <option value="name">Name</option>
+  <option value="city">City</option>
+  <option value="likes">Likes</option>
+  <option value="events_count">Events</option>
+</select>
+
+<label>
+  Public:
+</label>
+<select #public (change)="setPublic(public.value)">
+  <option value="">All</option>
+  <option value="public">Public</option>
+  <option value="private">Private</option>
+</select>
+
+<label>
+  Confirmed:
+</label>
+<select #confirmed (change)="setConfirmed(confirmed.value)">
+  <option value="">All</option>
+  <option value="confirmed">Confirmed</option>
+  <option value="unconfirmed">Unconfirmed</option>
+</select>
+<table class="table table-bordered table-striped">
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Confirm</th>
+  </tr>
+  <tr *ngFor="let user of users">
+    <td>
+      <a [routerLink]="['/user/edit', user.id]">
+        {{user.name}}
+      </a>
+    </td>
+    <td>{{user.email}}</td>
+    <td><button *ngIf="!user.confirmed" (click)="confirmUser(user)" class="btn btn-primary">Confirm</button></td>
+  </tr>
+</table>
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li>
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-button" *ngFor="let number of pagination.pageList" [class.active]="number === pagination.currentPage" (click)="getUsersEditable(number)">
+      {{number}}
+    </li>
+    <li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+</div>

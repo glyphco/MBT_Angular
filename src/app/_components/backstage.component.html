@@ -1,4 +1,4 @@
-<div class="container white">
+<div class="main-content white">
   <h2>Backstage</h2>
   <div *ngIf="meService.hasEvents()" class="category-container">
     <h3>Events</h3>
@@ -51,7 +51,7 @@
     <h3>Venues</h3>
     <ul>
       <li *ngIf="meService.hasVenueEdit()">
-        <a routerLink="/venues/editable">[Edit Venues]</a> Public: {{ venuesAll }} 
+        <a routerLink="/venues/editable">[Edit Venues]</a> Public: {{ venuesAll }}
       </li>
       <!--<li *ngIf="meService.hasVenueConfirm()">
         <a>[Confirm Venues]</a> Unconfirmed: {{ venuesUnconfirmed }} 
@@ -61,6 +61,15 @@
       </li>-->
       <li *ngIf="meService.hasVenueCreate()">
         <a routerLink="/venue/create">[Create Venue]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="meService.hasUsers()" class="category-container">
+    <h3>Users</h3>
+    <ul>
+      <li *ngIf="meService.hasUserEdit()">
+        <a routerLink="/users/editable">[Edit Users]</a> Users: {{ usersAll }} 
       </li>
     </ul>
   </div>

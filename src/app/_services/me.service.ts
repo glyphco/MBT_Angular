@@ -135,6 +135,22 @@ export class MeService {
     ]);
   }
 
+  public hasUsers(){
+    return this.hasViewUsers() || this.hasUserEdit() || this.hasUserBan();
+  }
+
+  public hasViewUsers(){
+    return this.hasAny(["view-users"]);
+  }
+
+  public hasUserEdit(){
+    return this.hasAny(["edit-users"]);
+  }
+
+  public hasUserBan(){
+    return this.hasAny(["ban-users"]);
+  }
+
   private hasAny(permissionCheck){
     for(let check in permissionCheck){
       if(this._permissions[permissionCheck[check]]){
