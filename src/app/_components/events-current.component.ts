@@ -9,8 +9,8 @@ import { Subscription }   from 'rxjs/Subscription';
 declare var google:any;
 
 @Component({
-  selector: 'app-events-today',
-  templateUrl: './events-today.component.html',
+  selector: 'app-events-current',
+  templateUrl: './events-current.component.html',
   styleUrls: ['./events.component.css']
 })
 export class EventsCurrentComponent implements OnInit, OnDestroy {

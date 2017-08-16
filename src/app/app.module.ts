@@ -43,9 +43,10 @@ import { PublicEventsTodayComponent } from './_components/public-events-today.co
 import { EventsTodayComponent } from './_components/events-today.component';
 import { EventsCurrentComponent } from './_components/events-current.component';
 import { ExploreComponent } from './_components/explore.component';
-import { ProfileComponent } from './_components/profile.component';
+import { UserDetailComponent } from './_components/user-detail.component';
 import { CategorySelectComponent } from './_components/category-select.component';
 import { LocationPickerComponent } from './_components/location-picker.component';
+import { ProfileEditComponent } from './_components/profile-edit.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
@@ -94,9 +95,10 @@ import { MeService } from './_services/me.service';
     EventsTodayComponent,
     EventsCurrentComponent,
     ExploreComponent,
-    ProfileComponent,
+    UserDetailComponent,
     CategorySelectComponent,
-    LocationPickerComponent
+    LocationPickerComponent,
+    ProfileEditComponent
   ],
   imports: [
     BrowserModule,

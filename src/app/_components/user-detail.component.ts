@@ -3,11 +3,11 @@ import { MeService } from '../_services/me.service';
 import { HttpHandlerService } from '../_services/http-handler.service';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
+  selector: 'app-user-detail',
+  templateUrl: './user-detail.component.html',
   //styleUrls: ['./events-editable.component.css']
 })
-export class ProfileComponent {
+export class UserDetailComponent {
   role = 'nothing';
   message;
 

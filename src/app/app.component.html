@@ -33,6 +33,7 @@
                 <li><a routerLink="/backstage" (click)="user.active = false; mobile.active=false">Backstage</a></li>
               </ng-container>
               <li role="separator" class="divider"></li>
+              <li><a routerLink="/profile/edit" (click)="user.active = false; mobile.active=false">Edit profile</a></li>
               <li><a href="javascript:void(0);" (click)="logout();user.active = false; mobile.active=false">Logout</a></li>
             </ul>
 
