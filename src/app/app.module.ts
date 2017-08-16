@@ -41,6 +41,7 @@ import { EventCreateComponent } from './_components/event-create.component';
 import { DatepickerComponent } from './_components/datepicker.component';
 import { PublicEventsTodayComponent } from './_components/public-events-today.component';
 import { EventsTodayComponent } from './_components/events-today.component';
+import { EventsCurrentComponent } from './_components/events-current.component';
 import { ExploreComponent } from './_components/explore.component';
 import { ProfileComponent } from './_components/profile.component';
 import { CategorySelectComponent } from './_components/category-select.component';
@@ -91,6 +92,7 @@ import { MeService } from './_services/me.service';
     DatepickerComponent,
     PublicEventsTodayComponent,
     EventsTodayComponent,
+    EventsCurrentComponent,
     ExploreComponent,
     ProfileComponent,
     CategorySelectComponent,

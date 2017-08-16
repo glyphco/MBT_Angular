@@ -11,7 +11,8 @@
       <div [hidden]="!mobile.active" class="navbar-items clearfix">
         <ul class="inline-list navbar-left">
           <li *ngIf="loggedIn" routerLinkActive="active"><a routerLink="events/today" (click)="mobile.active=false;user.active=false">Today</a></li>
-          <li *ngIf="!loggedIn" routerLinkActive="active"><a routerLink="events" (click)="mobile.active=false;user.active=false">Events</a></li>
+          <li *ngIf="!loggedIn" routerLinkActive="active"><a routerLink="events" (click)="mobile.active=false;user.active=false">Today</a></li>
+          <li *ngIf="loggedIn" routerLinkActive="active"><a routerLink="events/current" (click)="mobile.active=false;user.active=false">Current</a></li>
           <li routerLinkActive="active"><a routerLink="explore" (click)="mobile.active=false;user.active=false">Explore</a></li>
         </ul>
 

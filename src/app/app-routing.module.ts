@@ -26,6 +26,7 @@ import { EventDeleteComponent } from './_components/event-delete.component';
 import { EventCreateComponent } from './_components/event-create.component';
 import { PublicEventsTodayComponent } from './_components/public-events-today.component';
 import { EventsTodayComponent } from './_components/events-today.component';
+import { EventsCurrentComponent } from './_components/events-current.component';
 import { ExploreComponent } from './_components/explore.component';
 import { EventsEditableComponent } from './_components/events-editable.component';
 import { PagesEditableComponent } from './_components/pages-editable.component';
@@ -59,6 +60,7 @@ const routes: Routes = [
   { path: 'event/delete/:id', component: EventDeleteComponent, canActivate: [AuthGuard] },
   { path: 'events/editable', component: EventsEditableComponent, canActivate: [AuthGuard] },
   { path: 'events/today', component: EventsTodayComponent, canActivate: [AuthGuard] },
+  { path: 'events/current', component: EventsCurrentComponent, canActivate: [AuthGuard] },
   //Show routes
   { path: 'show/create', component: ShowCreateComponent, canActivate: [AuthGuard] },
   { path: 'show/:id', component: ShowDetailComponent, canActivate: [AuthGuard] },

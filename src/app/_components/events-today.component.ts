@@ -51,7 +51,6 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
   //Track page scroll to dynamically move the map
   @HostListener("window:scroll", [])
   onWindowScroll() {
-    console.log('i was scrolled');
     let scrollTop = this.document.body.scrollTop;
     let width = this.document.body.clientWidth;
     let mapContainer = this.document.getElementById("sidebar-map");
