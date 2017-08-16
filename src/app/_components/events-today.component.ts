@@ -51,6 +51,7 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
   //Track page scroll to dynamically move the map
   @HostListener("window:scroll", [])
   onWindowScroll() {
+    console.log('i was scrolled');
     let scrollTop = this.document.body.scrollTop;
     let width = this.document.body.clientWidth;
     let mapContainer = this.document.getElementById("sidebar-map");
@@ -153,6 +154,8 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
       //this.map.fitBounds(allBounds);
       //this.map.fitBounds(insideBounds);
       this.map.fitBounds(this.circle.getBounds());
+      //This will make the map work when the flex box wraps map to top on page load
+      google.maps.event.trigger(this.map, 'resize');
     }).catch(error => console.log(error));
   }
 }
