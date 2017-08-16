@@ -213,10 +213,12 @@ CSS Grid layout for wider screens, when browser supports grid:
       height:100%;
     }
     .navbar-items > ul > li {
-      margin-left:15px;
-      padding:0px 10px;
       height:60px;
       line-height:60px;
+    }
+    .navbar-items > ul > li > a {
+      padding:0px 15px;
+      display:block;
     }
     .navbar-items ul li:last-child {
       position:relative;
