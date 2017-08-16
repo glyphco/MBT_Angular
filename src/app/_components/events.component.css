@@ -48,6 +48,24 @@
   width:25px;
   margin-right: 10px;
 }
+
+.event-interested-container button {
+    border:none;
+    width:100%;
+    height:50px;
+    background-color:#fff;
+    cursor:pointer;
+  }
+  .event-interested-container button:hover {
+    border:none;
+    width:100%;
+    height:50px;
+    background-color:#f8f8f8;
+  }
+  .event-interested-container button:focus {
+    border:none;
+    outline:0;
+  }
   
 @supports (display: grid) {
   .event-item {
@@ -91,6 +109,7 @@
 
   .event-interested-container {
     border-left:1px solid #ddd;
+    border-right:1px solid #ddd;
     grid-area:blockeventinterested;
   }
 
@@ -131,13 +150,6 @@
   }
   .event-image {
     width:118px;
-  }
-
-  .event-interested-container button {
-    border:none;
-    width:100%;
-    height:50px;
-    background-color:#fff;
   }
 
   .inline-participant-names {

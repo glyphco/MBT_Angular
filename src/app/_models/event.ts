@@ -42,6 +42,7 @@ export class Event {
   pyfsAttendingYesList = []
   pyfsAttendingYesCount = 0;
   attendingYesCount = 0;
+  iattending:any;
 
   //TODO: map these
   mveId:number;
@@ -111,6 +112,7 @@ export class Event {
     currentEvent.pyfsAttendingYesList = json.pyfsattendingyes_list;
     currentEvent.pyfsAttendingYesCount = json.pyfsattendingyes_count;
     currentEvent.attendingYesCount = json.attendingyes_count;
+    currentEvent.iattending = json.iattending ? json.iattending[0] : undefined;
     return currentEvent;
   }
 }

@@ -22,6 +22,9 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
   map:any;
   markers = [];
   circle:any;
+  attendingDict = ['Not attending', 'Maybe', 'Wish I could', 'Attending']
+
+  
 
   constructor(
     private eventService:EventService, 
