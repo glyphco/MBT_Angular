@@ -49,7 +49,7 @@ export class EventsCurrentComponent implements OnInit, OnDestroy {
 
   public getEvents(page:number){
     this.loadingIndicatorVisible = true;
-    this.eventService.getEventsToday(page).then(events => {
+    this.eventService.getEventsCurrent(page).then(events => {
       this.events = Event.arrayMap(events.data);
       let perPage = events.per_page;
       let totalObjects = events.total;
@@ -67,7 +67,7 @@ export class EventsCurrentComponent implements OnInit, OnDestroy {
 
   public loadNextPage(){
     let page = this.pagination.currentPage + 1;
-    this.eventService.getEventsToday(page).then(events => {
+    this.eventService.getEventsCurrent(page).then(events => {
       this.events = this.events.concat(Event.arrayMap(events.data));
       let perPage = events.per_page;
       let totalObjects = events.total;
