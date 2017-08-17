@@ -26,6 +26,7 @@
             </li>
             <li>{{ event.categories.length > 0 ? event.categories[0].subcategory_name : '' }}</li>
             <li>{{ event.priceWord }} ${{ event.priceMin }} - ${{ event.priceMax }}</li>
+            <li>{{ event.agesWord }}</li>
           </ul>
           <p class="event-description">
             {{ event.description | truncate : [200 ,'...'] }}<br />

@@ -46,11 +46,12 @@ export class Event {
 
   //TODO: map these
   mveId:number;
-  ages:number;
   info:string;
   privateInfo:string;
-  price = 0
-  priceWord = ''
+  ages = 0;
+  agesWord = '';
+  price = 0;
+  priceWord = '';
   priceMin:number;
   priceMax:number;
   priceDescription:string;
@@ -110,6 +111,28 @@ export class Event {
     currentEvent.venueTagline = json.venue_tagline;
     currentEvent.tagline = json.tagline;
 
+    currentEvent.ages = json.ages;
+    switch(currentEvent.ages) {
+        case 0:
+            currentEvent.agesWord = '';
+            break;
+        case 1:
+            currentEvent.agesWord = 'family';
+            break;
+        case 2:
+            currentEvent.agesWord = 'all ages';
+            break;
+        case 3:
+            currentEvent.agesWord = '18+';
+            break;
+        case 4:
+            currentEvent.agesWord = '21+';
+            break;
+        default:
+            currentEvent.agesWord = '';
+    }
+
+
     currentEvent.price = json.price;
     switch(currentEvent.price) {
         case 0:
@@ -127,6 +150,8 @@ export class Event {
         default:
             currentEvent.priceWord = '';
     }
+
+
 
     currentEvent.priceMin = json.pricemin;
     currentEvent.priceMax = json.pricemax;
