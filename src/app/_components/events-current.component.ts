@@ -22,6 +22,7 @@ export class EventsCurrentComponent implements OnInit, OnDestroy {
   map:any;
   markers = [];
   circle:any;
+  attendingDict:any;
 
   constructor(
     private eventService:EventService, 
@@ -30,6 +31,9 @@ export class EventsCurrentComponent implements OnInit, OnDestroy {
   ){}
 
   ngOnInit():void{
+    //Set up attending dictionary
+    this.attendingDict = this.eventService.attendingDict;
+
     //Get events
     this.getEvents(1);
     this.subscription = this.locationService.locationChange$.subscribe(change => {
@@ -45,6 +49,10 @@ export class EventsCurrentComponent implements OnInit, OnDestroy {
 
   public trackEvent(index, event){
     return event.id;
+  }
+
+  public nextAttendingOption(event:Event){
+    this.eventService.toggleNextAttendingStatus(event);
   }
 
   public getEvents(page:number){

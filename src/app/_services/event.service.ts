@@ -10,6 +10,8 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 
 export class EventService {
+  attendingDict = ['Not attending', 'Maybe', 'Wish I could', 'Attending']
+  
   constructor(
     private http: Http,
     private locationService: LocationService,
@@ -97,6 +99,29 @@ export class EventService {
     return this.httpHandlerService.put(`event/${params.id}`, params)
       .map(response => response.json())
       .toPromise();
+  }
+
+  toggleNextAttendingStatus(event:Event){
+    let oldRank:number;
+    let newRank:number;
+    if(event.iattending){
+      //there was a previous rank already set
+      oldRank = event.iattending.rank;
+      event.iattending.rank = newRank = (event.iattending.rank + 1) % 4;
+    }else{
+      oldRank = undefined;
+      newRank = 3;
+      event.iattending = {rank:newRank};
+    }
+    //send API call to update rank
+    this.setAttendingStatus(event.id, newRank).catch(error => {
+      //the attending call failed
+      if(oldRank){
+        event.iattending.rank = oldRank;
+      }else{
+        event.iattending = undefined;
+      }
+    });
   }
 
   setAttendingStatus(eventId:number,rank:number):Promise<any>{

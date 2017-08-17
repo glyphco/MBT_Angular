@@ -22,9 +22,7 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
   map:any;
   markers = [];
   circle:any;
-  attendingDict = ['Not attending', 'Maybe', 'Wish I could', 'Attending']
-
-  
+  attendingDict:any;
 
   constructor(
     private eventService:EventService, 
@@ -38,6 +36,9 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
       disableDefaultUI: true
     });
     this.map.setCenter({lat: this.locationService.getLat(), lng: this.locationService.getLng()});
+
+    //Set up attending dictionary
+    this.attendingDict = this.eventService.attendingDict;
 
     //Get events
     this.getEvents(1);
@@ -100,26 +101,7 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
   }
 
   public nextAttendingOption(event:Event){
-    let oldRank:number;
-    let newRank:number;
-    if(event.iattending){
-      //there was a previous rank already set
-      oldRank = event.iattending.rank;
-      event.iattending.rank = newRank = (event.iattending.rank + 1) % 4;
-    }else{
-      oldRank = undefined;
-      newRank = 3;
-      event.iattending = {rank:newRank};
-    }
-    //send API call to update rank
-    this.eventService.setAttendingStatus(event.id, newRank).catch(error => {
-      //the attending call failed
-      if(oldRank){
-        event.iattending.rank = oldRank;
-      }else{
-        event.iattending = undefined;
-      }
-    });
+    this.eventService.toggleNextAttendingStatus(event);
   }
 
   private populateMap(){

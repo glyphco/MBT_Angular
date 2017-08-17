@@ -77,7 +77,7 @@
           </ng-template>
 
           <div class="event-interested-container">
-            <button class="mbt-blue">Interested?</button>
+            <button class="mbt-blue" (click)="nextAttendingOption(event)">{{ event.iattending ? attendingDict[event.iattending.rank] : 'Interested?' }}</button>
           </div>
 
           <div class="event-separator"></div>
