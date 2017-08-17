@@ -49,7 +49,8 @@ export class Event {
   ages:number;
   info:string;
   privateInfo:string;
-  price:number
+  price = 0
+  priceWord = ''
   priceMin:number;
   priceMax:number;
   priceDescription:string;
@@ -108,6 +109,29 @@ export class Event {
     currentEvent.venueName = json.venue_name;
     currentEvent.venueTagline = json.venue_tagline;
     currentEvent.tagline = json.tagline;
+
+    currentEvent.price = json.price;
+    switch(currentEvent.price) {
+        case 0:
+            currentEvent.priceWord = '';
+            break;
+        case 1:
+            currentEvent.priceWord = 'free';
+            break;
+        case 2:
+            currentEvent.priceWord = 'donation';
+            break;
+        case 3:
+            currentEvent.priceWord = 'sliding';
+            break;
+        default:
+            currentEvent.priceWord = '';
+    }
+
+    currentEvent.priceMin = json.pricemin;
+    currentEvent.priceMax = json.pricemax;
+    currentEvent.priceDescription = json.pricedescription;
+    currentEvent.priceLink = json.pricelink;
 
     currentEvent.pyfsAttendingYesList = json.pyfsattendingyes_list;
     currentEvent.pyfsAttendingYesCount = json.pyfsattendingyes_count;
