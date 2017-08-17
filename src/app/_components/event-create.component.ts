@@ -11,6 +11,7 @@ import { Venue } from '../_models/venue';
 import { Page } from '../_models/page';
 import { Show } from '../_models/show';
 import { EventService } from '../_services/event.service';
+import { LocationService } from '../_services/location.service';
 import { MeService } from '../_services/me.service';
 import { Observable }        from 'rxjs/Observable';
 import { Subject }           from 'rxjs/Subject';
@@ -88,7 +89,8 @@ export class EventCreateComponent implements OnInit {
     private searchService: SearchService,
     private _ngZone: NgZone,
     private router: Router,
-    private meService: MeService
+    private meService: MeService,
+    private locationService: LocationService
   ){
     this.event.startTime = '20:00';
     this.event.startDate = moment();
@@ -300,8 +302,8 @@ export class EventCreateComponent implements OnInit {
       locationDetails[component.types[0]] = component.long_name;
     }
     let aptNum = locationDetails.subpremise ? locationDetails.subpremise : '';
-    let lat = geocodeObj.geometry.location.lat();
-    let lng = geocodeObj.geometry.location.lng();
+    let lat = geocodeObj.geometry.location.lat;
+    let lng = geocodeObj.geometry.location.lng;
     let timestamp = this.event.startDate.utc().unix();
     this.tempVenue.lat = lat;
     this.tempVenue.lng = lng;
@@ -353,13 +355,23 @@ export class EventCreateComponent implements OnInit {
   }
 
   private geocodeAddress(address) {
+    this.locationService.getGeocodeAddress(address).then(response => {
+      this.venueGeocodeResults = response.results;
+      if(response.results.length == 0){
+        this.venueResultError = true;
+      }
+    }).catch(error => {
+      this.venueResultError = true;
+    });
+    /*
     this.geocoder.geocode({'address': address}, function(results, status) {
+      console.log(results);
       if (status === 'OK') {
         this._ngZone.run(() => this.venueGeocodeResults = results );
       } else {
         this._ngZone.run(() => this.venueResultError = true );
       }
-    }.bind(this));
+    }.bind(this));*/
   }
 
   private createEvent(){

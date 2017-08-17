@@ -80,6 +80,15 @@ export class LocationService {
       .toPromise();
   }
 
+  //Gets lat lng from address
+  public getGeocodeAddress(address:string):Promise<any>{
+    address = encodeURIComponent(address);
+    let path = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${environment.googleTimezoneKey}`;
+    return this.http.get(path)
+      .map(response => response.json())
+      .toPromise();
+  }
+
   private coalesce(...args){
     for(let key in arguments){
       if(arguments[key] && arguments[key] != 'undefined'){

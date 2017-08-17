@@ -8,6 +8,7 @@ import {FormControl, Validators} from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
 import { StatesHelper } from '../_helpers/states-helper';
 import { SearchService } from '../_services/search.service';
+import { LocationService } from '../_services/location.service';
 import { DateTime } from '../_helpers/date-time.service';
 import { Venue } from '../_models/venue';
 import { Page } from '../_models/page';
@@ -89,11 +90,9 @@ export class EventEditComponent implements OnInit {
     private location: Location,
     private searchService: SearchService,
     private _ngZone: NgZone,
-    private router: Router
-  ){
-    this.event.startTime = '20:00';
-    this.event.startDate = moment();
-  }
+    private router: Router,
+    private locationService: LocationService
+  ){}
 
   ngOnInit():void {
     //get the current event
@@ -101,6 +100,7 @@ export class EventEditComponent implements OnInit {
        let id = +params['id']; // (+) converts string 'id' to a number
        this.getEventEdit(id);
     });
+
     //Init google map geocoder
     this.geocoder = new google.maps.Geocoder;
     //live search for venues
@@ -116,6 +116,8 @@ export class EventEditComponent implements OnInit {
   private getEventEdit(id):void{
     this.eventService.getEventEdit(id).then(event => {
       this.event = Event.map(event);
+      this.event.startTime = '20:00';
+      this.event.startDate = moment();
       console.log(this.event);
       this.startDateTime = new DateTime(this.event.localStart, this.event.localTz);
       if(this.event.localEnd){
@@ -320,8 +322,8 @@ export class EventEditComponent implements OnInit {
       locationDetails[component.types[0]] = component.long_name;
     }
     let aptNum = locationDetails.subpremise ? locationDetails.subpremise : '';
-    let lat = geocodeObj.geometry.location.lat();
-    let lng = geocodeObj.geometry.location.lng();
+    let lat = geocodeObj.geometry.location.lat;
+    let lng = geocodeObj.geometry.location.lng;
     let timestamp = this.event.startDate.utc().unix();
     this.tempVenue.lat = lat;
     this.tempVenue.lng = lng;
@@ -373,13 +375,14 @@ export class EventEditComponent implements OnInit {
   }
 
   private geocodeAddress(address) {
-    this.geocoder.geocode({'address': address}, function(results, status) {
-      if (status === 'OK') {
-        this._ngZone.run(() => this.venueGeocodeResults = results );
-      } else {
-        this._ngZone.run(() => this.venueResultError = true );
+    this.locationService.getGeocodeAddress(address).then(response => {
+      this.venueGeocodeResults = response.results;
+      if(response.results.length == 0){
+        this.venueResultError = true;
       }
-    }.bind(this));
+    }).catch(error => {
+      this.venueResultError = true;
+    });
   }
 
   private createEvent(){
