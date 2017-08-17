@@ -27,7 +27,7 @@
             </a>
 
             <ul class="dropdown-menu" [hidden]="!user.active">
-              <li><a routerLink="/profile" (click)="user.active = false; mobile.active=false">My profile</a></li>
+              <li><a href="javascript:void(0)" (click)="user.active = false; mobile.active=false;redirectToMyProfile()">My profile</a></li>
 
               <ng-container *ngIf="meService.hasBackstage()">
                 <li><a routerLink="/backstage" (click)="user.active = false; mobile.active=false">Backstage</a></li>

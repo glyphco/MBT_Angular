@@ -41,6 +41,11 @@ export class MeService {
   get name(){
     return this._name;
   }
+
+  get id(){
+    return this._id;
+  }
+
   get firstName(){
     return this._name.split(' ')[0];
   }

@@ -41,7 +41,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [PublicGuard] },
   { path: 'backstage', component: BackstageComponent, canActivate: [AuthGuard] },
   { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
-  { path: 'profile', component: UserDetailComponent, canActivate: [AuthGuard] },
+  { path: 'user/:id', component: UserDetailComponent, canActivate: [AuthGuard] },
   { path: 'profile/edit', component: ProfileEditComponent, canActivate: [AuthGuard] },
   //Page routes
   { path: 'page/create', component: PageCreateComponent, canActivate: [AuthGuard] },

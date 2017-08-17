@@ -75,6 +75,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.logout();
   }
 
+  redirectToMyProfile(){
+    let userId = this.meService.id;
+    this.router.navigate(['/user', userId]);
+  }
+
   redirectToSearch(){
     this.router.navigate(['search']);
   }
