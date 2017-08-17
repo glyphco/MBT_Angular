@@ -88,7 +88,7 @@
           <img class="item-image img-responsive center-block" src="{{ participant.imageUrl }}" title="{{ participant.name }}">
         </div>
         <h3 class="participant-name">
-        <a *ngIf="participant.page_id; else noParticipantLinkBlock" [routerLink]="['/page',participant.pageId]">{{ participant.name }}</a>
+        <a *ngIf="participant.pageId; else noParticipantLinkBlock" [routerLink]="['/page',participant.pageId]">{{ participant.name }}</a>
         <ng-template #noParticipantLinkBlock>{{ participant.name }}</ng-template>
         </h3>    
         <div class="participant-info">
@@ -107,7 +107,7 @@
         </div>
         <h3 class="show-name">
         
-        <a *ngIf="show.show_id; else noProducerLinkBlock" [routerLink]="['/show',show.showId]">{{ show.name }}</a>
+        <a *ngIf="show.showId; else noProducerLinkBlock" [routerLink]="['/show',show.showId]">{{ show.name }}</a>
         <ng-template #noProducerLinkBlock>{{ show.name }}</ng-template>
         </h3>    
         <div class="show-info">
@@ -125,7 +125,7 @@
           <img class="item-image img-responsive center-block" src="{{ producer.imageUrl }}" title="{{ producer.name }}">
         </div>
         <h3 class="producer-name">
-        <a *ngIf="producer.page_id; else noProducerLinkBlock" [routerLink]="['/page',producer.pageId]">{{ producer.name }}</a>
+        <a *ngIf="producer.pageId; else noProducerLinkBlock" [routerLink]="['/page',producer.pageId]">{{ producer.name }}</a>
         <ng-template #noProducerLinkBlock>{{ producer.name }}</ng-template>
         </h3>    
         <div class="producer-info">
