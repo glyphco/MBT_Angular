@@ -16,7 +16,7 @@
             <ng-template #elseBlock>{{ event.venueName }}</ng-template>
           </p>
           <ul class="event-info">
-            <li>{{ event.localStart | dateFormatter:'dddd, MMMM D' }}</li>
+            <li>{{ event.localStart | dateFormatter:'dddd, MMM D' }}</li>
             
             <li *ngIf="event.local_end">
               {{ event.localStart | dateFormatter:'short_time' }} to {{ event.localEnd | dateFormatter:'short_time' }}

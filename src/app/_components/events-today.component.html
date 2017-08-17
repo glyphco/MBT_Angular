@@ -1,7 +1,7 @@
 <div class="main-content white">
 <p>&nbsp;</p>
 
-<h4>{{pagination.totalObjects}} Events Today near {{location}}, sorted by distance</h4>
+<h4>{{pagination.totalObjects}} Events today near {{location}}, sorted by distance</h4>
 <br />
 <div *ngIf="loadingIndicatorVisible" class="loading-container"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
 <div class="page-content">
@@ -16,7 +16,7 @@
             <ng-template #elseBlock>{{ event.venueName }}</ng-template>
           </p>
           <ul class="event-info">
-            <li>{{ event.localStart | dateFormatter:'dddd, MMMM D' }}</li>
+            <li>{{ event.localStart | dateFormatter:'dddd, MMM D' }}</li>
             
             <li *ngIf="event.local_end">
               {{ event.localStart | dateFormatter:'short_time' }} to {{ event.localEnd | dateFormatter:'short_time' }}
