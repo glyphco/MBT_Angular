@@ -9,7 +9,10 @@
       </div>
       <h3 class="eventdetail-name"><a [routerLink]="['/event',event.id]">{{ event.name }}</a></h3>
       <p class="eventdetail-venue">
-        {{ event.venueName }} &bull; {{ event.distance * .000621371 | number : '1.2-2' }} miles
+        <span class="eventdetail-venue-name">
+         <a *ngIf="event.venueId; else noVenueLinkBlockA" [routerLink]="['/venue',event.venueId]">{{ event.venueName }}</a>
+         <ng-template #noVenueLinkBlockA>{{ event.venueName }}</ng-template>
+        </span> &bull; {{ event.distance * .000621371 | number : '1.2-2' }} miles
             <ng-template #elseBlock>{{ event.venueName }}</ng-template>
       </p>
       <p class="eventdetail-date">
@@ -50,6 +53,10 @@
         <button class="mbt-blue">Interested?</button>
       </div>
 
+      <p class="eventdetail-description">
+        {{ event.description }}<br />
+      </p>
+
 
     </li>
   </ul>
@@ -75,10 +82,6 @@
       </div>
     </li>
   </ul>
-
-  <p class="event-description">
-    {{ event.description }}<br />
-  </p>
 
   <ng-container *ngIf="event.participantspivot.length > 0">
     <h4 >Scheduled to Appear:</h4>
