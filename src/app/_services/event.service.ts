@@ -95,6 +95,15 @@ export class EventService {
 
   updateEvent(params):Promise<any>{
     return this.httpHandlerService.put(`event/${params.id}`, params)
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  setAttendingStatus(eventId:number,rank:number):Promise<any>{
+    let params = {
+      rank: rank
+    };
+    return this.httpHandlerService.post(`me/attend/${eventId}`, params)
       .map(response => response.json().data)
       .toPromise();
   }

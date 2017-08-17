@@ -6,7 +6,7 @@
 <div *ngIf="loadingIndicatorVisible" class="loading-container"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
 <div class="page-content">
   <ul class="event-list">
-    <li *ngFor="let event of events; trackBy: trackEvent" class="event-item">
+    <li *ngFor="let event of events; trackBy: trackEvent; let i = index" class="event-item">
         <div class="event-image-container">
           <img class="event-image img-responsive center-block" src="{{ event.imageUrl }}">
         </div>
@@ -34,7 +34,7 @@
 
           <div class="event-participants-container">
             <ul>
-              <li *ngFor="let participant of event.participants | slice:0:8; let i=index" class="inline-images participant-images">
+              <li *ngFor="let participant of event.participants | slice:0:8" class="inline-images participant-images">
                 <a *ngIf="participant.page_id; else noLinkImage" [routerLink]="['/page', participant.page_id]">
                   <img src="{{participant.imageurl ? participant.imageurl : 'assets/images/default_participant.png' }}"
                    [style.z-index]="50 - i" title="{{participant.name}}">
@@ -77,7 +77,7 @@
           </ng-template>
 
           <div class="event-interested-container">
-            <button class="mbt-blue" (click)="nextAttendingOption(event.id)">{{ event.iattending ? attendingDict[event.iattending.rank] : 'Interested?' }}</button>
+            <button class="mbt-blue" (click)="nextAttendingOption(event)">{{ event.iattending ? attendingDict[event.iattending.rank] : 'Interested?' }}</button>
           </div>
 
           <div class="event-separator"></div>

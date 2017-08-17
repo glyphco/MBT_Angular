@@ -99,6 +99,29 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
     }).catch(error => console.log(error));
   }
 
+  public nextAttendingOption(event:Event){
+    let oldRank:number;
+    let newRank:number;
+    if(event.iattending){
+      //there was a previous rank already set
+      oldRank = event.iattending.rank;
+      event.iattending.rank = newRank = (event.iattending.rank + 1) % 4;
+    }else{
+      oldRank = undefined;
+      newRank = 3;
+      event.iattending = {rank:newRank};
+    }
+    //send API call to update rank
+    this.eventService.setAttendingStatus(event.id, newRank).catch(error => {
+      //the attending call failed
+      if(oldRank){
+        event.iattending.rank = oldRank;
+      }else{
+        event.iattending = undefined;
+      }
+    });
+  }
+
   private populateMap(){
     //Get map points for events today
     this.eventService.getEventsTodayPoints().then(points => {
