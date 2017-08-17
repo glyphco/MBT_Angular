@@ -33,7 +33,7 @@
   overflow-y: hidden;
 }
 
-/* Specific to the EVENTDETAILS listing */
+/* Specific to the EVENTDETAILS */
 
 .eventdetail-image-container-container, .pagedetail-image-container-container{
   width:100%;
@@ -63,6 +63,10 @@
   width:100%;
   height:50px;
   background-color:#fff;
+}
+
+.event-description {
+  white-space:pre-line;
 }
 
 .inline-images {

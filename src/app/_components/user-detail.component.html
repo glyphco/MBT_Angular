@@ -9,5 +9,6 @@
     <option value="contributor">Contributor</option>
     <option value="nothing">Nothing</option>
   </select>
+  <button *ngIf="isOwner">Only the page owner can see this button</button>
   <button class="btn btn-primary" (click)="saveRole()">Save</button>
 </div>

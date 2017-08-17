@@ -16,4 +16,10 @@ export class UserService {
       .map(response => response.json().data)
       .toPromise();
   }
+
+  getUser(id:number):Promise<any>{
+    return this.httpHandlerService.get(`user/${id}/details`)
+      .map(response => response.json().data)
+      .toPromise();
+  }
 }
