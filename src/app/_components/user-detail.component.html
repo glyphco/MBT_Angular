@@ -40,9 +40,34 @@
         </div>
       </ng-template>
 
-      <div class="userdetail-follow-container">
-        <button class="mbt-blue">Follow</button>
+      <div *ngIf="isOwner; else notOwnerBlock" class="userdetail-follow-container">
+        Its you!
       </div>
+
+      <ng-template #notOwnerBlock>
+
+
+        <div [ngSwitch]="user.youSeeUser" class="userdetail-follow-container">
+          <ng-container *ngSwitchCase="0">
+            You were Blocked, How can you see this?
+          </ng-container>
+          <ng-container *ngSwitchCase="1">
+            Youre nothing... [REQUEST FOLLOW (send 1)]
+          </ng-container>
+          <ng-container *ngSwitchCase="2">
+            Request Pending [CANCEL REQUEST (send 1)]
+          </ng-container>
+          <ng-container *ngSwitchCase="3">
+            Following [Unfollow (send 1)]
+          </ng-container>         
+          <ng-container  *ngSwitchDefault class="mbt-blue">
+            How are you seeing this?
+          </ng-container>        
+        </div>
+
+
+      </ng-template>
+
     </li>
   </ul>
 
