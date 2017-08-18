@@ -3,6 +3,7 @@ import { Event } from './event';
 export class User {
   id:number;
   avatar:string;
+  bio:string;
   bannedUntil:string;
   city:string;
   confirmed:number;
@@ -40,6 +41,7 @@ export class User {
   username:string;
   imageUrl:string;
   backgroundUrl:string;
+  neighborhood:string;
 
   public static arrayMap(json):User[]{
     let users:User[] = [];
@@ -54,6 +56,7 @@ export class User {
       let currentUser = new User();
       currentUser.id = json.id;
       currentUser.avatar = json.avatar;
+      currentUser.bio = json.bio;
       currentUser.bannedUntil = json.banned_until;
       currentUser.city = json.city;
       currentUser.confirmed = json.confirmed;
@@ -91,6 +94,7 @@ export class User {
       currentUser.username = json.username;
       currentUser.imageUrl = json.imageurl;
       currentUser.backgroundUrl = json.backgroundurl;
+      currentUser.neighborhood = json.neighborhood;
       return currentUser;
   }
 }

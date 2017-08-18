@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { User } from '../_models/user';
 import { HttpHandlerService } from './http-handler.service';
 
 const availablePermissions = [
@@ -178,5 +179,34 @@ export class MeService {
       .map(response => response.json().data)
       .toPromise()
   }
+
+  getMeEdit(id:number):Promise<any>{
+    return this.httpHandlerService.get(`me/edit`)
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  updateMe(user:User):Promise<any>{
+    let id = user.id;
+    let options = {
+      backgroundurl:user.backgroundUrl,
+      city:user.city,
+      confirmed:user.confirmed,
+      email:user.email,
+      imageurl:user.imageUrl,
+      name:user.name,
+      postalcode:user.postalCode,
+      privacyevents:user.privacyEvents,
+      privacylikes:user.privacyLikes,
+      privacypyf:user.privacyPyf,
+      state:user.state,
+      neighborhood:user.neighborhood,
+      username:user.username,
+      bio:user.bio
+    };
+    return this.httpHandlerService.put(`user/${id}`, options)
+      .toPromise();
+  }
+
 } 
  
