@@ -109,7 +109,7 @@ If no grid support, limit width to 50em and center align
 }
 
 /*------------------------------------------------------------
-Web view defaults
+Defaults
 ------------------------------------------------------------*/
 nav {
   /*height:60px;*/
@@ -139,6 +139,10 @@ nav {
   max-width:1170px;
   margin:0 auto;
   padding:0px 10px;
+}
+
+.main-content {
+  min-height:100vh;
 }
 
 @media screen and (max-width: 799px) {
@@ -258,6 +262,10 @@ Helper classes
 }
 */
 
+.padded {
+  padding:0px 10px;
+}
+
 .mbt-blue {
   color:#125ebc;
 }
@@ -292,4 +300,41 @@ Helper classes
   content: "";
   display: table;
   clear: both;
+}
+
+/*------------------------------------------------------------
+Button styles
+------------------------------------------------------------*/
+.btn {
+  width:100%;
+  height:50px;
+  padding:10px 15px;
+  border:none;
+  display:block;
+  background-color:rgb(221, 221, 221);
+  cursor:pointer;
+}
+
+.btn.default {
+  background-color:#ecf0f1;
+  color:#3e4b5c;
+  border-bottom:3px solid #d6d7d9;
+  font-weight:bold;
+}
+
+/*------------------------------------------------------------
+Form styles
+------------------------------------------------------------*/
+.input-control {
+  height:35px;
+  border:1px solid #ddd;
+  width:100%;
+  display:block;
+  color:#404040;
+  box-sizing:border-box;
+  padding:0px 5px;
+}
+
+.form-control {
+  margin:10px 0px;
 }

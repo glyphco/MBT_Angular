@@ -1,19 +1,26 @@
-<div class="main-content">
-<div id="login">
-		<h1><strong>Welcome.</strong> Please login.</h1>
+<div class="main-content white padded">
+<div class="login-container">
+		<h1>Login today.</h1>
+    <!--
 		<form action="javascript:void(0);" method="get">
-			<fieldset>
-				<p><input type="text" required value="Username" onBlur="if(this.value=='')this.value='Username'" onFocus="if(this.value=='Username')this.value='' "></p> <!-- JS because of IE support; better: placeholder="Username" -->
-				<p><input type="password" required value="Password" onBlur="if(this.value=='')this.value='Password'" onFocus="if(this.value=='Password')this.value='' "></p> <!-- JS because of IE support; better: placeholder="Password" -->
+      <div class="form-control">
+				<input class="input-control" type="text" required placeholder="Email" />
+      </div>
+      <div class="form-control">
+				<input class="input-control" type="password" required placeholder="Password" />
+      </div>
 				<p><a href="#">Forgot Password?</a></p>
-				<p><input type="submit" value="Login"></p>
-			</fieldset>
+				<input class="btn default" type="submit" value="Login">
 		</form>
 		<p><span class="btn-round">or</span></p>
-		<p (click)="facebookLogin()">
-			<a class="facebook-before"><span class="fontawesome-facebook"></span></a>
-			<button class="facebook">Login Using Facebook</button>
-		</p>
-    <button (click)="loginWithGoogle()">Login with Google</button>
+    -->
+
+    <button class="btn facebook" (click)="facebookLogin()">
+      <i class="fa fa-facebook" aria-hidden="true"></i>Login Using Facebook
+    </button>
+    <br />
+    <button class="btn google" (click)="loginWithGoogle()">
+      <i class="fa fa-google" aria-hidden="true"></i>Login with Google
+    </button>
 	</div> <!-- end login -->
 </div>

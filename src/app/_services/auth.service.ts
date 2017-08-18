@@ -42,7 +42,7 @@ export class AuthService {
   login(){
     //redirect
     this._zone.run(() => {
-      this.router.navigate(['/backstage']);
+      this.router.navigate(['/events/today']);
     });
     this.loggedInSource.next(true);
   }
