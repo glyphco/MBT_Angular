@@ -28,6 +28,11 @@ export class User {
   privacylikes:number;
   privacypyf:number;
   pyf = [];
+  pyfCount = 0;
+  followers = [];
+  followersCount = 0;
+  youSeeUser = 1;
+  userSeesYou = 1;
   slug:string;
   state:string;
   streetAddress:string;
@@ -72,6 +77,11 @@ export class User {
       currentUser.privacylikes = json.privacylikes;
       currentUser.privacypyf = json.privacypyf;
       currentUser.pyf = json.pyf;
+      currentUser.pyfCount = json.pyf_count;
+      currentUser.followers = json.followers;
+      currentUser.followersCount = json.followers_count;
+      currentUser.userSeesYou = json.userseesyou;
+      currentUser.youSeeUser = json.youseeuser;
       currentUser.slug = json.slug;
       currentUser.state = json.state;
       currentUser.streetAddress = json.street_address;

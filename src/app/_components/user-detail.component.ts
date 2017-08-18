@@ -8,7 +8,7 @@ import { HttpHandlerService } from '../_services/http-handler.service';
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
-  //styleUrls: ['./events-editable.component.css']
+  styleUrls: ['./lists.component.css']
 })
 export class UserDetailComponent implements OnInit, OnDestroy {
   role = 'nothing';

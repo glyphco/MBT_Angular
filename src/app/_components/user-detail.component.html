@@ -1,14 +1,111 @@
 <div class="main-content white">
-  <h3>Coming soon</h3>
-  <div *ngIf="message" class="alert alert-info" role="alert">{{message}}</div>
-  <label>Role</label>
-  <select [(ngModel)]="role" name="role">
-    <option value="superadmin">Super admin</option>
-    <option value="admin">Admin</option>
-    <option value="mastereditor">Master editor</option>
-    <option value="contributor">Contributor</option>
-    <option value="nothing">Nothing</option>
-  </select>
-  <button *ngIf="isOwner">Only the page owner can see this button</button>
-  <button class="btn btn-primary" (click)="saveRole()">Save</button>
+<p>&nbsp;</p>
+<div class="container">
+  <div *ngIf="isOwner">
+    <div *ngIf="message" class="alert alert-info" role="alert">{{message}}</div>
+      <label>**SUPER HIDDEN ROLE CHANGER FOR TESTING PURPOSES:</label>
+      <select [(ngModel)]="role" name="role">
+        <option value="superadmin">Super admin</option>
+        <option value="admin">Admin</option>
+        <option value="mastereditor">Master editor</option>
+        <option value="contributor">Contributor</option>
+        <option value="nothing">Nothing</option>
+      </select>
+      <button class="btn btn-primary" (click)="saveRole()">Save</button>
+    </div>
+  </div>
+
+<div *ngIf="user">
+  <ul class=item-list>
+    <li *ngIf="user" class="userdetail-item-grid list-item">
+      <div class="userdetail-image-container-container">
+        <div class="userdetail-image-container">
+          <img class="userdetail-image img-responsive center-block" src="{{ user.avatar }}">
+        </div>
+      </div>
+      <h3 class="userdetail-name"><a [routerLink]="['/user',user.id]">{{ user.name }}</a></h3>
+      
+      <div *ngIf="user.followersCount > 0; else noFollowers" class="userdetail-followers-container">
+        <span class="mbt-blue">
+          {{user.followersCount}} Followers
+          <span *ngIf="user.pyfCount > 0;"> &bull; {{user.pyfCount}} People Followed </span>
+        </span>
+      </div>
+
+      <ng-template #noFollowers>
+        <div class="userdetail-followers-container">
+          <span class="mbt-blue">
+            (no followers yet..)
+          </span>
+        </div>
+      </ng-template>
+
+      <div class="userdetail-follow-container">
+        <button class="mbt-blue">Follow</button>
+      </div>
+    </li>
+  </ul>
+
+  <ng-container *ngIf="user.eventsImAttending.length > 0">
+    <h4 >Events I'm Attending:</h4>
+    <ul class="item-list">
+       <li *ngFor="let event of user.eventsImAttending" class="event-item-grid list-item">
+        <div class="event-image-container item-tallimage-container">
+          <img class="item-image img-responsive center-block" src="{{ event.imageUrl }}" title="{{ event.name }}">
+        </div>
+        <h3 class="event-name">
+                <a [routerLink]="['/event',event.id]">{{ event.name }}</a>
+        </h3>    
+
+        <p class="event-venue">
+          <a *ngIf="event.venue_id; else elseBlock" [routerLink]="['/venue',event.venue_id]">{{ event.venueName }}</a>
+          <ng-template #elseBlock>{{ event.venueName }}</ng-template>
+        </p>
+        <ul class="event-info">
+          <li>{{ event.local_start | dateFormatter:'dddd, MMMM D' }}</li>
+        </ul>
+      </li>
+    </ul>
+  </ng-container>
+
+  <ng-container *ngIf="user.likedShows.length > 0">
+    <h4 >Liked Shows</h4>
+    <ul class="item-list">
+      <li *ngFor="let show of user.likedShows" class="show-item-grid list-item">
+        <div class="show-image-container item-image-container">
+          <img class="item-image img-responsive center-block" src="{{ show.imageUrl }}" title="{{ show.name }}">
+        </div>
+        <h3 class="show-name">
+        
+        <a *ngIf="show.showId; else noProducerLinkBlock" [routerLink]="['/show',show.showId]">{{ show.name }}</a>
+        <ng-template #noProducerLinkBlock>{{ show.name }}</ng-template>
+        </h3>    
+        <div class="show-info">
+        {{ show.info }}
+        </div>
+      </li>
+    </ul>
+  </ng-container>
+
+  <ng-container *ngIf="user.likedPages.length > 0">
+    <h4 >Liked Pages</h4>
+    <ul class="item-list">
+      <li *ngFor="let participant of user.likedPages" class="participant-item-grid list-item">
+        <div class="participant-image-container item-image-container">
+          <img class="item-image img-responsive center-block" src="{{ participant.imageUrl }}" title="{{ participant.name }}">
+        </div>
+        <h3 class="participant-name">
+        <a *ngIf="participant.pageId; else noParticipantLinkBlock" [routerLink]="['/page',participant.pageId]">{{ participant.name }}</a>
+        <ng-template #noParticipantLinkBlock>{{ participant.name }}</ng-template>
+        </h3>    
+        <div class="participant-info">
+        {{ participant.tagline }}
+        </div>
+      </li>
+    </ul>
+  </ng-container>
+
+
+</div>
+  
 </div>
