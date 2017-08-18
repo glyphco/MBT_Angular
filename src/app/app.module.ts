@@ -50,6 +50,10 @@ import { ProfileEditComponent } from './_components/profile-edit.component';
 import { UsersEditableComponent } from './_components/users-editable.component';
 import { UserEditComponent } from './_components/user-edit.component';
 import { ManageFollowersComponent } from './_components/manage-followers.component';
+import { FollowerRequestsComponent } from './_components/follower-requests.component';
+import { FollowersComponent } from './_components/followers.component';
+import { FollowersBlockedComponent } from './_components/followers-blocked.component';
+import { PyfComponent } from './_components/pyf.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
@@ -105,7 +109,11 @@ import { UserService } from './_services/user.service';
     ProfileEditComponent,
     UsersEditableComponent,
     UserEditComponent,
-    ManageFollowersComponent
+    ManageFollowersComponent,
+    FollowerRequestsComponent,
+    FollowersComponent,
+    FollowersBlockedComponent,
+    PyfComponent
   ],
   imports: [
     BrowserModule,

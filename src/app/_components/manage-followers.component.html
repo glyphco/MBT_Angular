@@ -2,12 +2,16 @@
   <h2>Manage followers</h2>
   <div class="follow-main">
     <div class="follow-toolbar">
-      <i class="fa fa-bell" aria-hidden="true"></i><br />
-      <i class="fa fa-star" aria-hidden="true"></i><br />
-      <i class="fa fa-users" aria-hidden="true"></i>
+      <i class="fa fa-bell" (click)="changeMode(0)" aria-hidden="true"></i><br />
+      <i class="fa fa-users" (click)="changeMode(1)" aria-hidden="true"></i><br />
+      <i class="fa fa-star" (click)="changeMode(2)" aria-hidden="true"></i><br />
+      <i class="fa fa-ban" (click)="changeMode(3)" aria-hidden="true"></i>
     </div>
     <div class="follow-list">
-      List of followers/requests/pyfs goes here
+      <follower-requests *ngIf="currentMode == 0"></follower-requests>
+      <followers *ngIf="currentMode == 1"></followers>
+      <pyf *ngIf="currentMode == 2"></pyf>
+      <followers-blocked *ngIf="currentMode == 3"></followers-blocked>
     </div>
   </div>
 </div>

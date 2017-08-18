@@ -208,5 +208,29 @@ export class MeService {
       .toPromise();
   }
 
+  public getFollowRequests(){
+    return this.httpHandlerService.get('me/followers/requests')
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  public getFollowers(){
+    return this.httpHandlerService.get('me/followers')
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  public getPyfs(){
+    return this.httpHandlerService.get('me/pyfs')
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  public getFollowersBlocked(){
+    return this.httpHandlerService.get('me/followers/blocked')
+      .map(response => response.json())
+      .toPromise();
+  }
+
 } 
  
