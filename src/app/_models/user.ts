@@ -67,11 +67,11 @@ export class User {
       currentUser.isBanned = json.is_banned;
       currentUser.isOnline = json.is_online;
       currentUser.lat = json.lat;
-      currentUser.likedPages = json.liked_pages;
+      currentUser.likedPages = json.liked_pages ? json.liked_pages : [];
       currentUser.likedPagesCount = json.liked_pages_count;
-      currentUser.likedShows = json.liked_shows;
+      currentUser.likedShows = json.liked_shows ? json.liked_shows : [];
       currentUser.likedShowsCount = json.liked_shows_count
-      currentUser.likedVenues = json.liked_venues;
+      currentUser.likedVenues = json.liked_venues ? json.liked_venues : [];
       currentUser.likedVenuesCount = json.liked_venues_count;
       currentUser.lng = json.lng;
       currentUser.localTz = json.local_tz;

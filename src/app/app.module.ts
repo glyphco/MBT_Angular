@@ -49,6 +49,7 @@ import { LocationPickerComponent } from './_components/location-picker.component
 import { ProfileEditComponent } from './_components/profile-edit.component';
 import { UsersEditableComponent } from './_components/users-editable.component';
 import { UserEditComponent } from './_components/user-edit.component';
+import { ManageFollowersComponent } from './_components/manage-followers.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
@@ -103,7 +104,8 @@ import { UserService } from './_services/user.service';
     LocationPickerComponent,
     ProfileEditComponent,
     UsersEditableComponent,
-    UserEditComponent
+    UserEditComponent,
+    ManageFollowersComponent
   ],
   imports: [
     BrowserModule,

@@ -41,13 +41,13 @@
       </ng-template>
 
       <div *ngIf="isOwner; else notOwnerBlock" class="userdetail-follow-container">
-        Its you!
+        <a [routerLink]="['/manage/followers']"><button>Manage followers</button></a>
       </div>
 
       <ng-template #notOwnerBlock>
 
 
-        <div [ngSwitch]="user.youSeeUser" class="userdetail-follow-container">
+        <div [ngSwitch]="user.userSeesYou" class="userdetail-follow-container">
           <ng-container *ngSwitchCase="0">
             You were Blocked, How can you see this?
           </ng-container>

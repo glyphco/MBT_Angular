@@ -1,0 +1,13 @@
+.follow-main {
+  display:flex;
+}
+
+.follow-toolbar {
+  background-color:orange;
+  flex:0 0 50px;
+}
+
+.follow-list {
+  background-color:blue;
+  flex:1 1 auto;
+}

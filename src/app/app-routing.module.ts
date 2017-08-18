@@ -37,6 +37,7 @@ import { UserDetailComponent } from './_components/user-detail.component';
 import { ProfileEditComponent } from './_components/profile-edit.component';
 import { UsersEditableComponent } from './_components/users-editable.component';
 import { UserEditComponent } from './_components/user-edit.component';
+import { ManageFollowersComponent } from './_components/manage-followers.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [PublicGuard] },
@@ -74,7 +75,7 @@ const routes: Routes = [
   //User routes
   { path: 'users/editable', component: UsersEditableComponent, canActivate: [AuthGuard] },
   { path: 'user/edit/:id', component: UserEditComponent, canActivate: [AuthGuard] },
-
+  { path: 'manage/followers', component: ManageFollowersComponent, canActivate: [AuthGuard] },
 
   { path: 'explore', component: ExploreComponent, canActivate: [AuthGuard] },
   { path: 'events', component: PublicEventsTodayComponent, canActivate: [PublicGuard] },
