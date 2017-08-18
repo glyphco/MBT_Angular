@@ -35,6 +35,7 @@ export class Event {
   venue: Venue;
   venueId:number;
   venueName:string;
+  venueImageUrl:string;
   venueTagline:string;
   tagline:string;
   categories = [];
@@ -108,6 +109,7 @@ export class Event {
     currentEvent.venue = json.venue && Venue.map(json.venue);
     currentEvent.venueId = json.venue_id;
     currentEvent.venueName = json.venue_name;
+    currentEvent.venueImageUrl = json.venue_imageurl;
     currentEvent.venueTagline = json.venue_tagline;
     currentEvent.tagline = json.tagline;
 
