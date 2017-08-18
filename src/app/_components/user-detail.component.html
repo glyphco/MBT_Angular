@@ -20,7 +20,7 @@
     <li *ngIf="user" class="userdetail-item-grid list-item">
       <div class="userdetail-image-container-container">
         <div class="userdetail-image-container">
-          <img class="userdetail-image img-responsive center-block" src="{{ user.avatar }}">
+          <img class="userdetail-image img-responsive center-block" src="{{ user.imageurl || user.avatar }}">
         </div>
       </div>
       <h3 class="userdetail-name"><a [routerLink]="['/user',user.id]">{{ user.name }}</a></h3>

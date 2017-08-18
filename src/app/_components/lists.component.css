@@ -35,13 +35,12 @@
 
 /* Specific to the EVENTDETAILS */
 
-.eventdetail-image-container-container, .pagedetail-image-container-container{
+.eventdetail-image-container-container, 
+.pagedetail-image-container-container{
   width:100%;
 }
 
 .eventdetail-image-container, .pagedetail-image-container {
-
-
   text-align:center;
   display:block;
   margin:auto;
@@ -222,6 +221,34 @@
     grid-area: blockvenuedetailinterested;
   }
 
+  .userdetail-item-grid {
+    display: grid;
+    grid-column-gap: 10px;
+    grid-template-columns: minmax(200px, 1fr) 100px 1fr;
+    grid-template-rows: auto auto auto auto auto auto ;
+    grid-template-areas:
+      "blockuserdetailimage blockuserdetailimage ..."
+      "blockuserdetailname blockuserdetailname ... "
+      "blockuserdetailinfo blockuserdetailinfo ..."
+      "blockuserdetailfollowers blockuserdetailfollow ..."      
+      ;
+  }
+
+  .userdetail-image-container-container {
+    grid-area: blockuserdetailimage;
+  }
+
+  .userdetail-name {
+    grid-area: blockuserdetailname;
+  }
+
+  .userdetail-followers-container {
+    grid-area: blockuserdetailfollowers;
+  }
+
+  .userdetail-follow-container {
+    grid-area: blockuserdetailfollow;
+  }
 
   .event-item-grid {
     display: grid;
@@ -422,6 +449,22 @@
     }
 
     .showdetail-name {
+      font-size: 30px;
+    }
+
+    .userdetail-item-grid {
+      display: grid;
+      grid-column-gap: 10px;
+      grid-template-columns: 281px 195px 100px auto;
+      grid-template-rows: min-content min-content 1fr;
+      grid-template-areas:
+        "blockuserdetailimage blockuserdetailname blockuserdetailname ... "
+        "blockuserdetailimage blockuserdetailinfo blockuserdetailinfo ..."
+        "blockuserdetailimage blockuserdetailfollowers blockuserdetailfollow ..."      
+        ;
+    }
+
+    .userdetail-name {
       font-size: 30px;
     }
 

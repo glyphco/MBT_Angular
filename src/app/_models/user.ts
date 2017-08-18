@@ -38,6 +38,8 @@ export class User {
   streetAddress:string;
   subLocationName:any;
   username:string;
+  imageurl:string;
+  backgroundurl:string;
 
   public static arrayMap(json):User[]{
     let users:User[] = [];
@@ -87,6 +89,8 @@ export class User {
       currentUser.streetAddress = json.street_address;
       currentUser.subLocationName = json.sublocationname;
       currentUser.username = json.username;
+      currentUser.imageurl = json.imageurl;
+      currentUser.backgroundurl = json.backgroundurl;
       return currentUser;
   }
 }
