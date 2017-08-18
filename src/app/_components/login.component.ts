@@ -15,14 +15,14 @@ export class LoginComponent implements AfterViewInit {
 
   //Initialize auth providers
   ngAfterViewInit() {
-    this.authService.initProviders('googleBtn');
+    this.authService.initProviders();
   }
 
   facebookLogin(){
     this.authService.facebookLogin();
   }
 
-  loginWithGoogle(){
-    this.authService.loginWithGoogle();
+  googleLogin(){
+    this.authService.googleLogin();
   }
 }

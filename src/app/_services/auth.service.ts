@@ -1,6 +1,7 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, Inject } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
+import { DOCUMENT } from '@angular/platform-browser';
 import { Observable }    from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { environment } from '../../environments/environment';
@@ -24,7 +25,8 @@ export class AuthService {
     private jwtHelperService:JwtHelperService,
     private httpHandlerService:HttpHandlerService,
     private meService:MeService,
-    private _zone:NgZone){}
+    private _zone:NgZone,
+    @Inject(DOCUMENT) private document: Document){}
   
   private token = '';
   private loggedInSource = new Subject<boolean>();
@@ -61,7 +63,7 @@ export class AuthService {
   }
 
   //initialize facebook and google apis
-  initProviders(googleBtnId:string) {
+  initProviders() {
     //initialize facebook api
     window.fbAsyncInit = function() {
         FB.init({
@@ -80,29 +82,33 @@ export class AuthService {
         js.src = "//connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
+
     //initialize google api
-    this.googleInit(googleBtnId);
+    this.googleInit();
   }
 
   //handle facebook response
   facebookLogin(){
     FB.getLoginStatus(function(response) {
-      console.log(response);
+      this.showLoading();
       if (response.status === 'connected') {
         let accessToken = response.authResponse.accessToken;
         this.getJWT('facebook', accessToken).then(token => {
           this.saveToken(token);
           return this.meService.initializeMe();
         }).then(user => {
+          this.hideLoading();
           this._zone.run(() => 
             this.login()
           );
         }).catch(error => {
+          this.hideLoading();
           console.log(error);
         })
       } else if (response.status === 'unknown'){
         this.redirectUserToFacebook();
       } else {
+        this.hideLoading();
         alert('Your browser does not support Facebook login');
       }
     }.bind(this));
@@ -117,13 +123,16 @@ export class AuthService {
           this.saveToken(token);
           return this.meService.initializeMe();
         }).then(user => {
+          this.hideLoading();
           this._zone.run(() => 
             this.login()
           );
-        }).catch(
-          error => console.log(error)
-        )
+        }).catch(error => { 
+          this.hideLoading();
+          console.log(error);
+        })
       } else {
+        this.hideLoading();
         console.log('User cancelled login or did not fully authorize.');
       }
     }.bind(this))
@@ -131,7 +140,7 @@ export class AuthService {
 
   //Google login stuff
   auth2: any;
-  googleInit(googleBtnId:string) {
+  googleInit() {
     gapi.load('auth2', function () {
       this.auth2 = gapi.auth2.init({
         client_id: '49563587913-aaa8ved79pe65df884an1peset2me3vu.apps.googleusercontent.com',
@@ -141,23 +150,25 @@ export class AuthService {
     }.bind(this));
   }
 
-  loginWithGoogle(){
+  googleLogin(){
     let options = {};
+    this.showLoading()
     this.auth2.signIn(options).then(response => {
       let authResponse = response.getAuthResponse();
-      this.getJWT('google', authResponse.access_token).then(token => {
-        this.saveToken(token);
-        return this.meService.initializeMe();
-      }).then(user => {
-        this._zone.run(() => 
-          this.login()
-        );
-      }).catch(
-        () => console.log('Something went wrong when getting JWT token from API') 
+      return this.getJWT('google', authResponse.access_token);
+    }).then(token => {
+      this.saveToken(token);
+      return this.meService.initializeMe();
+    }).then(user => {
+      this.hideLoading();
+      this._zone.run(() => 
+        this.login()
       );
-    }).catch(error => console.log(error));
+    }).catch(() => {
+      this.hideLoading()
+      console.log('Something went wrong when getting JWT token from API') 
+    });
   }
-
 
   getJWT(provider: string, accessToken: string):Promise<string>{
     const url = `${this.authUrl}/gettoken/${provider}?token=${accessToken}`;
@@ -165,6 +176,15 @@ export class AuthService {
       .toPromise()
       .then(response => response.json().JWT as string)
       .catch(this.handleError)
+  }
+
+  private showLoading(){
+    //indicate that the page is loading
+    document.body.style.opacity = "0.5";
+  }
+  private hideLoading(){
+    //indicate that the page is loading
+    document.body.style.opacity = "1";
   }
 
   private handleError(error: any): Promise<any> {
