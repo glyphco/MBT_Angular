@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHandlerService } from './http-handler.service';
+import { User } from '../_models/user';
 import 'rxjs/add/operator/toPromise';
 
 
@@ -20,6 +21,40 @@ export class UserService {
   getUser(id:number):Promise<any>{
     return this.httpHandlerService.get(`user/${id}/details`)
       .map(response => response.json().data)
+      .toPromise();
+  }
+
+  getUserEdit(id:number):Promise<any>{
+    return this.httpHandlerService.get(`user/${id}/edit`)
+      .toPromise();
+  }
+
+  updateUser(user:User):Promise<any>{
+    let id = user.id;
+    let options = {
+      avatar:user.avatar,
+      backgroundurl:user.backgroundUrl,
+      banned_until:user.bannedUntil,
+      city:user.city,
+      confirmed:user.confirmed,
+      email:user.email,
+      imageurl:user.imageUrl,
+      is_banned:user.isBanned,
+      is_online:user.isOnline,
+      local_tz:user.localTz,
+      locationname:user.locationName,
+      name:user.name,
+      postalcode:user.postalCode,
+      privacyevents:user.privacyEvents,
+      privacylikes:user.privacyLikes,
+      privacypyf:user.privacyPyf,
+      slug:user.slug,
+      state:user.state,
+      street_address:user.streetAddress,
+      sublocationname:user.subLocationName,
+      username:user.username
+    };
+    return this.httpHandlerService.put(`user/${id}`, options)
       .toPromise();
   }
 }

@@ -36,6 +36,7 @@ import { VenueDeleteComponent } from './_components/venue-delete.component';
 import { UserDetailComponent } from './_components/user-detail.component';
 import { ProfileEditComponent } from './_components/profile-edit.component';
 import { UsersEditableComponent } from './_components/users-editable.component';
+import { UserEditComponent } from './_components/user-edit.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [PublicGuard] },
@@ -72,6 +73,7 @@ const routes: Routes = [
   { path: 'shows/editable', component: ShowsEditableComponent, canActivate: [AuthGuard] },
   //User routes
   { path: 'users/editable', component: UsersEditableComponent, canActivate: [AuthGuard] },
+  { path: 'user/edit/:id', component: UserEditComponent, canActivate: [AuthGuard] },
 
 
   { path: 'explore', component: ExploreComponent, canActivate: [AuthGuard] },

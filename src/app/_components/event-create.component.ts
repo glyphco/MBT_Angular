@@ -91,10 +91,7 @@ export class EventCreateComponent implements OnInit {
     private router: Router,
     private meService: MeService,
     private locationService: LocationService
-  ){
-    this.event.startTime = '20:00';
-    this.event.startDate = moment();
-  }
+  ){}
 
   ngOnInit():void {
     //Google map stuff

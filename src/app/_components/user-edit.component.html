@@ -1,0 +1,133 @@
+<div class="main-content white">
+  <h3>Edit user</h3>
+  <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+    <div class="form-group" [class.has-error]="name.invalid && name.touched">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" placeholder="Name" 
+        [(ngModel)]="user.name" name="name" required #name="ngModel" maxlength="60">
+      <div *ngIf="name.errors && name.touched">
+        <span [class.hidden]="!name.errors.required"  class="help-block">Name is required</span>
+        <span [class.hidden]="!name.errors.maxlength"  class="help-block">
+          Name cannot be more than 60 characters long.
+        </span>
+      </div>
+    </div>
+    <div class="form-group" [class.has-error]="username.invalid && username.touched">
+      <label for="username">Username</label>
+      <input type="text" class="form-control" id="username" placeholder="Username" 
+        [(ngModel)]="user.username" name="username" required #username="ngModel" maxlength="60">
+      <div *ngIf="username.errors && username.touched">
+        <span [class.hidden]="!username.errors.required"  class="help-block">Username is required</span>
+        <span [class.hidden]="!username.errors.maxlength"  class="help-block">
+          Username cannot be more than 60 characters long.
+        </span>
+      </div>
+    </div>
+    <div class="form-group" [class.has-error]="email.invalid && email.touched">
+      <label for="email">Email</label>
+      <input type="text" class="form-control" id="email" placeholder="Email" [(ngModel)]="user.email" name="email" required #email="ngModel">
+      <span [class.hidden]="email.valid || email.pristine"  class="help-block">Email is required</span>
+    </div>
+    <div class="form-group">
+      <label for="street-adress">Street address *</label>
+      <input type="text" class="form-control" id="street-address" placeholder="Street address" 
+        [(ngModel)]="user.streetAddress" name="streetAddress" required #streetAddress="ngModel">
+      <div *ngIf="streetAddress.errors  && streetAddress.touched">
+        <span [class.hidden]="!streetAddress.errors.required"  class="help-block">Street address is required</span>
+      </div>
+    </div>
+    <div class="form-group" [class.has-error]="city.invalid && city.touched">
+      <label for="city">City</label>
+      <input type="text" class="form-control" id="city" placeholder="City" [(ngModel)]="user.city" name="city" required #city="ngModel">
+      <span [class.hidden]="city.valid || city.pristine"  class="help-block">City is required</span>
+    </div>
+    <div class="form-group">
+      <label for="state">State</label>
+      <select class="form-control" id="state" [(ngModel)]="user.state" name="state">
+        <option *ngFor="let state of states" [value]="state.abbreviation">{{state.name}}</option>
+      </select>
+    </div>
+    <div class="form-group" [class.has-error]="postalcode.invalid && postalcode.touched">
+      <label for="postalcode">Postal code</label>
+      <input type="text" class="form-control" id="postalcode" placeholder="Postal code" [(ngModel)]="user.postalCode" name="postalcode" required #postalcode="ngModel">
+      <span [class.hidden]="postalcode.valid || postalcode.pristine"  class="help-block">Postal code is required</span>
+    </div>
+    
+    <div class="form-group" [class.has-error]="slug.invalid">
+      <label for="slug">Slug</label>
+      <input type="text" class="form-control" id="slug" placeholder="Slug" [(ngModel)]="user.slug" name="slug"
+        maxlength="60" #slug="ngModel">
+        <span class="help-block">Slug cannot be more than 60 characters long.</span>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input type="text" class="form-control" id="description" placeholder="Description" [(ngModel)]="user.description" name="description">
+    </div>
+    <div class="form-group">
+      <label for="is-banned">Is banned</label>
+      <input type="checkbox" id="is-banned" [(ngModel)]="user.isBanned" name="is_banned" />
+    </div>
+      
+    <ng-container *ngIf="user.isBanned">
+      <div class="form-group custom-group inline">
+        <label for="banned-until" class="inline-label">Banned until date</label>
+        <md-input-container>
+          <input id="banned-until" mdInput [mdDatepicker]="picker" #banneduntil="ngModel" [(ngModel)]="bannedUntil.date" dateFormat="MM-DD-YYYY" date name="banned_until">
+          <button mdSuffix [mdDatepickerToggle]="picker"></button>
+        </md-input-container>
+        <md-datepicker #picker></md-datepicker>
+        <md-error *ngIf="bannedUntil.errors">
+          Enter a <strong>valid</strong> date
+        </md-error>
+      </div>
+      
+      <div class="form-group custom-group">
+        <label for="banned-until-time" class="inline-label">Banned until time</label>
+        <md-input-container>
+          <input id="banned-until-time" mdInput type="time" name="banned_until_time" [(ngModel)]="bannedUntil.time"> 
+        </md-input-container>
+        <span class="timezone-container">
+          {{bannedUntil.timezone}}
+        </span>
+      </div>
+    </ng-container>
+
+    <div class="form-group">
+      <label for="privacy-likes">Privacy likes</label>
+      <select id="privacy-likes" [(ngModel)]="user.privacylikes" name="privacy_likes">
+        <option value="2">Public</option>
+        <option value="1">Followers only</option>
+        <option value="0">Only me</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="privacy-events">Privacy events</label>
+      <select id="privacy-events" [(ngModel)]="user.privacyevents" name="privacy_events">
+        <option value="2">Public</option>
+        <option value="1">Followers only</option>
+        <option value="0">Only me</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="privacy-pyf">Privacy pyfs</label>
+      <select id="privacy-pyf" [(ngModel)]="user.privacypyf" name="privacy_pyf">
+        <option value="2">Public</option>
+        <option value="1">Followers only</option>
+        <option value="0">Only me</option>
+      </select>
+    </div>
+    <div *ngIf="meService.hasUserConfirm();else noConfirm" class="form-group">
+      <label for="confirmed">Confirmed</label>
+      <input type="checkbox" id="confirmed" [(ngModel)]="user.confirmed" name="confirmed">
+    </div>
+    <ng-template #noConfirm><p>After saving, this user will need to be confirmed by an admin.</p></ng-template>
+
+    <button type="submit" class="btn btn-success" >Submit</button>
+  </form>
+  <a [routerLink]="['/user/delete', user.id]">
+    <button class="btn btn-danger">Delete</button>
+  </a>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+</div>

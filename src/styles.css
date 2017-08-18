@@ -190,6 +190,7 @@ CSS Grid layout for wider screens, when browser supports grid:
       padding:0px 10px;
       border-right:1px solid #dfdfdf;
       border-left:1px solid #dfdfdf;
+      box-sizing:border-box;
     }
 
     .brand img{

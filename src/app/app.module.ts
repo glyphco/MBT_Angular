@@ -48,6 +48,7 @@ import { CategorySelectComponent } from './_components/category-select.component
 import { LocationPickerComponent } from './_components/location-picker.component';
 import { ProfileEditComponent } from './_components/profile-edit.component';
 import { UsersEditableComponent } from './_components/users-editable.component';
+import { UserEditComponent } from './_components/user-edit.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
@@ -101,7 +102,8 @@ import { UserService } from './_services/user.service';
     CategorySelectComponent,
     LocationPickerComponent,
     ProfileEditComponent,
-    UsersEditableComponent
+    UsersEditableComponent,
+    UserEditComponent
   ],
   imports: [
     BrowserModule,

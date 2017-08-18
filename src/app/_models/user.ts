@@ -21,12 +21,12 @@ export class User {
   likedVenuesCount:number;
   lng:string;
   localTz:string;
-  locationname:string;
+  locationName:string;
   name:string;
   postalCode:string;
-  privacyevents:number;
-  privacylikes:number;
-  privacypyf:number;
+  privacyEvents:number;
+  privacyLikes:number;
+  privacyPyf:number;
   pyf = [];
   pyfCount = 0;
   followers = [];
@@ -38,8 +38,8 @@ export class User {
   streetAddress:string;
   subLocationName:any;
   username:string;
-  imageurl:string;
-  backgroundurl:string;
+  imageUrl:string;
+  backgroundUrl:string;
 
   public static arrayMap(json):User[]{
     let users:User[] = [];
@@ -72,12 +72,12 @@ export class User {
       currentUser.likedVenuesCount = json.liked_venues_count;
       currentUser.lng = json.lng;
       currentUser.localTz = json.local_tz;
-      currentUser.locationname = json.locationname;
+      currentUser.locationName = json.locationname;
       currentUser.name = json.name;
       currentUser.postalCode = json.postalcode;
-      currentUser.privacyevents = json.privacyevents;
-      currentUser.privacylikes = json.privacylikes;
-      currentUser.privacypyf = json.privacypyf;
+      currentUser.privacyEvents = json.privacyevents;
+      currentUser.privacyLikes = json.privacylikes;
+      currentUser.privacyPyf = json.privacypyf;
       currentUser.pyf = json.pyf;
       currentUser.pyfCount = json.pyf_count;
       currentUser.followers = json.followers;
@@ -89,8 +89,8 @@ export class User {
       currentUser.streetAddress = json.street_address;
       currentUser.subLocationName = json.sublocationname;
       currentUser.username = json.username;
-      currentUser.imageurl = json.imageurl;
-      currentUser.backgroundurl = json.backgroundurl;
+      currentUser.imageUrl = json.imageurl;
+      currentUser.backgroundUrl = json.backgroundurl;
       return currentUser;
   }
 }

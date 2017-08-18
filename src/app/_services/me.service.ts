@@ -152,6 +152,10 @@ export class MeService {
     return this.hasAny(["edit-users"]);
   }
 
+  public hasUserConfirm(){
+    return this.hasUserEdit();
+  }
+
   public hasUserBan(){
     return this.hasAny(["ban-users"]);
   }
