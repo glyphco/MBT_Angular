@@ -51,10 +51,12 @@ export class Event {
   privateInfo:string;
   ages = 0;
   agesWord = '';
+  agesIcon = '';
   price = 0;
   priceWord = '';
   priceMin:number;
   priceMax:number;
+  priceMinMax:string;
   priceDescription:string;
   priceLink:string;
 
@@ -117,21 +119,29 @@ export class Event {
     switch(currentEvent.ages) {
         case 0:
             currentEvent.agesWord = '';
+            currentEvent.agesIcon = '';
             break;
         case 1:
             currentEvent.agesWord = 'family';
+            //This didnt work :(
+            currentEvent.agesIcon = '<span class=\"fa-stack\"><i class=\"fa fa-male fa-stack-1x\" style="left: -4px;\"></i><i class=\"fa fa-male fa-stack-1x\" style="font-size: .75em; left: 2px;top: 2px;\"></i><i class=\"fa fa-female fa-stack-1x\" style="left: 8px;\"></i></span>';
+            currentEvent.agesIcon = '';
             break;
         case 2:
             currentEvent.agesWord = 'all ages';
+            currentEvent.agesIcon = '';
             break;
         case 3:
             currentEvent.agesWord = '18+';
+            currentEvent.agesIcon = '';
             break;
         case 4:
             currentEvent.agesWord = '21+';
+            currentEvent.agesIcon = '';
             break;
         default:
             currentEvent.agesWord = '';
+            currentEvent.agesIcon = '';
     }
 
 
@@ -153,10 +163,24 @@ export class Event {
             currentEvent.priceWord = '';
     }
 
-
-
     currentEvent.priceMin = json.pricemin;
     currentEvent.priceMax = json.pricemax;
+
+    //This makes a dummy-proof price line
+    if (( currentEvent.priceMax != null) && (currentEvent.priceMin > currentEvent.priceMax)) { //swap 'em
+      currentEvent.priceMin = currentEvent.priceMax + (currentEvent.priceMax = currentEvent.priceMin, 0);
+    }
+    currentEvent.priceMinMax = '';
+    if (currentEvent.priceMin != null){
+      currentEvent.priceMinMax = '$' + currentEvent.priceMin;
+      if ((currentEvent.priceMax != null) && (currentEvent.priceMax != currentEvent.priceMin) && (currentEvent.priceMax != 0)) {
+        currentEvent.priceMinMax += ' - $' + currentEvent.priceMax;
+      }
+    }
+    if ((currentEvent.priceMin == 0) && (currentEvent.priceMax == 0)) {
+      currentEvent.priceMinMax = '';
+    }
+
     currentEvent.priceDescription = json.pricedescription;
     currentEvent.priceLink = json.pricelink;
 

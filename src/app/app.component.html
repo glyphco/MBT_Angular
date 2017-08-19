@@ -27,14 +27,14 @@
             </a>
 
             <ul class="dropdown-menu" [hidden]="!user.active">
-              <li><a href="javascript:void(0)" (click)="user.active = false; mobile.active=false;redirectToMyProfile()">My profile</a></li>
+              <li><a href="javascript:void(0)" (click)="user.active = false; mobile.active=false;redirectToMyProfile()"><i class="fa fa-fw fa-user-circle" aria-hidden="true"></i> My profile</a></li>
 
               <ng-container *ngIf="meService.hasBackstage()">
-                <li><a routerLink="/backstage" (click)="user.active = false; mobile.active=false">Backstage</a></li>
+                <li><a routerLink="/backstage" (click)="user.active = false; mobile.active=false"><i class="fa fa-fw fa-user-secret" aria-hidden="true"></i> Backstage</a></li>
               </ng-container>
               <li role="separator" class="divider"></li>
-              <li><a routerLink="/profile/edit" (click)="user.active = false; mobile.active=false">Edit profile</a></li>
-              <li><a href="javascript:void(0);" (click)="logout();user.active = false; mobile.active=false">Logout</a></li>
+              <li><a routerLink="/profile/edit" (click)="user.active = false; mobile.active=false"><i class="fa fa-fw fa-pencil" aria-hidden="true"></i> Edit profile</a></li>
+              <li><a href="javascript:void(0);" (click)="logout();user.active = false; mobile.active=false"><i class="fa fa-fw fa-sign-out" aria-hidden="true"></i> Logout</a></li>
             </ul>
 
           </li>

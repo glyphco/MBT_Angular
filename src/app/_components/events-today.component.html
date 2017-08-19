@@ -25,8 +25,19 @@
               {{ event.localStart | dateFormatter:'short_time' }}
             </li>
             <li>{{ event.categories.length > 0 ? event.categories[0].subcategory_name : '' }}</li>
-            <li>{{ event.priceWord }} ${{ event.priceMin }} - ${{ event.priceMax }}</li>
-            <li>{{ event.agesWord }}</li>
+            <li>{{ event.priceWord }} {{ event.priceMinMax }}</li>
+            <li>
+            <span *ngIf="event.ages == 1" class="fa-stack">
+              <i class="fa fa-male fa-stack-1x" style="left: -4px;"></i>
+              <i class="fa fa-male fa-stack-1x" style="font-size: .75em; left: 2px;top: 2px;"></i>
+              <i class="fa fa-male fa-stack-1x" style="left: 8px;"></i>
+            </span>
+            <span *ngIf="event.ages == 2" class="fa-stack">
+              <i class="fa fa-male fa-stack-1x" style="left: -5px;"></i>
+              <i class="fa fa-male fa-stack-1x" style="font-size: .90em; left: 2px;top: 0px;"></i>
+              <i class="fa fa-male fa-stack-1x" style="font-size: .90em; left: 8px;top: 0px;"></i>
+            </span>
+            {{ event.agesWord }}</li>
           </ul>
           <p class="event-description">
             {{ event.description | truncate : [200 ,'...'] }}<br />
