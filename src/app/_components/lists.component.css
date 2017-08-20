@@ -35,12 +35,11 @@
 
 /* Specific to the EVENTDETAILS */
 
-.eventdetail-image-container-container, 
-.pagedetail-image-container-container{
-  width:100%;
+.eventdetail-image-container-container{
+
 }
 
-.eventdetail-image-container, .pagedetail-image-container {
+.eventdetail-image-container {
   text-align:center;
   display:block;
   margin:auto;
@@ -52,7 +51,7 @@
 
   min-width:100%;
   max-width:100%;
-  height:600px;
+
   margin:0 auto;
 
 }
