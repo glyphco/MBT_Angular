@@ -226,8 +226,107 @@ export class MeService {
       .toPromise();
   }
 
-  public getFollowersBlocked(){
+  public getFollowersBlocked():Promise<any>{
     return this.httpHandlerService.get('me/followers/blocked')
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  public followUser(id:number):Promise<any>{
+    let options = {
+      status: 3
+    }
+    return this.httpHandlerService.post(`user/${id}/follow`, options)
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  public unfollowUser(id:number):Promise<any>{
+    let options = {
+      status: 1
+    }
+    return this.httpHandlerService.post(`user/${id}/follow`, options)
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  public unrequestUser(id:number):Promise<any>{
+    let options = {
+      status: 1
+    }
+    return this.httpHandlerService.post(`user/${id}/follow`, options)
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  public requestUser(id:number):Promise<any>{
+    let options = {
+      status: 2
+    }
+    return this.httpHandlerService.post(`user/${id}/follow`, options)
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  public blockUser(id:number):Promise<any>{
+    let options = {
+      status: 0
+    }
+    return this.httpHandlerService.post(`user/${id}/followrespond`, options)
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  public blockRequest(id:number):Promise<any>{
+    let options = {
+      status: 0
+    }
+    return this.httpHandlerService.post(`user/${id}/followrespond`, options)
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  public blockFollower(id:number):Promise<any>{
+    let options = {
+      status: 0
+    }
+    return this.httpHandlerService.post(`user/${id}/followrespond`, options)
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  public unblockUser(id:number):Promise<any>{
+    let options = {
+      status: 1
+    }
+    return this.httpHandlerService.post(`user/${id}/followrespond`, options)
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  public declineRequest(id:number):Promise<any>{
+    let options = {
+      status: 1
+    }
+    return this.httpHandlerService.post(`user/${id}/followrespond`, options)
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  public acceptRequest(id:number):Promise<any>{
+    let options = {
+      status: 3
+    }
+    return this.httpHandlerService.post(`user/${id}/followrespond`, options)
+      .map(response => response.json())
+      .toPromise();
+  }
+
+  public dismissFollower(id:number):Promise<any>{
+    let options = {
+      status: 1
+    }
+    return this.httpHandlerService.post(`user/${id}/followrespond`, options)
       .map(response => response.json())
       .toPromise();
   }

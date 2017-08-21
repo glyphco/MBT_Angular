@@ -1,19 +1,36 @@
 .follow-main {
-  display:flex;
-  flex-wrap:nowrap;
+  height:100vh;
 }
 
 .follow-toolbar {
-  flex:0 0 50px;
   background-color:#ddd;
   text-align:center;
+  font-size:1.4em;
+  padding:10px 0px;
+}
+
+.follow-toolbar ul {
+  list-style-type: none;
+  padding:0px;
+  margin:0px;
+}
+
+.follow-toolbar li {
+  display:inline-block;
+  width:24%;
 }
 
 .follow-toolbar i {
   cursor:pointer;
+  
+}
+.follow-toolbar i:hover {
+  color:#2f73e0;
+}
+.follow-toolbar i.active {
+  color:#2f73e0;
 }
 
 .follow-list {
   background-color:#f4f8ff;
-  flex:1 1 auto;
 }

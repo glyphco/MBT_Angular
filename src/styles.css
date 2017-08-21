@@ -317,6 +317,12 @@ Button styles
 }
 
 .btn.default {
+  background-color:#d12121;
+  color:#fff;
+  border-bottom:3px solid #990f0f;
+  font-weight:bold;
+}
+.btn.danger {
   background-color:#ecf0f1;
   color:#3e4b5c;
   border-bottom:3px solid #d6d7d9;

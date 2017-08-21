@@ -54,6 +54,7 @@ import { FollowerRequestsComponent } from './_components/follower-requests.compo
 import { FollowersComponent } from './_components/followers.component';
 import { FollowersBlockedComponent } from './_components/followers-blocked.component';
 import { PyfComponent } from './_components/pyf.component';
+import { ModalComponent } from './_components/modal.component';
 
 import { AuthService } from './_services/auth.service';
 import { VenueService } from './_services/venue.service';
@@ -113,7 +114,8 @@ import { UserService } from './_services/user.service';
     FollowerRequestsComponent,
     FollowersComponent,
     FollowersBlockedComponent,
-    PyfComponent
+    PyfComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
