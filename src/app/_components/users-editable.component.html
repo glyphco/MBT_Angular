@@ -47,17 +47,13 @@
 <nav aria-label="Page navigation">
   <ul class="pagination">
     <li>
-      <a href="#" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
+      <span aria-hidden="true">&laquo; Previous</span>
     </li>
-    <li class="page-button" *ngFor="let number of pagination.pageList" [class.active]="number === pagination.currentPage" (click)="getUsersEditable(number)">
+    <li *ngFor="let number of pagination.pageList" [class.active]="number === pagination.currentPage" (click)="getUsersEditable(number)">
       {{number}}
     </li>
     <li>
-      <a href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
+      <span aria-hidden="true">Next &raquo;</span>
     </li>
   </ul>
 </nav>

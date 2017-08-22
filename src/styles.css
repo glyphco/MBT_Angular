@@ -111,7 +111,7 @@ If no grid support, limit width to 50em and center align
 /*------------------------------------------------------------
 Defaults
 ------------------------------------------------------------*/
-nav {
+nav.main-nav {
   /*height:60px;*/
   /*padding:5px;*/
   background-color:#000;
@@ -431,4 +431,36 @@ Form styles
 
 .form-control {
   margin:10px 0px;
+}
+
+/*------------------------------------------------------------
+Pagination classes
+------------------------------------------------------------*/
+.pagination {
+  list-style-type: none;
+  padding:0px;
+}
+.pagination li {
+  display:inline-block;
+  padding:5px 10px;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  font-weight: bold;
+  margin: 0px 2px;
+  cursor:pointer;
+}
+.pagination li:hover {
+  background-color:#000;
+  color:#fff;
+  font-weight:normal;
+  -o-transition:color .1s ease-out, background .1s ease-in;
+  -ms-transition:color .1s ease-out, background .1s ease-in;
+  -moz-transition:color .1s ease-out, background .1s ease-in;
+  -webkit-transition:color .1s ease-out, background .1s ease-in;
+  transition:color .1s ease-out, background .1s ease-in;
+}
+.pagination li.active {
+  background-color:#000;
+  color:#fff;
+  font-weight:normal;
 }
