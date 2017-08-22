@@ -232,15 +232,6 @@ export class MeService {
       .toPromise();
   }
 
-  public followUser(id:number):Promise<any>{
-    let options = {
-      status: 3
-    }
-    return this.httpHandlerService.post(`user/${id}/follow`, options)
-      .map(response => response.json())
-      .toPromise();
-  }
-
   public unfollowUser(id:number):Promise<any>{
     let options = {
       status: 1

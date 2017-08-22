@@ -6,12 +6,14 @@ import { User } from '../_models/user';
 @Component({
   selector: 'followers-blocked',
   template: `
-    <h3>Blocked users</h3>
+    <div class="list-header">
+      <h3>Blocked users</h3>
+    </div>
     <ul class="user-list-container">
       <li *ngFor="let user of users" class="user-container">
         <img src="{{user.avatar}}" /> <span>{{user.name}}</span>
 
-        <button (click)="unblockUser(user)">Unblock</button>
+        <button class="btn btn-primary" (click)="unblockUser(user)">Unblock</button>
       </li>
     </ul>
   `,
@@ -33,12 +35,15 @@ export class FollowersBlockedComponent implements OnInit {
   }
 
   public unblockUser(user:User){
-    this.removeUserFromList(user);
+    this.meService.unblockUser(user.id).then(response => {
+      this.removeUserFromList(user);
+    }).catch(error => {
+      console.log(error);
+    });
   }
 
   private removeUserFromList(user:User){
     let index = this.users.indexOf(user);
-    console.log(index);
     if(index !== -1){
       //element exists in our array
       this.users.splice(index, 1);

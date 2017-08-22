@@ -6,25 +6,22 @@ import { User } from '../_models/user';
 @Component({
   selector: 'pyf',
   template: `
-    <h3>People you follow</h3>
+    <div class="list-header">
+      <h3>People you follow</h3>
+    </div>
     <ul class="user-list-container">
       <li *ngFor="let user of users" class="user-container">
         <img src="{{user.avatar}}" /> <span>{{user.name}}</span>
-        
-
-        <ng-template #followBlock>
-          
-        </ng-template>
 
         <ng-container [ngSwitch]="user.youSeeUser">
           <ng-container *ngSwitchCase="3">
-            <button (click)="confirmUnfollowUser(user)">Unfollow</button>
+            <button class="btn btn-danger" (click)="confirmUnfollowUser(user)">Unfollow</button>
           </ng-container>
           <ng-container *ngSwitchCase="2">
-            <button (click)="unrequestUser(user)">Unrequest</button>
+            <button class="btn btn-warning" (click)="unrequestUser(user)">Unrequest</button>
           </ng-container>
           <ng-container *ngSwitchCase="1">
-            <button (click)="followUser(user)">Follow</button>
+            <button class="btn btn-primary" (click)="requestUser(user)">Follow</button>
           </ng-container>     
         </ng-container>
       </li>
@@ -34,9 +31,9 @@ import { User } from '../_models/user';
       <div class="modal-title">
         <h3><span>Wait.</span><b> Are you sure you want to unfollow {{selectedUser.name}}?</b></h3>
       </div>
-      <div class="modal-body">
-        <button class="btn default" (click)="unfollowUser(selectedUser)" style="margin-bottom:5px;">Unfollow</button>
-        <button class="btn danger" (click)="modalVisible = false">Cancel</button>
+      <div class="modal-body" style="padding:20px;">
+        <button class="btn-fluid danger" (click)="unfollowUser(selectedUser)" style="margin-bottom:5px;">Unfollow</button>
+        <button class="btn-fluid default" (click)="modalVisible = false">Cancel</button>
       </div>
     </modal>
   `,
@@ -75,9 +72,17 @@ export class PyfComponent implements OnInit {
     });
   }
 
-  public followUser(user:User){
-    this.meService.followUser(user.id).then(response => {
-      user.youSeeUser = +response.data.status;
+  public requestUser(user:User){
+    this.meService.requestUser(user.id).then(response => {
+      user.youSeeUser = response.data.youseeuser;
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  public unrequestUser(user:User){
+    this.meService.unrequestUser(user.id).then(response => {
+      user.youSeeUser = 1;
     }).catch(error => {
       console.log(error);
     });

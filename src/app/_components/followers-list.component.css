@@ -25,3 +25,8 @@
   float:right;
   margin-top:10px;
 }
+
+.list-header {
+  border-bottom:1px solid #ddd;
+  padding:5px 10px;
+}

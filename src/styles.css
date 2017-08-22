@@ -293,6 +293,13 @@ Helper classes
   background-color:#fff;
 }
 
+.mrgn-right {
+  margin-right:10px;
+}
+.mrgn-left {
+  margin-left:10px;
+}
+
 .inline-list > li {
   display:inline-block;
 }
@@ -306,7 +313,7 @@ Helper classes
 /*------------------------------------------------------------
 Button styles
 ------------------------------------------------------------*/
-.btn {
+.btn-fluid {
   width:100%;
   height:50px;
   padding:10px 15px;
@@ -316,16 +323,45 @@ Button styles
   cursor:pointer;
 }
 
-.btn.default {
+.btn {
+  padding:5px 20px;
+  border:1px solid #000;
+  display:inline-block;
+  background-color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+}
+/*
+.btn.danger, .btn-fluid.danger {
   background-color:#d12121;
   color:#fff;
   border-bottom:3px solid #990f0f;
   font-weight:bold;
 }
-.btn.danger {
+.btn.default, .btn-fluid.default {
   background-color:#ecf0f1;
+  border:none;
   color:#3e4b5c;
   border-bottom:3px solid #d6d7d9;
+  font-weight:bold;
+}*/
+.btn.btn-primary, .btn-fluid.default {
+  background-color:#fff;
+  color:#4286f4;
+  border:1px solid #4286f4;
+  font-weight:bold;
+}
+.btn.btn-danger, .btn-fluid.danger {
+  background-color:#fff;
+  color:#d12121;
+  border:1px solid #d12121;
+  font-weight:bold;
+}
+
+.btn.btn-warning, .btn-fluid.warning {
+  background-color:#fff;
+  color:#ba891f;
+  border:1px solid #ba891f;
   font-weight:bold;
 }
 

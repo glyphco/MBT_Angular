@@ -120,15 +120,15 @@ form fieldset a:hover { text-decoration: underline; }
 	width: 250px;
 } */
 
-.btn.facebook {
+.btn-fluid.facebook {
   background-color:#3b5998;
   color:#fff;
 }
-.btn.google {
+.btn-fluid.google {
   background-color:#df4b37;
   color:#fff;
 }
-.btn i {
+.btn-fluid i {
   margin-right:15px;
 }
 

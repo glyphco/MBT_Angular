@@ -3,20 +3,25 @@
   <div class="follow-main">
     <div class="follow-toolbar">
       <ul>
-        <li>
-          <i class="fa fa-bell" [class.active]="currentMode == 0" (click)="changeMode(0)" aria-hidden="true"></i><br />
+        <li [class.active]="currentMode == 0" (click)="changeMode(0)">
+          <i class="fa fa-bell" aria-hidden="true"></i><br />
+          <span>Requests</span>
         </li>
-        <li>
-          <i class="fa fa-users" [class.active]="currentMode == 1" (click)="changeMode(1)" aria-hidden="true"></i><br />
+        <li [class.active]="currentMode == 1" (click)="changeMode(1)">
+          <i class="fa fa-users" aria-hidden="true"></i><br />
+          <span>Followers</span>
         </li>
-        <li>
-          <i class="fa fa-star" [class.active]="currentMode == 2" (click)="changeMode(2)" aria-hidden="true"></i><br />
+        <li [class.active]="currentMode == 2" (click)="changeMode(2)">
+          <i class="fa fa-star" aria-hidden="true"></i><br />
+          <span>P.Y.F.</span>
         </li>
-        <li>
-          <i class="fa fa-ban" [class.active]="currentMode == 3" (click)="changeMode(3)" aria-hidden="true"></i>
+        <li [class.active]="currentMode == 3" (click)="changeMode(3)">
+          <i class="fa fa-ban" aria-hidden="true"></i><br />
+          <span>Blocked</span>
         </li>
       </ul>
     </div>
+    <br />
     <div class="follow-list">
       <follower-requests *ngIf="currentMode == 0"></follower-requests>
       <followers *ngIf="currentMode == 1"></followers>
