@@ -22,7 +22,7 @@ import { User } from '../_models/user';
             <button class="btn btn-primary" *ngIf="user.youSeeUser == 1" (click)="requestUser(user)">Follow</button>
             <button class="btn btn-warning" *ngIf="user.youSeeUser == 2" (click)="unrequestUser(user)">Unrequest</button>
             <button class="btn btn-danger" *ngIf="user.youSeeUser == 3" (click)="unfollowUser(user)">Unfollow</button>
-          </ng-container>   
+          </ng-container>
         </ng-container>
       </li>
     </ul>

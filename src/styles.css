@@ -331,6 +331,8 @@ Button styles
   font-weight:bold;
   cursor:pointer;
 }
+.btn:focus, .btn-fluid:focus {outline:0;}
+
 /*
 .btn.danger, .btn-fluid.danger {
   background-color:#d12121;
@@ -345,11 +347,37 @@ Button styles
   border-bottom:3px solid #d6d7d9;
   font-weight:bold;
 }*/
-.btn.btn-primary, .btn-fluid.default {
+
+.btn.btn-default, .btn-fluid.default {
+  background-color:#fff;
+  color:#606060;
+  border:1px solid #606060;
+  font-weight:bold;
+}
+.btn.btn-default:hover, .btn-fluid.default:hover {
+  background-color:#606060;
+  color:#fff;
+  font-weight:normal;
+  -o-transition:color .1s ease-out, background .1s ease-in;
+  -ms-transition:color .1s ease-out, background .1s ease-in;
+  -moz-transition:color .1s ease-out, background .1s ease-in;
+  -webkit-transition:color .1s ease-out, background .1s ease-in;
+  transition:color .1s ease-out, background .1s ease-in;
+}
+.btn.btn-primary, .btn-fluid.primary {
   background-color:#fff;
   color:#4286f4;
   border:1px solid #4286f4;
-  font-weight:bold;
+}
+.btn.btn-primary:hover, .btn-fluid.primary:hover {
+  background-color:#4286f4;
+  color:#fff;
+  font-weight:normal;
+  -o-transition:color .1s ease-out, background .1s ease-in;
+  -ms-transition:color .1s ease-out, background .1s ease-in;
+  -moz-transition:color .1s ease-out, background .1s ease-in;
+  -webkit-transition:color .1s ease-out, background .1s ease-in;
+  transition:color .1s ease-out, background .1s ease-in;
 }
 .btn.btn-danger, .btn-fluid.danger {
   background-color:#fff;
@@ -357,12 +385,31 @@ Button styles
   border:1px solid #d12121;
   font-weight:bold;
 }
-
+.btn.btn-danger:hover, .btn-fluid.danger:hover {
+  background-color:#d12121;
+  color:#fff;
+  font-weight:normal;
+  -o-transition:color .1s ease-out, background .1s ease-in;
+  -ms-transition:color .1s ease-out, background .1s ease-in;
+  -moz-transition:color .1s ease-out, background .1s ease-in;
+  -webkit-transition:color .1s ease-out, background .1s ease-in;
+  transition:color .1s ease-out, background .1s ease-in;
+}
 .btn.btn-warning, .btn-fluid.warning {
   background-color:#fff;
   color:#ba891f;
   border:1px solid #ba891f;
   font-weight:bold;
+}
+.btn.btn-warning:hover, .btn-fluid.warning:hover {
+  background-color:#ba891f;
+  color:#fff;
+  font-weight:normal;
+  -o-transition:color .1s ease-out, background .1s ease-in;
+  -ms-transition:color .1s ease-out, background .1s ease-in;
+  -moz-transition:color .1s ease-out, background .1s ease-in;
+  -webkit-transition:color .1s ease-out, background .1s ease-in;
+  transition:color .1s ease-out, background .1s ease-in;
 }
 
 /*------------------------------------------------------------
