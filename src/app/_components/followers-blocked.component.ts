@@ -13,7 +13,9 @@ import { User } from '../_models/user';
       <li *ngFor="let user of users" class="user-container">
         <img src="{{user.avatar}}" /> <span>{{user.name}}</span>
 
-        <button class="btn btn-primary" (click)="unblockUser(user)">Unblock</button>
+        <div class="buttons-container">
+          <button class="btn btn-primary" (click)="unblockUser(user)">Unblock</button>
+        </div>
       </li>
     </ul>
   `,

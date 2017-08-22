@@ -13,17 +13,19 @@ import { User } from '../_models/user';
       <li *ngFor="let user of users" class="user-container">
         <img src="{{user.avatar}}" /> <span>{{user.name}}</span>
 
-        <ng-container [ngSwitch]="user.youSeeUser">
-          <ng-container *ngSwitchCase="3">
-            <button class="btn btn-danger" (click)="confirmUnfollowUser(user)">Unfollow</button>
+        <div class="buttons-container">
+          <ng-container [ngSwitch]="user.youSeeUser">
+            <ng-container *ngSwitchCase="3">
+              <button class="btn btn-danger" (click)="confirmUnfollowUser(user)">Unfollow</button>
+            </ng-container>
+            <ng-container *ngSwitchCase="2">
+              <button class="btn btn-warning" (click)="unrequestUser(user)">Unrequest</button>
+            </ng-container>
+            <ng-container *ngSwitchCase="1">
+              <button class="btn btn-primary" (click)="requestUser(user)">Follow</button>
+            </ng-container>     
           </ng-container>
-          <ng-container *ngSwitchCase="2">
-            <button class="btn btn-warning" (click)="unrequestUser(user)">Unrequest</button>
-          </ng-container>
-          <ng-container *ngSwitchCase="1">
-            <button class="btn btn-primary" (click)="requestUser(user)">Follow</button>
-          </ng-container>     
-        </ng-container>
+        </div>
       </li>
     </ul>
 

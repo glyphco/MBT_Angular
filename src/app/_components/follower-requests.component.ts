@@ -13,17 +13,19 @@ import { User } from '../_models/user';
       <li *ngFor="let user of users" class="user-container">
         <img src="{{user.avatar}}" /> <span>{{user.name}}</span>
 
-        <ng-container [ngSwitch]="user.userSeesYou">
-          <ng-container *ngSwitchCase="2">
-            <button class="btn btn-danger" (click)="declineFollower(user)">Decline request</button>
-            <button class="btn btn-primary mrgn-right" (click)="acceptFollower(user)">Accept request</button>
+        <div class="buttons-container">
+          <ng-container [ngSwitch]="user.userSeesYou">
+            <ng-container *ngSwitchCase="2">
+              <button class="btn btn-primary mrgn-right" (click)="acceptFollower(user)">Accept request</button>
+              <button class="btn btn-danger" (click)="declineFollower(user)">Decline request</button>
+            </ng-container>
+            <ng-container *ngSwitchCase="3">
+              <button class="btn btn-primary" *ngIf="user.youSeeUser == 1" (click)="requestUser(user)">Follow</button>
+              <button class="btn btn-warning" *ngIf="user.youSeeUser == 2" (click)="unrequestUser(user)">Unrequest</button>
+              <button class="btn btn-danger" *ngIf="user.youSeeUser == 3" (click)="unfollowUser(user)">Unfollow</button>
+            </ng-container>
           </ng-container>
-          <ng-container *ngSwitchCase="3">
-            <button class="btn btn-primary" *ngIf="user.youSeeUser == 1" (click)="requestUser(user)">Follow</button>
-            <button class="btn btn-warning" *ngIf="user.youSeeUser == 2" (click)="unrequestUser(user)">Unrequest</button>
-            <button class="btn btn-danger" *ngIf="user.youSeeUser == 3" (click)="unfollowUser(user)">Unfollow</button>
-          </ng-container>
-        </ng-container>
+        </div>
       </li>
     </ul>
   `,
