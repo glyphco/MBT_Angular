@@ -43,7 +43,7 @@ export class PageCreateComponent {
   fileChange(imageField){
     let files = imageField.files;
     if(0 in files){
-      this.imageUploadService.uploadImageToS3(files[0], 'page', 1,'main').then(response => {
+      this.imageUploadService.uploadImageToS3(files[0], 'page', 1,'main', 50,100).then(response => {
         console.log(response);
       }).catch(error => console.log(error));
     }
