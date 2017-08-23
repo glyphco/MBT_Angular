@@ -18,7 +18,12 @@ declare var FB:any;
 
 @Injectable()
 
-export class AuthService {
+export class AuthService {  
+  private token = '';
+  private loggedInSource = new Subject<boolean>();
+  loggedIn$ = this.loggedInSource.asObservable();
+  authUrl = environment.authServer;
+
   constructor(
     private http: Http,
     private router:Router,
@@ -26,12 +31,8 @@ export class AuthService {
     private httpHandlerService:HttpHandlerService,
     private meService:MeService,
     private _zone:NgZone,
-    @Inject(DOCUMENT) private document: Document){}
-  
-  private token = '';
-  private loggedInSource = new Subject<boolean>();
-  loggedIn$ = this.loggedInSource.asObservable();
-  authUrl = environment.authServer;
+    @Inject(DOCUMENT) private document: Document
+  ){}
 
   isLoggedIn(){
     if (localStorage.getItem('token')) {
@@ -74,7 +75,7 @@ export class AuthService {
         });
         FB.AppEvents.logPageView();
     };
-
+    
     (function(d, s, id){
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) {return;}
@@ -87,11 +88,10 @@ export class AuthService {
     this.googleInit();
   }
 
-  //handle facebook response
   facebookLogin(){
-    FB.getLoginStatus(function(response) {
+    FB.login(function(response){
       this.showLoading();
-      if (response.status === 'connected') {
+      if(response.authResponse){
         let accessToken = response.authResponse.accessToken;
         this.getJWT('facebook', accessToken).then(token => {
           this.saveToken(token);
@@ -101,17 +101,15 @@ export class AuthService {
           this._zone.run(() => 
             this.login()
           );
-        }).catch(error => {
+        }).catch(error => { 
           this.hideLoading();
           console.log(error);
         })
-      } else if (response.status === 'unknown'){
-        this.redirectUserToFacebook();
       } else {
         this.hideLoading();
-        alert('Your browser does not support Facebook login');
+        console.log('User cancelled login or did not fully authorize.');
       }
-    }.bind(this));
+    }.bind(this))
   }
 
   //Shows facebook login dialog box if user isn't already signed in
@@ -151,9 +149,8 @@ export class AuthService {
   }
 
   googleLogin(){
-    let options = {};
     this.showLoading()
-    this.auth2.signIn(options).then(response => {
+    this.loginGoogle().then(response => {
       let authResponse = response.getAuthResponse();
       return this.getJWT('google', authResponse.access_token);
     }).then(token => {
@@ -165,8 +162,15 @@ export class AuthService {
         this.login()
       );
     }).catch(() => {
-      this.hideLoading()
-      console.log('Something went wrong when getting JWT token from API') 
+      this.hideLoading();
+      console.log('Something went wrong when getting JWT token from API or user closed Google popup');
+    });
+  }
+
+  private loginGoogle():Promise<any>{
+    let options = {};
+    return new Promise((resolve, reject) => {
+      resolve(this.auth2.signIn(options));
     });
   }
 
