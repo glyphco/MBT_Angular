@@ -40,7 +40,10 @@ export class VenuesEditableComponent implements OnInit {
     return options;
   }
 
-  getVenuesEditable(page:number):void {
+  getVenuesEditable(page:number) {
+    if(page < 0){
+      return false;
+    }
     let options = this.getOptions();
     this.venueService.getVenuesEditable(page, 100, options).then(venues => {
       this.venues = venues.json().data.data;

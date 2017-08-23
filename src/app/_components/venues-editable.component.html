@@ -48,13 +48,13 @@
 <nav aria-label="Page navigation">
   <ul class="pagination">
     <li>
-      <span aria-hidden="true">&laquo; Previous</span>
+      <span aria-hidden="true" (click)="getVenuesEditable(pagination.prevPage())">&laquo; Previous</span>
     </li>
     <li *ngFor="let number of pagination.pageList" [class.active]="number === pagination.currentPage" (click)="getVenuesEditable(number)">
       {{number}}
     </li>
     <li>
-      <span aria-hidden="true">Next &raquo;</span>
+      <span aria-hidden="true" (click)="getVenuesEditable(pagination.nextPage())">Next &raquo;</span>
     </li>
   </ul>
 </nav>

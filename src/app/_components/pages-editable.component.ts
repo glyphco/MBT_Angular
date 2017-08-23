@@ -41,6 +41,9 @@ export class PagesEditableComponent implements OnInit {
   }
 
   public getPagesEditable(page:number){
+    if(page < 0){
+      return false;
+    }
     let options = this.getOptions();
     this.pageService.getPagesEditable(page, 100, options).then(pages => {
       this.pages = pages.json().data.data;

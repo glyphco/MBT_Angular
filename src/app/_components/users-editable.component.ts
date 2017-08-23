@@ -40,6 +40,9 @@ export class UsersEditableComponent implements OnInit {
   }
 
   public getUsersEditable(page:number){
+    if(page < 0){
+      return false;
+    }
     let options = this.getOptions();
     this.userService.getUsersEditable(page, 100, options).then(users => {
       this.users = users.data;
@@ -48,21 +51,12 @@ export class UsersEditableComponent implements OnInit {
       this.pagination.setPage(page, perPage, totalObjects);
     }).catch(error => console.log(error));
   }
-   /*
-  public confirmPage(page){
-    this.userService.confirmPage(page.id).then(response => {
-      page.confirmed = 1;
-    }).catch(error => console.log(error));
-  }*/
 
   public setOrderBy(value){
     this.orderBy = value;
     this.getUsersEditable(1);
   }
-  public setPublic(value){
-    this.publicPrivate = value;
-    this.getUsersEditable(1);
-  }
+
   public setConfirmed(value){
     this.confirmedUnconfirmed = value;
     this.getUsersEditable(1);

@@ -31,4 +31,16 @@ export class Pagination {
     }
     return list;
   }
+
+  public prevPage(){
+    //Returns prev page or -1
+    let prevPage = this.currentPage - 1;
+    return prevPage < 1 ? -1 : prevPage; 
+  }
+
+  public nextPage(){
+    //Returns next page or -1
+    let nextPage = this.currentPage + 1;
+    return nextPage > this.totalPages ? -1 : nextPage; 
+  }
 }

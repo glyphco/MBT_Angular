@@ -40,6 +40,9 @@ export class EventsEditableComponent implements OnInit {
   }
 
   public getEventsEditable(page:number){
+    if(page < 0){
+      return false;
+    }
     let options = this.getOptions();
     this.eventService.getEventsEditable(page, 100, options).then(events => {
       this.events = events.json().data.data;

@@ -40,7 +40,10 @@ export class ShowsEditableComponent implements OnInit {
     return options;
   }
 
-  getShowsEditable(page:number):void {
+  getShowsEditable(page:number) {
+    if(page < 0){
+      return false;
+    }
     let options = this.getOptions();
     this.showService.getShowsEditable(page, 100, options).then(shows => {
       this.shows = shows.json().data.data;
