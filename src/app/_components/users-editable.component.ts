@@ -52,6 +52,13 @@ export class UsersEditableComponent implements OnInit {
     }).catch(error => console.log(error));
   }
 
+  public confirmUser(user){
+    this.userService.confirmUser(user.id).then(response => {
+      user.confirmed = 1;
+    }).catch(error => console.log(error));
+  }
+   
+
   public setOrderBy(value){
     this.orderBy = value;
     this.getUsersEditable(1);

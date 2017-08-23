@@ -42,6 +42,7 @@ export class User {
   imageUrl:string;
   backgroundUrl:string;
   neighborhood:string;
+  createdAt:string;
 
   public static arrayMap(json):User[]{
     let users:User[] = [];
@@ -95,6 +96,7 @@ export class User {
       currentUser.imageUrl = json.imageurl;
       currentUser.backgroundUrl = json.backgroundurl;
       currentUser.neighborhood = json.neighborhood;
+      currentUser.createdAt = json.created_at;
       return currentUser;
   }
 }

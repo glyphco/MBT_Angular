@@ -6,9 +6,9 @@
 </label>
 <select #orderBy (change)="setOrderBy(orderBy.value)">
   <option value="name">Name</option>
-  <option value="city">City</option>
-  <option value="likes">Likes</option>
-  <option value="events_count">Events</option>
+  <option value="email">Email</option>
+  <option value="created_at">Created at</option>
+  <option value="banned">Banned</option>
 </select>
 
 <label>
@@ -23,6 +23,8 @@
   <tr>
     <th>Name</th>
     <th>Email</th>
+    <th>Created at</th>
+    <th>Banned</th>
     <th>Confirm</th>
   </tr>
   <tr *ngFor="let user of users">
@@ -32,6 +34,8 @@
       </a>
     </td>
     <td>{{user.email}}</td>
+    <td>{{user.created_at}}</td>
+    <td><button *ngIf="user.is_banned" (click)="unbanUser(user)" class="btn btn-danger">Unban</button></td>
     <td><button *ngIf="!user.confirmed" (click)="confirmUser(user)" class="btn btn-primary">Confirm</button></td>
   </tr>
 </table>

@@ -57,4 +57,10 @@ export class UserService {
     return this.httpHandlerService.put(`user/${id}`, options)
       .toPromise();
   }
+
+  confirmUser(id:number){
+    return this.httpHandlerService.get(`user/${id}/confirm`)
+    .map(response => response.json().data)
+    .toPromise();
+  }
 }
