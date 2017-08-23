@@ -69,6 +69,7 @@ import { EventVenueService } from './_services/event-venue.service';
 import { LocationService } from './_services/location.service';
 import { MeService } from './_services/me.service';
 import { UserService } from './_services/user.service';
+import { ImageUploadService } from './_services/image-upload.service';
 
 @NgModule({
   declarations: [
@@ -145,7 +146,8 @@ import { UserService } from './_services/user.service';
     EventVenueService,
     LocationService,
     MeService,
-    UserService
+    UserService,
+    ImageUploadService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="main-content white">
   <h3>Create page</h3>
   <form (ngSubmit)="onSubmit()" #pageForm="ngForm">
     <div class="form-group" [class.has-error]="name.invalid && name.touched">
@@ -12,6 +12,10 @@
         </span>
       </div>
     </div>
+
+    <label for="event-image">Image</label>
+    <input id="event-image" type="file" (change)="fileChange(image)" name="image" #image />
+
     <div class="form-group">
       <label for="participant">Can perform at an event</label>
       <input type="checkbox" id="participant" [(ngModel)]="page.participant" name="participant" />

@@ -32,7 +32,7 @@ export class EventsTodayComponent implements OnInit, OnDestroy {
 
   ngOnInit():void{
     //Set up Google map
-    this.map = new google.maps.Map(document.getElementById('sidebar-map'), {
+    this.map = new google.maps.Map(this.document.getElementById('sidebar-map'), {
       disableDefaultUI: true
     });
     this.map.setCenter({lat: this.locationService.getLat(), lng: this.locationService.getLng()});

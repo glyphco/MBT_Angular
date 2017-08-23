@@ -5,6 +5,7 @@ import { Page } from '../_models/page';
 import { PageService } from '../_services/page.service';
 import { StatesHelper } from '../_helpers/states-helper';
 import { MeService } from '../_services/me.service';
+import { ImageUploadService } from '../_services/image-upload.service';
 
 @Component({
   selector: 'app-page-create',
@@ -21,7 +22,8 @@ export class PageCreateComponent {
     private route: ActivatedRoute,
     private location: Location,
     private meService: MeService,
-    private router: Router
+    private router: Router,
+    private imageUploadService: ImageUploadService
   ){}
 
   public goBack(): void {
@@ -37,4 +39,16 @@ export class PageCreateComponent {
       this.router.navigate(['/backstage']);
     }).catch(error => console.log(error));
   }
+
+  fileChange(imageField){
+    let files = imageField.files;
+    if(0 in files){
+      this.imageUploadService.uploadImageToS3(files[0], 'page', 1,'main').then(response => {
+        console.log(response);
+      }).catch(error => console.log(error));
+    }
+  }
+
+  
+
 }
