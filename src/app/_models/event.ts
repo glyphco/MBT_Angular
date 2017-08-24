@@ -36,7 +36,6 @@ export class Event {
   venueId:number;
   venueName:string;
   venueImageUrl:string;
-  venueTagline:string;
   tagline:string;
   categories = [];
   categoriesJson:any;
@@ -47,7 +46,6 @@ export class Event {
 
   //TODO: map these
   mveId:number;
-  info:string;
   privateInfo:string;
   ages = 0;
   agesWord = '';
@@ -112,7 +110,6 @@ export class Event {
     currentEvent.venueId = json.venue_id;
     currentEvent.venueName = json.venue_name;
     currentEvent.venueImageUrl = json.venue_imageurl;
-    currentEvent.venueTagline = json.venue_tagline;
     currentEvent.tagline = json.tagline;
 
     currentEvent.ages = json.ages;

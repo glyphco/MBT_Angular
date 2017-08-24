@@ -86,25 +86,11 @@
       <input type="text" class="form-control" id="website" placeholder="Website" 
         [(ngModel)]="venue.website" name="website" #website="ngModel">
     </div>
-    <div class="form-group">
-      <label for="phone">Phone number</label>
-      <input type="text" class="form-control" id="phone" placeholder="Phone number" [(ngModel)]="venue.phone" name="phone">
-    </div>
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="text" class="form-control" id="email" placeholder="Email" [(ngModel)]="venue.email" name="email">
-    </div>
     <div class="form-group" [class.has-error]="slug.invalid">
       <label for="slug">Slug</label>
       <input type="text" class="form-control" id="slug" placeholder="Slug" [(ngModel)]="venue.slug" name="slug"
         maxlength="60" #slug="ngModel">
         <span class="help-block">Slug cannot be more than 60 characters long.</span>
-    </div>
-    <div class="form-group" [class.has-error]="tagline.invalid">
-      <label for="tagline">Tagline</label>
-      <input type="text" class="form-control" id="tagline" placeholder="Tagline" [(ngModel)]="venue.tagline" name="tagline"
-        maxlength="50" #tagline="ngModel">
-      <span class="help-block">Tagline cannot be more than 50 characters long.</span>
     </div>
     <div class="form-group">
       <label for="description">Description</label>

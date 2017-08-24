@@ -10,8 +10,6 @@ export class Page {
   postalcode: string;
   lat: string;
   lng: string;
-  phone: string;
-  email: string;
   participant: boolean = true;
   production: boolean = false;
   canhavemembers: boolean;
@@ -19,7 +17,6 @@ export class Page {
   public: boolean = true;
   confirmed: boolean;
   tagline: string;
-  summary: string;
   description: string;
   imageUrl: string;
   backgroundUrl: string;
@@ -58,8 +55,6 @@ export class Page {
       currentPage.postalcode = json.postalcode; 
       currentPage.lat = json.lat; 
       currentPage.lng = json.lng; 
-      currentPage.phone = json.phone; 
-      currentPage.email = json.email; 
       currentPage.participant = json.participant; 
       currentPage.production = json.production; 
       currentPage.canhavemembers = json.canhavemembers; 
@@ -67,7 +62,6 @@ export class Page {
       currentPage.public = json.public; 
       currentPage.confirmed = json.confirmed; 
       currentPage.tagline = json.tagline; 
-      currentPage.summary = json.summary; 
       currentPage.description = json.description; 
       currentPage.imageUrl = json.imageurl; 
       currentPage.backgroundUrl = json.backgroundurl; 
