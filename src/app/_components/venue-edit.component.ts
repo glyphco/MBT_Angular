@@ -259,8 +259,6 @@ export class VenueEditComponent implements OnInit, OnDestroy {
     var unlockElements = [
       'neighborhood',
       'website',
-      'phone',
-      'email',
       'submit',
       'image',
       'background'
@@ -296,8 +294,6 @@ export class VenueEditComponent implements OnInit, OnDestroy {
       this.venue.neighborhood = this.coalesce(longcomponents.neighborhood,'');
       this.venue.website = this.coalesce(result.website,'');
       this.venue.googlePlaceId = this.coalesce(result.id,'');
-      this.venue.phone = this.coalesce(result.phone,'');
-      this.venue.email = this.coalesce(result.email,'');
     })
     /*
     for (var element in lockElements) {
@@ -326,8 +322,6 @@ export class VenueEditComponent implements OnInit, OnDestroy {
       'name',
       'neighborhood',
       'website',
-      'phone',
-      'email',
       'submit',
       'image',
       'background'
@@ -366,8 +360,6 @@ export class VenueEditComponent implements OnInit, OnDestroy {
     this.venue.neighborhood = this.coalesce(longcomponents.neighborhood,'');
     this.venue.website = '';
     this.venue.googlePlaceId = '';
-    this.venue.phone = '';
-    this.venue.email = '';
   }
 
   public coalesce(...args) {
