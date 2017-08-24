@@ -70,6 +70,7 @@ import { LocationService } from './_services/location.service';
 import { MeService } from './_services/me.service';
 import { UserService } from './_services/user.service';
 import { ImageUploadService } from './_services/image-upload.service';
+import { SocialLoginService } from './_services/social-login.service';
 
 @NgModule({
   declarations: [
@@ -134,8 +135,8 @@ import { ImageUploadService } from './_services/image-upload.service';
   providers: [
     AuthGuard,
     PublicGuard,
-    HttpHandlerService,
     AuthService,
+    HttpHandlerService,
     VenueService,
     EventService,
     JwtHelperService,
@@ -147,7 +148,8 @@ import { ImageUploadService } from './_services/image-upload.service';
     LocationService,
     MeService,
     UserService,
-    ImageUploadService
+    ImageUploadService,
+    SocialLoginService
   ],
   bootstrap: [AppComponent]
 })

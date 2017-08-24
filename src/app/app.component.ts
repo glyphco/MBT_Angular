@@ -21,7 +21,6 @@ export class AppComponent implements OnInit, OnDestroy {
   geocoder:any;
   marker:any;
   circle:any;
-  userLocation = 'Choose location'; //TODO: this should be able to go
   locationModalVisible = false;
   locationPickerVisible = false;
   routerOutletVisible = true;
@@ -41,17 +40,13 @@ export class AppComponent implements OnInit, OnDestroy {
     private meService:MeService){}
 
   ngOnInit(){
-    //set location name
-    //TODO: this should be able to go too
-    this.userLocation = this.locationService.getLocationName();
+    //check if me service is instantiated
+    if(this.authService.isLoggedIn()){
+      this.meService.initializeMe().catch(error => console.log(error));
+    }
 
     //set the logged in property
     this.loggedIn = this.authService.isLoggedIn();
-
-    //check if me service is instantiated
-    if(this.loggedIn){
-      this.meService.initializeMe();
-    }
     
     //listen to when the loggen in property changes
     this.subscription = this.authService.loggedIn$.subscribe(loggedInValue => {

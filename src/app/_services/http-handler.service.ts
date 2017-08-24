@@ -3,15 +3,20 @@ import { Headers, RequestOptions, Http } from '@angular/http';
 import { Observable }    from 'rxjs/Observable';
 import { Subject }    from 'rxjs/Subject';
 import { JwtHelperService } from './jwt-helper.service';
+import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/toPromise'; //TODO might need to remove this
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/observable/throw';
+//import 'rxjs/add/observable/from';
 
 @Injectable()
 
 export class HttpHandlerService {
-  constructor(private http: Http, private jwtHelperService:JwtHelperService) {}
+  constructor(private http: Http, private jwtHelperService:JwtHelperService, private authService:AuthService) {}
   private apiUrl = environment.apiServer;
   private authUrl = environment.authServer;
   private accessSource = new Subject<boolean>();
@@ -63,12 +68,18 @@ export class HttpHandlerService {
       //pause all other requests
       this.accessable = false;
       //get a new token and then complete request
-      return this.refreshToken()
-        .mergeMap((response) => {
+      return Observable.fromPromise(this.refreshToken())
+        .catch(error => {
+          //if the token is bad, log the user out
+          this.setAccessable(true);
+          this.authService.logout();
+          return Observable.throw(error);
+        })
+        .mergeMap(response => {
           this.setAccessable(true);
           let headers = this.getHeaders();
           return this.http.get(path, headers);
-        })
+      });
     } else if(this.accessable == true) {
       //token good/no token & no wait
       let headers = this.getHeaders();
@@ -76,12 +87,12 @@ export class HttpHandlerService {
     } else {
       let headers = this.getHeaders(); //this HAS to be inside the else
       return this.accessStream$
-              .mergeMap(access => {
-                if(access == true){
-                  let headers = this.getHeaders();
-                  return this.http.get(path, headers);
-                }
-              }).first();
+        .mergeMap(access => {
+          if(access == true){
+            let headers = this.getHeaders();
+            return this.http.get(path, headers);
+          }
+        }).first();
     }
   }
 
@@ -93,12 +104,18 @@ export class HttpHandlerService {
       //pause all other requests
       this.accessable = false;
       //get a new token and then complete request
-      return this.refreshToken()
-        .mergeMap((response) => {
+      return Observable.fromPromise(this.refreshToken())
+        .catch(error => {
+          //if the token is bad, log the user out
+          this.setAccessable(true);
+          this.authService.logout();
+          return Observable.throw(error);
+        })
+        .mergeMap(response => {
           this.setAccessable(true);
           let headers = this.getHeaders();
           return this.http.put(path, options, headers);
-        })
+      });
     } else if(this.accessable == true) {
       //token good/no token & no wait
       let headers = this.getHeaders();
@@ -106,12 +123,12 @@ export class HttpHandlerService {
     } else {
       let headers = this.getHeaders(); //this HAS to be inside the else
       return this.accessStream$
-              .mergeMap(access => {
-                if(access == true){
-                  let headers = this.getHeaders();
-                  return this.http.put(path, options, headers);
-                }
-              }).first();
+        .mergeMap(access => {
+          if(access == true){
+            let headers = this.getHeaders();
+            return this.http.put(path, options, headers);
+          }
+        }).first();
     }
   }
 
@@ -123,12 +140,18 @@ export class HttpHandlerService {
       //pause all other requests
       this.accessable = false;
       //get a new token and then complete request
-      return this.refreshToken()
-        .mergeMap((response) => {
+      return Observable.fromPromise(this.refreshToken())
+        .catch(error => {
+          //if the token is bad, log the user out
+          this.setAccessable(true);
+          this.authService.logout();
+          return Observable.throw(error);
+        })
+        .mergeMap(response => {
           this.setAccessable(true);
           let headers = this.getHeaders();
           return this.http.post(path, options, headers);
-        })
+      });
     } else if(this.accessable == true) {
       //token good/no token & no wait
       let headers = this.getHeaders();
@@ -136,12 +159,12 @@ export class HttpHandlerService {
     } else {
       let headers = this.getHeaders(); //this HAS to be inside the else
       return this.accessStream$
-              .mergeMap(access => {
-                if(access == true){
-                  let headers = this.getHeaders();
-                  return this.http.post(path, options, headers);
-                }
-              }).first();
+        .mergeMap(access => {
+          if(access == true){
+            let headers = this.getHeaders();
+            return this.http.post(path, options, headers);
+          }
+        }).first();
     }
   }
 
@@ -152,12 +175,19 @@ export class HttpHandlerService {
       //pause all other requests
       this.accessable = false;
       //get a new token and then complete request
-      return this.refreshToken()
-        .mergeMap((response) => {
+      return Observable.fromPromise(this.refreshToken())
+        .catch(error => {
+            //if the token is bad, log the user out
+            this.setAccessable(true);
+            this.authService.logout();
+            return Observable.throw(error);
+        })
+        .mergeMap(response => {
           this.setAccessable(true);
           let headers = this.getHeaders();
           return this.http.delete(path, headers);
-        })
+      });
+        
     } else if(this.accessable == true) {
       //token good/no token & no wait
       let headers = this.getHeaders();
@@ -165,12 +195,12 @@ export class HttpHandlerService {
     } else {
       let headers = this.getHeaders(); //this HAS to be inside the else
       return this.accessStream$
-              .mergeMap(access => {
-                if(access == true){
-                  let headers = this.getHeaders();
-                  return this.http.delete(path, headers);
-                }
-              }).first();
+        .mergeMap(access => {
+          if(access == true){
+            let headers = this.getHeaders();
+            return this.http.delete(path, headers);
+          }
+        }).first();
     }
   }
 
@@ -182,17 +212,17 @@ export class HttpHandlerService {
     return str.join("&");
   }
 
-  private refreshToken():Observable<any>{
+  private refreshToken():Promise<any>{
     let token = localStorage.getItem('token');
     const path = `${this.authUrl}/refreshJWT?token=${token}`;
     return this.http.get(path)
-            .map(response => {
-              let  headers = response.headers;
-              let newToken = headers.get('Authorization').substr(7);
-              let parsedToken = this.jwtHelperService.decodeToken(newToken);
-              localStorage.setItem('token', newToken);
-              localStorage.setItem('tokenExpires', parsedToken.exp);
-            });
+      .map(response => {
+        let  headers = response.headers;
+        let newToken = headers.get('Authorization').substr(7);
+        let parsedToken = this.jwtHelperService.decodeToken(newToken);
+        localStorage.setItem('token', newToken);
+        localStorage.setItem('tokenExpires', parsedToken.exp);
+      }).toPromise();
   }
 
   //TODO: fake error handler for testing
