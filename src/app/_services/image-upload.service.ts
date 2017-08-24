@@ -38,11 +38,6 @@ export class ImageUploadService {
       
       console.log('passed validation');
       this.processImage(file, width, height).then(image => {
-        console.log('got an image');
-        var img = this.document.createElement("img");
-        img.src = image;  
-        console.log(img);
-        
         this.getCredentials(item, itemId, folder).then((s3Credentials:any) => {
           //return this.getCredentials();
           let url = s3Credentials.url;
@@ -135,39 +130,24 @@ export class ImageUploadService {
       let imageHeight = img.height;
 
       var ctx = canvas.getContext("2d");
-      if(img.width < canvasWidth || img.height < canvasHeight){
-        let aspectRadio = img.height / img.width;
-        let newWidth:any;
-        let newHeight:any;
+      this.scale(canvasWidth, canvasHeight, imageWidth, imageHeight, (newWidth, newHeight) => {
         let xStart = 0;
         let yStart = 0;
-        if(img.height < img.width) {
-            //horizontal
-            aspectRadio = img.width / img.height;
-            newHeight   = canvasHeight;
-            newWidth    = aspectRadio * canvasHeight;
-            xStart      = -(newWidth - canvasWidth) / 2;
+        if(newHeight < newWidth) {
+            xStart = (canvasWidth - newWidth) / 2;
         } else {
-            //vertical
-            newWidth  = canvasWidth;
-            newHeight = aspectRadio * canvasHeight;
-            yStart    = -(newHeight - canvasHeight) / 2;
+            yStart = (canvasHeight - newHeight) / 2;
         }
-        console.log(xStart);
-        console.log(yStart);
         ctx.drawImage(img, xStart, yStart, newWidth, newHeight);
-        console.log('this WAS DRAWN');
+        /*
         let dataUrl = canvas.toDataURL('image/jpeg', 1);
-        callback(dataUrl);
-      }else {
+        callback(dataUrl);*/
         
-      }
-
-      /*
-      ctx.drawImage(img,
-        (img.width - canvasWidth) / 2,   // sx, 200 pixels to the left from center
-        (img.height - canvasHeight) / 2,  // sy, 175 pixels above center
-        canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);  // sw, sh, dx, dy, dw, dh
+        canvas.toBlob((image) => {
+          callback(image);
+        },'image/jpeg', 1);
+      });
+    /*
       
       //ctx.drawImage(img, 0, 0, width, height);  
       // Get this encoded as a jpeg  
@@ -177,6 +157,29 @@ export class ImageUploadService {
       },'image/jpeg', 1);*/
     }; 
   }
+
+  private scale(canvasWidth:number, canvasHeight:number, imageWidth:number, imageHeight:number, callback){
+    let aspectRatio = imageWidth/imageHeight;
+    let newWidth;
+    let newHeight;
+    if(imageWidth < imageHeight){
+      newHeight = canvasWidth/aspectRatio;
+      newWidth = canvasWidth;
+      if(newHeight < canvasHeight){
+        newWidth = canvasHeight * aspectRatio;
+        newHeight = canvasHeight;
+      }
+    }	else {
+      newWidth = aspectRatio * canvasHeight;
+      newHeight = canvasHeight;
+      if(newWidth < canvasWidth){
+        newHeight = canvasWidth/aspectRatio;
+        newWidth = canvasWidth;
+      }
+    }
+    callback(newWidth, newHeight);
+  }
+
   private resizeOriginal(img, MAX_WIDTH: number, MAX_HEIGHT: number, callback) {  
     // This will wait until the img is loaded before calling this function
     return img.onload = () => {
@@ -211,7 +214,7 @@ export class ImageUploadService {
   }
 
   private getS3Key(item, itemId, folder):Promise<any>{
-    let path = `signupload/${item}/${itemId}/main`;
+    let path = `signupload/${item}/${itemId}/${folder}`;
     return this.httpHandlerService.get(path)
       .map(response => response.json())
       .toPromise();
