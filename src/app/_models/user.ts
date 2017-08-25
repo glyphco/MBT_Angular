@@ -40,6 +40,8 @@ export class User {
   subLocationName:any;
   username:string;
   imageUrl:string;
+  imageSm:string;
+  imageLg:string;
   backgroundUrl:string;
   neighborhood:string;
   createdAt:string;
@@ -94,6 +96,14 @@ export class User {
       currentUser.subLocationName = json.sublocationname;
       currentUser.username = json.username;
       currentUser.imageUrl = json.imageurl;
+      if ( currentUser.imageUrl != null) { //
+        currentUser.imageSm = currentUser.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
+        currentUser.imageLg = currentUser.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
+      } else {
+        currentUser.imageUrl = currentUser.avatar
+        currentUser.imageSm = currentUser.avatar;
+        currentUser.imageLg = currentUser.avatar;
+      }
       currentUser.backgroundUrl = json.backgroundurl;
       currentUser.neighborhood = json.neighborhood;
       currentUser.createdAt = json.created_at;

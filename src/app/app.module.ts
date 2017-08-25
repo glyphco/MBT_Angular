@@ -65,7 +65,6 @@ import { JwtHelperService } from './_services/jwt-helper.service';
 import { PageService } from './_services/page.service';
 import { ShowService } from './_services/show.service';
 import { CategoryService } from './_services/category.service';
-import { EventVenueService } from './_services/event-venue.service';
 import { LocationService } from './_services/location.service';
 import { MeService } from './_services/me.service';
 import { UserService } from './_services/user.service';
@@ -144,7 +143,6 @@ import { SocialLoginService } from './_services/social-login.service';
     PageService,
     ShowService,
     CategoryService,
-    EventVenueService,
     LocationService,
     MeService,
     UserService,

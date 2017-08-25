@@ -4,6 +4,7 @@ import { MeService } from '../_services/me.service';
 import { HttpHandlerService } from '../_services/http-handler.service';
 import { User } from '../_models/user';
 import { UserService } from '../_services/user.service';
+import { ImageUploadService } from '../_services/image-upload.service';
 import { DateTime } from '../_helpers/date-time.service';
 import { StatesHelper } from '../_helpers/states-helper';
 
@@ -16,10 +17,13 @@ export class ProfileEditComponent implements OnInit {
   role = 'nothing';
   states = StatesHelper.states;
   user = new User();
+  image:any;
+
   constructor(
     private meService: MeService,
     private router: Router,
-    private httpHandlerService:HttpHandlerService
+    private httpHandlerService:HttpHandlerService,
+    private imageUploadService:ImageUploadService
   ){}
 
   ngOnInit():void{
@@ -35,9 +39,22 @@ export class ProfileEditComponent implements OnInit {
   }
 
   public onSubmit(){
-    console.log(this.user);
-    this.meService.updateMe(this.user).then(response => {
-      this.router.navigate(['/user', this.user.id]);
-    }).catch(error => console.log(error));
+    if(this.image){
+      this.imageUploadService.uploadImageToS3(this.image, 'user', this.user.id, 'main').then((imageUrl:string) => {
+        this.user.imageUrl = imageUrl;
+        return this.meService.updateMe(this.user);
+      }).then(response => {
+        this.router.navigate(['/user', this.user.id]);
+      }).catch(error => console.log(error));
+    }else{
+      this.meService.updateMe(this.user).then(response => {
+        this.router.navigate(['/user', this.user.id]);
+      }).catch(error => console.log(error));
+    }
+  }
+
+  fileChange(imageField){
+    //store file temporarily
+    this.image = imageField.files[0];
   }
 }

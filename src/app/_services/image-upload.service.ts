@@ -31,7 +31,7 @@ export class ImageUploadService {
         'event':{
           folders:{
             //other image sizes to be saved with original (eg. originalname_sm.jpg)
-            main:[{width:200,height:259,ext:'sm'}, {width:800,height:837,ext:'lg'}]
+            main:[{width:200,height:259,ext:'sm'}, {width:800,height:1037,ext:'lg'}]
           }
         },
         'mve':{

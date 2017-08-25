@@ -19,6 +19,8 @@ export class Page {
   tagline: string;
   description: string;
   imageUrl: string;
+  imageSm: string;
+  imageLg: string;
   backgroundUrl: string;
   createdAt: string;
   updatedAt: string;
@@ -64,6 +66,10 @@ export class Page {
       currentPage.tagline = json.tagline; 
       currentPage.description = json.description; 
       currentPage.imageUrl = json.imageurl; 
+      if ( currentPage.imageUrl != null) { //
+        currentPage.imageSm = currentPage.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
+        currentPage.imageLg = currentPage.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
+      }
       currentPage.backgroundUrl = json.backgroundurl; 
       currentPage.createdAt = json.created_at; 
       currentPage.updatedAt = json.updated_at; 

@@ -52,6 +52,7 @@ export class ShowService {
       slug: show.slug,
       confirmed: show.confirmed,
       public: show.public,
+      imageurl: show.imageUrl,
       categories: JSON.stringify(categories)
     }
     return this.httpHandlerService.put(`show/${id}`, options)
@@ -80,6 +81,7 @@ export class ShowService {
       categories: categories.length > 0 ? JSON.stringify(categories) : undefined
     }
     return this.httpHandlerService.post('show', options)
+      .map(response => response.json())
       .toPromise();
   }
 

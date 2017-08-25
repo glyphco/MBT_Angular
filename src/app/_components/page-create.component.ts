@@ -16,6 +16,7 @@ export class PageCreateComponent {
   page = new Page;
   states = StatesHelper.states;
   pageCategories = [];
+  image:any;
 
   constructor(
     private pageService:PageService,
@@ -36,19 +37,23 @@ export class PageCreateComponent {
 
   private createPage(){
     this.pageService.createPage(this.page, this.pageCategories).then(response => {
-      this.router.navigate(['/backstage']);
+      this.page.id = response.data.id;
+      return this.image ? this.imageUploadService.uploadImageToS3(this.image, 'page', this.page.id, 'main')
+        : Promise.resolve(false);
+    }).then((imageUrl:string) => {
+      if(imageUrl){
+        this.page.imageUrl = imageUrl;
+        return this.pageService.updatePage(this.page, this.pageCategories);
+      }else{
+        return Promise.resolve(true);
+      }
+    }).then(response => {
+      this.router.navigate(['/pages/editable']);
     }).catch(error => console.log(error));
   }
 
   fileChange(imageField){
-    let files = imageField.files;
-    if(0 in files){
-      this.imageUploadService.uploadImageToS3(files[0], 'page', 1,'main', 350,350).then(response => {
-        console.log(response);
-      }).catch(error => console.log(error));
-    }
+    //store file temporarily
+    this.image = imageField.files[0];
   }
-
-  
-
 }

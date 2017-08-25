@@ -1,6 +1,5 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
-import { FileUploader } from 'ng2-file-upload';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { StatesHelper } from '../_helpers/states-helper';
@@ -13,6 +12,7 @@ import { Show } from '../_models/show';
 import { EventService } from '../_services/event.service';
 import { LocationService } from '../_services/location.service';
 import { MeService } from '../_services/me.service';
+import { ImageUploadService } from '../_services/image-upload.service';
 import { Observable }        from 'rxjs/Observable';
 import { Subject }           from 'rxjs/Subject';
 import * as moment from 'moment-timezone'; // add this 1 of 4
@@ -32,16 +32,12 @@ declare var google:any;
   styleUrls: ['./modal.component.css','./event-create.component.css']
 })
 export class EventCreateComponent implements OnInit {
-  private apiEventId:number;
-  uploadUrl:string;
-  public uploader:FileUploader = new FileUploader({url: 'hello'});
   event = new Event();
   eventCategories = [];
   venue:Venue;
   shows = [];
   image:any;
   file_srcs = [];
-  jpegImage:any;
   startDateTime = new DateTime();
   endDateTime = new DateTime();
   tempVenue:Venue; //used for creating a custom venue
@@ -90,6 +86,7 @@ export class EventCreateComponent implements OnInit {
     private _ngZone: NgZone,
     private router: Router,
     private meService: MeService,
+    private imageUploadService: ImageUploadService,
     private locationService: LocationService
   ){}
 
@@ -441,60 +438,22 @@ export class EventCreateComponent implements OnInit {
   }
 
   private saveEvent(params){
+    let apiEventId; //id returned from API
     this.eventService.createEvent(params).then((event) => {
-        return this.getS3Key(event.id);
-    }).then((s3Credentials) => {
-        if(s3Credentials){ //returns false if no image
-          let url = s3Credentials.url;
-          delete s3Credentials.url; //remove it from regular credentials
-          return this.saveImage(s3Credentials, url);
-        }
-        return Promise.resolve(false);
+      apiEventId = event.id;
+      return this.image ? this.imageUploadService.uploadImageToS3(this.image, 'event', apiEventId, 'main')
+          : Promise.resolve(false);
     }).then((imageUrl) => {
-      return imageUrl ? this.saveImageUrlToEvent(imageUrl): Promise.resolve(true);
+      return imageUrl ? this.saveImageUrlToEvent(imageUrl, apiEventId): Promise.resolve(true);
     }).then((response) => {
       //TODO: handle event save
-      this.router.navigate(['backstage']);
+      this.router.navigate(['/events/editable']);
     }).catch(error => console.log(error));
   }
 
-  private getS3Key(eventId){
+  private saveImageUrlToEvent(imageUrl, eventId){
     return new Promise((resolve, reject) => {
-      if(this.jpegImage){
-        this.eventService.getS3Key(eventId).then(response => {
-          let timestamp = new Date().getTime();
-          let s3Credentials = response.additionalData;
-          s3Credentials.key = `event/${eventId}/main/${timestamp}.jpg`;
-          s3Credentials.url = response.attributes.action;
-          resolve(s3Credentials);
-        }).catch(error => reject('S3 Credentials unavailable'));
-      }else{
-        resolve(false);
-      }
-    });
-  }
-
-  private saveImage(s3Credentials, url){
-    return new Promise((resolve, reject) => {
-      if(this.jpegImage){
-        this.eventService.s3SaveImage(s3Credentials, url, this.jpegImage)
-          .map(response => {
-            //return the url to the file on s3
-            if(response.status === 204){
-              resolve(`${url}/${s3Credentials.key}`);
-            }else{
-              reject('S3 image save failed');
-            }
-          }).subscribe();
-      }else{
-        resolve(false);
-      }
-    });
-  }
-
-  private saveImageUrlToEvent(imageUrl){
-    return new Promise((resolve, reject) => {
-      this.eventService.saveImageUrl(this.apiEventId, imageUrl).then(response => {
+      this.eventService.saveImageUrl(eventId, imageUrl).then(response => {
         //return the url to the file on s3
         resolve(true);
       }).catch(error => reject('Attaching image to event failed.'));
@@ -546,76 +505,7 @@ export class EventCreateComponent implements OnInit {
   }
 
   fileChange(imageField){
-    this.readFiles(imageField.files);
-  }
-
-  readFiles(files, index = 0) {  
-      // Create the file reader  
-      let reader = new FileReader();  
-      // If there is a file  
-      if (index in files) {  
-        // Start reading this file  
-        this.readFile(files[index], reader, (result) => {  
-            // Create an img element and add the image file data to it  
-            var img = document.createElement("img");  
-            img.src = result;  
-            // Send this img to the resize function (and wait for callback)  
-            this.resize(img, 200, 200, (resized_jpeg, before, after) => {  
-                // For debugging (size in bytes before and after)  
-                //this.debug_size_before.push(before);  
-                //this.debug_size_after.push(after);  
-                // Add the resized jpeg img source to a list for preview  
-                // This is also the file you want to upload. (either as a  
-                // base64 string or img.src = resized_jpeg if you prefer a file).  
-                this.jpegImage = resized_jpeg;
-                // Read the next file;  
-                this.readFiles(files, index + 1);  
-            });  
-        });  
-      } else {  
-        // When all files are done This forces a change detection  
-        //this.changeDetectorRef.detectChanges();  
-      }  
-  }
-
-  private readFile(file, reader, callback) {  
-    reader.onload = () => {  
-        callback(reader.result);  
-        this.image = reader.result;   
-    }  
-    reader.readAsDataURL(file);  
-  }
-
-  private resize(img, MAX_WIDTH: number, MAX_HEIGHT: number, callback) {  
-    // This will wait until the img is loaded before calling this function  
-    return img.onload = () => {  
-        // Get the images current width and height  
-        var width = img.width;  
-        var height = img.height;  
-        // Set the WxH to fit the Max values (but maintain proportions)
-        if (width > height) {  
-            if (width > MAX_WIDTH) {  
-                height *= MAX_WIDTH / width;  
-                width = MAX_WIDTH;  
-            }  
-        } else {  
-            if (height > MAX_HEIGHT) {  
-                width *= MAX_HEIGHT / height;  
-                height = MAX_HEIGHT;  
-            }  
-        }
-        // create a canvas object  
-        var canvas = document.createElement("canvas");  
-        // Set the canvas to the new calculated dimensions  
-        canvas.width = width;  
-        canvas.height = height;  
-        var ctx = canvas.getContext("2d");  
-        ctx.drawImage(img, 0, 0, width, height);  
-        // Get this encoded as a jpeg  
-        // IMPORTANT: 'jpeg' NOT 'jpg'  
-        var dataUrl = canvas.toDataURL('image/jpeg');  
-        // callback with the results  
-        callback(dataUrl, img.src.length, dataUrl.length);  
-    }; 
+    //store file temporarily
+    this.image = imageField.files[0];
   }
 }

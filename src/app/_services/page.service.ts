@@ -48,6 +48,7 @@ export class PageService {
   }
   
   updatePage(page:Page, categories):Promise<any>{
+    //categories must be sent every time
     let id = page.id;
     let options = {
       name: page.name,
@@ -61,6 +62,7 @@ export class PageService {
       production: page.production,
       slug: page.slug,
       tagline: page.tagline,
+      imageurl:page.imageUrl,
       categories: JSON.stringify(categories)
     }
     return this.httpHandlerService.put(`page/${id}`, options)
@@ -99,6 +101,7 @@ export class PageService {
       categories: categories.length > 0 ? JSON.stringify(categories) : undefined
     }
     return this.httpHandlerService.post('page', options)
+      .map(response => response.json())
       .toPromise();
   }
 }

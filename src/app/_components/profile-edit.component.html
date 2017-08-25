@@ -23,6 +23,10 @@
         </span>
       </div>
     </div>
+
+    <label for="venue-image">Image</label>
+    <input id="venue-image" type="file" (change)="fileChange(image)" name="image" #image />
+
     <div class="form-group" [class.has-error]="email.invalid && email.touched">
       <label for="email">Email</label>
       <input type="text" class="form-control" id="email" placeholder="Email" [(ngModel)]="user.email" name="email" required #email="ngModel">

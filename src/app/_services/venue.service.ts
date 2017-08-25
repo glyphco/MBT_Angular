@@ -58,6 +58,7 @@ export class VenueService {
       slug: venue.slug,
     }
     return this.httpHandlerService.post('venue', params)
+      .map(response => response.json())
       .toPromise();
   }
 
@@ -88,7 +89,8 @@ export class VenueService {
       postalcode: venue.postalCode,
       neighborhood: venue.neighborhood,
       website: venue.website,
-      slug: venue.slug,
+      imageurl: venue.imageUrl,
+      slug: venue.slug
     }
     return this.httpHandlerService.put(`venue/${venue.id}`, params)
       .toPromise();

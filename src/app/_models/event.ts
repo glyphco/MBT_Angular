@@ -11,6 +11,8 @@ export class Event {
   description:string;
   end:string;
   imageUrl:string;
+  imageSm:string;
+  imageLg:string;
   lat:number;
   lng:number;
   distance:number;
@@ -36,6 +38,8 @@ export class Event {
   venueId:number;
   venueName:string;
   venueImageUrl:string;
+  venueImageSm:string;
+  venueImageLg:string;
   tagline:string;
   categories = [];
   categoriesJson:any;
@@ -82,6 +86,10 @@ export class Event {
     currentEvent.description = json.description;
     currentEvent.end = json.end;
     currentEvent.imageUrl = json.imageurl;
+    if ( currentEvent.imageUrl != null) { //
+      currentEvent.imageSm = currentEvent.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
+      currentEvent.imageLg = currentEvent.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
+    }
     currentEvent.lat = +json.lat;
     currentEvent.lng = +json.lng;
     currentEvent.distance = json.distance;
@@ -110,6 +118,10 @@ export class Event {
     currentEvent.venueId = json.venue_id;
     currentEvent.venueName = json.venue_name;
     currentEvent.venueImageUrl = json.venue_imageurl;
+    if ( currentEvent.venueImageUrl != null) { //
+      currentEvent.venueImageSm = currentEvent.venueImageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
+      currentEvent.venueImageLg = currentEvent.venueImageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
+    }
     currentEvent.tagline = json.tagline;
 
     currentEvent.ages = json.ages;
@@ -200,6 +212,8 @@ class ParticipantPivot {
   info:string;
   privateInfo:string;
   imageUrl:string;
+  imageSm:string;
+  imageLg:string;
   start:any;
   end:any;
   order:number;
@@ -228,6 +242,10 @@ class ParticipantPivot {
     currentParticipant.info = json.info;
     currentParticipant.privateInfo = json.private_info;
     currentParticipant.imageUrl = json.imageurl;
+    if ( currentParticipant.imageUrl != null) { //
+      currentParticipant.imageSm = currentParticipant.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
+      currentParticipant.imageLg = currentParticipant.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
+    }
     currentParticipant.start = json.start;
     currentParticipant.end = json.end;
     currentParticipant.order = json.order;
@@ -244,6 +262,8 @@ class ProducerPivot {
   info:string;
   privateInfo:string;
   imageUrl:string;
+  imageSm:string;
+  imageLg:string;
   order:number;
   public:boolean;
   confirmed:boolean;
@@ -270,6 +290,10 @@ class ProducerPivot {
     currentProducer.info = json.info;
     currentProducer.privateInfo = json.private_info;
     currentProducer.imageUrl = json.imageurl;
+    if ( currentProducer.imageUrl != null) { //
+      currentProducer.imageSm = currentProducer.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
+      currentProducer.imageLg = currentProducer.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
+    }
     currentProducer.order = json.order;
     currentProducer.public = json.public;
     currentProducer.confirmed = json.confirmed;
@@ -284,6 +308,8 @@ class ShowPivot {
   name:string;
   info:string;
   imageUrl:string;
+  imageSm:string;
+  imageLg:string;
   order:number;
 
   public static arrayMap(json):ShowPivot[]{
@@ -307,6 +333,10 @@ class ShowPivot {
     currentShow.name = json.name;
     currentShow.info = json.info;
     currentShow.imageUrl = json.imageurl;
+    if ( currentShow.imageUrl != null) { //
+      currentShow.imageSm = currentShow.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
+      currentShow.imageLg = currentShow.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
+    }
     currentShow.order = json.order;
     return currentShow;
   }

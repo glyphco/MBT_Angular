@@ -8,6 +8,8 @@ export class Show {
   tagline: string;
   slug: string;
   imageUrl: string;
+  imageSm: string;
+  imageLg: string;
   backgroundUrl: string;
   public: boolean = true;
   categoriesJson:any;
@@ -41,6 +43,10 @@ export class Show {
       currentShow.tagline = json.tagline;
       currentShow.slug = json.slug;
       currentShow.imageUrl = json.imageurl;
+      if ( currentShow.imageUrl != null) { //
+        currentShow.imageSm = currentShow.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
+        currentShow.imageLg = currentShow.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
+      }
       currentShow.backgroundUrl = json.backgroundurl;
       currentShow.public = json.public;
       currentShow.confirmed = json.confirmed;
