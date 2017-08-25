@@ -37,7 +37,6 @@ export class EventCreateComponent implements OnInit {
   venue:Venue;
   shows = [];
   image:any;
-  file_srcs = [];
   startDateTime = new DateTime();
   endDateTime = new DateTime();
   tempVenue:Venue; //used for creating a custom venue
