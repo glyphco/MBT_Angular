@@ -60,10 +60,7 @@ export class PageService {
       participant: page.participant,
       production: page.production,
       slug: page.slug,
-      phone: page.phone,
-      email: page.email,
       tagline: page.tagline,
-      summary: page.summary,
       categories: JSON.stringify(categories)
     }
     return this.httpHandlerService.put(`page/${id}`, options)
@@ -98,10 +95,7 @@ export class PageService {
       participant: page.participant,
       production: page.production,
       slug: page.slug,
-      phone: page.phone,
-      email: page.email,
       tagline: page.tagline,
-      summary: page.summary,
       categories: categories.length > 0 ? JSON.stringify(categories) : undefined
     }
     return this.httpHandlerService.post('page', options)

@@ -55,10 +55,7 @@ export class VenueService {
       postalcode: venue.postalCode,
       neighborhood: venue.neighborhood,
       website: venue.website,
-      phone: venue.phone,
-      email: venue.email,
       slug: venue.slug,
-      tagline: venue.tagline
     }
     return this.httpHandlerService.post('venue', params)
       .toPromise();
@@ -91,10 +88,7 @@ export class VenueService {
       postalcode: venue.postalCode,
       neighborhood: venue.neighborhood,
       website: venue.website,
-      phone: venue.phone,
-      email: venue.email,
       slug: venue.slug,
-      tagline: venue.tagline
     }
     return this.httpHandlerService.put(`venue/${venue.id}`, params)
       .toPromise();

@@ -248,8 +248,6 @@ export class VenueCreateComponent implements OnInit {
     var unlockElements = [
       'neighborhood',
       'website',
-      'phone',
-      'email',
       'submit',
       'image',
       'background'
@@ -285,8 +283,8 @@ export class VenueCreateComponent implements OnInit {
       this.venue.neighborhood = this.coalesce(longcomponents.neighborhood,'');
       this.venue.website = this.coalesce(result.website,'');
       this.venue.googlePlaceId = this.coalesce(result.id,'');
-      this.venue.phone = this.coalesce(result.phone,'');
-      this.venue.email = this.coalesce(result.email,'');
+      //this.venue.phone = this.coalesce(result.phone,'');
+      //this.venue.email = this.coalesce(result.email,'');
     })
     /*
     for (var element in lockElements) {
@@ -315,8 +313,6 @@ export class VenueCreateComponent implements OnInit {
       'name',
       'neighborhood',
       'website',
-      'phone',
-      'email',
       'submit',
       'image',
       'background'
@@ -355,8 +351,8 @@ export class VenueCreateComponent implements OnInit {
     this.venue.neighborhood = this.coalesce(longcomponents.neighborhood,'');
     this.venue.website = '';
     this.venue.googlePlaceId = '';
-    this.venue.phone = '';
-    this.venue.email = '';
+    //this.venue.phone = '';
+    //this.venue.email = '';
   }
 
   public coalesce(...args) {

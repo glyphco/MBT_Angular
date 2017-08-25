@@ -48,7 +48,6 @@ export class ShowService {
     let options = {
       name: show.name,
       description: show.description,
-      summary: show.summary,
       tagline: show.tagline,
       slug: show.slug,
       confirmed: show.confirmed,
@@ -74,7 +73,6 @@ export class ShowService {
     let options = {
       name: show.name,
       description: show.description,
-      summary: show.summary,
       tagline: show.tagline,
       slug: show.slug,
       confirmed: show.confirmed,
