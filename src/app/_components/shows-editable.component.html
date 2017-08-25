@@ -30,17 +30,21 @@
 </select>
 <table class="table table-bordered table-striped">
   <tr>
+    <th></th>
     <th>Name</th>
-    <th>Description</th>
+    <th>Tagline</th>
     <th>Confirm</th>
   </tr>
   <tr *ngFor="let show of shows">
+    <td>
+      <img class="image-micro" src="{{ show.imageurl }}">
+    </td>
     <td>
       <a [routerLink]="['/show/edit', show.id]">
         {{show.name}}
       </a>
     </td>
-    <td>{{show.description}}</td>
+    <td>{{show.tagline}}</td>
     <td><button *ngIf="!show.confirmed" (click)="confirmShow(show)" class="btn btn-primary">Confirm</button></td>
   </tr>
 </table>

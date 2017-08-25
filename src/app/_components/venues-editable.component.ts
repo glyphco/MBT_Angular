@@ -7,7 +7,7 @@ import { MeService } from '../_services/me.service';
 @Component({
   selector: 'app-venues',
   templateUrl: './venues-editable.component.html',
-  styleUrls: ['./events-editable.component.css']
+  styleUrls: ['./backstage.component.css']
 })
 export class VenuesEditableComponent implements OnInit {
   

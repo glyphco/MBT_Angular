@@ -7,7 +7,7 @@ import { Pagination } from '../_helpers/pagination';
 @Component({
   selector: 'app-events',
   templateUrl: './events-editable.component.html',
-  styleUrls: ['./events-editable.component.css']
+  styleUrls: ['./backstage.component.css']
 })
 export class EventsEditableComponent implements OnInit {
   pagination = new Pagination();

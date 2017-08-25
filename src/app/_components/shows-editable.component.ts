@@ -7,7 +7,7 @@ import { Pagination } from '../_helpers/pagination';
 @Component({
   selector: 'app-shows',
   templateUrl: './shows-editable.component.html',
-  styleUrls: ['./events-editable.component.css']
+  styleUrls: ['./backstage.component.css']
 })
 export class ShowsEditableComponent implements OnInit {
   

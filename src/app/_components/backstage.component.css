@@ -1,3 +1,13 @@
 .category-container {
   margin-bottom:20px;
 }
+
+.image-micro {
+	height:1em;
+	width:1em;
+}
+
+.image-micro-event {
+	height:1em;
+	width:.8em;
+}

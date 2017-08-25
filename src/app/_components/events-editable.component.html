@@ -31,6 +31,7 @@
 </select>
 <table class="table table-bordered table-striped">
   <tr>
+    <th></th>
     <th>Date</th>
     <th>Name</th>
     <th>Venue</th>
@@ -38,6 +39,9 @@
     <th>Confirm</th>
   </tr>
     <tr *ngFor="let event of events">
+      <td>
+        <img class="image-micro-event" src="{{ event.imageurl }}">
+      </td>
       <td>{{event.local_start | dateFormatter:'YYYY MMM DD' }}</td>
       <td>
         <a [routerLink]="['/event/edit', event.id]">

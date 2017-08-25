@@ -31,11 +31,15 @@
 </select>
 <table class="table table-bordered table-striped">
   <tr>
+    <th></th>
     <th>Name</th>
     <th>Email</th>
     <th>Confirm</th>
   </tr>
   <tr *ngFor="let page of pages">
+    <td>
+      <img class="image-micro" src="{{ page.imageurl }}">
+    </td>
     <td>
       <a [routerLink]="['/page/edit', page.id]">
         {{page.name}}

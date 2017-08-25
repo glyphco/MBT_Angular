@@ -8,7 +8,7 @@ import { MeService } from '../_services/me.service';
 @Component({
   selector: 'app-pages',
   templateUrl: './pages-editable.component.html',
-  styleUrls: ['./events-editable.component.css']
+  styleUrls: ['./backstage.component.css']
 })
 export class PagesEditableComponent implements OnInit {
   pagination = new Pagination();

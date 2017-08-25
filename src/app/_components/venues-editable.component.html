@@ -31,13 +31,14 @@
 </select>
 <table class="table table-bordered table-striped">
   <tr>
+    <th></th>
     <th>Name</th>
     <th>City</th>
     <th>Confirm</th>
   </tr>
   <tr *ngFor="let venue of venues">
     <td>
-      <img class="" src="{{ venue.imageUrl }}" style="height:16">
+      <img class="image-micro" src="{{ venue.imageurl }}">
     </td>
     <td>
       <a [routerLink]="['/venue/edit',venue.id]">

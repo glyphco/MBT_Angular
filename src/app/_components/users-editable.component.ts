@@ -7,7 +7,7 @@ import { MeService } from '../_services/me.service';
 @Component({
   selector: 'app-users-editable',
   templateUrl: './users-editable.component.html',
-  styleUrls: ['./events-editable.component.css']
+  styleUrls: ['./backstage.component.css']
 })
 export class UsersEditableComponent implements OnInit {
   pagination = new Pagination();
