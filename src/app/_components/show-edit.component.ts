@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { Show } from '../_models/show';
 import { ShowService } from '../_services/show.service';
 import { MeService } from '../_services/me.service';
+import { ImageUploadService } from '../_services/image-upload.service';
 
 @Component({
   selector: 'app-show-edit',
@@ -14,13 +15,15 @@ export class ShowEditComponent implements OnInit, OnDestroy {
   show = new Show;
   private sub: any;
   showCategories = [];
+  image:any;
 
   constructor(
     private showService:ShowService,
     private route: ActivatedRoute,
     private location: Location,
     private meService: MeService,
-    private router: Router
+    private router: Router,
+    private imageUploadService:ImageUploadService
   ){}
 
   ngOnInit():void{
@@ -42,15 +45,28 @@ export class ShowEditComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(){
-    this.showService.updateShow(this.show, this.showCategories).then(response => {
-      this.router.navigate(['/backstage']);
+    this.uploadImageIfExist().then((imageUrl:any) => {
+      return this.showService.updateShow(this.show, this.showCategories);
+    }).then(response => {
+      this.router.navigate(['/shows/editable']);
     }).catch(error => console.log(error));
-    console.log('the form was submitted');
   }
 
   public deleteShow(){
     this.showService.deleteShow(this.show.id).then(response => {
       this.router.navigate(['/backstage']);
     }).catch(error => console.log(error));
+  }
+
+  private uploadImageIfExist():Promise<any>{
+    if(this.image){
+      return this.imageUploadService.uploadImageToS3(this.image, 'show', this.show.id, 'main');
+    }
+    return Promise.resolve(false);
+  }
+
+  fileChange(imageField){
+    //store file temporarily
+    this.image = imageField.files[0];
   }
 }
