@@ -5,6 +5,15 @@ import { Observable }        from 'rxjs/Observable';
 import { DOCUMENT } from '@angular/platform-browser';
 import 'rxjs/add/operator/toPromise';
 
+/*
+  IMAGE SIZES FOR VENUES, USERS, PAGES, SHOWS
+  image_sm 200x200
+  image_lg 800x800
+
+  IMAGE SIZES FOR EVENTS AND MVE
+  image_sm 200x259
+  image_lg 800x1037
+*/
 
 
 @Injectable()
@@ -16,15 +25,40 @@ export class ImageUploadService {
     @Inject(DOCUMENT) private document: Document
   ){}
 
-  public uploadImageToS3(file, item, itemId, folder, width=200, height=200){
+  public uploadImageToS3(file, item, itemId, folder){
     return new Promise((resolve, reject) => {
       let validItems = {
-        'event':{canUse:['main']},
-        'mve':{canUse:['main']},
-        'page':{canUse:['main']},
-        'show':{canUse:['main']},
-        'venue':{canUse:['main']},
-        'user':{canUse:['main']}
+        'event':{
+          folders:{
+            //other image sizes to be saved with original (eg. originalname_sm.jpg)
+            main:[{width:200,height:259,ext:'sm'}, {width:800,height:837,ext:'lg'}]
+          }
+        },
+        'mve':{
+          folders:{
+            main:[{width:200,height:200,ext:'sm'}, {width:800,height:800,ext:'lg'}]
+          }
+        },
+        'page':{
+          folders:{
+            main:[{width:200,height:200,ext:'sm'}, {width:800,height:800,ext:'lg'}]
+          }
+        },
+        'show':{
+          folders:{
+            main:[{width:200,height:200,ext:'sm'}, {width:800,height:800,ext:'lg'}]
+          }
+        },
+        'venue':{
+          folders:{
+            main:[{width:200,height:200,ext:'sm'}, {width:800,height:800,ext:'lg'}]
+          }
+        },
+        'user':{
+          folders:{
+            main:[{width:200,height:200,ext:'sm'}, {width:800,height:800,ext:'lg'}]
+          }
+        }
       }
 
       //check if item is valid
@@ -32,23 +66,49 @@ export class ImageUploadService {
         return false;
       }
       //check if item's folder is valid
-      if(validItems[item].canUse.indexOf(folder) < 0){
+      if(!(folder in validItems[item].folders)){
         return false;
       }
       
-      console.log('passed validation');
-      this.processImage(file, width, height).then(image => {
-        this.getCredentials(item, itemId, folder).then((s3Credentials:any) => {
-          //return this.getCredentials();
-          let url = s3Credentials.url;
-          delete s3Credentials.url; //remove it from regular credentials
-          return this.s3SaveImage(s3Credentials, url, image);
-        }).then(response => resolve(response)).catch(error => reject(error));
+      let sizes = validItems[item]['folders'][folder]; //ex [200x200,700x700]
+      let numSizes = validItems[item]['folders'][folder].length; //number of extra sizes to upload
+      
+      let timestamp = new Date().getTime(); //will become new name of file
+      let extension = file.name.split('.').pop();
+
+      this.getCredentials(item, itemId, folder, timestamp, extension).then((s3Credentials:any) => {
+        //return this.getCredentials();
+        let url = s3Credentials.url;
+        delete s3Credentials.url; //remove it from regular credentials
+        this.s3SaveImage(s3Credentials, url, file).then(response => {
+          let i = 0;
+          for(let size of sizes){
+            let width = +size.width;
+            let height = +size.height;
+            let filename = `${timestamp}_${size.ext}`;
+            let url = '';
+            let newS3Credentials:any;
+
+            this.getCredentials(item, itemId, folder, filename, 'jpg').then((s3Credentials:any) => {
+              url = s3Credentials.url;
+              delete s3Credentials.url; //remove it from regular credentials
+              newS3Credentials = s3Credentials;
+              return this.processImage(file, width, height);
+            }).then(image => {
+              return this.s3SaveImage(newS3Credentials, url, image);
+            }).then(response => {
+              i++;
+              if(i == numSizes){
+                resolve(response);
+              }
+            }).catch(error => reject(error));
+          }  
+        }).catch(error => reject(error));
       });
     });
   }
   
-  private processImage(file, width, height, index = 0):Promise<any> {
+  private processImage(file, width, height):Promise<any> {
     return new Promise((resolve, reject) => {
       // Create the file reader  
       let reader = new FileReader();  
@@ -58,7 +118,7 @@ export class ImageUploadService {
         var img = this.document.createElement("img");
         img.src = result;  
         // Send this img to the resize function (and wait for callback)  
-        this.resize(img, width, height, (resizedJpeg, before, after) => {  
+        this.resize(img, width, height, (resizedJpeg, before, after) => {
             // For debugging (size in bytes before and after)  
             //this.debug_size_before.push(before);  
             //this.debug_size_after.push(after);  
@@ -71,43 +131,6 @@ export class ImageUploadService {
     });
   }
 
-  /*------------------------------------------------------
-  FOR UPLOADING MULTIPLE FILES
-  -------------------------------------------------------*/
-  /*
-  private readFiles(files, width, height, index = 0):Promise<any> {
-    return new Promise((resolve, reject) => {
-      // Create the file reader  
-      let reader = new FileReader();  
-      // If there is a file  
-      if (index in files) {
-        // Start reading this file  
-        this.readFile(files[index], reader, (result) => {
-            // Create an img element and add the image file data to it  
-            var img = this.document.createElement("img");
-            img.src = result;  
-            // Send this img to the resize function (and wait for callback)  
-            this.resize(img, width, height, (resized_jpeg, before, after) => {  
-                // For debugging (size in bytes before and after)  
-                //this.debug_size_before.push(before);  
-                //this.debug_size_after.push(after);  
-                // Add the resized jpeg img source to a list for preview  
-                // This is also the file you want to upload. (either as a  
-                // base64 string or img.src = resized_jpeg if you prefer a file).  
-
-                var resizedImg = this.document.createElement("img");
-                resizedImg.src = resized_jpeg;
-
-                // Read the next file;
-                //this.readFiles(files, index + 1);
-                resolve(resizedImg.src);
-                //this.uploadImageS3(resizedImg.src);
-            });  
-        });  
-      }
-    });
-  }*/
-
   private readFile(file, reader, callback) {
     //send reader result to callback
     reader.onload = () => {  
@@ -118,7 +141,7 @@ export class ImageUploadService {
     reader.readAsDataURL(file);
   }
 
-  private resize(img, canvasWidth: number, canvasHeight: number, callback) {  
+  private resize(img, canvasWidth: number, canvasHeight: number, callback) {
     // This will wait until the img is loaded before calling this function
     return img.onload = () => {
       // create a canvas object  
@@ -139,22 +162,19 @@ export class ImageUploadService {
             yStart = (canvasHeight - newHeight) / 2;
         }
         ctx.drawImage(img, xStart, yStart, newWidth, newHeight);
-        /*
-        let dataUrl = canvas.toDataURL('image/jpeg', 1);
-        callback(dataUrl);*/
         
         canvas.toBlob((image) => {
           callback(image);
         },'image/jpeg', 1);
       });
-    /*
-      
+
+      /*
       //ctx.drawImage(img, 0, 0, width, height);  
       // Get this encoded as a jpeg  
       // IMPORTANT: 'jpeg' NOT 'jpg'  
-      canvas.toBlob((image) => {
-        callback(image);
-      },'image/jpeg', 1);*/
+      let dataUrl = canvas.toDataURL('image/jpeg', 1);
+      callback(dataUrl);
+      */
     }; 
   }
 
@@ -180,38 +200,6 @@ export class ImageUploadService {
     callback(newWidth, newHeight);
   }
 
-  private resizeOriginal(img, MAX_WIDTH: number, MAX_HEIGHT: number, callback) {  
-    // This will wait until the img is loaded before calling this function
-    return img.onload = () => {
-      // Get the images current width and height  
-      var width = img.width;  
-      var height = img.height;  
-      // Set the WxH to fit the Max values (but maintain proportions)
-      if (width > height) {  
-          if (width > MAX_WIDTH) {  
-              height *= MAX_WIDTH / width;  
-              width = MAX_WIDTH;  
-          }  
-      } else {  
-          if (height > MAX_HEIGHT) {  
-              width *= MAX_HEIGHT / height;  
-              height = MAX_HEIGHT;  
-          }  
-      }
-      // create a canvas object  
-      var canvas = this.document.createElement("canvas");  
-      // Set the canvas to the new calculated dimensions  
-      canvas.width = width;  
-      canvas.height = height;  
-      var ctx = canvas.getContext("2d");  
-      ctx.drawImage(img, 0, 0, width, height);  
-      // Get this encoded as a jpeg  
-      // IMPORTANT: 'jpeg' NOT 'jpg'  
-      canvas.toBlob((image) => {
-        callback(image);
-      },'image/jpeg', 1);
-    }; 
-  }
 
   private getS3Key(item, itemId, folder):Promise<any>{
     let path = `signupload/${item}/${itemId}/${folder}`;
@@ -220,12 +208,11 @@ export class ImageUploadService {
       .toPromise();
   }
 
-  private getCredentials(item, itemId, folder){
+  private getCredentials(item, itemId, folder, filename, extension='jpg'){
     return new Promise((resolve, reject) => {
         this.getS3Key(item, itemId, folder).then(response => {
-          let timestamp = new Date().getTime();
           let s3Credentials = response.additionalData;
-          s3Credentials.key = `${item}/${itemId}/main/${timestamp}.jpg`;
+          s3Credentials.key = `${item}/${itemId}/main/${filename}.${extension}`;
           s3Credentials.url = response.attributes.action;
           resolve(s3Credentials);
         }).catch(error => reject('S3 Credentials unavailable'));
