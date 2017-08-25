@@ -75,12 +75,14 @@ export class ImageUploadService {
       
       let timestamp = new Date().getTime(); //will become new name of file
       let extension = file.name.split('.').pop();
+      let originalFilePath:string;
 
       this.getCredentials(item, itemId, folder, timestamp, extension).then((s3Credentials:any) => {
         //return this.getCredentials();
         let url = s3Credentials.url;
         delete s3Credentials.url; //remove it from regular credentials
-        this.s3SaveImage(s3Credentials, url, file).then(response => {
+        this.s3SaveImage(s3Credentials, url, file).then((filePath:string) => {
+          originalFilePath = filePath;
           let i = 0;
           for(let size of sizes){
             let width = +size.width;
@@ -99,7 +101,8 @@ export class ImageUploadService {
             }).then(response => {
               i++;
               if(i == numSizes){
-                resolve(response);
+                //return the original file name
+                resolve(originalFilePath);
               }
             }).catch(error => reject(error));
           }  
