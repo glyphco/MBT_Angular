@@ -12,8 +12,8 @@ export class PublicGuard implements CanActivate {
  
     canActivate() {
         if(this.authService.isLoggedIn()){
-          //logged in so redirect to backstage
-          this.router.navigate(['/backstage']);
+          //logged in so redirect to events today
+          this.router.navigate(['/events/today']);
           return false;
         }
         return true;

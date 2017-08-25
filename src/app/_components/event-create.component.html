@@ -1,4 +1,4 @@
-<div class="container white">
+<div class="main-content white">
   <h3>Create event</h3>
   <form (ngSubmit)="onSubmit()" #eventForm="ngForm">
     <div class="form-group" [class.has-error]="name.invalid && name.touched">
@@ -127,7 +127,7 @@
       <input type="checkbox" id="confirmed" [(ngModel)]="event.confirmed" name="confirmed">
     </div>
     <ng-template #noConfirm><p>After saving, this event will need to be confirmed by an admin.</p></ng-template>
-    <button type="submit" class="btn btn-success" [disabled]="!eventForm.form.valid">Submit</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!eventForm.form.valid">Submit</button>
     <button type="button" class="btn btn-danger" (click)="goBack()">Cancel</button>
   </form>
   <p>&nbsp;</p>

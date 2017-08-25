@@ -301,7 +301,7 @@ export class EventCreateComponent implements OnInit {
     let aptNum = locationDetails.subpremise ? locationDetails.subpremise : '';
     let lat = geocodeObj.geometry.location.lat;
     let lng = geocodeObj.geometry.location.lng;
-    let timestamp = this.event.startDate.utc().unix();
+    let timestamp = moment().utc().unix();
     this.tempVenue.lat = lat;
     this.tempVenue.lng = lng;
     this.tempVenue.streetAddress = `${locationDetails.street_number} ${locationDetails.route} ${aptNum}`;
