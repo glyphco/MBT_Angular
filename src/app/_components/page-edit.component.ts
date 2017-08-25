@@ -5,6 +5,7 @@ import { Page } from '../_models/page';
 import { PageService } from '../_services/page.service';
 import { MeService } from '../_services/me.service';
 import { StatesHelper } from '../_helpers/states-helper';
+import { ImageUploadService } from '../_services/image-upload.service';
 
 @Component({
   selector: 'app-page-edit',
@@ -16,13 +17,15 @@ export class PageEditComponent implements OnInit, OnDestroy {
   private sub: any;
   states = StatesHelper.states;
   pageCategories = [];
+  image:any;
 
   constructor(
     private pageService:PageService,
     private route: ActivatedRoute,
     private location: Location,
     private meService: MeService,
-    private router: Router
+    private router: Router,
+    private imageUploadService:ImageUploadService
   ){}
 
   ngOnInit():void{
@@ -44,8 +47,26 @@ export class PageEditComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(){
-    this.pageService.updatePage(this.page, this.pageCategories).then(response => {
-      this.router.navigate(['/backstage']);
+    this.uploadImageIfExist().then((imageUrl:any) => {
+      if(imageUrl){
+        this.page.imageUrl = imageUrl;
+      }
+      return this.pageService.updatePage(this.page, this.pageCategories);
+    }).then(response => {
+      this.router.navigate(['/pages/editable']);
     }).catch(error => console.log(error));
   }
+
+  private uploadImageIfExist():Promise<any>{
+    if(this.image){
+      return this.imageUploadService.uploadImageToS3(this.image, 'page', this.page.id, 'main');
+    }
+    return Promise.resolve(false);
+  }
+
+  fileChange(imageField){
+    //store file temporarily
+    this.image = imageField.files[0];
+  }
+
 }
