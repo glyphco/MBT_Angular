@@ -49,8 +49,8 @@
           </span>
         </div>
       </ng-template>
-      <div class="eventdetail-interested-container">
-        <button class="mbt-blue">Interested?</button>
+      <div class="event-interested-container">
+        <button class="mbt-blue" (click)="nextAttendingOption(event)">{{ event.iattending ? attendingDict[event.iattending.rank] : 'Interested?' }}</button>
       </div>
 
       <p class="eventdetail-description">

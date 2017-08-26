@@ -1,4 +1,22 @@
 <div class="main-content white">
+
+<div class="backstagenav">
+  <ul>
+        <li *ngIf="meService.hasEventEdit()">
+          <a routerLink="/events/editable">[Events]</a>
+        </li>
+        <li *ngIf="meService.hasPageEdit()">
+          <a routerLink="/pages/editable">[Pages]</a>
+        </li>
+        <li *ngIf="meService.hasPageEdit()">
+          <a routerLink="/shows/editable">[Shows]</a>
+        </li>
+        <li *ngIf="meService.hasVenueEdit()">
+          <a routerLink="/venues/editable">[Venues]</a>
+        </li>
+  </ul>
+</div>
+
 <h2>Pages</h2>
 <a *ngIf="meService.hasPageCreate()" [routerLink]="['/page/create']"><button class="btn btn-primary">Create page</button></a>
 <p>&nbsp;</p>
@@ -33,7 +51,7 @@
   <tr>
     <th></th>
     <th>Name</th>
-    <th>Email</th>
+    <th></th>
     <th>Confirm</th>
   </tr>
   <tr *ngFor="let page of pages">
@@ -45,7 +63,7 @@
         {{page.name}}
       </a>
     </td>
-    <td>{{page.email}}</td>
+    <td><a [routerLink]="['/page',page.id]"><i class="fa fa-external-link" aria-hidden="true"></i></a></td>
     <td><button *ngIf="!page.confirmed" (click)="confirmPage(page)" class="btn btn-primary">Confirm</button></td>
   </tr>
 </table>

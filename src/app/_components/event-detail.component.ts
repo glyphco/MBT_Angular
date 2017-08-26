@@ -12,6 +12,7 @@ import { EventService } from '../_services/event.service';
 export class EventDetailComponent implements OnInit, OnDestroy {
   event = new Event();
   private sub: any;
+  attendingDict:any;
 
   constructor(
     private eventService:EventService,
@@ -21,7 +22,9 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   ){}
 
   ngOnInit():void {
-    this.sub = this.route.params.subscribe(params => {
+    //Set up attending dictionary
+    this.attendingDict = this.eventService.attendingDict;
+      this.sub = this.route.params.subscribe(params => {
        let id = +params['id']; // (+) converts string 'id' to a number
        this.getEvent(id);
     });
@@ -37,6 +40,10 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
   goEdit():void {
     this.router.navigate(['/event/edit', this.event.id])
+  }
+
+  public nextAttendingOption(event:Event){
+    this.eventService.toggleNextAttendingStatus(event);
   }
 
   private getEvent(id:number){

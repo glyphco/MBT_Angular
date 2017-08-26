@@ -1,4 +1,22 @@
 <div class="main-content white">
+
+<div class="backstagenav">
+  <ul>
+        <li *ngIf="meService.hasEventEdit()">
+          <a routerLink="/events/editable">[Events]</a>
+        </li>
+        <li *ngIf="meService.hasPageEdit()">
+          <a routerLink="/pages/editable">[Pages]</a>
+        </li>
+        <li *ngIf="meService.hasPageEdit()">
+          <a routerLink="/shows/editable">[Shows]</a>
+        </li>
+        <li *ngIf="meService.hasVenueEdit()">
+          <a routerLink="/venues/editable">[Venues]</a>
+        </li>
+  </ul>
+</div>
+
 <h2>Venues</h2>
 <a *ngIf="meService.hasVenueCreate()" [routerLink]="['/venue/create']"><button class="btn btn-primary">Create venue</button></a>
 <p>&nbsp;</p>
@@ -33,6 +51,7 @@
   <tr>
     <th></th>
     <th>Name</th>
+    <th></th>
     <th>City</th>
     <th>Confirm</th>
   </tr>
@@ -45,6 +64,7 @@
         {{venue.name}}
       </a>
     </td>
+    <td><a [routerLink]="['/venue',venue.id]"><i class="fa fa-external-link" aria-hidden="true"></i></a></td>
     <td>{{venue.city}}</td>
     <td><button *ngIf="!venue.confirmed" (click)="confirmVenue(venue)" class="btn btn-primary">Confirm</button></td>
   </tr>

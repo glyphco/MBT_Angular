@@ -1,4 +1,22 @@
 <div class="main-content white">
+
+<div class="backstagenav">
+  <ul>
+        <li *ngIf="meService.hasEventEdit()">
+          <a routerLink="/events/editable">[Events]</a>
+        </li>
+        <li *ngIf="meService.hasPageEdit()">
+          <a routerLink="/pages/editable">[Pages]</a>
+        </li>
+        <li *ngIf="meService.hasPageEdit()">
+          <a routerLink="/shows/editable">[Shows]</a>
+        </li>
+        <li *ngIf="meService.hasVenueEdit()">
+          <a routerLink="/venues/editable">[Venues]</a>
+        </li>
+  </ul>
+</div>
+
 <h2>Events</h2>
 <a *ngIf="meService.hasEventCreate()" [routerLink]="['/event/create']"><button class="btn btn-primary">Create event</button></a>
 <br />
@@ -34,6 +52,7 @@
     <th></th>
     <th>Date</th>
     <th>Name</th>
+    <th></th>
     <th>Venue</th>
     <th>Public</th>
     <th>Confirm</th>
@@ -48,7 +67,9 @@
           {{event.name}}
         </a>
       </td>
+      <td><a [routerLink]="['/event',event.id]"><i class="fa fa-external-link" aria-hidden="true"></i></a></td>
       <td>{{ event.venue_name }}</td>
+
       <td>
         <i *ngIf="event.public; else privateBlock" class="fa fa-eye" aria-hidden="true"></i>
         <ng-template #privateBlock>
