@@ -73,12 +73,10 @@
       </h3>  
 
       <div class="venue-info item-info">
-        [Neighborhood]<br />
          {{ event.streetAddress }}<br />
         {{ event.city }}, {{ event.state }} {{ event.postalCode }}<br />
         <br />
         {{ event.distance * .000621371 | number : '1.2-2' }} miles <br />
-        [Directions Link]
       </div>
     </li>
   </ul>
