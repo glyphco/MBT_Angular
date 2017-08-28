@@ -110,13 +110,55 @@
     <br />
     <br />
 
-
     <category-select [(categories)]="eventCategories"></category-select>
     
     <div class="form-group">
       <label for="description">Description</label>
       <textarea type="text" class="form-control event-description" id="description" placeholder="Description" [(ngModel)]="event.description" name="description"></textarea>
     </div>
+
+    <div class="form-group">
+      <label for="ages">Ages</label>
+      <select class="form-control" #ages="ngModel" id="ages" [(ngModel)]="event.ages" name="ages">
+        <option value="0" ></option>
+        <option value="1" >Family</option>
+        <option value="2" >All</option>
+        <option value="3" >18+</option>
+        <option value="4" >21+</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="prices">Special pricing</label>
+      <select class="form-control" #prices="ngModel" id="prices" [(ngModel)]="event.price" name="prices">
+        <option value="0" selected>None</option>
+        <option value="1" >Free</option>
+        <option value="2" >Donation</option>
+        <option value="3" >Sliding</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="min-price">Minimum price</label>
+      $ <input type="text" class="form-control" id="min-price"
+        [(ngModel)]="event.priceMin" name="min_price" #minPrice="ngModel" maxlength="6">
+        <span>(number only)</span>
+      <div *ngIf="minPrice.errors && minPrice.touched">
+        <span  class="help-block">
+          Minimum price too long.
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="max-price">Maximum price</label>
+      $ <input type="text" class="form-control" id="max-price"
+        [(ngModel)]="event.priceMax" name="max_price" #maxPrice="ngModel" maxlength="6">
+        <span>(number only)</span>
+      <div *ngIf="maxPrice.errors && maxPrice.touched">
+        <span class="help-block">
+          Max price too long.
+        </span>
+      </div>
+    </div>
+
     <div class="form-group">
       <label for="public">Public</label>
       <input type="checkbox" id="public" [(ngModel)]="event.public" name="public" />

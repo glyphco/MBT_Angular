@@ -391,6 +391,10 @@ export class EventEditComponent implements OnInit {
     params.id = this.event.id;
     params.name = this.event.name;
     params.description = this.event.description;
+    params.ages = this.event.ages;
+    params.price = this.event.price;
+    params.pricemin = this.event.priceMin;
+    params.pricemax = this.event.priceMax;
     params.local_tz = this.startDateTime.date.tz();
     params.UTC_start = localStart.utc().format('YYYY-MM-DD HH-mm-ss');
     params.local_start = localStart.tz(params.local_tz).format('YYYY-MM-DD HH-mm-ss');

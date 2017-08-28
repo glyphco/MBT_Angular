@@ -374,6 +374,10 @@ export class EventCreateComponent implements OnInit {
     let localEnd = this.endDateTime.date;
     params.name = this.event.name;
     params.description = this.event.description;
+    params.ages = this.event.ages;
+    params.price = this.event.price;
+    params.pricemin = this.event.priceMin;
+    params.pricemax = this.event.priceMax;
     params.public = this.event.public;
     params.confirmed = this.event.confirmed;
     params.local_tz = this.startDateTime.date.tz();

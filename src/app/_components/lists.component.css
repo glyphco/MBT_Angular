@@ -388,6 +388,7 @@
         "blockeventdetailimage blockeventdetailgoing blockeventdetailinterested ..."  
         "blockeventdetailimage blockeventdescription blockeventdescription blockeventdescription "    
         ;
+      margin-top:0px;
     }
 
     .eventdetail-description {
