@@ -37,7 +37,6 @@ export class UserService {
       banned_until:user.bannedUntil,
       city:user.city,
       confirmed:user.confirmed,
-      email:user.email,
       imageurl:user.imageUrl,
       is_banned:user.isBanned,
       is_online:user.isOnline,

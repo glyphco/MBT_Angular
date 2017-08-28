@@ -23,11 +23,13 @@
         </span>
       </div>
     </div>
-    <div class="form-group" [class.has-error]="email.invalid && email.touched">
-      <label for="email">Email</label>
-      <input type="text" class="form-control" id="email" placeholder="Email" [(ngModel)]="user.email" name="email" required #email="ngModel">
-      <span [class.hidden]="email.valid || email.pristine"  class="help-block">Email is required</span>
-    </div>
+
+    <label for="main-image">Image</label>
+    <input id="main-image" type="file" (change)="fileChange(image)" name="image" #image /><br />
+    <span class="help-block">Recommended size at least 500px by 500px</span>
+    <img class="preview-image" *ngIf="(user.imageUrl || user.avatar) && !previewImage" src="{{user.imageSm || user.avatar}}" />
+    <img class="preview-image" *ngIf="previewImage" src="{{previewImage}}" />
+
     <div class="form-group">
       <label for="street-adress">Street address *</label>
       <input type="text" class="form-control" id="street-address" placeholder="Street address" 

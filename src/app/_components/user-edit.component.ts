@@ -4,25 +4,29 @@ import { Location } from '@angular/common';
 import { User } from '../_models/user';
 import { UserService } from '../_services/user.service';
 import { MeService } from '../_services/me.service';
+import { ImageUploadService } from '../_services/image-upload.service';
 import { DateTime } from '../_helpers/date-time.service';
 import { StatesHelper } from '../_helpers/states-helper';
 
 @Component({
   selector: 'app-user-edit',
   templateUrl: './user-edit.component.html',
-  //styles: ['./page-edit.component.css']
+  styleUrls: ['./backstage.component.css']
 })
 export class UserEditComponent implements OnInit, OnDestroy {
   user = new User;
   private sub: any;
   bannedUntil = new DateTime();
   states = StatesHelper.states;
+  image:any;
+  previewImage:any;
 
   constructor(
     private userService:UserService,
     private route: ActivatedRoute,
     private location: Location,
     private meService: MeService,
+    private imageUploadService: ImageUploadService,
     private router: Router
   ){}
 
@@ -45,9 +49,34 @@ export class UserEditComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(){
-    console.log(this.user);
-    this.userService.updateUser(this.user).then(response => {
+    this.uploadImageIfExist().then((imageUrl:string) => {
+      if(imageUrl){
+        this.user.imageUrl = imageUrl;
+      }
+      return this.userService.updateUser(this.user)
+    }).then(response => {
       this.router.navigate(['/users/editable']);
     }).catch(error => console.log(error));
   }
+
+  private uploadImageIfExist():Promise<any>{
+    if(this.image){
+      return this.imageUploadService.uploadImageToS3(this.image, 'user', this.user.id, 'main');
+    }
+    return Promise.resolve(false);
+  }
+
+  fileChange(imageField){
+    if(0 in imageField.files){
+      //store file temporarily
+      this.image = imageField.files[0];
+
+      this.imageUploadService.readUrl(imageField.files[0], (result) => {
+        this.previewImage = result;
+      });
+    } else {
+      this.previewImage = undefined;
+    }
+  }
+
 }
