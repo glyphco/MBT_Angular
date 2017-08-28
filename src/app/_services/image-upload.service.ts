@@ -76,28 +76,28 @@ export class ImageUploadService {
       let timestamp = new Date().getTime(); //will become new name of file
       let extension = file.name.split('.').pop();
       let originalFilePath:string;
+      let s3Credentials = <any>{};
+      let url:string; //base path
 
-      this.getCredentials(item, itemId, folder, timestamp, extension).then((s3Credentials:any) => {
-        //return this.getCredentials();
-        let url = s3Credentials.url;
-        delete s3Credentials.url; //remove it from regular credentials
-        this.s3SaveImage(s3Credentials, url, file).then((filePath:string) => {
+      this.getS3Key(item, itemId, folder).then((response:any) => {
+        s3Credentials = response.additionalData;
+        delete s3Credentials.key; //remove it from regular credentials
+        url = response.attributes.action;
+        let key = `${item}/${itemId}/main/${timestamp}.${extension}`;
+
+        //save original image
+        this.s3SaveImage(s3Credentials, url, key, file).then((filePath:string) => {
           originalFilePath = filePath;
+          //save additional image sizes
           let i = 0;
           for(let size of sizes){
             let width = +size.width;
             let height = +size.height;
             let filename = `${timestamp}_${size.ext}`;
-            let url = '';
-            let newS3Credentials:any;
 
-            this.getCredentials(item, itemId, folder, filename, 'jpg').then((s3Credentials:any) => {
-              url = s3Credentials.url;
-              delete s3Credentials.url; //remove it from regular credentials
-              newS3Credentials = s3Credentials;
-              return this.processImage(file, width, height);
-            }).then(image => {
-              return this.s3SaveImage(newS3Credentials, url, image);
+            this.processImage(file, width, height, filename).then(results => {
+              let key = `${item}/${itemId}/${folder}/${results.filename}.jpg`;
+              return this.s3SaveImage(s3Credentials, url, key, results.image);
             }).then(response => {
               i++;
               if(i == numSizes){
@@ -109,9 +109,9 @@ export class ImageUploadService {
         }).catch(error => reject(error));
       }).catch(error => reject(error));
     });
-  }
+  } 
   
-  private processImage(file, width, height):Promise<any> {
+  private processImage(file, width, height, filename):Promise<any> {
     return new Promise((resolve, reject) => {
       // Create the file reader  
       let reader = new FileReader();  
@@ -127,8 +127,12 @@ export class ImageUploadService {
             //this.debug_size_after.push(after);  
             // Add the resized jpeg img source to a list for preview  
             // This is also the file you want to upload. (either as a  
-            // base64 string or img.src = resized_jpeg if you prefer a file).  
-            resolve(resizedJpeg);
+            // base64 string or img.src = resized_jpeg if you prefer a file).
+            let response = {
+              image: resizedJpeg,
+              filename: filename //return the filename that was passed in (fixes asyc problem with loop)
+            }
+            resolve(response);
         });  
       });  
     });
@@ -216,20 +220,10 @@ export class ImageUploadService {
       .toPromise();
   }
 
-  private getCredentials(item, itemId, folder, filename, extension='jpg'){
-    return new Promise((resolve, reject) => {
-        this.getS3Key(item, itemId, folder).then(response => {
-          let s3Credentials = response.additionalData;
-          s3Credentials.key = `${item}/${itemId}/main/${filename}.${extension}`;
-          s3Credentials.url = response.attributes.action;
-          resolve(s3Credentials);
-        }).catch(error => reject('S3 Credentials unavailable'));
-    });
-  }
-
-  private s3SaveImage(s3Credentials, url, file){
+  private s3SaveImage(s3Credentials, url, bucket, file){
     return new Promise((resolve, reject) => {
       let body = new FormData();
+      body.append('key', bucket);
       for(let key in s3Credentials){
         body.append(key,s3Credentials[key]);
       }
@@ -239,7 +233,7 @@ export class ImageUploadService {
       this.http.post(url, body).map(response => {
         //return the url to the file on s3
         if(response.status === 204){
-          resolve(`${url}/${s3Credentials.key}`);
+          resolve(`${url}/${bucket}`);
         }else{
           reject('S3 image save failed');
         }
