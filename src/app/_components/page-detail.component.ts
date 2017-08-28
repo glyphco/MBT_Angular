@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import { Page } from '../_models/page';
 import { PageService } from '../_services/page.service';
+import { ErrorHandlerService } from '../_services/error-handler.service';
 
 @Component({
   selector: 'app-page-detail',
@@ -16,7 +17,8 @@ export class PageDetailComponent implements OnInit, OnDestroy {
   constructor(
     private pageService:PageService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private errorHandlerService:ErrorHandlerService
   ){}
 
   ngOnInit():void {
@@ -39,5 +41,12 @@ export class PageDetailComponent implements OnInit, OnDestroy {
       this.page = Page.map(page);
             console.log(this.page);
     }).catch(error => console.log(error));
+  }
+
+  public likeItem(){
+    let id = this.page.id;
+    this.pageService.likePage(id).then(reponse => {
+      
+    }).catch(error => this.errorHandlerService.openToasterApiError(error));
   }
 }

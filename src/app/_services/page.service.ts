@@ -80,6 +80,12 @@ export class PageService {
       .toPromise();
   }
 
+  likePage(id):Promise<any>{
+    return this.httpHandlerService.get(`page/${id}/like`)
+      .map(response => response.json())
+      .toPromise();
+  }
+
   getCategories(){
     return this.httpHandlerService.get('pagecategory')
       .toPromise();

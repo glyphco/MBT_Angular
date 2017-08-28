@@ -41,7 +41,7 @@
       </ng-template>
 
       <div *ngIf="isOwner; else notOwnerBlock" class="userdetail-follow-container">
-        <a [routerLink]="['/manage/followers']"><button>Manage followers</button></a>
+        <a [routerLink]="['/manage/followers']"><button class="btn btn-primary">Manage followers</button></a>
       </div>
 
       <ng-template #notOwnerBlock>

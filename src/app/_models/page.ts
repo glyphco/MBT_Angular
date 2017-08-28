@@ -29,6 +29,7 @@ export class Page {
   location: string;
   startTime:string; //used for event create
   categoriesJson:any;
+  iLike:number;
 
   eventsCount: number;
   likesCount: number;
@@ -80,6 +81,7 @@ export class Page {
       currentPage.likesCount = json.likes_count; 
       currentPage.pyfslikeCount = json.pyfslike_count; 
       currentPage.pyfslike = json.pyfslike; 
+      currentPage.iLike = json.ilike_count; 
       currentPage.eventsAsParticipantCurrent = Event.arrayMap(json.events_as_participant_current);    
       currentPage.eventsAsProducerCurrent = Event.arrayMap(json.events_as_producer_current);    
       currentPage.categoriesJson = json.categoriesjson; 

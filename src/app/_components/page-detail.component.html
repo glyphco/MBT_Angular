@@ -49,7 +49,9 @@
 
 
       <div class="pagedetail-interested-container">
-        <button class="mbt-blue">Like?</button>
+        <button [ngClass]="{'btn-primary':page.iLike,'active':page.iLike}" class="btn btn-default" (click)="likeItem()">
+          {{ page.iLike ? 'Liked' : 'Like?' }}
+        </button>
       </div>
     </li>
   </ul>

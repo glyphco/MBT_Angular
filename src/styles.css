@@ -316,7 +316,7 @@ Helper classes
 }
 
 .toaster-danger {
-  background-color:#d12121;
+  background-color:#d12121 !important;
   color:#fff;
 }
 
@@ -388,6 +388,11 @@ Button styles
   -moz-transition:color .1s ease-out, background .1s ease-in;
   -webkit-transition:color .1s ease-out, background .1s ease-in;
   transition:color .1s ease-out, background .1s ease-in;
+}
+.btn.btn-primary.active, .btn-fluid.primary.active {
+  background-color:#4286f4;
+  color:#fff;
+  font-weight:normal;
 }
 .btn.btn-danger, .btn-fluid.danger {
   background-color:#fff;
