@@ -13,8 +13,10 @@
       </div>
     </div>
 
-    <label for="event-image">Image</label>
-    <input id="event-image" type="file" (change)="fileChange(image)" name="image" #image />
+    <label for="main-image">Image</label>
+    <input id="main-image" type="file" (change)="fileChange(image)" name="image" #image /><br />
+    <span class="help-block">Recommended size 1080px by 1080px</span>
+    <img class="preview-image" *ngIf="previewImage" src="{{previewImage}}" />
 
     <div class="form-group">
       <label for="participant">Can perform at an event</label>

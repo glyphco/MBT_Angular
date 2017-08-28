@@ -26,8 +26,12 @@
     <br />
 
     <label for="event-image">Image</label>
-    <input id="event-image" type="file" (change)="fileChange(image)" name="image" #image />
+    <input id="event-image" type="file" (change)="fileChange(image)" name="image" #image /><br />
+    <span class="help-block">Recommended size 1080px by 1400px</span>
+    <img class="preview-image" *ngIf="event.imageUrl && !previewImage" src="{{event.imageSm}}" />
+    <img class="preview-image" *ngIf="previewImage" src="{{previewImage}}" />
 
+    <br />
     <div class="form-group custom-group inline">
       <label for="start-time" class="inline-label">Start date</label>
       <md-input-container>

@@ -192,7 +192,6 @@ export class MeService {
       backgroundurl:user.backgroundUrl,
       city:user.city,
       confirmed:user.confirmed,
-      email:user.email,
       imageurl:user.imageUrl,
       name:user.name,
       postalcode:user.postalCode,

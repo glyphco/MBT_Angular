@@ -11,13 +11,14 @@ import { StatesHelper } from '../_helpers/states-helper';
 @Component({
   selector: 'app-profile-edit',
   templateUrl: './profile-edit.component.html',
-  //styleUrls: ['./events-editable.component.css']
+  styleUrls: ['./backstage.component.css']
 })
 export class ProfileEditComponent implements OnInit {
   role = 'nothing';
   states = StatesHelper.states;
   user = new User();
   image:any;
+  previewImage:any;
 
   constructor(
     private meService: MeService,
@@ -54,7 +55,15 @@ export class ProfileEditComponent implements OnInit {
   }
 
   fileChange(imageField){
-    //store file temporarily
-    this.image = imageField.files[0];
+    if(0 in imageField.files){
+      //store file temporarily
+      this.image = imageField.files[0];
+
+      this.imageUploadService.readUrl(imageField.files[0], (result) => {
+        this.previewImage = result;
+      });
+    } else {
+      this.previewImage = undefined;
+    }
   }
 }

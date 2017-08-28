@@ -1,4 +1,4 @@
-<div class="container">
+<div class="main-content white">
   <h3>Edit venue</h3>
 
   <div class="pac-card" id="pac-card">
@@ -28,9 +28,13 @@
         </span>
       </div>
     </div>
+
     <label for="venue-image">Image</label>
-    <input id="venue-image" type="file" (change)="fileChange(image)" name="image" #image />
-    <br />
+    <input id="venue-image" type="file" (change)="fileChange(image)" name="image" #image /><br />
+    <span class="help-block">Recommended size 1080px by 1080px</span>
+    <img class="preview-image" *ngIf="venue.imageUrl && !previewImage" src="{{venue.imageSm}}" />
+    <img class="preview-image" *ngIf="previewImage" src="{{previewImage}}" />
+    
     <div class="form-group">
       <label for="street-adress">Street address *</label>
       <input type="text" class="form-control" id="street-address" placeholder="Street address" 

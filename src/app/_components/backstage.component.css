@@ -15,3 +15,8 @@
 .backstagenav li {
     display: inline;
 }
+
+.preview-image {
+  width:100px;
+  margin-top:10px;
+}

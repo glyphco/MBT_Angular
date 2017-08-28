@@ -12,7 +12,7 @@ declare var google:any;
 @Component({
   selector: 'app-venue-edit',
   templateUrl: './venue-edit.component.html',
-  styleUrls: ['./venue-create.component.css']
+  styleUrls: ['./venue-create.component.css', './backstage.component.css']
 })
 export class VenueEditComponent implements OnInit, OnDestroy {
   venue = new Venue;
@@ -25,6 +25,8 @@ export class VenueEditComponent implements OnInit, OnDestroy {
   image:any;
   jpegImage:any;
   private sub: any;
+  previewImage:any;
+
   timezones = [
     {'id':'CST6CDT', 'name'           : 'Central with Daylight Savings Time (Chicago)'},
     {'id':'EST5EDT', 'name'           : 'Eastern with Daylight Savings Time (New York)'},
@@ -384,6 +386,9 @@ export class VenueEditComponent implements OnInit, OnDestroy {
 
   private updateVenue(){
     this.uploadImageIfExist().then((imageUrl:any) => {
+      if(imageUrl){
+        this.venue.imageUrl = imageUrl;
+      }
       return this.venueService.updateVenue(this.venue);
     }).then(response => {
       this.router.navigate(['/venues/editable']);
@@ -398,7 +403,15 @@ export class VenueEditComponent implements OnInit, OnDestroy {
   }
 
   fileChange(imageField){
-    //store file temporarily
-    this.image = imageField.files[0];
+    if(0 in imageField.files){
+      //store file temporarily
+      this.image = imageField.files[0];
+
+      this.imageUploadService.readUrl(imageField.files[0], (result) => {
+        this.previewImage = result;
+      });
+    } else {
+      this.previewImage = undefined;
+    }
   }
 }

@@ -29,7 +29,7 @@ declare var google:any;
 @Component({
   selector: 'app-event-edit',
   templateUrl: './event-edit.component.html',
-  styleUrls: ['./modal.component.css','./event-create.component.css']
+  styleUrls: ['./modal.component.css','./event-create.component.css','./backstage.component.css']
 })
 export class EventEditComponent implements OnInit {
   private apiEventId:number;
@@ -40,6 +40,7 @@ export class EventEditComponent implements OnInit {
   venue:Venue;
   shows = [];
   image:any;
+  previewImage:any;
   producers = [];
   tempProducer:Page;
   startDateTime = new DateTime();
@@ -116,7 +117,7 @@ export class EventEditComponent implements OnInit {
       this.event = Event.map(event);
       this.event.startTime = '20:00';
       this.event.startDate = moment();
-      console.log(this.event);
+      
       this.startDateTime = new DateTime(this.event.localStart, this.event.localTz);
       if(this.event.localEnd){
         this.hasEndDate = true;
@@ -518,7 +519,15 @@ export class EventEditComponent implements OnInit {
   }
 
   fileChange(imageField){
-    //store file temporarily
-    this.image = imageField.files[0];
+    if(0 in imageField.files){
+      //store file temporarily
+      this.image = imageField.files[0];
+
+      this.imageUploadService.readUrl(imageField.files[0], (result) => {
+        this.previewImage = result;
+      });
+    } else {
+      this.previewImage = undefined;
+    }
   }
 }

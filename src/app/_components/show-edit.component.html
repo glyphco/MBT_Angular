@@ -1,4 +1,4 @@
-<div class="container">
+<div class="main-content white">
   <h3>Edit show</h3>
   <form (ngSubmit)="onSubmit()" #showForm="ngForm">
     <div class="form-group" [class.has-error]="name.invalid && name.touched">
@@ -14,7 +14,10 @@
     </div>
 
     <label for="venue-image">Image</label>
-    <input id="venue-image" type="file" (change)="fileChange(image)" name="image" #image />
+    <input id="venue-image" type="file" (change)="fileChange(image)" name="image" #image /><br />
+    <span class="help-block">Recommended size 1080px by 1080px</span>
+    <img class="preview-image" *ngIf="show.imageUrl && !previewImage" src="{{show.imageSm}}" />
+    <img class="preview-image" *ngIf="previewImage" src="{{previewImage}}" />
 
     <category-select [(categories)]="showCategories"></category-select>
     <div class="form-group" [class.has-error]="slug.invalid">

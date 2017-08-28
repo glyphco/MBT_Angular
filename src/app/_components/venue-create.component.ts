@@ -13,7 +13,7 @@ declare var google:any;
 @Component({
   selector: 'app-venue-create',
   templateUrl: './venue-create.component.html',
-  styleUrls: ['./venue-create.component.css']
+  styleUrls: ['./venue-create.component.css', './backstage.component.css']
 })
 export class VenueCreateComponent implements OnInit {
   venue = new Venue;
@@ -24,6 +24,7 @@ export class VenueCreateComponent implements OnInit {
   infowindowContent:any;
   states = StatesHelper.states;
   image:any;
+  previewImage:any;
   timezones = [
     {'id':'CST6CDT', 'name'           : 'Central with Daylight Savings Time (Chicago)'},
     {'id':'EST5EDT', 'name'           : 'Eastern with Daylight Savings Time (New York)'},
@@ -392,7 +393,15 @@ export class VenueCreateComponent implements OnInit {
   }
 
   fileChange(imageField){
-    //store file temporarily
-    this.image = imageField.files[0];
+    if(0 in imageField.files){
+      //store file temporarily
+      this.image = imageField.files[0];
+
+      this.imageUploadService.readUrl(imageField.files[0], (result) => {
+        this.previewImage = result;
+      });
+    } else {
+      this.previewImage = undefined;
+    }
   }
 }

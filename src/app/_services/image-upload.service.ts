@@ -109,7 +109,17 @@ export class ImageUploadService {
         }).catch(error => reject(error));
       }).catch(error => reject(error));
     });
-  } 
+  }
+
+  public readUrl(file, callback) {
+    var reader = new FileReader();
+
+    reader.onload = () => {  
+      callback(reader.result);  
+    }
+    
+    reader.readAsDataURL(file);
+  }
   
   private processImage(file, width, height, filename):Promise<any> {
     return new Promise((resolve, reject) => {

@@ -10,13 +10,14 @@ import { ImageUploadService } from '../_services/image-upload.service';
 @Component({
   selector: 'app-page-create',
   templateUrl: './page-create.component.html',
-  //styleUrls: ['./page-create.component.css']
+  styleUrls: ['./backstage.component.css']
 })
 export class PageCreateComponent {
   page = new Page;
   states = StatesHelper.states;
   pageCategories = [];
   image:any;
+  previewImage:any;
 
   constructor(
     private pageService:PageService,
@@ -53,7 +54,15 @@ export class PageCreateComponent {
   }
 
   fileChange(imageField){
-    //store file temporarily
-    this.image = imageField.files[0];
+    if(0 in imageField.files){
+      //store file temporarily
+      this.image = imageField.files[0];
+
+      this.imageUploadService.readUrl(imageField.files[0], (result) => {
+        this.previewImage = result;
+      });
+    } else {
+      this.previewImage = undefined;
+    }
   }
 }

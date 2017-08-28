@@ -234,6 +234,7 @@ CSS Grid layout for wider screens, when browser supports grid:
     }
 
     .dropdown-menu {
+      z-index:9999;
       background-color: #000;
       position:absolute;
       right:0px;

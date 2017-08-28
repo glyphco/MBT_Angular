@@ -9,13 +9,14 @@ import { ImageUploadService } from '../_services/image-upload.service';
 @Component({
   selector: 'app-show-create',
   templateUrl: './show-create.component.html',
-  //styleUrls: ['./show-create.component.css']
+  styleUrls: ['./backstage.component.css']
 })
 export class ShowCreateComponent {
   show = new Show;
   categoriesList = [];
   showCategories = [];
   image:any;
+  previewImage:any;
 
   constructor(
     private showService:ShowService,
@@ -52,7 +53,15 @@ export class ShowCreateComponent {
   }
 
   fileChange(imageField){
-    //store file temporarily
-    this.image = imageField.files[0];
+    if(0 in imageField.files){
+      //store file temporarily
+      this.image = imageField.files[0];
+
+      this.imageUploadService.readUrl(imageField.files[0], (result) => {
+        this.previewImage = result;
+      });
+    } else {
+      this.previewImage = undefined;
+    }
   }
 }

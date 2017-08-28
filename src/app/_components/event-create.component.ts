@@ -29,7 +29,7 @@ declare var google:any;
 @Component({
   selector: 'app-event-create',
   templateUrl: './event-create.component.html',
-  styleUrls: ['./modal.component.css','./event-create.component.css']
+  styleUrls: ['./modal.component.css','./event-create.component.css', './backstage.component.css']
 })
 export class EventCreateComponent implements OnInit {
   event = new Event();
@@ -37,6 +37,7 @@ export class EventCreateComponent implements OnInit {
   venue:Venue;
   shows = [];
   image:any;
+  previewImage:any;
   startDateTime = new DateTime();
   endDateTime = new DateTime();
   tempVenue:Venue; //used for creating a custom venue
@@ -504,7 +505,15 @@ export class EventCreateComponent implements OnInit {
   }
 
   fileChange(imageField){
-    //store file temporarily
-    this.image = imageField.files[0];
+    if(0 in imageField.files){
+      //store file temporarily
+      this.image = imageField.files[0];
+
+      this.imageUploadService.readUrl(imageField.files[0], (result) => {
+        this.previewImage = result;
+      });
+    } else {
+      this.previewImage = undefined;
+    }
   }
 }
