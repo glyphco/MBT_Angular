@@ -26,6 +26,7 @@ export class Venue {
   website:string;
   googlePlaceId:string;
 
+  iLike:number;
   eventsCount = 0;
   eventsListCurrent = [];
   likesCount = 0;
@@ -70,6 +71,7 @@ export class Venue {
       currentVenue.googlePlaceId = json.googlePlaceId;
       currentVenue.updatedAt = json.updated_at;
 
+      currentVenue.iLike = json.ilike_count; 
       currentVenue.eventsCount = json.events_count; 
       currentVenue.likesCount = json.likes_count; 
       currentVenue.pyfslikeCount = json.pyfslike_count; 

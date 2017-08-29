@@ -68,6 +68,12 @@ export class VenueService {
       .toPromise();
   }
 
+  likeShow(id):Promise<any>{
+    return this.httpHandlerService.get(`venue/${id}/like`)
+      .map(response => response.json())
+      .toPromise();
+  }
+
   deleteVenue(id):Promise<any>{
     return this.httpHandlerService.delete(`venue/${id}`)
       .toPromise();

@@ -44,7 +44,9 @@
       </ng-template>
 
       <div class="venuedetail-interested-container">
-        <button class="btn btn-primary">Like?</button>
+          <button [ngClass]="{'btn-primary':venue.iLike,'active':venue.iLike}" class="btn btn-default" (click)="likeItem()">
+            {{ venue.iLike ? 'Liked' : 'Like?' }}
+          </button>
       </div>
     </li>
   </ul>

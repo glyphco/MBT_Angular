@@ -45,8 +45,11 @@ export class PageDetailComponent implements OnInit, OnDestroy {
 
   public likeItem(){
     let id = this.page.id;
-    this.pageService.likePage(id).then(reponse => {
-      
-    }).catch(error => this.errorHandlerService.openToasterApiError(error));
+    let originalValue = this.page.iLike;
+    this.page.iLike = +!originalValue; //toggle button
+    this.pageService.likePage(id).catch(error => {
+      this.page.iLike = originalValue;
+      this.errorHandlerService.openToasterApiError(error);
+    });
   }
 }

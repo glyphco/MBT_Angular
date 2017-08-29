@@ -70,6 +70,12 @@ export class ShowService {
       .toPromise();
   }
 
+  likeShow(id):Promise<any>{
+    return this.httpHandlerService.get(`show/${id}/like`)
+      .map(response => response.json())
+      .toPromise();
+  }
+
   createShow(show:Show,categories):Promise<any>{
     let options = {
       name: show.name,

@@ -30,7 +30,7 @@
           {{page.likesCount}} Likes
           <span *ngIf="page.pyfslikeCount > 0;"> &bull; {{page.pyfslikeCount}} Pyfs</span>
         </span>
-        <ul class="likers" style="">
+        <ul class="likers">
           <li *ngFor="let pyf of page.pyfslike | slice:0:8; let i=index" class="inline-images liker">
             <img src="{{pyf.avatar}}" [style.z-index]="50 - i" title="{{pyf.name}}">
           </li>

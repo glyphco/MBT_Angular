@@ -19,6 +19,7 @@ export class Show {
   createdBy: number;
   updatedBy: number;
 
+  iLike:number;
   eventsCount: number;
   eventsListCurrent: any;
   likesCount: number;
@@ -54,6 +55,7 @@ export class Show {
       currentShow.updatedAt = json.updated_at;
       currentShow.createdBy = json.created_by;
       currentShow.updatedBy = json.updated_by;
+      currentShow.iLike = json.ilike_count;
       currentShow.eventsCount = json.events_count; 
       currentShow.likesCount = json.likes_count; 
       currentShow.pyfslikeCount = json.pyfslike_count; 

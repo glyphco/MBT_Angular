@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import { Show } from '../_models/show';
 import { ShowService } from '../_services/show.service';
+import { ErrorHandlerService } from '../_services/error-handler.service';
 
 @Component({
   selector: 'app-show-detail',
@@ -16,7 +17,8 @@ export class ShowDetailComponent implements OnInit, OnDestroy {
   constructor(
     private showService:ShowService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private errorHandlerService: ErrorHandlerService
   ){}
 
   ngOnInit():void {
@@ -39,5 +41,15 @@ export class ShowDetailComponent implements OnInit, OnDestroy {
       this.show = Show.map(show);
       console.log(this.show);
     }).catch(error => console.log(error));
+  }
+
+  public likeItem(){
+    let id = this.show.id;
+    let originalValue = this.show.iLike;
+    this.show.iLike = +!originalValue; //toggle button
+    this.showService.likeShow(id).catch(error => {
+      this.show.iLike = originalValue;
+      this.errorHandlerService.openToasterApiError(error);
+    });
   }
 }

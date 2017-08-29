@@ -29,7 +29,7 @@
           {{show.likesCount}} Likes
         <span *ngIf="show.pyfslikeCount > 0;"> &bull; {{show.pyfslikeCount}} Pyfs</span>
         </span>
-        <ul class="likers" style="">
+        <ul class="likers">
           <li *ngFor="let pyf of show.pyfslike | slice:0:8; let i=index" class="inline-images liker">
             <img src="{{pyf.avatar}}" [style.z-index]="50 - i" title="{{pyf.name}}">
           </li>
@@ -45,7 +45,9 @@
       </ng-template>
 
       <div class="showdetail-interested-container">
-        <button class="btn btn-primary">Like?</button>
+          <button [ngClass]="{'btn-primary':show.iLike,'active':show.iLike}" class="btn btn-default" (click)="likeItem()">
+              {{ show.iLike ? 'Liked' : 'Like?' }}
+            </button>
       </div>
     </li>
   </ul>
