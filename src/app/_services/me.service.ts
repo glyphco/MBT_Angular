@@ -187,7 +187,6 @@ export class MeService {
   }
 
   updateMe(user:User):Promise<any>{
-    let id = user.id;
     let options = {
       backgroundurl:user.backgroundUrl,
       city:user.city,
@@ -201,9 +200,10 @@ export class MeService {
       state:user.state,
       neighborhood:user.neighborhood,
       username:user.username,
-      bio:user.bio
+      bio:user.bio,
+      autoacceptfollows:user.autoAcceptFollows
     };
-    return this.httpHandlerService.put(`user/${id}`, options)
+    return this.httpHandlerService.put(`me/update`, options)
       .toPromise();
   }
 

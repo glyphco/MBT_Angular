@@ -4,6 +4,7 @@ import { MeService } from '../_services/me.service';
 import { HttpHandlerService } from '../_services/http-handler.service';
 import { User } from '../_models/user';
 import { UserService } from '../_services/user.service';
+import { AnnouncementService } from '../_services/announcement.service';
 import { ImageUploadService } from '../_services/image-upload.service';
 import { DateTime } from '../_helpers/date-time.service';
 import { StatesHelper } from '../_helpers/states-helper';
@@ -24,7 +25,8 @@ export class ProfileEditComponent implements OnInit {
     private meService: MeService,
     private router: Router,
     private httpHandlerService:HttpHandlerService,
-    private imageUploadService:ImageUploadService
+    private imageUploadService:ImageUploadService,
+    private announcementService:AnnouncementService
   ){}
 
   ngOnInit():void{
@@ -46,11 +48,11 @@ export class ProfileEditComponent implements OnInit {
         return this.meService.updateMe(this.user);
       }).then(response => {
         this.router.navigate(['/user', this.user.id]);
-      }).catch(error => console.log(error));
+      }).catch(error => this.announcementService.openToasterApiError(error));
     }else{
       this.meService.updateMe(this.user).then(response => {
         this.router.navigate(['/user', this.user.id]);
-      }).catch(error => console.log(error));
+      }).catch(error => this.announcementService.openToasterApiError(error));
     }
   }
 

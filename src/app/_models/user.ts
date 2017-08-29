@@ -44,6 +44,7 @@ export class User {
   imageLg:string;
   backgroundUrl:string;
   neighborhood:string;
+  autoAcceptFollows:number;
   createdAt:string;
 
   public static arrayMap(json):User[]{
@@ -94,13 +95,13 @@ export class User {
       currentUser.state = json.state;
       currentUser.streetAddress = json.street_address;
       currentUser.subLocationName = json.sublocationname;
+      currentUser.autoAcceptFollows = json.autoacceptfollows;
       currentUser.username = json.username;
       currentUser.imageUrl = json.imageurl;
       if ( currentUser.imageUrl != null) { //
         currentUser.imageSm = currentUser.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
         currentUser.imageLg = currentUser.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
       } else {
-        currentUser.imageUrl = currentUser.avatar
         currentUser.imageSm = currentUser.avatar;
         currentUser.imageLg = currentUser.avatar;
       }

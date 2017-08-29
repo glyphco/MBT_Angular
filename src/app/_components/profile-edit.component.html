@@ -1,6 +1,7 @@
 <div class="main-content white">
   <h2>Edit account</h2>
   <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+    <!--
     <div class="form-group" [class.has-error]="name.invalid && name.touched">
       <label for="name">Name</label>
       <input type="text" class="form-control" id="name" placeholder="Name" 
@@ -23,6 +24,7 @@
         </span>
       </div>
     </div>
+    -->
 
     <label for="main-image">Image</label>
     <input id="main-image" type="file" (change)="fileChange(image)" name="image" #image /><br />
@@ -82,6 +84,12 @@
         <option value="0">Only me</option>
       </select>
     </div>
+
+    <div class="form-group">
+      <label for="auto-followers">Automatically accept follow requests</label>
+      <input type="checkbox" id="auto-followers" [(ngModel)]="user.autoAcceptFollows" name="auto_followers" />
+    </div>
+
     <ng-template #noConfirm><p>After saving, this user will need to be confirmed by an admin.</p></ng-template>
 
     <button type="submit" class="btn btn-success" >Submit</button>
