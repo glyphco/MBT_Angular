@@ -17,6 +17,9 @@ export class AnnouncementService {
   };
 
   openToasterApiError(error, duration=3000){
+    if(typeof error == 'string'){
+      return this.openToasterError(error, duration);
+    }
     let title = error.json().message;
     let description = error.json().data;
     let message = `${title}: ${description}`;

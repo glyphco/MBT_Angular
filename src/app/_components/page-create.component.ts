@@ -52,7 +52,7 @@ export class PageCreateComponent {
       }
     }).then(response => {
       this.router.navigate(['/pages/editable']);
-    }).catch(error => this.announcementService.openToasterError(error));
+    }).catch(error => this.announcementService.openToasterApiError(error));
   }
 
   fileChange(imageField){

@@ -6,6 +6,7 @@ import { PageService } from '../_services/page.service';
 import { MeService } from '../_services/me.service';
 import { StatesHelper } from '../_helpers/states-helper';
 import { ImageUploadService } from '../_services/image-upload.service';
+import { AnnouncementService } from '../_services/announcement.service';
 
 @Component({
   selector: 'app-page-edit',
@@ -26,7 +27,8 @@ export class PageEditComponent implements OnInit, OnDestroy {
     private location: Location,
     private meService: MeService,
     private router: Router,
-    private imageUploadService:ImageUploadService
+    private imageUploadService:ImageUploadService,
+    private announcementService:AnnouncementService
   ){}
 
   ngOnInit():void{
@@ -55,7 +57,7 @@ export class PageEditComponent implements OnInit, OnDestroy {
       return this.pageService.updatePage(this.page, this.pageCategories);
     }).then(response => {
       this.router.navigate(['/pages/editable']);
-    }).catch(error => console.log(error));
+    }).catch(error => this.announcementService.openToasterApiError(error));
   }
 
   private uploadImageIfExist():Promise<any>{
