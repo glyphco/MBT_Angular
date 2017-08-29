@@ -4,7 +4,7 @@ import { MdSnackBar } from '@angular/material';
 
 @Injectable()
 
-export class ErrorHandlerService {
+export class AnnouncementService {
   constructor(
     private snackBar: MdSnackBar 
   ){}

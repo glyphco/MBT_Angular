@@ -70,7 +70,7 @@ import { MeService } from './_services/me.service';
 import { UserService } from './_services/user.service';
 import { ImageUploadService } from './_services/image-upload.service';
 import { SocialLoginService } from './_services/social-login.service';
-import { ErrorHandlerService } from './_services/error-handler.service';
+import { AnnouncementService } from './_services/announcement.service';
 
 @NgModule({
   declarations: [
@@ -149,7 +149,7 @@ import { ErrorHandlerService } from './_services/error-handler.service';
     UserService,
     ImageUploadService,
     SocialLoginService,
-    ErrorHandlerService
+    AnnouncementService
   ],
   bootstrap: [AppComponent]
 })

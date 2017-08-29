@@ -6,7 +6,7 @@ import { PageService } from '../_services/page.service';
 import { StatesHelper } from '../_helpers/states-helper';
 import { MeService } from '../_services/me.service';
 import { ImageUploadService } from '../_services/image-upload.service';
-import { ErrorHandlerService } from '../_services/error-handler.service';
+import { AnnouncementService } from '../_services/announcement.service';
 
 @Component({
   selector: 'app-page-create',
@@ -27,7 +27,7 @@ export class PageCreateComponent {
     private meService: MeService,
     private router: Router,
     private imageUploadService: ImageUploadService,
-    private errorHandlerService: ErrorHandlerService
+    private announcementService: AnnouncementService
   ){}
 
   public goBack(): void {
@@ -52,7 +52,7 @@ export class PageCreateComponent {
       }
     }).then(response => {
       this.router.navigate(['/pages/editable']);
-    }).catch(error => this.errorHandlerService.openToasterError(error));
+    }).catch(error => this.announcementService.openToasterError(error));
   }
 
   fileChange(imageField){

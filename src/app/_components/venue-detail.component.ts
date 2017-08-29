@@ -3,7 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import { Venue } from '../_models/venue';
 import { VenueService } from '../_services/venue.service';
-import { ErrorHandlerService } from '../_services/error-handler.service';
+import { AnnouncementService } from '../_services/announcement.service';
 
 @Component({
   selector: 'app-venue-detail',
@@ -18,7 +18,7 @@ export class VenueDetailComponent implements OnInit, OnDestroy {
     private venueService:VenueService,
     private route: ActivatedRoute,
     private location: Location,
-    private errorHandlerService: ErrorHandlerService
+    private announcementService: AnnouncementService
   ){}
 
   ngOnInit():void {
@@ -49,7 +49,7 @@ export class VenueDetailComponent implements OnInit, OnDestroy {
     this.venue.iLike = +!originalValue; //toggle button
     this.venueService.likeShow(id).catch(error => {
       this.venue.iLike = originalValue;
-      this.errorHandlerService.openToasterApiError(error);
+      this.announcementService.openToasterApiError(error);
     });
   }
 }
