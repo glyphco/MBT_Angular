@@ -10,31 +10,31 @@
       
       <div [hidden]="!mobile.active" class="navbar-items clearfix">
         <ul class="inline-list navbar-left">
-          <li *ngIf="loggedIn" routerLinkActive="active"><a routerLink="events/today" (click)="mobile.active=false;user.active=false">Today</a></li>
-          <li *ngIf="!loggedIn" routerLinkActive="active"><a routerLink="events" (click)="mobile.active=false;user.active=false">Today</a></li>
-          <li *ngIf="loggedIn" routerLinkActive="active"><a routerLink="events/current" (click)="mobile.active=false;user.active=false">Current</a></li>
-          <li routerLinkActive="active"><a routerLink="explore" (click)="mobile.active=false;user.active=false">Explore</a></li>
+          <li *ngIf="loggedIn" routerLinkActive="active"><a routerLink="events/today" (click)="mobile.active=false;user.active=false;locationPickerVisible=false">Today</a></li>
+          <li *ngIf="!loggedIn" routerLinkActive="active"><a routerLink="events" (click)="mobile.active=false;user.active=false;locationPickerVisible=false">Today</a></li>
+          <li *ngIf="loggedIn" routerLinkActive="active"><a routerLink="events/current" (click)="mobile.active=false;user.active=false;locationPickerVisible=false">Current</a></li>
+          <li routerLinkActive="active"><a routerLink="explore" (click)="mobile.active=false;user.active=false;locationPickerVisible=false">Explore</a></li>
         </ul>
 
         <ul class="inline-list navbar-right">
           <li><a href="javascript:void(0);" (click)="mobile.active=false;user.active=false;selectLocation()"><i class="fa fa-location-arrow" aria-hidden="true"></i> {{locationService.getLocationName()}}</a></li>
-          <li *ngIf="!loggedIn" (click)="mobile.active=false;user.active=false"><a routerLink="login">Login/Sign up</a></li>
+          <li *ngIf="!loggedIn" (click)="mobile.active=false;user.active=false;locationPickerVisible=false"><a routerLink="login">Login/Sign up</a></li>
 
           <li *ngIf="loggedIn" class="dropdown nav-user">
-            <a href="javascript:void(0);"  (click)="user.active = !user.active" class="dropdown-toggle">
+            <a href="javascript:void(0);"  (click)="user.active = !user.active;locationPickerVisible=false" class="dropdown-toggle">
             <img class="user-image" src="{{userimage}}" /> {{ username }} 
             <i class="fa fa-caret-down" aria-hidden="true"></i>
             </a>
 
             <ul class="dropdown-menu" [hidden]="!user.active">
-              <li><a href="javascript:void(0)" (click)="user.active = false; mobile.active=false;redirectToMyProfile()"><i class="fa fa-fw fa-user-circle" aria-hidden="true"></i> My profile</a></li>
+              <li><a href="javascript:void(0)" (click)="user.active = false; mobile.active=false;redirectToMyProfile();locationPickerVisible=false"><i class="fa fa-fw fa-user-circle" aria-hidden="true"></i> My profile</a></li>
 
               <ng-container *ngIf="meService.hasBackstage()">
-                <li><a routerLink="/backstage" (click)="user.active = false; mobile.active=false"><i class="fa fa-fw fa-user-secret" aria-hidden="true"></i> Backstage</a></li>
+                <li><a routerLink="/backstage" (click)="user.active = false; mobile.active=false;locationPickerVisible=false"><i class="fa fa-fw fa-user-secret" aria-hidden="true"></i> Backstage</a></li>
               </ng-container>
               <li role="separator" class="divider"></li>
-              <li><a routerLink="/profile/edit" (click)="user.active = false; mobile.active=false"><i class="fa fa-fw fa-pencil" aria-hidden="true"></i> Edit profile</a></li>
-              <li><a href="javascript:void(0);" (click)="logout();user.active = false; mobile.active=false"><i class="fa fa-fw fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+              <li><a routerLink="/profile/edit" (click)="user.active = false; mobile.active=false;locationPickerVisible=false"><i class="fa fa-fw fa-pencil" aria-hidden="true"></i> Edit profile</a></li>
+              <li><a href="javascript:void(0);" (click)="logout();user.active = false; mobile.active=false;locationPickerVisible=false"><i class="fa fa-fw fa-sign-out" aria-hidden="true"></i> Logout</a></li>
             </ul>
 
           </li>

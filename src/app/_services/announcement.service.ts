@@ -22,4 +22,11 @@ export class AnnouncementService {
     let message = `${title}: ${description}`;
     this.openToasterError(message, duration);
   };
+
+  openToasterSuccess(message, duration=3000){
+    this.snackBar.open(message, null, {
+      extraClasses: ['toaster-success'],
+      duration: duration
+    });
+  };
 }

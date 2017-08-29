@@ -11,7 +11,6 @@ import { HttpHandlerService } from '../_services/http-handler.service';
   styleUrls: ['./lists.component.css']
 })
 export class UserDetailComponent implements OnInit, OnDestroy {
-  role = 'nothing';
   user:User;
   private userId:number;
   get isOwner() {
@@ -20,7 +19,6 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     }
     return false;
   }
-  message;
   private sub:any;
 
   constructor(
@@ -49,13 +47,5 @@ export class UserDetailComponent implements OnInit, OnDestroy {
       this.user = User.map(user);
       console.log(this.user);
     }).catch(error => console.log(error));
-  }
-
-  saveRole(){
-    this.httpHandlerService.get(`me/makeme/${this.role}`)
-      .map(response => response.json())
-      .toPromise()
-      .then(response => this.message = response.data )
-      .catch(error => this.message = 'Role change failed')
   }
 }

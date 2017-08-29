@@ -16,6 +16,7 @@ import { StatesHelper } from '../_helpers/states-helper';
 })
 export class ProfileEditComponent implements OnInit {
   role = 'nothing';
+  message:string;
   states = StatesHelper.states;
   user = new User();
   image:any;
@@ -56,7 +57,7 @@ export class ProfileEditComponent implements OnInit {
     }
   }
 
-  fileChange(imageField){
+  public fileChange(imageField){
     if(0 in imageField.files){
       //store file temporarily
       this.image = imageField.files[0];
@@ -67,5 +68,13 @@ export class ProfileEditComponent implements OnInit {
     } else {
       this.previewImage = undefined;
     }
+  }
+
+  public saveRole(){
+    this.httpHandlerService.get(`me/makeme/${this.role}`)
+      .map(response => response.json())
+      .toPromise()
+      .then(response => this.announcementService.openToasterSuccess(response.data))
+      .catch(error => this.announcementService.openToasterError('Role change failed'))
   }
 }

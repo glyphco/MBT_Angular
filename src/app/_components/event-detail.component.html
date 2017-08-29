@@ -15,16 +15,16 @@
             <ng-template #elseBlock>{{ event.venueName }}</ng-template>
       </p>
       <p class="eventdetail-date">
-          {{ event.local_start | dateFormatter:'dddd, MMMM D' }}
+          {{ event.localStart | dateFormatter:'dddd, MMMM D' }}
       </p>
 
       <ul class="eventdetail-info">
         
-        <li *ngIf="event.local_end">
-          {{ event.local_start | dateFormatter:'short_time' }} to {{ event.local_end | dateFormatter:'short_time' }}
+        <li *ngIf="event.localEnd">
+          {{ event.localStart | dateFormatter:'short_time' }} to {{ event.localEnd | dateFormatter:'short_time' }}
         </li>
-        <li *ngIf="!event.local_end">
-          {{ event.local_start | dateFormatter:'short_time' }}
+        <li *ngIf="!event.localEnd">
+          {{ event.localStart | dateFormatter:'short_time' }}
         </li>
         <li>{{ event.categories.length > 0 ? event.categories[0].subcategory_name : '' }}</li>
         <li>{{ event.priceWord }} {{ event.priceMinMax }}</li>
@@ -94,7 +94,10 @@
         <ng-template #noParticipantLinkBlock>{{ participant.name }}</ng-template>
         </h3>    
         <div class="participant-info">
-        {{ participant.info }}
+          <ul>
+            <li>{{ participant.info }}</li>
+            <li>{{ participant.start | dateFormatter:'short_time' }}</li>
+          </ul>
         </div>
       </li>
     </ul>

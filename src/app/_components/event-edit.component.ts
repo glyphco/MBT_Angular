@@ -70,6 +70,7 @@ export class EventEditComponent implements OnInit {
   @ViewChild('producerSearch') producerSearch: ElementRef;
   @ViewChild('participantSearch') participantSearch: ElementRef;
   @ViewChild('venueSearch') venueSearch: ElementRef;
+  @ViewChild('showSearch') showSearch: ElementRef;
   tempTimezone:string;
   timezones = [
     {'id':'Pacific/Honolulu', 'name'  : 'Hawaii-Aleutian Standard Time (HAST)'},
@@ -232,7 +233,7 @@ export class EventEditComponent implements OnInit {
 
   public chooseParticipant(participant: any){
     participant = Page.map(participant);
-    participant.startTime = '20:00';
+    participant.startTime = undefined;
     this.tempParticipant = participant;
   }
 
@@ -252,7 +253,7 @@ export class EventEditComponent implements OnInit {
 
   public addManualParticipant(){
     this.tempParticipant = new Page();
-    this.tempParticipant.startTime = '20:00';
+    this.tempParticipant.startTime = undefined;
   }
 
   public manualVenueSubmit(){
@@ -283,23 +284,18 @@ export class EventEditComponent implements OnInit {
   public closeVenueModal(){
     this.tempVenue = null;
     this.initVenueSearch();
-    this.venueSearch.nativeElement.value = '';
     this.venueModalVisible = false;
   }
 
   public closeProducerModal(){
     this.producerModalVisible = false;
     this.tempProducer = null;
-    if(this.producerSearch && this.producerSearch.nativeElement){
-      this.producerSearch.nativeElement.value = '';
-    }
     this.initProducerSearch();//clear out search results
   }
 
   public closeParticipantModal(){
     this.tempParticipant = null;
     this.initParticipantSearch();//clear out search results
-    this.participantSearch.nativeElement.value = '';
     this.participantModalVisible = false;
   }
 
@@ -497,18 +493,22 @@ export class EventEditComponent implements OnInit {
 
   public showVenueModal(){
     this.venueModalVisible = true;
+    this.venueSearch.nativeElement.value = '';
   }
 
   public showProducerModal(){
     this.producerModalVisible = true;
+    this.producerSearch.nativeElement.value = '';
   }
 
   public showParticipantModal(){
     this.participantModalVisible = true;
+    this.participantSearch.nativeElement.value = '';
   }
 
   public showShowModal(){
     this.showModalVisible = true;
+    this.showSearch.nativeElement.value = '';
   }
 
   public saveTimezone(){

@@ -316,7 +316,11 @@ Helper classes
 }
 
 .toaster-danger {
-  background-color:#d12121 !important;
+  background-color:#D12020 !important;
+  color:#fff;
+}
+.toaster-success {
+  background-color:#3E980E !important;
   color:#fff;
 }
 

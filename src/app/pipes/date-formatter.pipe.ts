@@ -7,13 +7,36 @@ import * as moment from 'moment';
 })
 export class DateFormatterPipe {
   transform(value: string, format: string) : string {
-    let dateObj = moment(value);
     if(format == 'short_time'){
-      if(dateObj.format('mm') == '00'){
-        return dateObj.format('ha');
-      }
-      return dateObj.format('h:mma');
+      return this.formatShortTime(value);
     }
-    return dateObj.format(format);
+
+    let dateObj = moment(value);
+    if(dateObj.isValid()){
+      return dateObj.format(format);
+    }
+    return value;
+  }
+
+  private formatShortTime(time){
+    let timeObj = moment(time);
+    if(timeObj.isValid()){
+      return this.formatShortTimeMinutes(timeObj);
+    }
+
+    //moment couldn't convert the time
+    //try and convert time (ie. 20:00) to moment
+    timeObj = moment(time, 'HH:mm');
+    if(timeObj.isValid()){
+      return this.formatShortTimeMinutes(timeObj);
+    }
+    return time;
+  }
+
+  private formatShortTimeMinutes(momentObj){
+    if(momentObj.format('mm') == '00'){
+      return momentObj.format('ha');
+    }
+    return momentObj.format('h:mma');
   }
 }

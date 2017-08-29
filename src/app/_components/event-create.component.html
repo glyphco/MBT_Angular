@@ -167,247 +167,255 @@
       <input type="checkbox" id="confirmed" [(ngModel)]="event.confirmed" name="confirmed">
     </div>
     <ng-template #noConfirm><p>After saving, this event will need to be confirmed by an admin.</p></ng-template>
-    <button type="submit" class="btn btn-primary" [disabled]="!eventForm.form.valid">Submit</button>
+    <button type="submit" class="btn btn-success" [disabled]="!eventForm.form.valid">Submit</button>
     <button type="button" class="btn btn-danger" (click)="goBack()">Cancel</button>
   </form>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
 </div>
-
 <!--
     VENUES MODAL
 -->
-<div class="cd-popup" [class.is-visible]="venueModalVisible == true" role="alert">
-	<div class="cd-popup-container">
-    <ng-container *ngIf="!tempVenue">
-      <p>Find an existing MBT Venue</p>
-      <div class="input-group venue-search">
-        <input #venueSearch type="text" class="form-control sharp-border" (keyup)="searchVenues(venueSearch.value)" placeholder="Search venues">
-        <span class="input-group-addon sharp-border"><i class="fa fa-search" aria-hidden="true"></i></span>
-      </div>
-      <div class="list-group venue-result-container">
-        <button *ngFor="let result of venueResults | async" (click)="venueSearch.value = '';chooseVenue(result)" type="button" class="list-group-item list-group-item-action venue-result sharp-border">
-          <img src="{{ result.imageurl }}"> {{ result.name }}
-        </button>
-      </div>
-      <p class="venue-help-text"><a href="javascript:void(0)" (click)="addManualVenue()">Manually add a non-MBT Venue</a></p>
-    </ng-container>
-    <ng-container *ngIf="tempVenue && venueGeocodeResults.length == 0">
-      <p>Manually add a non-MBT Venue</p>
-      <div class="venue-form-container">
-        <div *ngIf="venueResultError" class="alert alert-danger" role="alert">No results found for that address</div>
-        <form (ngSubmit)="manualVenueSubmit()" #venueForm="ngForm">
-          <div class="form-group" [class.has-error]="venuename.invalid && venuename.touched">
-            <label for="venue-name">Name</label>
-            <input type="text" class="form-control" id="venue-name" placeholder="Name" 
-              [(ngModel)]="tempVenue.name" name="venueName" required #venuename="ngModel" maxlength="60">
-            <div *ngIf="venuename.errors  && venuename.touched">
-              <span [class.hidden]="!venuename.errors.required"  class="help-block">Name is required</span>
-              <span [class.hidden]="!venuename.errors.maxlength"  class="help-block">
-                Name cannot be more than 60 characters long.
+<modal [(modalVisible)]="venueModalVisible">
+    <div class="modal-title">
+      <h3>Venue</h3>
+    </div>
+    <div class="modal-body" style="padding:20px;">
+        <ng-container *ngIf="!tempVenue">
+            <p>Find an existing MBT Venue</p>
+            <div class="input-group venue-search">
+              <input #venueSearch type="text" class="form-control sharp-border" (keyup)="searchVenues(venueSearch.value)" placeholder="Search venues">
+              <span class="input-group-addon sharp-border"><i class="fa fa-search" aria-hidden="true"></i></span>
+            </div>
+            <div class="list-group venue-result-container">
+              <button *ngFor="let result of venueResults | async" (click)="venueSearch.value = '';chooseVenue(result)" type="button" class="list-group-item list-group-item-action venue-result sharp-border">
+                <img src="{{ result.imageurl }}"> {{ result.name }}
+              </button>
+            </div>
+            <p class="venue-help-text"><a href="javascript:void(0)" (click)="addManualVenue()">Manually add a non-MBT Venue</a></p>
+          </ng-container>
+          <ng-container *ngIf="tempVenue && venueGeocodeResults.length == 0">
+            <p>Manually add a non-MBT Venue</p>
+            <div class="venue-form-container">
+              <div *ngIf="venueResultError" class="alert alert-danger" role="alert">No results found for that address</div>
+              <form (ngSubmit)="manualVenueSubmit()" #venueForm="ngForm">
+                <div class="form-group" [class.has-error]="venuename.invalid && venuename.touched">
+                  <label for="venue-name">Name</label>
+                  <input type="text" class="form-control" id="venue-name" placeholder="Name" 
+                    [(ngModel)]="tempVenue.name" name="venueName" required #venuename="ngModel" maxlength="60">
+                  <div *ngIf="venuename.errors  && venuename.touched">
+                    <span [class.hidden]="!venuename.errors.required"  class="help-block">Name is required</span>
+                    <span [class.hidden]="!venuename.errors.maxlength"  class="help-block">
+                      Name cannot be more than 60 characters long.
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="venue-street-adress">Street address</label>
+                  <input type="text" class="form-control" id="venue-street-address" placeholder="Street address" 
+                    [(ngModel)]="tempVenue.streetAddress" name="venueStreetAddress" required #venueStreetAddress="ngModel" />
+                    <span class="help-block">e.g. 5322 Otter Ln, Chicago, IL 60478 or The Willis Tower</span>
+                  <div *ngIf="venueStreetAddress.errors  && venueStreetAddress.touched">
+                    <span [class.hidden]="!venueStreetAddress.errors.required"  class="help-block">Street address is required</span>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <p class="venue-help-text"><a href="javascript:void(0)" (click)="tempVenue=null">Find an Existing MBT Venue</a></p>
+          </ng-container>
+          <ng-container *ngIf="venueGeocodeResults.length > 0">
+            <p>We found {{ venueGeocodeResults.length | i18nPlural: resultMapping }}</p>
+            <div class="list-group venue-result-container">
+              <button *ngFor="let location of venueGeocodeResults" (click)="useManualResult(location)" type="button" class="list-group-item sharp-border">
+                {{ location.formatted_address }}
+              </button>
+            </div>
+            <p class="venue-help-text">Wrong results? <a href="javascript:void(0)" (click)="venueGeocodeResults = []">Edit address</a></p>
+          </ng-container>
+          <ul *ngIf="tempVenue && venueGeocodeResults.length == 0" class="cd-buttons">
+            <li><div (click)="manualVenueSubmit()">Save</div></li>
+            <li><div (click)="closeVenueModal()">Cancel</div></li>
+          </ul>
+    </div>
+  </modal>
+  
+  
+  
+  <!--
+      PRODUCERS MODAL
+  -->
+  <modal [(modalVisible)]="producerModalVisible">
+    <div class="modal-title">
+      <h3>Producer</h3>
+    </div>
+    <div class="modal-body" style="padding:20px;">
+        <ng-container *ngIf="!tempProducer">
+            <p>Find an Existing MBT Producer</p>
+            <div class="input-group venue-search">
+              <input #producerSearch type="text" class="form-control sharp-border"
+                (keyup)="searchProducers(producerSearch.value)" placeholder="Search producers">
+              <span class="input-group-addon sharp-border"><i class="fa fa-search" aria-hidden="true"></i></span>
+            </div>
+            <div class="list-group venue-result-container">
+              <button *ngFor="let result of producerResults | async" (click)="producerSearch.value = '';chooseProducer(result)" type="button" class="list-group-item list-group-item-action venue-result sharp-border">
+                <img src="{{ result.imageurl }}"> {{ result.name }}
+              </button>
+            </div>
+            <p class="venue-help-text"><a href="javascript:void(0)" (click)="addManualProducer()">Manually add a non-MBT Producer</a></p>
+          </ng-container>
+          <ng-container *ngIf="tempProducer">
+            <p *ngIf="tempProducer.id < 0;else producerElse">Manually add a non-MBT Producer</p>
+            <ng-template #producerElse><p>Choose start time</p>
+              <span class="help-block participant-container in-modal">
+                <img src="{{ tempProducer.imageUrl }}" />
+                {{ tempProducer.name }}
               </span>
+            </ng-template>
+            <div class="venue-form-container">
+              <div *ngIf="producerResultError" class="alert alert-danger" role="alert">No results found for that producer</div>
+              <form (ngSubmit)="manualProducerSubmit()" #producerForm="ngForm">
+                <div *ngIf="tempProducer.id < 0" class="form-group" [class.has-error]="producername.invalid && producername.touched">
+                  <label for="producer-name">Name</label>
+                  <input type="text" class="form-control" id="producer-name" placeholder="Name" 
+                    [(ngModel)]="tempProducer.name" name="producerName" required #producername="ngModel" maxlength="60">
+                  <div *ngIf="producername.errors  && producername.touched">
+                    <span [class.hidden]="!producername.errors.required"  class="help-block">Name is required</span>
+                    <span [class.hidden]="!producername.errors.maxlength"  class="help-block">
+                      Name cannot be more than 60 characters long.
+                    </span>
+                  </div>
+                </div>
+                <div *ngIf="tempProducer.id < 0" class="form-group">
+                  <label for="producer-tagline">Tagline</label>
+                  <textarea [(ngModel)]="tempProducer.tagline" class="form-control" id="producer-tagline" name="producerTagline"></textarea>
+                </div>
+              </form>
             </div>
-          </div>
-          <div class="form-group">
-            <label for="venue-street-adress">Street address</label>
-            <input type="text" class="form-control" id="venue-street-address" placeholder="Street address" 
-              [(ngModel)]="tempVenue.streetAddress" name="venueStreetAddress" required #venueStreetAddress="ngModel" />
-              <span class="help-block">e.g. 5322 Otter Ln, Chicago, IL 60478 or The Willis Tower</span>
-            <div *ngIf="venueStreetAddress.errors  && venueStreetAddress.touched">
-              <span [class.hidden]="!venueStreetAddress.errors.required"  class="help-block">Street address is required</span>
+            <p *ngIf="tempProducer.id < 0;else producerBack" class="venue-help-text"><a href="javascript:void(0)" (click)="tempProducer=null">Find an existing MBT Producer</a></p>
+            <ng-template #producerBack>
+              <p class="venue-help-text">Make a mistake? <a href="javascript:void(0)" (click)="tempProducer=null">Go back</a></p>
+            </ng-template>
+          </ng-container>
+          <br />
+          <ul *ngIf="tempProducer" class="cd-buttons">
+            <li><div (click)="manualProducerSubmit()">Save</div></li>
+            <li><div (click)="closeProducerModal()">Cancel</div></li>
+          </ul>
+    </div>
+  </modal>
+  
+  <!--
+      PARTICIPANTS MODAL
+  -->
+  <modal [(modalVisible)]="participantModalVisible">
+    <div class="modal-title">
+      <h3>Participant</h3>
+    </div>
+    <div class="modal-body" style="padding:20px;">
+        <ng-container *ngIf="!tempParticipant">
+            <p>Find an Existing MBT Participant</p>
+            <div class="input-group venue-search">
+              <input #participantSearch type="text" class="form-control sharp-border"
+                (keyup)="searchParticipants(participantSearch.value)" placeholder="Search participants">
+              <span class="input-group-addon sharp-border"><i class="fa fa-search" aria-hidden="true"></i></span>
             </div>
+            <div class="list-group venue-result-container">
+              <button *ngFor="let result of participantResults | async" (click)="participantSearch.value = '';chooseParticipant(result)" type="button" class="list-group-item list-group-item-action venue-result sharp-border">
+                <img src="{{ result.imageurl }}"> {{ result.name }}
+              </button>
+            </div>
+            <p class="venue-help-text"><a href="javascript:void(0)" (click)="addManualParticipant()">Manually add a non-MBT Participant</a></p>
+          </ng-container>
+
+          <ng-container *ngIf="tempParticipant">
+            <p *ngIf="tempParticipant.id < 0;else elseBlock">Manually add a non-MBT Participant</p>
+            <ng-template #elseBlock>
+              <span class="help-block participant-container in-modal">
+                <img src="{{ tempParticipant.imageUrl }}" />
+                {{ tempParticipant.name }}
+              </span>
+            </ng-template>
+            <div class="venue-form-container">
+              <div *ngIf="venueResultError" class="alert alert-danger" role="alert">No results found for that address</div>
+              <form (ngSubmit)="manualVenueSubmit()" #venueForm="ngForm">
+                <div *ngIf="tempParticipant.id < 0" class="form-group no-margin-bottom">
+                  <label for="venue-name">Name</label>
+                  <input type="text" class="form-control" id="venue-name" placeholder="Name" 
+                    [(ngModel)]="tempParticipant.name" name="venueName" required #participantname="ngModel" maxlength="60">
+                </div>
+                <div class="form-group">
+                  <label for="participant-description">Info</label>
+                  <input [(ngModel)]="tempParticipant.tagline" class="form-control" id="participant-description" name="participantDescription" />
+                </div>
+                <div *ngIf="tempParticipant.startTime;else addStartTime" class="form-group custom-group">
+                  <label for="participant-start-time" class="inline-label">Start time</label>
+                  <md-input-container>
+                    <input mdInput id="participant-start-time" type="time" name="participant_start_time" [(ngModel)]="tempParticipant.startTime">
+                  </md-input-container>
+                  <i class="fa fa-times" (click)="tempParticipant.startTime = undefined" aria-hidden="true"></i>
+                </div>
+                <ng-template #addStartTime>
+                  <a href="javascript:void(0)" (click)="tempParticipant.startTime='20:00'">Add start time</a>
+                </ng-template>
+              </form>
+            </div>
+            <p *ngIf="tempParticipant.id < 0;else participantBack" class="venue-help-text"><a href="javascript:void(0)" (click)="tempParticipant=null">Find an existing MBT Participant</a></p>
+            <ng-template #participantBack>
+              <p class="venue-help-text">Make a mistake? <a href="javascript:void(0)" (click)="tempParticipant=null">Go back</a></p>
+            </ng-template>
+          </ng-container>
+
+          <br />
+          <ul *ngIf="tempParticipant" class="cd-buttons">
+            <li><div (click)="manualParticipantSubmit()">Save</div></li>
+            <li><div (click)="closeParticipantModal()">Cancel</div></li>
+          </ul>
+    </div>
+  </modal>
+  <!--
+      SHOWS MODAL
+  -->
+  <modal [(modalVisible)]="showModalVisible">
+    <div class="modal-title">
+      <h3>Show</h3>
+    </div>
+    <div class="modal-body" style="padding:20px;">
+        <p>Find an Existing MBT Show</p>
+        <div class="input-group venue-search">
+          <input #showSearch type="text" class="form-control sharp-border"
+            (keyup)="searchShows(showSearch.value)" placeholder="Search shows">
+          <span class="input-group-addon sharp-border"><i class="fa fa-search" aria-hidden="true"></i></span>
+        </div>
+        <div class="list-group venue-result-container">
+          <button *ngFor="let result of showResults | async" (click)="showSearch.value = '';chooseShow(result)" type="button" class="list-group-item list-group-item-action venue-result sharp-border">
+            <img src="{{ result.imageurl }}"> {{ result.name }}
+          </button>
+        </div>
+        <br />
+        <br />
+    </div>
+  </modal>
+  
+  <!--
+      TIMEZONE MODAL
+  -->
+  <modal [(modalVisible)]="timezoneModalVisible">
+    <div class="modal-title">
+      <h3>Choose timezone</h3>
+    </div>
+    <div class="modal-body" style="padding:20px;">
+        <form>
+          <div class="form-group venue-search">
+            <select [(ngModel)]="tempTimezone" class="form-control sharp-border" name="timezone">
+              <option *ngFor="let timezone of timezones" [value]="timezone.id">{{timezone.name}}</option>
+            </select>
           </div>
         </form>
-      </div>
-      <p class="venue-help-text"><a href="javascript:void(0)" (click)="tempVenue=null">Find an Existing MBT Venue</a></p>
-    </ng-container>
-    <ng-container *ngIf="venueGeocodeResults.length > 0">
-      <p>We found {{ venueGeocodeResults.length | i18nPlural: resultMapping }}</p>
-      <div class="list-group venue-result-container">
-        <button *ngFor="let location of venueGeocodeResults" (click)="useManualResult(location)" type="button" class="list-group-item sharp-border">
-          {{ location.formatted_address }}
-        </button>
-      </div>
-      <p class="venue-help-text">Wrong results? <a href="javascript:void(0)" (click)="venueGeocodeResults = []">Edit address</a></p>
-    </ng-container>
-    <br />
-		<ul *ngIf="tempVenue && venueGeocodeResults.length == 0" class="cd-buttons">
-			<li><div (click)="manualVenueSubmit()">Save</div></li>
-			<li><div (click)="closeVenueModal()">Cancel</div></li>
-		</ul>
-		<div class="cd-popup-close img-replace" (click)="closeVenueModal()">Close</div>
-	</div> <!-- cd-popup-container -->
-</div> <!-- cd-popup -->
-
-<!--
-    PRODUCERS MODAL
--->
-<div class="cd-popup" [class.is-visible]="producerModalVisible == true" role="alert">
-	<div class="cd-popup-container">
-    <ng-container *ngIf="!tempProducer">
-      <p>Find an Existing MBT Producer</p>
-      <div class="input-group venue-search">
-        <input #producerSearch type="text" class="form-control sharp-border"
-         (keyup)="searchProducers(producerSearch.value)" placeholder="Search producers">
-        <span class="input-group-addon sharp-border"><i class="fa fa-search" aria-hidden="true"></i></span>
-      </div>
-      <div class="list-group venue-result-container">
-        <button *ngFor="let result of producerResults | async" (click)="producerSearch.value = '';chooseProducer(result)" type="button" class="list-group-item list-group-item-action venue-result sharp-border">
-          <img src="{{ result.imageurl }}"> {{ result.name }}
-        </button>
-      </div>
-      <p class="venue-help-text"><a href="javascript:void(0)" (click)="addManualProducer()">Manually add a non-MBT Producer</a></p>
-    </ng-container>
-    <ng-container *ngIf="tempProducer">
-      <p *ngIf="tempProducer.id < 0;else producerElse">Manually add a non-MBT Producer</p>
-      <ng-template #producerElse><p>Choose start time</p>
-        <span class="help-block participant-container in-modal">
-          <img src="{{ tempProducer.imageUrl }}" />
-          {{ tempProducer.name }}
-        </span>
-      </ng-template>
-      <div class="venue-form-container">
-        <div *ngIf="producerResultError" class="alert alert-danger" role="alert">No results found for that producer</div>
-        <form (ngSubmit)="manualProducerSubmit()" #producerForm="ngForm">
-          <div *ngIf="tempProducer.id < 0" class="form-group" [class.has-error]="producername.invalid && producername.touched">
-            <label for="producer-name">Name</label>
-            <input type="text" class="form-control" id="producer-name" placeholder="Name" 
-              [(ngModel)]="tempProducer.name" name="producerName" required #producername="ngModel" maxlength="60">
-            <div *ngIf="producername.errors  && producername.touched">
-              <span [class.hidden]="!producername.errors.required"  class="help-block">Name is required</span>
-              <span [class.hidden]="!producername.errors.maxlength"  class="help-block">
-                Name cannot be more than 60 characters long.
-              </span>
-            </div>
-          </div>
-          <div *ngIf="tempProducer.id < 0" class="form-group">
-            <label for="producer-tagline">Tagline</label>
-            <textarea [(ngModel)]="tempProducer.tagline" class="form-control" id="producer-tagline" name="producerTagline"></textarea>
-          </div>
-        </form>
-      </div>
-      <p *ngIf="tempProducer.id < 0;else producerBack" class="venue-help-text"><a href="javascript:void(0)" (click)="tempProducer=null">Find an existing MBT Producer</a></p>
-      <ng-template #producerBack>
-        <p class="venue-help-text">Make a mistake? <a href="javascript:void(0)" (click)="tempProducer=null">Go back</a></p>
-      </ng-template>
-    </ng-container>
-    <br />
-		<ul *ngIf="tempProducer" class="cd-buttons">
-			<li><div (click)="manualProducerSubmit()">Save</div></li>
-			<li><div (click)="closeProducerModal()">Cancel</div></li>
-		</ul>
-		<div class="cd-popup-close img-replace" (click)="closeProducerModal()">Close</div>
-	</div> <!-- cd-popup-container -->
-</div> <!-- cd-popup -->
-
-<!--
-    PARTICIPANTS MODAL
--->
-<div class="cd-popup" [class.is-visible]="participantModalVisible == true" role="alert">
-	<div class="cd-popup-container">
-    <ng-container *ngIf="!tempParticipant">
-      <p>Find an Existing MBT Participant</p>
-      <div class="input-group venue-search">
-        <input #participantSearch type="text" class="form-control sharp-border"
-         (keyup)="searchParticipants(participantSearch.value)" placeholder="Search participants">
-        <span class="input-group-addon sharp-border"><i class="fa fa-search" aria-hidden="true"></i></span>
-      </div>
-      <div class="list-group venue-result-container">
-        <button *ngFor="let result of participantResults | async" (click)="participantSearch.value = '';chooseParticipant(result)" type="button" class="list-group-item list-group-item-action venue-result sharp-border">
-          <img src="{{ result.imageurl }}"> {{ result.name }}
-        </button>
-      </div>
-      <p class="venue-help-text"><a href="javascript:void(0)" (click)="addManualParticipant()">Manually add a non-MBT Participant</a></p>
-    </ng-container>
-    <ng-container *ngIf="tempParticipant">
-      <p *ngIf="tempParticipant.id < 0;else elseBlock">Manually add a non-MBT Participant</p>
-      <ng-template #elseBlock><p>Choose start time</p>
-        <span class="help-block participant-container in-modal">
-          <img src="{{ tempParticipant.imageUrl }}" />
-          {{ tempParticipant.name }}
-        </span>
-      </ng-template>
-      <div class="venue-form-container">
-        <div *ngIf="venueResultError" class="alert alert-danger" role="alert">No results found for that address</div>
-        <form (ngSubmit)="manualVenueSubmit()" #venueForm="ngForm">
-          <div *ngIf="tempParticipant.id < 0" class="form-group no-margin-bottom" [class.has-error]="venuename.invalid && venuename.touched">
-            <label for="venue-name">Name</label>
-            <input type="text" class="form-control" id="venue-name" placeholder="Name" 
-              [(ngModel)]="tempParticipant.name" name="venueName" required #venuename="ngModel" maxlength="60">
-            <div *ngIf="venuename.errors  && venuename.touched">
-              <span [class.hidden]="!venuename.errors.required"  class="help-block">Name is required</span>
-              <span [class.hidden]="!venuename.errors.maxlength"  class="help-block">
-                Name cannot be more than 60 characters long.
-              </span>
-            </div>
-          </div>
-          <div class="form-group custom-group">
-            <label for="participant-start-time" class="inline-label">Start time</label>
-            <md-input-container>
-              <input mdInput id="participant-start-time" type="time" name="participant_start_time" [(ngModel)]="tempParticipant.startTime">
-            </md-input-container>
-          </div>
-          <div *ngIf="tempParticipant.id < 0" class="form-group">
-            <label for="participant-description">Description</label>
-            <textarea [(ngModel)]="tempParticipant.description" class="form-control" id="participant-description" name="participantDescription"></textarea>
-          </div>
-        </form>
-      </div>
-      <p *ngIf="tempParticipant.id < 0;else participantBack" class="venue-help-text"><a href="javascript:void(0)" (click)="tempParticipant=null">Find an existing MBT Participant</a></p>
-      <ng-template #participantBack>
-        <p class="venue-help-text">Make a mistake? <a href="javascript:void(0)" (click)="tempParticipant=null">Go back</a></p>
-      </ng-template>
-    </ng-container>
-    <br />
-		<ul *ngIf="tempParticipant" class="cd-buttons">
-			<li><div (click)="manualParticipantSubmit()">Save</div></li>
-			<li><div (click)="closeParticipantModal()">Cancel</div></li>
-		</ul>
-		<div class="cd-popup-close img-replace" (click)="closeParticipantModal()">Close</div>
-	</div> <!-- cd-popup-container -->
-</div> <!-- cd-popup -->
-
-<!--
-    SHOWS MODAL
--->
-<div class="cd-popup" [class.is-visible]="showModalVisible == true" role="alert">
-	<div class="cd-popup-container">
-      <p>Find an Existing MBT Show</p>
-      <div class="input-group venue-search">
-        <input #showSearch type="text" class="form-control sharp-border"
-         (keyup)="searchShows(showSearch.value)" placeholder="Search shows">
-        <span class="input-group-addon sharp-border"><i class="fa fa-search" aria-hidden="true"></i></span>
-      </div>
-      <div class="list-group venue-result-container">
-        <button *ngFor="let result of showResults | async" (click)="showSearch.value = '';chooseShow(result)" type="button" class="list-group-item list-group-item-action venue-result sharp-border">
-          <img src="{{ result.imageurl }}"> {{ result.name }}
-        </button>
-      </div>
-      <br />
-      <br />
-		<div class="cd-popup-close img-replace" (click)="closeShowModal()">Close</div>
-	</div> <!-- cd-popup-container -->
-</div> <!-- cd-popup -->
-
-<!--
-    TIMEZONE MODAL
--->
-<div class="cd-popup" [class.is-visible]="timezoneModalVisible == true" role="alert">
-	<div class="cd-popup-container">
-    <p>Choose timezone</p>
-    <form>
-      <div class="form-group venue-search">
-        <select [(ngModel)]="tempTimezone" class="form-control sharp-border" name="timezone">
-          <option *ngFor="let timezone of timezones" [value]="timezone.id">{{timezone.name}}</option>
-        </select>
-      </div>
-    </form>
-    <br />
-		<ul class="cd-buttons">
-			<li><div (click)="saveTimezone()">Save</div></li>
-			<li><div (click)="closeTimezoneModal()">Cancel</div></li>
-		</ul>
-		<div class="cd-popup-close img-replace" (click)="closeTimezoneModal()">Close</div>
-	</div> <!-- cd-popup-container -->
-</div> <!-- cd-popup -->
+        <br />
+        <ul class="cd-buttons">
+          <li><div (click)="saveTimezone()">Save</div></li>
+          <li><div (click)="closeTimezoneModal()">Cancel</div></li>
+        </ul>
+    </div>
+  </modal>

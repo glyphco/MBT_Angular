@@ -1,19 +1,5 @@
 <div class="main-content white">
 <p>&nbsp;</p>
-<div class="container">
-  <div *ngIf="isOwner">
-    <div *ngIf="message" class="alert alert-info" role="alert">{{message}}</div>
-      <label>**SUPER HIDDEN ROLE CHANGER FOR TESTING PURPOSES:</label>
-      <select [(ngModel)]="role" name="role">
-        <option value="superadmin">Super admin</option>
-        <option value="admin">Admin</option>
-        <option value="mastereditor">Master editor</option>
-        <option value="contributor">Contributor</option>
-        <option value="nothing">Nothing</option>
-      </select>
-      <button class="btn btn-primary" (click)="saveRole()">Save</button>
-    </div>
-  </div>
 
 <div *ngIf="user">
   <ul class=item-list>
