@@ -35,7 +35,7 @@ export class EventEditComponent implements OnInit {
   private apiEventId:number;
   private sub:any;
   uploadUrl:string;
-  eventCategories = []; //for filling the dropdown
+  eventCategories = [];
   event = new Event();
   venue:Venue;
   shows = [];
@@ -97,8 +97,27 @@ export class EventEditComponent implements OnInit {
   ngOnInit():void {
     //get the current event
     this.sub = this.route.params.subscribe(params => {
-       let id = +params['id']; // (+) converts string 'id' to a number
-       this.getEventEdit(id);
+      this.eventCategories = [];
+      this.event = new Event();
+      this.venue = undefined;
+      this.shows = [];
+      this.image = undefined;
+      this.previewImage = undefined;
+      this.producers = [];
+      this.tempProducer = undefined;
+      this.startDateTime = new DateTime();
+      this.endDateTime = new DateTime();
+      this.tempVenue = undefined; //used for creating a custom venue
+      this.participants = [];
+      this.venueGeocodeResults = [];
+      this.venueModalVisible = false;
+      this.timezoneModalVisible = false;
+      this.producerModalVisible = false;
+      this.participantModalVisible = false;
+      this.showModalVisible = false;
+      this.hasEndDate = false;
+      let id = +params['id']; // (+) converts string 'id' to a number
+      this.getEventEdit(id);
     });
 
     //Init google map geocoder

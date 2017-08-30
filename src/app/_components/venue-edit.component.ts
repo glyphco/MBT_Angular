@@ -15,7 +15,7 @@ declare var google:any;
   styleUrls: ['./venue-create.component.css', './backstage.component.css']
 })
 export class VenueEditComponent implements OnInit, OnDestroy {
-  venue = new Venue;
+  venue = new Venue();
   pacInput = '';
   map:any;
   marker:any;
@@ -49,8 +49,18 @@ export class VenueEditComponent implements OnInit, OnDestroy {
 
   ngOnInit():void{
     this.sub = this.route.params.subscribe(params => {
-       let id = +params['id']; // (+) converts string 'id' to a number
-       this.getVenueEdit(id);
+      this.venue = new Venue();
+      this.pacInput = '';
+      this.map = undefined;
+      this.marker = undefined;
+      this.infowindow = undefined;
+      this.infowindowContent = undefined;
+      this.image = undefined;
+      this.jpegImage = undefined;
+      this.previewImage = undefined;
+
+      let id = +params['id']; // (+) converts string 'id' to a number
+      this.getVenueEdit(id);
     });
 
     this.venue.localTz = 'CST6CDT';

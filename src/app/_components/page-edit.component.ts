@@ -14,7 +14,7 @@ import { AnnouncementService } from '../_services/announcement.service';
   styleUrls: ['./backstage.component.css']
 })
 export class PageEditComponent implements OnInit, OnDestroy {
-  page = new Page;
+  page = new Page();
   private sub: any;
   states = StatesHelper.states;
   pageCategories = [];
@@ -33,8 +33,13 @@ export class PageEditComponent implements OnInit, OnDestroy {
 
   ngOnInit():void{
     this.sub = this.route.params.subscribe(params => {
-       let id = +params['id']; // (+) converts string 'id' to a number
-       this.getPageEdit(id);
+      this.page = new Page();
+      this.pageCategories = [];
+      this.image = undefined;
+      this.previewImage = undefined;
+
+      let id = +params['id']; // (+) converts string 'id' to a number
+      this.getPageEdit(id);
     });
   }
 

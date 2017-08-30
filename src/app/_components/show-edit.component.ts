@@ -12,7 +12,7 @@ import { ImageUploadService } from '../_services/image-upload.service';
   styleUrls: ['./backstage.component.css']
 })
 export class ShowEditComponent implements OnInit, OnDestroy {
-  show = new Show;
+  show = new Show();
   private sub: any;
   showCategories = [];
   image:any;
@@ -29,8 +29,13 @@ export class ShowEditComponent implements OnInit, OnDestroy {
 
   ngOnInit():void{
     this.sub = this.route.params.subscribe(params => {
-       let id = +params['id']; // (+) converts string 'id' to a number
-       this.getShowEdit(id);
+      this.show = new Show();
+      this.showCategories = [];
+      this.image = undefined;
+      this.previewImage = undefined;
+
+      let id = +params['id']; // (+) converts string 'id' to a number
+      this.getShowEdit(id);
     });
   }
 
