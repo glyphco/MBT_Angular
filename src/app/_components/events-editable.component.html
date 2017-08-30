@@ -59,9 +59,9 @@
   </tr>
     <tr *ngFor="let event of events">
       <td>
-        <img class="image-micro-event" src="{{ event.imageurl }}">
+        <img class="image-micro-event" src="{{ event.imageIcon }}">
       </td>
-      <td>{{event.local_start | dateFormatter:'YYYY MMM DD' }}</td>
+      <td>{{event.localStart | dateFormatter:'YYYY MMM DD (hh:mma)' }}</td>
       <td>
         <a [routerLink]="['/event/edit', event.id]">
           {{event.name}}

@@ -21,6 +21,7 @@ export class ShowService {
   getShowsEditable(page=1, perpage=10, options):Promise<any>{
     let query = this.httpHandlerService.serialize(options);
     return this.httpHandlerService.get(`show/editable?page=${page}&pp=${perpage}&${query}`)
+      .map(response => response.json().data)
       .toPromise();
   }
 

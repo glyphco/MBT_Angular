@@ -16,6 +16,7 @@ export class VenueService {
   getVenuesEditable(page=1, perpage=10, options):Promise<any>{
     let query = this.httpHandlerService.serialize(options);
     return this.httpHandlerService.get(`venue/editable?page=${page}&pp=${perpage}&${query}`)
+      .map(response => response.json().data)
       .toPromise();
   }
   

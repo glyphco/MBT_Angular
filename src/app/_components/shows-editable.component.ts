@@ -46,9 +46,9 @@ export class ShowsEditableComponent implements OnInit {
     }
     let options = this.getOptions();
     this.showService.getShowsEditable(page, 100, options).then(shows => {
-      this.shows = shows.json().data.data;
-      let perPage = shows.json().data.per_page;
-      let totalObjects = shows.json().data.total;
+      this.shows = Show.arrayMap(shows.data);
+      let perPage = shows.per_page;
+      let totalObjects = shows.total;
       this.pagination.setPage(page, perPage, totalObjects);
     }).catch(error => console.log(error));
   }

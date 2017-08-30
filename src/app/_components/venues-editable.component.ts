@@ -46,9 +46,9 @@ export class VenuesEditableComponent implements OnInit {
     }
     let options = this.getOptions();
     this.venueService.getVenuesEditable(page, 100, options).then(venues => {
-      this.venues = venues.json().data.data;
-      let perPage = venues.json().data.per_page;
-      let totalObjects = venues.json().data.total;
+      this.venues = Venue.arrayMap(venues.data);
+      let perPage = venues.per_page;
+      let totalObjects = venues.total;
       this.pagination.setPage(page, perPage, totalObjects);
     }).catch(error => console.log(error));
   }

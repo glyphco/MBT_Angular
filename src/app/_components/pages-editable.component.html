@@ -56,7 +56,7 @@
   </tr>
   <tr *ngFor="let page of pages">
     <td>
-      <img class="image-micro" src="{{ page.imageurl }}">
+      <img class="image-micro" src="{{ page.imageIcon }}">
     </td>
     <td>
       <a [routerLink]="['/page/edit', page.id]">

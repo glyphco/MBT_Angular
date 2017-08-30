@@ -57,7 +57,7 @@
   </tr>
   <tr *ngFor="let venue of venues">
     <td>
-      <img class="image-micro" src="{{ venue.imageurl }}">
+      <img class="image-micro" src="{{ venue.imageIcon }}">
     </td>
     <td>
       <a [routerLink]="['/venue/edit',venue.id]">

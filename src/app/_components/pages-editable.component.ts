@@ -46,9 +46,9 @@ export class PagesEditableComponent implements OnInit {
     }
     let options = this.getOptions();
     this.pageService.getPagesEditable(page, 100, options).then(pages => {
-      this.pages = pages.json().data.data;
-      let perPage = pages.json().data.per_page;
-      let totalObjects = pages.json().data.total;
+      this.pages = Page.arrayMap(pages.data);
+      let perPage = pages.per_page;
+      let totalObjects = pages.total;
       this.pagination.setPage(page, perPage, totalObjects);
     }).catch(error => console.log(error));
   }

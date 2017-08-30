@@ -26,6 +26,7 @@ export class EventService {
   getEventsEditable(page=1, perpage=100, options):Promise<any>{
     let query = this.httpHandlerService.serialize(options);
     return this.httpHandlerService.get(`event/editable?page=${page}&pp=${perpage}&${query}`)
+      .map(response => response.json().data)
       .toPromise()
   }
 

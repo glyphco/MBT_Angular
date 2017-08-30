@@ -56,7 +56,7 @@
   </tr>
   <tr *ngFor="let show of shows">
     <td>
-      <img class="image-micro" src="{{ show.imageurl }}">
+      <img class="image-micro" src="{{ show.imageIcon }}">
     </td>
     <td>
       <a [routerLink]="['/show/edit', show.id]">
