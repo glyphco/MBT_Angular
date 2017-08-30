@@ -34,7 +34,7 @@
   </tr>
   <tr *ngFor="let user of users">
     <td>
-      <img class="image-micro" src="{{ user.imageurl || user.avatar }}">
+      <img class="image-micro" src="{{ user.imageIcon || user.avatar }}">
     </td>
     <td>
       <a [routerLink]="['/user/edit', user.id]">

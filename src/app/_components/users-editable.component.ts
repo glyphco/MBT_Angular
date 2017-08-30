@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }   from '@angular/router';
 import { UserService } from '../_services/user.service';
+import { User } from '../_models/user';
 import { Pagination } from '../_helpers/pagination';
 import { MeService } from '../_services/me.service';
 
@@ -45,7 +46,8 @@ export class UsersEditableComponent implements OnInit {
     }
     let options = this.getOptions();
     this.userService.getUsersEditable(page, 100, options).then(users => {
-      this.users = users.data;
+      this.users = User.arrayMap(users.data);
+      //this.users = users.data;
       let perPage = users.per_page;
       let totalObjects = users.total;
       this.pagination.setPage(page, perPage, totalObjects);
