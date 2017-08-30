@@ -46,12 +46,12 @@
           <div class="event-participants-container">
             <ul>
               <li *ngFor="let participant of event.participants | slice:0:8" class="inline-images participant-images">
-                <a *ngIf="participant.page_id; else noLinkImage" [routerLink]="['/page', participant.page_id]">
-                  <img src="{{participant.imageurl ? participant.imageurl : 'assets/images/default_participant.png' }}"
+                <a *ngIf="participant.pageId; else noLinkImage" [routerLink]="['/page', participant.pageId]">
+                  <img src="{{participant.imageIcon ? participant.imageIcon : 'assets/images/default_participant.png' }}"
                    [style.z-index]="50 - i" title="{{participant.name}}">
                 </a>
                 <ng-template #noLinkImage>
-                  <img src="{{participant.imageurl ? participant.imageurl : 'assets/images/default_participant.png' }}"
+                  <img src="{{participant.imageIcon ? participant.imageIcon : 'assets/images/default_participant.png' }}"
                    [style.z-index]="50 - i" title="{{participant.name}}">
                 </ng-template>
                 
@@ -59,7 +59,7 @@
             </ul>
             <ul style="">
               <li *ngFor="let participant of event.participants | slice:0:8; let i=index" class="inline-participant-names">
-                <a *ngIf="participant.page_id; else noLink" [routerLink]="['/page', participant.page_id]"><span>{{participant.name}}, </span></a>
+                <a *ngIf="participant.pageId; else noLink" [routerLink]="['/page', participant.pageId]"><span>{{participant.name}}, </span></a>
                 <ng-template #noLink><span>{{participant.name}}, </span></ng-template>
               </li>
             </ul>
