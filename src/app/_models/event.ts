@@ -11,6 +11,7 @@ export class Event {
   description:string;
   end:string;
   imageUrl:string;
+  imageIcon:string;
   imageSm:string;
   imageLg:string;
   lat:number;
@@ -38,6 +39,7 @@ export class Event {
   venueId:number;
   venueName:string;
   venueImageUrl:string;
+  venueImageIcon:string;
   venueImageSm:string;
   venueImageLg:string;
   tagline:string;
@@ -87,6 +89,7 @@ export class Event {
     currentEvent.end = json.end;
     currentEvent.imageUrl = json.imageurl;
     if ( currentEvent.imageUrl != null) { //
+      currentEvent.imageIcon = currentEvent.imageUrl.replace(/\.[^/.]+$/, "") + "_icon.jpg";
       currentEvent.imageSm = currentEvent.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
       currentEvent.imageLg = currentEvent.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
     }
@@ -119,6 +122,7 @@ export class Event {
     currentEvent.venueName = json.venue_name;
     currentEvent.venueImageUrl = json.venue_imageurl;
     if ( currentEvent.venueImageUrl != null) { //
+      currentEvent.venueImageIcon = currentEvent.venueImageUrl.replace(/\.[^/.]+$/, "") + "_icon.jpg";
       currentEvent.venueImageSm = currentEvent.venueImageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
       currentEvent.venueImageLg = currentEvent.venueImageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
     }

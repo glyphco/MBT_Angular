@@ -8,6 +8,7 @@ export class Show {
   tagline: string;
   slug: string;
   imageUrl: string;
+  imageIcon: string;
   imageSm: string;
   imageLg: string;
   backgroundUrl: string;
@@ -45,6 +46,7 @@ export class Show {
       currentShow.slug = json.slug;
       currentShow.imageUrl = json.imageurl;
       if ( currentShow.imageUrl != null) { //
+        currentShow.imageIcon = currentShow.imageUrl.replace(/\.[^/.]+$/, "") + "_icon.jpg";
         currentShow.imageSm = currentShow.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
         currentShow.imageLg = currentShow.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
       }

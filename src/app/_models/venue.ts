@@ -9,6 +9,7 @@ export class Venue {
   currentEventsCount:number;
   description:string;
   imageUrl:string;
+  imageIcon:string;
   imageSm:string;
   imageLg:string;
   lat:string;
@@ -53,6 +54,7 @@ export class Venue {
       currentVenue.description = json.description;
       currentVenue.imageUrl = json.imageurl;
       if ( currentVenue.imageUrl != null) { //
+        currentVenue.imageIcon = currentVenue.imageUrl.replace(/\.[^/.]+$/, "") + "_icon.jpg";
         currentVenue.imageSm = currentVenue.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
         currentVenue.imageLg = currentVenue.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
       }

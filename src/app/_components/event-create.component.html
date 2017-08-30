@@ -20,7 +20,7 @@
       </a>
     </ng-container>
     <span *ngIf="venue" class="help-block inline chosen-venue">
-      <img *ngIf="venue.id > 0" src="{{ venue.imageUrl }}" />{{ venue.name }} <i class="fa fa-times"
+      <img *ngIf="venue.id > 0" src="{{ venue.imageSm }}" />{{ venue.name }} <i class="fa fa-times"
        (click)="clearVenue()" aria-hidden="true"></i>
     </span>
     <br />
@@ -79,7 +79,7 @@
     <label>Producers</label><br />
     <span *ngIf="producers.length == 0" class="help-block inline">No producers chosen. </span>
     <span *ngFor="let producer of producers" class="help-block participant-container">
-      <img *ngIf="producer.id > 0" src="{{ producer.imageUrl }}" />
+      <img *ngIf="producer.id > 0" src="{{ producer.imageIcon }}" />
       {{ producer.name }} <i class="fa fa-times" (click)="removeProducer(producer)" aria-hidden="true"></i></span>
     <a href="javascript:void(0)" (click)="showProducerModal()">
       <i class="fa fa-user-plus" aria-hidden="true"></i> Add producer
@@ -90,7 +90,7 @@
     <label>Participants</label><br />
     <span *ngIf="participants.length == 0" class="help-block inline">No participants chosen. </span>
     <span *ngFor="let participant of participants" class="help-block participant-container">
-      <img *ngIf="participant.id > 0" src="{{ participant.imageUrl }}" />
+      <img *ngIf="participant.id > 0" src="{{ participant.imageIcon }}" />
       {{ participant.name }} <i class="fa fa-times" (click)="removeParticipant(participant)" aria-hidden="true"></i></span>
     <a href="javascript:void(0)" (click)="showParticipantModal()">
       <i class="fa fa-user-plus" aria-hidden="true"></i> Add participant
@@ -102,7 +102,7 @@
     <span *ngIf="shows.length == 0" class="help-block inline">No shows chosen. </span>
 
     <span *ngFor="let show of shows" class="help-block participant-container">
-      <img *ngIf="show.id > 0" src="{{ show.imageUrl }}" />
+      <img *ngIf="show.id > 0" src="{{ show.imageIcon }}" />
       {{ show.name }} <i class="fa fa-times" (click)="removeShow(show)" aria-hidden="true"></i></span>
     <a href="javascript:void(0)" (click)="showShowModal()">
       <i class="fa fa-plus" aria-hidden="true"></i> Add show

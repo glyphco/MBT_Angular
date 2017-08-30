@@ -3,7 +3,7 @@
     <li *ngIf="event" class="eventdetail-item-grid list-item">
       <div class="eventdetail-image-container-container">
         <div class="eventdetail-image-container">
-          <img class="eventdetail-image img-responsive center-block" src="{{ event.imageUrl }}">
+          <img class="eventdetail-image img-responsive center-block" src="{{ event.imageLg }}">
         </div>
       </div>
       <h3 class="eventdetail-name"><a [routerLink]="['/event',event.id]">{{ event.name }}</a></h3>
@@ -65,7 +65,7 @@
   <ul class="item-list">
     <li class="list-item venue-item-grid">
       <div class="venue-image-container item-image-container">
-        <img class="item-image img-responsive center-block" src="{{ event.venueImageUrl }}">
+        <img class="item-image img-responsive center-block" src="{{ event.venueImageSm }}">
       </div>
       <h3 class="venue-name item-name">
 
@@ -87,7 +87,7 @@
     <ul class="item-list">
       <li *ngFor="let participant of event.participantspivot" class="participant-item-grid list-item">
         <div class="participant-image-container item-image-container">
-          <img class="item-image img-responsive center-block" src="{{ participant.imageUrl }}" title="{{ participant.name }}">
+          <img class="item-image img-responsive center-block" src="{{ participant.imageSm }}" title="{{ participant.name }}">
         </div>
         <h3 class="participant-name">
         <a *ngIf="participant.pageId; else noParticipantLinkBlock" [routerLink]="['/page',participant.pageId]">{{ participant.name }}</a>
@@ -108,7 +108,7 @@
     <ul class="item-list">
       <li *ngFor="let show of event.showspivot" class="show-item-grid list-item">
         <div class="show-image-container item-image-container">
-          <img class="item-image img-responsive center-block" src="{{ show.imageUrl }}" title="{{ show.name }}">
+          <img class="item-image img-responsive center-block" src="{{ show.imageSm }}" title="{{ show.name }}">
         </div>
         <h3 class="show-name">
         
@@ -127,7 +127,7 @@
     <ul *ngIf="event.producerspivot.length > 0" class="item-list">
       <li *ngFor="let producer of event.producerspivot" class="producer-item-grid list-item">
         <div class="producer-image-container item-image-container">
-          <img class="item-image img-responsive center-block" src="{{ producer.imageUrl }}" title="{{ producer.name }}">
+          <img class="item-image img-responsive center-block" src="{{ producer.imageSm }}" title="{{ producer.name }}">
         </div>
         <h3 class="producer-name">
         <a *ngIf="producer.pageId; else noProducerLinkBlock" [routerLink]="['/page',producer.pageId]">{{ producer.name }}</a>

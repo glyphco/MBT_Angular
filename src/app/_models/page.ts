@@ -19,6 +19,7 @@ export class Page {
   tagline: string;
   description: string;
   imageUrl: string;
+  imageIcon: string;
   imageSm: string;
   imageLg: string;
   backgroundUrl: string;
@@ -68,6 +69,7 @@ export class Page {
       currentPage.description = json.description; 
       currentPage.imageUrl = json.imageurl; 
       if ( currentPage.imageUrl != null) { //
+        currentPage.imageIcon = currentPage.imageUrl.replace(/\.[^/.]+$/, "") + "_icon.jpg";
         currentPage.imageSm = currentPage.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
         currentPage.imageLg = currentPage.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
       }

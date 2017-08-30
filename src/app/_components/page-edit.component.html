@@ -16,7 +16,7 @@
     <label for="main-image">Image</label>
     <input id="main-image" type="file" (change)="fileChange(image)" name="image" #image /><br />
     <span class="help-block">Recommended size 1080px by 1080px</span>
-    <img class="preview-image" *ngIf="page.imageUrl && !previewImage" src="{{page.imageSm}}" />
+    <img class="preview-image" *ngIf="page.imageSm && !previewImage" src="{{page.imageSm}}" />
     <img class="preview-image" *ngIf="previewImage" src="{{previewImage}}" />
 
     <div class="form-group">
