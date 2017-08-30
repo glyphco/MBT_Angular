@@ -411,13 +411,13 @@ export class EventEditComponent implements OnInit {
     params.pricemin = this.event.priceMin;
     params.pricemax = this.event.priceMax;
     params.local_tz = this.startDateTime.date.tz();
-    params.UTC_start = localStart.utc().format('YYYY-MM-DD HH-mm-ss');
-    params.local_start = localStart.tz(params.local_tz).format('YYYY-MM-DD HH-mm-ss');
+    params.UTC_start = localStart.utc().format('YYYY-MM-DD HH:mm:ss');
+    params.local_start = localStart.tz(params.local_tz).format('YYYY-MM-DD HH:mm:ss');
     params.public = this.event.public;
     params.confirmed = this.event.confirmed;
     if(this.hasEndDate){
-      params.UTC_end = localEnd.utc().format('YYYY-MM-DD HH-mm-ss');
-      params.local_end = localEnd.tz(params.local_tz).format('YYYY-MM-DD HH-mm-ss');
+      params.UTC_end = localEnd.utc().format('YYYY-MM-DD HH:mm:ss');
+      params.local_end = localEnd.tz(params.local_tz).format('YYYY-MM-DD HH:mm:ss');
     }
     if(this.venue){
       params.venue_name = this.venue.name;

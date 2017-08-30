@@ -31,32 +31,56 @@ export class ImageUploadService {
         'event':{
           folders:{
             //other image sizes to be saved with original (eg. originalname_sm.jpg)
-            main:[{width:200,height:259,ext:'sm'}, {width:800,height:1037,ext:'lg'}]
+            main:[
+              {width:200,height:259,ext:'sm'}, 
+              {width:500,height:648,ext:'lg'},
+              {width:50,height:65,ext:'icon'}
+            ]
           }
         },
         'mve':{
           folders:{
-            main:[{width:200,height:200,ext:'sm'}, {width:800,height:800,ext:'lg'}]
+            main:[
+              {width:200,height:200,ext:'sm'}, 
+              {width:500,height:500,ext:'lg'},
+              {width:50,height:50,ext:'icon'}
+            ]
           }
         },
         'page':{
           folders:{
-            main:[{width:200,height:200,ext:'sm'}, {width:800,height:800,ext:'lg'}]
+            main:[
+              {width:200,height:200,ext:'sm'}, 
+              {width:500,height:500,ext:'lg'},
+              {width:50,height:50,ext:'icon'}
+            ]
           }
         },
         'show':{
           folders:{
-            main:[{width:200,height:200,ext:'sm'}, {width:800,height:800,ext:'lg'}]
+            main:[
+              {width:200,height:200,ext:'sm'}, 
+              {width:500,height:500,ext:'lg'},
+              {width:50,height:50,ext:'icon'}
+            ]
           }
         },
         'venue':{
           folders:{
-            main:[{width:200,height:200,ext:'sm'}, {width:800,height:800,ext:'lg'}]
+            main:[
+              {width:200,height:200,ext:'sm'}, 
+              {width:500,height:500,ext:'lg'},
+              {width:50,height:50,ext:'icon'}
+            ]
           }
         },
         'user':{
           folders:{
-            main:[{width:200,height:200,ext:'sm'}, {width:800,height:800,ext:'lg'}]
+            main:[
+              {width:200,height:200,ext:'sm'}, 
+              {width:500,height:500,ext:'lg'},
+              {width:50,height:50,ext:'icon'}
+            ]
           }
         }
       }

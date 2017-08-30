@@ -375,11 +375,11 @@ export class EventCreateComponent implements OnInit {
     params.public = this.event.public;
     params.confirmed = this.event.confirmed;
     params.local_tz = this.startDateTime.date.tz();
-    params.UTC_start = localStart.utc().format('YYYY-MM-DD HH-mm-ss');
-    params.local_start = localStart.tz(params.local_tz).format('YYYY-MM-DD HH-mm-ss');
+    params.UTC_start = localStart.utc().format('YYYY-MM-DD HH:mm:ss');
+    params.local_start = localStart.tz(params.local_tz).format('YYYY-MM-DD HH:mm:ss');
     if(this.hasEndDate){
-      params.UTC_end = localEnd.utc().format('YYYY-MM-DD HH-mm-ss');
-      params.local_end = localEnd.tz(params.local_tz).format('YYYY-MM-DD HH-mm-ss');
+      params.UTC_end = localEnd.utc().format('YYYY-MM-DD HH:mm:ss');
+      params.local_end = localEnd.format('YYYY-MM-DD HH:mm:ss');
     }
     if(this.venue){
       params.venue_name = this.venue.name;
