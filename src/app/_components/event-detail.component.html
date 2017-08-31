@@ -111,9 +111,8 @@
           <img class="item-image img-responsive center-block" src="{{ show.imageSm }}" title="{{ show.name }}">
         </div>
         <h3 class="show-name">
-        
-        <a *ngIf="show.showId; else noProducerLinkBlock" [routerLink]="['/show',show.showId]">{{ show.name }}</a>
-        <ng-template #noProducerLinkBlock>{{ show.name }}</ng-template>
+        <a *ngIf="show.showId; else noShowLinkBlock" [routerLink]="['/show',show.showId]">{{ show.name }}</a>
+        <ng-template #noShowLinkBlock>{{ show.name }}</ng-template>
         </h3>    
         <div class="show-info">
         {{ show.info }}
@@ -122,9 +121,9 @@
     </ul>
   </ng-container>
 
-  <ng-container>
-    <h4 *ngIf="event.producerspivot.length > 0" >Produced By</h4>
-    <ul *ngIf="event.producerspivot.length > 0" class="item-list">
+  <ng-container *ngIf="event.producerspivot.length > 0">
+    <h4>Produced By:</h4>
+    <ul class="item-list">
       <li *ngFor="let producer of event.producerspivot" class="producer-item-grid list-item">
         <div class="producer-image-container item-image-container">
           <img class="item-image img-responsive center-block" src="{{ producer.imageSm }}" title="{{ producer.name }}">
@@ -134,8 +133,7 @@
         <ng-template #noProducerLinkBlock>{{ producer.name }}</ng-template>
         </h3>    
         <div class="producer-info">
-    {{ producer.info }}
-
+        {{ producer.info }}
         </div>
       </li>
     </ul>

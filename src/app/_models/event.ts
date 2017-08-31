@@ -100,13 +100,13 @@ export class Event {
     currentEvent.name = json.name;
 
     currentEvent.participants = ParticipantPivot.arrayMap(JSON.parse(json.participantsjson));
-    //currentEvent.participants = JSON.parse(json.participantsjson);
     currentEvent.participantspivot = ParticipantPivot.arrayMap(json.eventparticipants);
-    
+
     currentEvent.shows = ShowPivot.arrayMap(JSON.parse(json.showsjson));  
-    //currentEvent.shows = JSON.parse(json.showsjson);    
     currentEvent.showspivot = ShowPivot.arrayMap(json.eventshows);    
-    currentEvent.producerspivot = ProducerPivot.arrayMap(json.eventproducer);    
+ 
+    currentEvent.producerspivot = ProducerPivot.arrayMap(json.eventproducers);
+
     currentEvent.categories = JSON.parse(json.categoriesjson);
     currentEvent.categoriesJson = json.categoriesjson; 
 
@@ -314,8 +314,8 @@ class ProducerPivot {
 }
 
 class ShowPivot {
+  showId:number;
   eventId:number;
-  pageId:number;
   name:string;
   info:string;
   imageUrl:string;
@@ -340,8 +340,8 @@ class ShowPivot {
 
   public static map(json):ShowPivot{
     let currentShow = new ShowPivot();
+    currentShow.showId = json.show_id;
     currentShow.eventId = json.event_id;
-    currentShow.pageId = json.page_id;
     currentShow.name = json.name;
     currentShow.info = json.info;
     currentShow.imageUrl = json.imageurl;

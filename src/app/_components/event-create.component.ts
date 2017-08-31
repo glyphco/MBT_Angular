@@ -379,7 +379,7 @@ export class EventCreateComponent implements OnInit {
     params.local_start = localStart.tz(params.local_tz).format('YYYY-MM-DD HH:mm:ss');
     if(this.hasEndDate){
       params.UTC_end = localEnd.utc().format('YYYY-MM-DD HH:mm:ss');
-      params.local_end = localEnd.format('YYYY-MM-DD HH:mm:ss');
+      params.local_end = localEnd.tz(params.local_tz).format('YYYY-MM-DD HH:mm:ss');
     }
     if(this.venue){
       params.venue_name = this.venue.name;
@@ -393,16 +393,18 @@ export class EventCreateComponent implements OnInit {
     if(this.venue && this.venue.id > 0){
       params.venue_id = this.venue.id;
     }
+    //save categories
     params.categories = this.eventCategories.length > 0 ? JSON.stringify(this.eventCategories) : undefined;
-    
+    //save shows
     let showsJson = [];
-    for (let index in this.shows) {
-      let tempShow = {};
-      tempShow['id'] = this.shows[index].id;
+    for (let show of this.shows) {
+      let tempShow = {
+        id: show.id,
+      };
       showsJson.push(tempShow);
     }
     params.shows = showsJson.length > 0 ? JSON.stringify(showsJson) : undefined;
-
+    //save participants
     let participantsJson = [];
     for (let participant of this.participants){
       let tempParticipant = {
@@ -418,7 +420,7 @@ export class EventCreateComponent implements OnInit {
       participantsJson.push(tempParticipant);
     }
     params.participants = participantsJson.length > 0 ? JSON.stringify(participantsJson) : undefined;
-
+    //save producers
     let producersJson = [];
     for (let producer of this.producers){
       let tempProducer = {
@@ -431,7 +433,7 @@ export class EventCreateComponent implements OnInit {
       producersJson.push(tempProducer);
     }
     params.producers = producersJson.length > 0 ? JSON.stringify(producersJson) : undefined;
-    console.log(params);
+
     this.saveEvent(params);
   }
 
@@ -455,23 +457,6 @@ export class EventCreateComponent implements OnInit {
         //return the url to the file on s3
         resolve(true);
       }).catch(error => reject('Attaching image to event failed.'));
-    });
-  }
-
-  private saveShows(eventId):Promise<number>{
-    return new Promise((resolve, reject) => {
-      let savedShows = 0;
-      let numShows = this.shows.length;
-      for (let index in this.shows) {
-        this.eventService.addShow(eventId, this.shows[index]).then(response => {
-          savedShows++
-          if(savedShows == numShows){
-            //all shows have been saved
-            resolve(eventId);
-          }
-        }).catch(error => reject('There was an error adding the participant'));
-      }
-      resolve(eventId);
     });
   }
 

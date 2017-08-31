@@ -137,7 +137,7 @@ export class EventEditComponent implements OnInit {
       this.event = Event.map(event);
       this.event.startTime = '20:00';
       this.event.startDate = moment();
-      
+      console.log(this.event);
       this.startDateTime = new DateTime(this.event.localStart, this.event.localTz);
       if(this.event.localEnd){
         this.hasEndDate = true;
@@ -148,13 +148,30 @@ export class EventEditComponent implements OnInit {
         this.venue.name = this.event.venueName;
         this.venue.id = this.event.venueId;
       }
-      for(let participant of this.event.participants){
+      for(let participant of this.event.participantspivot){
         let tempParticipant = new Page();
-        tempParticipant.id = participant.page_id;
+        tempParticipant.id = participant.pageId;
         tempParticipant.name = participant.name;
         tempParticipant.startTime = participant.start;
-        tempParticipant.imageUrl = participant.imageurl;
+        tempParticipant.imageUrl = participant.imageUrl;
+        tempParticipant.imageIcon = participant.imageIcon;
         this.participants.push(tempParticipant);
+      }
+      for(let producer of this.event.producerspivot){
+        let tempProducer = new Page();
+        tempProducer.id = producer.pageId;
+        tempProducer.name = producer.name;
+        tempProducer.imageUrl = producer.imageUrl;
+        tempProducer.imageIcon = producer.imageIcon;
+        this.producers.push(tempProducer);
+      }
+      for(let show of this.event.showspivot){
+        let tempShow = new Show();
+        tempShow.id = show.showId;
+        tempShow.name = show.name;
+        tempShow.imageUrl = show.imageUrl;
+        tempShow.imageIcon = show.imageIcon;
+        this.shows.push(tempShow);
       }
       this.eventCategories = this.event.categoriesJson ? JSON.parse(this.event.categoriesJson) : [];
     }).catch(error => console.log(error));
@@ -410,11 +427,11 @@ export class EventEditComponent implements OnInit {
     params.price = this.event.price;
     params.pricemin = this.event.priceMin;
     params.pricemax = this.event.priceMax;
+    params.public = this.event.public;
+    params.confirmed = this.event.confirmed;
     params.local_tz = this.startDateTime.date.tz();
     params.UTC_start = localStart.utc().format('YYYY-MM-DD HH:mm:ss');
     params.local_start = localStart.tz(params.local_tz).format('YYYY-MM-DD HH:mm:ss');
-    params.public = this.event.public;
-    params.confirmed = this.event.confirmed;
     if(this.hasEndDate){
       params.UTC_end = localEnd.utc().format('YYYY-MM-DD HH:mm:ss');
       params.local_end = localEnd.tz(params.local_tz).format('YYYY-MM-DD HH:mm:ss');
@@ -432,15 +449,16 @@ export class EventEditComponent implements OnInit {
       params.venue_id = this.venue.id;
     }
     //save categories
-    params.categories = JSON.stringify(this.eventCategories);
+    params.categories = this.eventCategories.length > 0 ? JSON.stringify(this.eventCategories) : undefined;
     //save shows
     let showsJson = [];
-    for (let index in this.shows) {
-      let tempShow = {};
-      tempShow['id'] = this.shows[index].id;
+    for (let show of this.shows) {
+      let tempShow = {
+        id: show.id,
+      };
       showsJson.push(tempShow);
     }
-    params.shows = JSON.stringify(showsJson);
+    params.shows = showsJson.length > 0 ? JSON.stringify(showsJson) : undefined;
     //save participants
     let participantsJson = [];
     for (let participant of this.participants){
@@ -491,23 +509,6 @@ export class EventEditComponent implements OnInit {
         return this.imageUploadService.uploadImageToS3(this.image, 'event', this.event.id, 'main');
       }
       return Promise.resolve(false);
-  }
-
-  private saveShows(eventId):Promise<number>{
-    return new Promise((resolve, reject) => {
-      let savedShows = 0;
-      let numShows = this.shows.length;
-      for (let index in this.shows) {
-        this.eventService.addShow(eventId, this.shows[index]).then(response => {
-          savedShows++
-          if(savedShows == numShows){
-            //all shows have been saved
-            resolve(eventId);
-          }
-        }).catch(error => reject('There was an error adding the participant'));
-      }
-      resolve(eventId);
-    });
   }
 
   public showVenueModal(){
