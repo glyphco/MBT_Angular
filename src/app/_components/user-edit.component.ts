@@ -53,6 +53,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
       if(imageUrl){
         this.user.imageUrl = imageUrl;
       }
+      //this.user.bannedUntil = this.bannedUntil; 
+
       return this.userService.updateUser(this.user)
     }).then(response => {
       this.router.navigate(['/users/editable']);

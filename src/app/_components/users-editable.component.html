@@ -42,8 +42,8 @@
       </a>
     </td>
     <td>{{user.email}}</td>
-    <td>{{user.created_at}}</td>
-    <td><button *ngIf="user.is_banned" (click)="unbanUser(user)" class="btn btn-danger">Unban</button></td>
+    <td>{{user.createdAt}}</td>
+    <td><button *ngIf="user.isBanned" (click)="unbanUser(user)" class="btn btn-danger">Unban</button></td>
     <td><button *ngIf="!user.confirmed" (click)="confirmUser(user)" class="btn btn-primary">Confirm</button></td>
   </tr>
 </table>

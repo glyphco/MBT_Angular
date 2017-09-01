@@ -4,7 +4,7 @@ export class User {
   id:number;
   avatar:string;
   bio:string;
-  bannedUntil:string;
+  bannedUntil:any;
   city:string;
   confirmed:number;
   email:string;
