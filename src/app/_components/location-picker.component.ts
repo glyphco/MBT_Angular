@@ -53,6 +53,7 @@ export class LocationPickerComponent implements OnInit, OnDestroy {
   geocoder:any;
   marker:any;
   circle:any;
+  markers = [];
   private sub: any;
   private locationInfo: any; //used for location save
   @Input() visible;
@@ -92,7 +93,7 @@ export class LocationPickerComponent implements OnInit, OnDestroy {
 
     //Google map stuff
     this.geocoder = new google.maps.Geocoder;
-
+this.populateMap();
     this.circle.addListener("click", function (event) {
       this.clickReceived(event);
     }.bind(this));
@@ -255,6 +256,79 @@ export class LocationPickerComponent implements OnInit, OnDestroy {
         }
       }.bind(this));
     });
+  }
+
+  private populateMap(){
+    //Get map points for events today
+    this.eventService.getEventsAllCurrentPoints().then(points => {
+      let allBounds = new google.maps.LatLngBounds();
+      let insideBounds = new google.maps.LatLngBounds();
+
+      // this.circle = new google.maps.Circle({
+      //   strokeColor: '#FF0000',
+      //   strokeOpacity: 0.8,
+      //   strokeWeight: 2,
+      //   fillOpacity:0.1,
+      //   center: {lat: this.locationService.getLat(), lng: this.locationService.getLng()},
+      //   radius: this.locationService.getDistMeters(),
+      //   map: this.map
+      // });
+
+      for(let point of points){
+        let icon:any;
+        //Outside of distance
+        // if(point.distance > this.locationService.getDistMeters()){
+        //   icon = {
+        //     path: google.maps.SymbolPath.CIRCLE,
+        //     scale:4,
+        //     fillColor: '#125ebc',
+        //     fillOpacity:0.8,
+        //     strokeColor:'#fff',
+        //     strokeWeight:1,
+        //     strokeOpacity:1
+        //   };
+        // }else{
+        //   //Marker inside of user's chosen distance
+        //   icon = {
+        //     path: google.maps.SymbolPath.CIRCLE,
+        //     scale:4,
+        //     fillColor: '#ff0000',
+        //     fillOpacity:0.8,
+        //     strokeColor:'#fff',
+        //     strokeWeight:1,
+        //     strokeOpacity:1
+        //   }
+        // }
+
+        icon = {
+          path: google.maps.SymbolPath.CIRCLE,
+          scale:4,
+          fillColor: '#125ebc',
+          fillOpacity:0.8,
+          strokeColor:'#fff',
+          strokeWeight:1,
+          strokeOpacity:1
+        };
+
+        let marker = new google.maps.Marker({
+          map: this.map,
+          icon: icon,
+          position: {lat: +point.lat, lng: +point.lng}
+        });
+
+        this.markers.push(marker);
+        allBounds.extend(marker.getPosition());
+        if(point.distance > this.locationService.getDistMeters()){
+          insideBounds.extend(marker.getPosition());
+        }
+      }
+      //MARK: These allow us to change map bounds. Just uncomment the one you want
+      //this.map.fitBounds(allBounds);
+      //this.map.fitBounds(insideBounds);
+      this.map.fitBounds(this.circle.getBounds());
+      //This will make the map work when the flex box wraps map to top on page load
+      google.maps.event.trigger(this.map, 'resize');
+    }).catch(error => console.log(error));
   }
 
 }
