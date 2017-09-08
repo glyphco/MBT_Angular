@@ -75,7 +75,7 @@
         <label for="banned-until" class="inline-label">Banned until date</label>
         <md-input-container>
           <input id="banned-until" mdInput [mdDatepicker]="picker" #banneduntil="ngModel" [(ngModel)]="bannedUntil.date" dateFormat="MM-DD-YYYY" date name="banned_until">
-          <button mdSuffix [mdDatepickerToggle]="picker"></button>
+          <button mdSuffix md-datepicker-toggle="picker"></button>
         </md-input-container>
         <md-datepicker #picker></md-datepicker>
         <md-error *ngIf="bannedUntil.errors">

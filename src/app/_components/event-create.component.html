@@ -36,7 +36,7 @@
       <label for="start-time" class="inline-label">Start date</label>
       <md-input-container>
         <input mdInput [mdDatepicker]="picker" #startDate="ngModel" [(ngModel)]="startDateTime.date" dateFormat="MM-DD-YYYY" date name="startdate">
-        <button mdSuffix [mdDatepickerToggle]="picker"></button>
+        <button mdSuffix md-datepicker-toggle="picker"></button>
       </md-input-container>
       <md-datepicker #picker></md-datepicker>
       <md-error *ngIf="startDate.errors">
@@ -60,7 +60,7 @@
       <label for="end-date" class="inline-label">End date</label>
       <md-input-container>
         <input mdInput [mdDatepicker]="endpicker" #endDate="ngModel" [(ngModel)]="endDateTime.date" dateFormat="MM-DD-YYYY" date name="enddate">
-        <button mdSuffix [mdDatepickerToggle]="endpicker"></button>
+        <button mdSuffix md-datepicker-toggle="endpicker"></button>
       </md-input-container>
       <md-datepicker #endpicker></md-datepicker>
       <md-error *ngIf="endDate.errors">
