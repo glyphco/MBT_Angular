@@ -1,10 +1,8 @@
 import { NgModule }             from '@angular/core';
-import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AppComponent } from './app.component';
-import { AuthGuard } from './_guards/auth.guard';
-import { PublicGuard } from './_guards/public.guard';
+import { AuthGuard } from '../_guards/auth.guard';
+import { PublicGuard } from '../_guards/public.guard';
 
 // import { BackstageComponent } from './_components/backstage.component';
 // import { LoginComponent } from './_components/login.component';
@@ -25,7 +23,7 @@ import { PublicGuard } from './_guards/public.guard';
 // import { EventEditComponent } from './_components/event-edit.component';
 // import { EventDeleteComponent } from './_components/event-delete.component';
 // import { EventCreateComponent } from './_components/event-create.component';
-import { PublicEventsTodayComponent } from './_components/public-events-today.component';
+import { PublicEventsTodayComponent } from '../_components/public-events-today.component';
 // import { EventsTodayComponent } from './_components/events-today.component';
 // import { EventsCurrentComponent } from './_components/events-current.component';
 // import { ExploreComponent } from './_components/explore.component';
@@ -40,7 +38,7 @@ import { PublicEventsTodayComponent } from './_components/public-events-today.co
 // import { UserEditComponent } from './_components/user-edit.component';
 // import { ManageFollowersComponent } from './_components/manage-followers.component';
 
-const routes: Routes = [
+const publicRoutes: Routes = [
   // { path: 'login', component: LoginComponent, canActivate: [PublicGuard] },
   // { path: 'backstage', component: BackstageComponent, canActivate: [AuthGuard] },
   // { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
@@ -79,17 +77,11 @@ const routes: Routes = [
   // { path: 'manage/followers', component: ManageFollowersComponent, canActivate: [AuthGuard] },
 
   // { path: 'explore', component: ExploreComponent, canActivate: [AuthGuard] },
-  { path: 'events', loadChildren: './_modules/public.module#PublicModule', canActivate: [PublicGuard] },
-  
-  //{ path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '', redirectTo: 'events', pathMatch: 'full' },
-
-  // otherwise redirect to home
-  { path: '**', redirectTo: '' }
+  { path: 'events', component: PublicEventsTodayComponent, canActivate: [PublicGuard] },
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes, { useHash: true }) ],
+  imports: [ RouterModule.forChild(publicRoutes) ],
   exports: [ RouterModule ]
 })
-export class AppRoutingModule {}
+export class PublicRoutingModule {}

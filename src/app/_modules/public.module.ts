@@ -1,21 +1,15 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { AppRoutingModule } from './app-routing.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from '@angular/material';
-import { TruncatePipe } from './pipes/truncate.pipe';
-import { DateFormatterPipe } from './pipes/date-formatter.pipe';
+import { CommonModule } from '@angular/common';
+import { AppModule } from '../app.module';
+import { PublicRoutingModule } from './public-routing.module';
+
+//import { DateFormatterPipe } from './pipes/date-formatter.pipe';
+
 // import { MdNativeDateModule, MdDatepickerModule, MdInputModule } from '@angular/material';
 // import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 
-import { AuthGuard } from './_guards/auth.guard';
-import { PublicGuard } from './_guards/public.guard';
 
-import { AppComponent } from './app.component';
-import { LocationPickerComponent } from './_components/location-picker.component';
-// import { PublicEventsTodayComponent } from './_components/public-events-today.component';
+import { PublicEventsTodayComponent } from '../_components/public-events-today.component';
 // import { LoginComponent } from './_components/login.component';
 // import { BackstageComponent } from './_components/backstage.component';
 // import { EventsEditableComponent } from './_components/events-editable.component';
@@ -56,13 +50,7 @@ import { LocationPickerComponent } from './_components/location-picker.component
 // import { PyfComponent } from './_components/pyf.component';
 // import { ModalComponent } from './_components/modal.component';
 
-import { AuthService } from './_services/auth.service';
-import { HttpHandlerService } from './_services/http-handler.service';
-import { JwtHelperService } from './_services/jwt-helper.service';
-import { LocationService } from './_services/location.service';
-import { MeService } from './_services/me.service';
-import { AnnouncementService } from './_services/announcement.service';
-// import { EventService } from './_services/event.service';
+import { EventService } from '../_services/event.service';
 // import { VenueService } from './_services/venue.service';
 // import { SearchService } from './_services/search.service';
 // import { PageService } from './_services/page.service';
@@ -75,11 +63,8 @@ import { AnnouncementService } from './_services/announcement.service';
 
 @NgModule({
   declarations: [
-    TruncatePipe,
-    DateFormatterPipe,
-    AppComponent,
-    LocationPickerComponent,
-    // PublicEventsTodayComponent,
+    //DateFormatterPipe,
+    PublicEventsTodayComponent,
     // LoginComponent,
     // BackstageComponent,
     // EventsEditableComponent,
@@ -121,12 +106,10 @@ import { AnnouncementService } from './_services/announcement.service';
     // ModalComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MaterialModule,
+    AppModule,
+    CommonModule,
+    PublicRoutingModule,
+    //RouterModule,
     // MdNativeDateModule,
     // MdDatepickerModule,
     // MdInputModule,
@@ -134,16 +117,8 @@ import { AnnouncementService } from './_services/announcement.service';
     // FileUploadModule
   ],
   providers: [
-    AuthGuard,
-    PublicGuard,
-    AuthService,
-    HttpHandlerService,
-    JwtHelperService,
-    LocationService,
-    MeService,
-    AnnouncementService
     // VenueService,
-    // EventService,
+    EventService,
     // SearchService,
     // PageService,
     // ShowService,
@@ -151,11 +126,6 @@ import { AnnouncementService } from './_services/announcement.service';
     // UserService,
     // ImageUploadService,
     // SocialLoginService,
-  ],
-  exports: [
-    DateFormatterPipe,
-    TruncatePipe
-  ],
-  bootstrap: [AppComponent]
+  ]
 })
-export class AppModule { }
+export class PublicModule { }
