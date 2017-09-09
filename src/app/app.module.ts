@@ -75,10 +75,8 @@ import { AnnouncementService } from './_services/announcement.service';
 
 @NgModule({
   declarations: [
-    TruncatePipe,
-    DateFormatterPipe,
     AppComponent,
-    LocationPickerComponent,
+    LocationPickerComponent
     // PublicEventsTodayComponent,
     // LoginComponent,
     // BackstageComponent,
@@ -151,10 +149,6 @@ import { AnnouncementService } from './_services/announcement.service';
     // UserService,
     // ImageUploadService,
     // SocialLoginService,
-  ],
-  exports: [
-    DateFormatterPipe,
-    TruncatePipe
   ],
   bootstrap: [AppComponent]
 })

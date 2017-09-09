@@ -77,7 +77,7 @@ const publicRoutes: Routes = [
   // { path: 'manage/followers', component: ManageFollowersComponent, canActivate: [AuthGuard] },
 
   // { path: 'explore', component: ExploreComponent, canActivate: [AuthGuard] },
-  { path: 'events', component: PublicEventsTodayComponent, canActivate: [PublicGuard] },
+  { path: '', component: PublicEventsTodayComponent },
 ];
 
 @NgModule({

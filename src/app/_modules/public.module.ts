@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AppModule } from '../app.module';
+import { FoundationModule } from '../_modules/foundation.module';
 import { PublicRoutingModule } from './public-routing.module';
 
 //import { DateFormatterPipe } from './pipes/date-formatter.pipe';
@@ -106,7 +106,7 @@ import { EventService } from '../_services/event.service';
     // ModalComponent
   ],
   imports: [
-    AppModule,
+    FoundationModule,
     CommonModule,
     PublicRoutingModule,
     //RouterModule,
