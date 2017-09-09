@@ -64,7 +64,7 @@ export class PageService {
       slug: page.slug,
       tagline: page.tagline,
       imageurl:page.imageUrl,
-      categories: JSON.stringify(categories)
+      categories: categories.length > 0 ? JSON.stringify(categories) : undefined
     }
     return this.httpHandlerService.put(`page/${id}`, options)
       .toPromise();

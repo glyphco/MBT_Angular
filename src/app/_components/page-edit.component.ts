@@ -58,6 +58,7 @@ export class PageEditComponent implements OnInit, OnDestroy {
     this.uploadImageIfExist().then((imageUrl:any) => {
       if(imageUrl){
         this.page.imageUrl = imageUrl;
+        console.log(imageUrl);
       }
       return this.pageService.updatePage(this.page, this.pageCategories);
     }).then(response => {
@@ -67,6 +68,7 @@ export class PageEditComponent implements OnInit, OnDestroy {
 
   private uploadImageIfExist():Promise<any>{
     if(this.image){
+      console.log('image uploading');
       return this.imageUploadService.uploadImageToS3(this.image, 'page', this.page.id, 'main');
     }
     return Promise.resolve(false);
