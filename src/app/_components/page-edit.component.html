@@ -38,10 +38,10 @@
         <option *ngFor="let state of states" [value]="state.abbreviation">{{state.name}}</option>
       </select>
     </div>
-    <div class="form-group" [class.has-error]="postalcode.invalid && postalcode.touched">
-      <label for="postalcode">Postal code</label>
-      <input type="text" class="form-control" id="postalcode" placeholder="Postal code" [(ngModel)]="page.postalcode" name="postalcode" required #postalcode="ngModel">
-      <span [class.hidden]="postalcode.valid || postalcode.pristine"  class="help-block">Postal code is required</span>
+    <div class="form-group">
+      <label for="postal-code">Postal code</label>
+      <input type="text" class="form-control" id="postal-code" placeholder="Postal code" 
+        [(ngModel)]="page.postalcode" name="postalcode" #postalcode="ngModel">
     </div>
     <category-select [(categories)]="pageCategories"></category-select>
     <div class="form-group" [class.has-error]="slug.invalid">
