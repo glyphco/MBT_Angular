@@ -99,7 +99,7 @@ export class User {
       currentUser.autoAcceptFollows = json.autoacceptfollows;
       currentUser.username = json.username;
       currentUser.imageUrl = json.imageurl;
-      if ( currentUser.imageUrl != null) { //
+      if ( currentUser.imageUrl ) { //
         currentUser.imageIcon = currentUser.imageUrl.replace(/\.[^/.]+$/, "") + "_icon.jpg";
         currentUser.imageSm = currentUser.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
         currentUser.imageLg = currentUser.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";

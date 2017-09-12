@@ -382,6 +382,7 @@ export class EventCreateComponent implements OnInit {
       params.local_end = localEnd.tz(params.local_tz).format('YYYY-MM-DD HH:mm:ss');
     }
     if(this.venue){
+      params.venue_imageurl = this.venue.imageUrl;
       params.venue_name = this.venue.name;
       params.street_address = this.venue.streetAddress;
       params.city = this.venue.city;

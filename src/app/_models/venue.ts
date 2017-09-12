@@ -53,7 +53,7 @@ export class Venue {
       currentVenue.currentEventsCount = json.currentevents_count;
       currentVenue.description = json.description;
       currentVenue.imageUrl = json.imageurl;
-      if ( currentVenue.imageUrl != null) { //
+      if ( currentVenue.imageUrl ) { //
         currentVenue.imageIcon = currentVenue.imageUrl.replace(/\.[^/.]+$/, "") + "_icon.jpg";
         currentVenue.imageSm = currentVenue.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
         currentVenue.imageLg = currentVenue.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";

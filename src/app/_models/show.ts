@@ -45,7 +45,7 @@ export class Show {
       currentShow.tagline = json.tagline;
       currentShow.slug = json.slug;
       currentShow.imageUrl = json.imageurl;
-      if ( currentShow.imageUrl != null) { //
+      if ( currentShow.imageUrl ) { //
         currentShow.imageIcon = currentShow.imageUrl.replace(/\.[^/.]+$/, "") + "_icon.jpg";
         currentShow.imageSm = currentShow.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
         currentShow.imageLg = currentShow.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";

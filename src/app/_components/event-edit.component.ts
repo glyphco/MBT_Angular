@@ -438,6 +438,7 @@ export class EventEditComponent implements OnInit {
     }
     if(this.venue){
       params.venue_name = this.venue.name;
+      params.venue_imageurl = this.venue.imageUrl;
       params.street_address = this.venue.streetAddress;
       params.city = this.venue.city;
       params.state = this.venue.state;

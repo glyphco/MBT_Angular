@@ -68,7 +68,7 @@ export class Page {
       currentPage.tagline = json.tagline; 
       currentPage.description = json.description; 
       currentPage.imageUrl = json.imageurl; 
-      if ( currentPage.imageUrl != null) { //
+      if ( currentPage.imageUrl ) { //
         currentPage.imageIcon = currentPage.imageUrl.replace(/\.[^/.]+$/, "") + "_icon.jpg";
         currentPage.imageSm = currentPage.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
         currentPage.imageLg = currentPage.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";

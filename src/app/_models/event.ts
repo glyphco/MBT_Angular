@@ -88,7 +88,7 @@ export class Event {
     currentEvent.description = json.description;
     currentEvent.end = json.end;
     currentEvent.imageUrl = json.imageurl;
-    if ( currentEvent.imageUrl != null) { //
+    if ( currentEvent.imageUrl ) { //
       currentEvent.imageIcon = currentEvent.imageUrl.replace(/\.[^/.]+$/, "") + "_icon.jpg";
       currentEvent.imageSm = currentEvent.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
       currentEvent.imageLg = currentEvent.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
@@ -124,7 +124,7 @@ export class Event {
     currentEvent.venueId = json.venue_id;
     currentEvent.venueName = json.venue_name;
     currentEvent.venueImageUrl = json.venue_imageurl;
-    if ( currentEvent.venueImageUrl != null) { //
+    if ( currentEvent.venueImageUrl ) { //
       currentEvent.venueImageIcon = currentEvent.venueImageUrl.replace(/\.[^/.]+$/, "") + "_icon.jpg";
       currentEvent.venueImageSm = currentEvent.venueImageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
       currentEvent.venueImageLg = currentEvent.venueImageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
@@ -250,7 +250,7 @@ class ParticipantPivot {
     currentParticipant.info = json.info;
     currentParticipant.privateInfo = json.private_info;
     currentParticipant.imageUrl = json.imageurl;
-    if ( currentParticipant.imageUrl != null) { //
+    if ( currentParticipant.imageUrl ) { //
       currentParticipant.imageIcon = currentParticipant.imageUrl.replace(/\.[^/.]+$/, "") + "_icon.jpg";
       currentParticipant.imageSm = currentParticipant.imageUrl.replace(/\.[^/.]+$/, "") + "_sm.jpg";
       currentParticipant.imageLg = currentParticipant.imageUrl.replace(/\.[^/.]+$/, "") + "_lg.jpg";
