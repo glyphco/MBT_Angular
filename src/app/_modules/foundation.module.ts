@@ -45,12 +45,15 @@ import { AnnouncementService } from '../_services/announcement.service';
   providers: [
     AuthGuard,
     PublicGuard,
+    /*
     AuthService,
     HttpHandlerService,
     JwtHelperService,
     LocationService,
     MeService,
     AnnouncementService
+*/
+
     // VenueService,
     // EventService,
     // SearchService,
