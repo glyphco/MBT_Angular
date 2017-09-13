@@ -369,14 +369,14 @@ export class EventCreateComponent implements OnInit {
 
     let timezone = this.startDateTime.date.format("ZZ");
     let startYear = this.startDate.getFullYear();
-    let startMonth = this.startDate.getMonth();
+    let startMonth = this.startDate.getMonth() + 1;
     let startDate = this.startDate.getDate();
     let startTime = this.startDateTime.date.format("HH:mm");
     let startFormatted = `${startYear}-${startMonth}-${startDate} ${startTime} ${timezone}`;
     let momentStart = new moment(startFormatted, "YYYY-MM-DD HH:mm ZZ");
 
     let endYear = this.endDate.getFullYear();
-    let endMonth = this.endDate.getMonth();
+    let endMonth = this.endDate.getMonth() + 1;
     let endDate = this.endDate.getDate();
     let endTime = this.endDateTime.date.format("HH:mm");
     let endFormatted = `${endYear}-${endMonth}-${endDate} ${endTime} ${timezone}`;
