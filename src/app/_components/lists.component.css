@@ -82,6 +82,24 @@
   margin-right: -5px;
 }
 
+.categorylist {
+  list-style-type: none;
+}
+
+.categorylist li {
+display: inline-block;
+}
+
+.categorylist span {
+    background-color: #edf2fa;
+    color: #20375f;
+    display: block;
+    margin: 0 4px 4px 0;
+    padding: 3px 5px 3px;
+    position: relative;
+}
+
+
 /* our grids */
 
 @supports (display: grid) {

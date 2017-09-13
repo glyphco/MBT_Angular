@@ -26,7 +26,7 @@
         <li *ngIf="!event.localEnd">
           {{ event.localStart | dateFormatter:'short_time' }}
         </li>
-        <li>{{ event.categories.length > 0 ? event.categories[0].subcategory_name : '' }}</li>
+        <li><ul class="categorylist" ><li *ngFor="let category of event.categories" ><span>{{ category.subcategory_name }} </span></li></ul></li> 
         <li>{{ event.priceWord }} {{ event.priceMinMax }}</li>
 
       </ul>
