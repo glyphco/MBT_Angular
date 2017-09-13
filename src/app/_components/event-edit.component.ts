@@ -45,6 +45,8 @@ export class EventEditComponent implements OnInit {
   tempProducer:Page;
   startDateTime = new DateTime();
   endDateTime = new DateTime();
+  startDate = new Date();
+  endDate = new Date();
   tempVenue:Venue; //used for creating a custom venue
   participants = [];
   tempParticipant:Page;
@@ -107,6 +109,8 @@ export class EventEditComponent implements OnInit {
       this.tempProducer = undefined;
       this.startDateTime = new DateTime();
       this.endDateTime = new DateTime();
+      this.startDate = new Date();
+      this.endDate = new Date();
       this.tempVenue = undefined; //used for creating a custom venue
       this.participants = [];
       this.venueGeocodeResults = [];
@@ -139,10 +143,13 @@ export class EventEditComponent implements OnInit {
       this.event.startDate = moment();
       console.log(this.event);
       this.startDateTime = new DateTime(this.event.localStart, this.event.localTz);
+      this.startDate = new Date(this.startDateTime.date.format("YYYY,M,D"));
       if(this.event.localEnd){
         this.hasEndDate = true;
         this.endDateTime = new DateTime(this.event.localEnd, this.event.localTz);
+        this.endDate = new Date(this.endDateTime.date.format("YYYY,M,D"));
       }
+
       if(this.event.venueName){
         this.venue = new Venue();
         this.venue.name = this.event.venueName;
@@ -418,8 +425,21 @@ export class EventEditComponent implements OnInit {
 
   private createEvent(){
     let params = <any>{};
-    let localStart = this.startDateTime.date;
-    let localEnd = this.endDateTime.date;
+    let timezone = this.startDateTime.date.format("ZZ");
+    let startYear = this.startDate.getFullYear();
+    let startMonth = this.startDate.getMonth();
+    let startDate = this.startDate.getDate();
+    let startTime = this.startDateTime.date.format("HH:mm");
+    let startFormatted = `${startYear}-${startMonth}-${startDate} ${startTime} ${timezone}`;
+    let momentStart = new moment(startFormatted, "YYYY-MM-DD HH:mm ZZ");
+
+    let endYear = this.endDate.getFullYear();
+    let endMonth = this.endDate.getMonth();
+    let endDate = this.endDate.getDate();
+    let endTime = this.endDateTime.date.format("HH:mm");
+    let endFormatted = `${endYear}-${endMonth}-${endDate} ${endTime} ${timezone}`;
+    let momentEnd = new moment(endFormatted, "YYYY-MM-DD HH:mm ZZ");
+    
     params.id = this.event.id;
     params.name = this.event.name;
     params.description = this.event.description;
@@ -430,11 +450,11 @@ export class EventEditComponent implements OnInit {
     params.public = this.event.public;
     params.confirmed = this.event.confirmed;
     params.local_tz = this.startDateTime.date.tz();
-    params.UTC_start = localStart.utc().format('YYYY-MM-DD HH:mm:ss');
-    params.local_start = localStart.tz(params.local_tz).format('YYYY-MM-DD HH:mm:ss');
+    params.UTC_start = momentStart.utc().format('YYYY-MM-DD HH:mm:ss');
+    params.local_start = momentStart.tz(params.local_tz).format('YYYY-MM-DD HH:mm:ss');
     if(this.hasEndDate){
-      params.UTC_end = localEnd.utc().format('YYYY-MM-DD HH:mm:ss');
-      params.local_end = localEnd.tz(params.local_tz).format('YYYY-MM-DD HH:mm:ss');
+      params.UTC_end = momentEnd.utc().format('YYYY-MM-DD HH:mm:ss');
+      params.local_end = momentEnd.tz(params.local_tz).format('YYYY-MM-DD HH:mm:ss');
     }
     if(this.venue){
       params.venue_name = this.venue.name;

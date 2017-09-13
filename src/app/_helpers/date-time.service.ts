@@ -20,9 +20,6 @@ export class DateTime {
     let date = newDate.getDate();
     this._dateTime.year(year).month(month).date(date);
   }
-  get rawDate(){
-    return this._dateTime.toDate();
-  }
   get time() {
     return this._dateTime.format('HH:mm');
   }

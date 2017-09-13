@@ -34,14 +34,11 @@
     <br />
     <div class="form-group custom-group inline">
       <label for="start-time" class="inline-label">Start date</label>
-      <md-input-container>
-        <input mdInput [mdDatepicker]="picker" #startDate="ngModel" [(ngModel)]="startDateTime.date" dateFormat="MM-DD-YYYY" date name="startdate">
-        <button mdSuffix md-datepicker-toggle="picker"></button>
-      </md-input-container>
-      <md-datepicker #picker></md-datepicker>
-      <md-error *ngIf="startDate.errors">
-        Enter a <strong>valid</strong> date
-      </md-error>
+      <md-form-field>
+        <input mdInput [mdDatepicker]="picker" placeholder="Choose a start date" [(ngModel)]="startDate" name="start_date">
+        <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
+        <md-datepicker #picker></md-datepicker>
+      </md-form-field>
     </div>
     <span class="add-end-date"><a href="javascript:void(0)" (click)="hasEndDate = !hasEndDate">Add end date</a></span>
 
@@ -58,14 +55,11 @@
     <ng-container *ngIf="hasEndDate">
     <div class="form-group custom-group">
       <label for="end-date" class="inline-label">End date</label>
-      <md-input-container>
-        <input mdInput [mdDatepicker]="endpicker" #endDate="ngModel" [(ngModel)]="endDateTime.date" dateFormat="MM-DD-YYYY" date name="enddate">
-        <button mdSuffix md-datepicker-toggle="endpicker"></button>
-      </md-input-container>
-      <md-datepicker #endpicker></md-datepicker>
-      <md-error *ngIf="endDate.errors">
-        Enter a <strong>valid</strong> date
-      </md-error>
+      <md-form-field>
+        <input mdInput [mdDatepicker]="endpicker" placeholder="Choose an end date" [(ngModel)]="endDate" name="end_date">
+        <md-datepicker-toggle mdSuffix [for]="endpicker"></md-datepicker-toggle>
+        <md-datepicker #endpicker></md-datepicker>
+      </md-form-field>
     </div>
 
     <div class="form-group custom-group">
