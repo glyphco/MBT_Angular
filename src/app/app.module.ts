@@ -62,7 +62,7 @@ import { JwtHelperService } from './_services/jwt-helper.service';
 import { LocationService } from './_services/location.service';
 import { MeService } from './_services/me.service';
 import { AnnouncementService } from './_services/announcement.service';
-// import { EventService } from './_services/event.service';
+import { EventService } from './_services/event.service';
 // import { VenueService } from './_services/venue.service';
 // import { SearchService } from './_services/search.service';
 // import { PageService } from './_services/page.service';
@@ -139,9 +139,9 @@ import { AnnouncementService } from './_services/announcement.service';
     JwtHelperService,
     LocationService,
     MeService,
-    AnnouncementService
+    AnnouncementService,
     // VenueService,
-    // EventService,
+    EventService,
     // SearchService,
     // PageService,
     // ShowService,

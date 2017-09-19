@@ -43,16 +43,16 @@ import { AnnouncementService } from '../_services/announcement.service';
     // FileUploadModule
   ],
   providers: [
-    AuthGuard,
-    PublicGuard,
-    /*
-    AuthService,
-    HttpHandlerService,
-    JwtHelperService,
-    LocationService,
-    MeService,
-    AnnouncementService
-*/
+    
+    // AuthGuard,
+    // PublicGuard
+  
+    // AuthService,
+    // HttpHandlerService,
+    // JwtHelperService,
+    // LocationService,
+    // MeService,
+    // AnnouncementService
 
     // VenueService,
     // EventService,

@@ -20,7 +20,7 @@ import { EventService } from '../_services/event.service';
     PublicRoutingModule,
   ],
   providers: [
-    EventService,
+    // EventService,
   ]
 })
 export class PublicModule { }

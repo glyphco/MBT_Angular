@@ -41,7 +41,7 @@ import { PublicEventsTodayComponent } from './_components/public-events-today.co
 // import { ManageFollowersComponent } from './_components/manage-followers.component';
 
 const routes: Routes = [
-  // { path: 'login', component: LoginComponent, canActivate: [PublicGuard] },
+  { path: 'login', loadChildren: './_modules/login.module#LoginModule', canActivate: [PublicGuard] },
   // { path: 'backstage', component: BackstageComponent, canActivate: [AuthGuard] },
   // { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
   // { path: 'user/:id', component: UserDetailComponent, canActivate: [AuthGuard] },
