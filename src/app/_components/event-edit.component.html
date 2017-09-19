@@ -20,7 +20,7 @@
       </a>
     </ng-container>
     <span *ngIf="venue" class="help-block inline chosen-venue">
-      <img *ngIf="venue.id > 0" src="{{ venue.imageUrl }}" />{{ venue.name }} <i class="fa fa-times"
+      <img *ngIf="event.venueId > 0" src="{{ event.venueImageIcon }}" />{{ event.venueName }} <i class="fa fa-times"
        (click)="clearVenue()" aria-hidden="true"></i>
     </span>
     <br />

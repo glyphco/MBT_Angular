@@ -264,6 +264,8 @@ export class EventEditComponent implements OnInit {
     let venueObj = Venue.map(venue);
     this.venue = venueObj;
     this.setTimezone(venueObj.localTz);
+    this.event.venueName = this.venue.name;
+    this.event.venueImageIcon = this.venue.imageIcon;
     this.venueModalVisible = false;
     this.initVenueSearch(); //clear out results
   }
