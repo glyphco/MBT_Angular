@@ -1,20 +1,6 @@
 <div class="main-content white">
   <h2>Edit account</h2>
   
-  <div *ngIf="message" class="alert alert-info" role="alert">{{message}}</div>
-  <label>**SUPER HIDDEN ROLE CHANGER FOR TESTING PURPOSES:</label>
-  <select [(ngModel)]="role" name="role">
-    <option value="superadmin">Super admin</option>
-    <option value="admin">Admin</option>
-    <option value="mastereditor">Master editor</option>
-    <option value="contributor">Contributor</option>
-    <option value="nothing">Nothing</option>
-  </select>
-  <button class="btn btn-primary" (click)="saveRole()">Save</button>
-  <hr />
-  <br />
-
-  <form (ngSubmit)="onSubmit()" #userForm="ngForm">
     <!--
     <div class="form-group" [class.has-error]="name.invalid && name.touched">
       <label for="name">Name</label>
@@ -39,7 +25,7 @@
       </div>
     </div>
     -->
-
+  <form (ngSubmit)="onSubmit()" #userForm="ngForm">
     <label for="main-image">Image</label>
     <input id="main-image" type="file" (change)="fileChange(image)" name="image" #image /><br />
     <span class="help-block">Recommended size at least 500px by 500px</span>

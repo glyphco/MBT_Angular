@@ -81,4 +81,20 @@ export class UserEditComponent implements OnInit, OnDestroy {
     }
   }
 
+  public saveRole(){
+
+        // Route::get('/user/{id}/makesuperadmin', 'UserController@makesuperadmin');
+        // Route::get('/user/{id}/makeadmin', 'UserController@makeadmin');
+        // Route::get('/user/{id}/makemastereditor', 'UserController@makemastereditor');
+        // Route::get('/user/{id}/makecontributor', 'UserController@makecontributor');
+        // Route::get('/user/{id}/makenothing', 'UserController@makenothing');
+        
+
+    // this.httpHandlerService.get(`me/makeme/${this.role}`)
+    //   .map(response => response.json())
+    //   .toPromise()
+    //   .then(response => this.announcementService.openToasterSuccess(response.data))
+    //   .catch(error => this.announcementService.openToasterError('Role change failed'))
+  }
+  
 }

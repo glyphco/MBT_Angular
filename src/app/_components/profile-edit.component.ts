@@ -70,11 +70,5 @@ export class ProfileEditComponent implements OnInit {
     }
   }
 
-  public saveRole(){
-    this.httpHandlerService.get(`me/makeme/${this.role}`)
-      .map(response => response.json())
-      .toPromise()
-      .then(response => this.announcementService.openToasterSuccess(response.data))
-      .catch(error => this.announcementService.openToasterError('Role change failed'))
-  }
+
 }
