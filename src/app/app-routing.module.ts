@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { PublicGuard } from './_guards/public.guard';
+import { EditUsersGuard } from './_guards/edit-users.guard';
 
 import { BackstageComponent } from './_components/backstage.component';
 import { LoginComponent } from './_components/login.component';
@@ -74,7 +75,7 @@ const routes: Routes = [
   { path: 'shows/editable', component: ShowsEditableComponent, canActivate: [AuthGuard] },
   //User routes
   { path: 'users/editable', component: UsersEditableComponent, canActivate: [AuthGuard] },
-  { path: 'user/edit/:id', component: UserEditComponent, canActivate: [AuthGuard] },
+  { path: 'user/edit/:id', component: UserEditComponent, canActivate: [AuthGuard,EditUsersGuard] },
   { path: 'manage/followers', component: ManageFollowersComponent, canActivate: [AuthGuard] },
 
   { path: 'explore', component: ExploreComponent, canActivate: [AuthGuard] },

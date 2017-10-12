@@ -124,6 +124,17 @@
     </div>
     <ng-template #noConfirm><p>After saving, this user will need to be confirmed by an admin.</p></ng-template>
 
+    <div class="form-group">
+      <label>Role</label>
+      <select [(ngModel)]="role" name="role">
+        <option value="superadmin">Super admin</option>
+        <option value="admin">Admin</option>
+        <option value="mastereditor">Master editor</option>
+        <option value="contributor">Contributor</option>
+        <option value="">Nothing</option>
+      </select>
+    </div>   
+
     <button type="submit" class="btn btn-success" >Submit</button>
   </form>
   <a [routerLink]="['/user/delete', user.id]">
@@ -132,17 +143,7 @@
   <p>&nbsp;</p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
-
-    <div *ngIf="message" class="alert alert-info" role="alert">{{message}}</div>
-  <label>**SUPER HIDDEN ROLE CHANGER FOR TESTING PURPOSES:</label>
-  <select [(ngModel)]="role" name="role">
-    <option value="superadmin">Super admin</option>
-    <option value="admin">Admin</option>
-    <option value="mastereditor">Master editor</option>
-    <option value="contributor">Contributor</option>
-    <option value="nothing">Nothing</option>
-  </select>
-  <button class="btn btn-primary" (click)="saveRole()">Save</button>
+  
   <hr />
   <br />
 

@@ -30,6 +30,7 @@ export class User {
   privacyPyf:number;
   pyf = [];
   pyfCount = 0;
+  role:string;
   followers = [];
   followersCount = 0;
   youSeeUser = 1;
@@ -88,6 +89,7 @@ export class User {
       currentUser.privacyPyf = json.privacypyf;
       currentUser.pyf = json.pyf;
       currentUser.pyfCount = json.pyf_count;
+      currentUser.role = json.role;
       currentUser.followers = json.followers;
       currentUser.followersCount = json.followers_count;
       currentUser.userSeesYou = json.userseesyou;

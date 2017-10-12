@@ -57,6 +57,11 @@ export class UserService {
       .toPromise();
   }
 
+  updateRole(userId:number,role:string):Promise<any>{
+    return this.httpHandlerService.get(`user/${userId}/make${role}`)
+      .toPromise();
+  }
+
   confirmUser(id:number){
     return this.httpHandlerService.get(`user/${id}/confirm`)
     .map(response => response.json().data)

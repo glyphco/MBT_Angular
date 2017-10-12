@@ -20,6 +20,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
   states = StatesHelper.states;
   image:any;
   previewImage:any;
+  role:string;
 
   constructor(
     private userService:UserService,
@@ -45,6 +46,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
   public getUserEdit(id:number){
     this.userService.getUserEdit(id).then(user => {
       this.user = User.map(user.json().data);
+      this.role = this.user.role;
     }).catch(error => console.log(error));
   }
 
@@ -55,6 +57,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
       }
       //this.user.bannedUntil = this.bannedUntil; 
 
+      return this.updateRoleIfChanged();
+    }).then(response => {
       return this.userService.updateUser(this.user)
     }).then(response => {
       this.router.navigate(['/users/editable']);
@@ -64,6 +68,14 @@ export class UserEditComponent implements OnInit, OnDestroy {
   private uploadImageIfExist():Promise<any>{
     if(this.image){
       return this.imageUploadService.uploadImageToS3(this.image, 'user', this.user.id, 'main');
+    }
+    return Promise.resolve(false);
+  }
+
+  private updateRoleIfChanged(){
+    if(this.role != this.user.role){
+      //user role was changed
+      return this.userService.updateRole(this.user.id, this.role);
     }
     return Promise.resolve(false);
   }

@@ -11,6 +11,7 @@ import { TruncatePipe } from './pipes/truncate.pipe';
 import { DateFormatterPipe } from './pipes/date-formatter.pipe';
 
 import { AuthGuard } from './_guards/auth.guard';
+import { EditUsersGuard } from './_guards/edit-users.guard';
 import { PublicGuard } from './_guards/public.guard';
 
 import { AppComponent } from './app.component';
@@ -134,6 +135,7 @@ import { AnnouncementService } from './_services/announcement.service';
   ],
   providers: [
     AuthGuard,
+    EditUsersGuard,
     PublicGuard,
     AuthService,
     HttpHandlerService,
