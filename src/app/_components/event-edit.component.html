@@ -161,7 +161,12 @@
       <label for="confirmed">Confirmed</label>
       <input type="checkbox" id="confirmed" [(ngModel)]="event.confirmed" name="confirmed">
     </div>
-    <ng-template #noConfirm><p>After saving, this event will need to be confirmed by an admin.</p></ng-template>
+    <ng-template #noConfirm>
+      <p *ngIf="event.confirmed;else unconfirmed">Event has been confirmed by an admin and will be displayed if public.</p>
+      <ng-template #unconfirmed>
+        <p>After saving, this event will need to be confirmed by an admin.</p>
+      </ng-template>
+    </ng-template>
     <button type="submit" class="btn btn-success" [disabled]="!eventForm.form.valid">Submit</button>
     <button type="button" class="btn btn-danger" (click)="goBack()">Cancel</button>
   </form>

@@ -83,7 +83,9 @@
       <td *ngIf="meService.hasEventConfirm();else noConfirm" >
         <button *ngIf="!event.confirmed" (click)="confirmEvent(event)" class="btn btn-primary">Confirm</button>
       </td>
-      <td #noConfirm><p *ngIf="!event.confirmed">admin must confirm</p></td>
+      <ng-template #noConfirm>
+      <td><p *ngIf="!event.confirmed">admin must confirm</p></td>
+      </ng-template>
     </tr>
 
 </table>
