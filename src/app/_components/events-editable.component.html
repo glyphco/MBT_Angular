@@ -57,6 +57,7 @@
     <th>Venue</th>
     <th>Public</th>
     <th>Confirm</th>
+
   </tr>
     <tr *ngFor="let event of events">
       <td>
@@ -78,7 +79,11 @@
           <i class="fa fa-eye-slash" aria-hidden="true"></i>
         </ng-template>
       </td>
-      <td><button *ngIf="!event.confirmed" (click)="confirmEvent(event)" class="btn btn-primary">Confirm</button></td>
+
+      <td *ngIf="meService.hasEventConfirm();else noConfirm" >
+        <button *ngIf="!event.confirmed" (click)="confirmEvent(event)" class="btn btn-primary">Confirm</button>
+      </td>
+      <td #noConfirm><p *ngIf="!event.confirmed">admin must confirm</p></td>
     </tr>
 
 </table>
