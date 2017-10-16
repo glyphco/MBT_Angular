@@ -53,6 +53,7 @@
     <th>Date</th>
     <th>Name</th>
     <th></th>
+    <th>Cat</th>
     <th>Venue</th>
     <th>Public</th>
     <th>Confirm</th>
@@ -61,14 +62,15 @@
       <td>
         <img class="image-micro-event" src="{{ event.imageIcon }}">
       </td>
-      <td>{{event.localStart | dateFormatter:'YYYY MMM DD (hh:mma) dd' }}</td>
+      <td>{{event.localStart | dateFormatter:'YYYY MMM DD dd (hh:mma)' }}</td>
       <td>
         <a [routerLink]="['/event/edit', event.id]">
           {{event.name}}
         </a>
       </td>
       <td><a [routerLink]="['/event',event.id]"><i class="fa fa-external-link" aria-hidden="true"></i></a></td>
-      <td>{{ event.venue_name }}</td>
+<td class="categorylist" ><span *ngFor="let category of event.categories" >{{ category.subcategory_name.substring(0,2) }} </span></td>
+      <td>{{ event.venueName }}</td>
 
       <td>
         <i *ngIf="event.public; else privateBlock" class="fa fa-eye" aria-hidden="true"></i>
