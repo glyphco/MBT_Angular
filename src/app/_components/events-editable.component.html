@@ -70,7 +70,7 @@
         </a>
       </td>
       <td><a [routerLink]="['/event',event.id]"><i class="fa fa-external-link" aria-hidden="true"></i></a></td>
-<td class="categorylist" ><span *ngFor="let category of event.categories" >{{ category.subcategory_name.substring(0,2) }} </span></td>
+<td class="categorylist" >(<span *ngFor="let category of event.categories" >{{ category.subcategory_name.substring(0,2) }} </span>)</td>
       <td>{{ event.venueName }}</td>
 
       <td>
